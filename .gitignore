@@ -1,0 +1,64 @@
+### --- ARCHIVES & BUILDS (Indispensable) --- ###
+# Dossier de compilation Maven
+target/
+# Dossier de compilation Gradle
+.gradle/
+build/
+# Fichiers de build génériques
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### --- INTELLIJ IDEA --- ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+# Garder les dossiers de sortie spécifiques à IntelliJ s'ils sont dans src
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### --- ECLIPSE --- ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### --- VS CODE & NETBEANS --- ###
+.vscode/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### --- SPRING BOOT & LOGS --- ###
+*.log
+/logs/
+help.md
+.h2.db
+*.tmp
+*.bak
+*.swp
+
+### --- SYSTEM (Mac / Windows) --- ###
+.DS_Store
+Thumbs.db
+
+### --- WRAPPERS (À NE PAS IGNORER) --- ###
+# On force Git à garder ces fichiers pour que le projet soit
+# exécutable par tout le monde sans installation préalable.
+!mvnw
+!.mvn/wrapper/maven-wrapper.jar
+!gradlew
+!gradle/wrapper/gradle-wrapper.jar
