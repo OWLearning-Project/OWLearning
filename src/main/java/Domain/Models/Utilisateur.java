@@ -12,7 +12,10 @@ public class Utilisateur
     private String nom;
     private String prenom;
     private String pseudo;
+    @Column(unique = true)
     private String email;
+    @Column(name = "mot_de_passe", nullable = false)
+    private String motDePasseHash;
     @Column(name="date_inscription")
     private Timestamp dateInscription;
     @Column(name="derniere_activite")
@@ -21,11 +24,12 @@ public class Utilisateur
     public Utilisateur()
     {}
 
-    public Utilisateur(String nom, String prenom, String email)
+    public Utilisateur(String nom, String prenom, String email, String motDePasseHash)
     {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.motDePasseHash = motDePasseHash;
         this.dateInscription = new Timestamp(System.currentTimeMillis());
     }
 
@@ -70,6 +74,14 @@ public class Utilisateur
     public void setEmail(String unEmail)
     {
         this.email = unEmail;
+    }
+    public String getMotDePasse()
+    {
+        return this.motDePasseHash;
+    }
+    public void setMotDePasse(String unMotDePasse)
+    {
+        this.motDePasseHash = unMotDePasse;
     }
 
     public Timestamp getDateInscription() {
