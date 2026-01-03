@@ -1,17 +1,17 @@
 package Shared.DTO;
 
 // Objet renvoyé par le Backend après une connexion réussi
-public class AuthResponseDTO 
+public class ReponseAuthDTO 
 {
     private String token;
     private String type = "Bearer";
     private String pseudo;
     private String role;
 
-    public AuthResponseDTO()
+    public ReponseAuthDTO()
     {}
 
-    public AuthResponseDTO(String token, String pseudo, String role)
+    public ReponseAuthDTO(String token, String pseudo, String role)
     {
         this.token = token;
         this.pseudo = pseudo;

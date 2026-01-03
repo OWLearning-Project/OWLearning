@@ -1,15 +1,15 @@
 package Shared.DTO;
 
 // Objet pris en paramètre par le back pour se connecter
-public class LoginRequestDTO 
+public class RequeteConnexionDTO 
 {
     private String email;
     private String motDePasse;
 
-    public LoginRequestDTO() {
+    public RequeteConnexionDTO() {
     }
 
-    public LoginRequestDTO(String email, String motDePasse) {
+    public RequeteConnexionDTO(String email, String motDePasse) {
         this.email = email;
         this.motDePasse = motDePasse;
     }

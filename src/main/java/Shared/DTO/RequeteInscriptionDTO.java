@@ -1,16 +1,16 @@
 package Shared.DTO;
 
-public class RegisterRequestDTO 
+public class RequeteInscriptionDTO 
 {
     private String nom;
     private String prenom;
     private String email;
     private String motDePasse;
     private String role;
-    public RegisterRequestDTO() {
+    public RequeteInscriptionDTO() {
     }
 
-    public RegisterRequestDTO(String nom, String prenom, String email, String motDePasse, String role) {
+    public RequeteInscriptionDTO(String nom, String prenom, String email, String motDePasse, String role) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
