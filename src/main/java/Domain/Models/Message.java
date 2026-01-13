@@ -26,7 +26,8 @@ public class Message {
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
-    public Message() {
+    public Message()
+    {
     }
 
     public Message(String unContenu, Utilisateur unAuteur, Discussion uneDiscussion) {
@@ -35,6 +36,16 @@ public class Message {
         this.contenu = unContenu;
     }
 
+
+    public Utilisateur getAuteur()
+    {
+        return this.utilisateur;
+    }
+
+    public void setDiscussion(Discussion discussion)
+    {
+        this.discussion = discussion;
+    }
 
     public int getId_message() {
         return id_message;

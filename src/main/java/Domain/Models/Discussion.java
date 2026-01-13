@@ -1,5 +1,6 @@
 package Domain.Models;
 import java.util.ArrayList;
+import Shared.Exceptions.ExceptionsDiscussion;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,9 +20,34 @@ public class Discussion
         this.messages = new ArrayList<Message>();
     }
 
-    public void ajouterMessage(int auteurId, String contenu){}
+    public void ajouterMessage(Message message) throws ExceptionsDiscussion
+    {
+        if(message == null)
+        {
+            throw new ExceptionsDiscussion(ExceptionsDiscussion.messageNull);
+        }
+        Utilisateur Auteur = message.getAuteur();
+        if (!utilisateurFaitParti(Auteur.getId()))
+        {
+            throw new ExceptionsDiscussion(ExceptionsDiscussion.utilisateurNonAutorise);
+        }
 
-    public boolean utilisateurFaitParti(int id){ return false;}
+        this.messages.add(message);
+        message.setDiscussion(this);
+    }
+
+    public boolean utilisateurFaitParti(int id)
+    {
+        boolean faitParti = false;
+        for (int i = 0; i<this.participants.size(); i++)
+        {
+            if(this.participants.get(i).getId() == id)
+            {
+                faitParti = true;
+            }
+        }
+        return faitParti;
+    }
 
     public int getId() {
         return this.idDiscussion;
