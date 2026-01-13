@@ -13,8 +13,8 @@ public class Ressource {
     private String nom;
     private String url;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "id_type_ressource")
+    @ManyToOne
+    @JoinColumn(name = "id_typeRessource")
     private TypeRessource type;
 
     public Ressource() {
@@ -27,7 +27,7 @@ public class Ressource {
     }
 
     public int getId_ressource() {
-        return id_ressource;
+        return this.id_ressource;
     }
 
     public String getNom() {
@@ -36,10 +36,6 @@ public class Ressource {
 
     public String getUrl() {
         return this.url;
-    }
-
-    public void setId_ressource(int id_ressource) {
-        this.id_ressource = id_ressource;
     }
 
     public void setNom(String nom) {
