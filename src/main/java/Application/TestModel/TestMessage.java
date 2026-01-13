@@ -2,6 +2,7 @@ package Application.TestModel;
 
 import Domain.Models.Message;
 import Domain.Models.Ressource;
+import Domain.Models.TypeRessource;
 
 import javax.swing.*;
 
@@ -29,16 +30,16 @@ public class TestMessage {
 
         //Arrange
         Message testMessage = new Message();
-        Ressource ressourceSupprimer = new Ressource();
-        ressourceSupprimer.setId_ressource(1);
+        TypeRessource unType = new TypeRessource();
+        Ressource ressourceSupprimer = new Ressource("Ressource tester", unType, "http://url.test.com");
+        int idRessourceSupprimer = ressourceSupprimer.getId_ressource();
         testMessage.ajouterRessource(ressourceSupprimer);
 
         //Act
-        Ressource ressourceRetirer = testMessage.retirerRessource(1);
+        Ressource ressourceRetirer = testMessage.retirerRessource(idRessourceSupprimer);
 
         //Assert
-        assertEquals(1, ressourceRetirer.getId_ressource());
+        assertEquals(idRessourceSupprimer, ressourceRetirer.getId_ressource());
         assertTrue(testMessage.getRessources().isEmpty());
     }
-
 }
