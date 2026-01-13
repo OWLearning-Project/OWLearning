@@ -18,11 +18,29 @@ public class Cours
     private boolean estPrive;
     @Column(name="est_publie")
     private boolean estPublie;
+    @ManyToOne
+    @JoinColumn(name="id_createur")
     private Createur createur;
+    @ManyToMany
+    @JoinTable( name="inscription",
+                joinColumns=@JoinColumn(name="id_cours"),
+                inverseJoinColumns=@JoinColumn(name="id_eleve")
+    )
     private ArrayList<Eleve> eleves;
+    @ManyToOne
+    @JoinColumn(name="id_niveau")
     private Difficulte difficulte;
+    @OneToMany
+    @JoinColumn(name="id_cours")
     private ArrayList<Chapitre> chapitres;
+    @ManyToMany
+    @JoinTable(name="categorie_cours",
+                joinColumns=@JoinColumn(name="id_cours"),
+                inverseJoinColumns=@JoinColumn(name="id_categorie")
+    )
     private ArrayList<Categorie> categories;
+
+    public Cours(){}
 
     public Cours(String titre, String description, boolean estPrive, ArrayList<Categorie> categories, Difficulte difficulte, Createur createur)
     {
@@ -107,19 +125,31 @@ public class Cours
         return this.chapitres;
     }
 
-    public void publier()
+    public ArrayList<Categorie> getCategories()
     {
-
+        return this.categories;
     }
 
-    public void ajouterChapitre(Chapitre chapitre)
+    public void publier()
     {
+        this.estPublie = true;
+    }
 
+    public void ajouterChapitre(Chapitre chapitre) throws IllegalArgumentException
+    {
+        if(chapitre == null)
+            throw new IllegalArgumentException("un chapitre ne doit pas être null");
+        this.chapitres.add(chapitre);
+        chapitre.setCours(this);
     }
 
     public Chapitre retirerChapitre(int chapitreId)
     {
-        return null;
+        Chapitre chapitre;
+        int i = 0;
+        while(i<this.chapitres.size() && this.chapitres.get(i).getId() != chapitreId)
+            i ++;
+        return this.chapitres.remove(i);
     }
 
     public void visibilite(boolean estPrive)
@@ -129,7 +159,9 @@ public class Cours
 
     public void ajouterCategorie(Categorie categorie)
     {
-
+        if(categorie == null)
+            throw new IllegalArgumentException("une categorie ne doit pas être null");
+        this.categories.add(categorie);
     }
 
     public Categorie supprimerCategorie(int categorieId)
@@ -137,9 +169,11 @@ public class Cours
         return null;
     }
 
-    public void ajouterEleve(Eleve eleve)
+    public void ajouterEleve(Eleve eleve) throws IllegalArgumentException
     {
-
+        if(eleve == null)
+            throw new IllegalArgumentException("un eleve ne doit pas être null");
+        this.eleves.add(eleve);
     }
 
     public Eleve supprimerEleve(int eleveId)
