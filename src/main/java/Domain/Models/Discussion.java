@@ -26,7 +26,7 @@ public class Discussion
         {
             throw new ExceptionsDiscussion(ExceptionsDiscussion.messageNull);
         }
-        Utilisateur Auteur = message.getAuteur();
+        Utilisateur Auteur = message.getUtilisateur();
         if (!utilisateurFaitParti(Auteur.getId()))
         {
             throw new ExceptionsDiscussion(ExceptionsDiscussion.utilisateurNonAutorise);
