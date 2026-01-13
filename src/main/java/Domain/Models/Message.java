@@ -16,8 +16,8 @@ public class Message {
     private Timestamp date_creation;
     private String contenu;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "id_statut")
+    @ManyToOne
+    @JoinColumn(name = "id_statutMessage")
     private StatutMessage statutMessage;
 
     @ManyToOne
@@ -62,12 +62,8 @@ public class Message {
         return this.discussion;
     }
 
-    public Utilisateur getUtilisateur(){
+    public Utilisateur getAuteur(){
         return this.utilisateur;
-    }
-
-    public void setId_message(int id_message) {
-        this.id_message = id_message;
     }
 
     public void setDate_creation(Timestamp date_creation) {
@@ -90,8 +86,20 @@ public class Message {
         this.utilisateur = unUtilisateur;
     }
 
-    public void ajouterRessource(Ressource uneRessource){}
+    public void ajouterRessource(Ressource uneRessource){
+        this.ressources.add(uneRessource);
+    }
 
-    public Ressource retirerRessource(int uneRessourceId){return null;}
+    public Ressource retirerRessource(int uneRessourceId){
 
+        for(int i = 0; i < ressources.size(); i++){
+            Ressource ressourceARetirer = ressources.get(i);
+
+            if(ressourceARetirer.getId_ressource() == uneRessourceId){
+                this.ressources.remove(i);
+                return ressourceARetirer;
+            }
+        }
+        return null;
+    }
 }
