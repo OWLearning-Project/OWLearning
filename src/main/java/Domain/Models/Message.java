@@ -32,15 +32,15 @@ public class Message {
     @JoinColumn(name = "id_message")
     private ArrayList<Ressource> ressources = new ArrayList<>();
 
-    public Message() {
+    public Message()
+    {
     }
 
-    public Message(String unContenu, Utilisateur unAuteur, Discussion uneDiscussion) {
+    public Message(String unContenu, Utilisateur unAuteur) {
         this.utilisateur = unAuteur;
-        this.discussion = uneDiscussion;
+        this.discussion = null;
         this.contenu = unContenu;
     }
-
 
     public int getId_message() {
         return this.id_message;
@@ -94,4 +94,8 @@ public class Message {
 
     public Ressource retirerRessource(int uneRessourceId){return null;}
 
+    public String toString()
+    {
+        return "Auteur : " + "(" + this.getUtilisateur() + "), Contenu : " + this.getContenu() ;
+    }
 }

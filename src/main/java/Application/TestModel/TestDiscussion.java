@@ -15,7 +15,7 @@ public class TestDiscussion
         Utilisateur fauxUtilisateur1 = new Utilisateur();
         Utilisateur fauxUtilisateur2 = new Utilisateur();
         Discussion fausseDiscussion = new Discussion(fauxUtilisateur1, fauxUtilisateur2);
-        Message fauxMessage = new Message("Faux contenu", fauxUtilisateur1,fausseDiscussion);
+        Message fauxMessage = new Message("Faux contenu", fauxUtilisateur1);
 
         //Act
         fausseDiscussion.ajouterMessage(fauxMessage);

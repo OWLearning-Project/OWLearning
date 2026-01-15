@@ -72,4 +72,30 @@ public class Discussion
     {
         this.messages = desMessages;
     }
+
+    private String toStringParticipants()
+    {
+        String s="";
+        for (int i = 0; i<this.participants.size(); i++)
+        {
+            s += " " + this.participants.get(i).toString()+"\n";
+        }
+        return "Participants : \n[\n" + s + "]\n";
+    }
+
+    private String  toStringMessages()
+    {
+        String s="";
+        for (int i = 0; i<this.messages.size(); i++)
+        {
+            s += " " + this.messages.get(i).toString()+"\n";
+        }
+        return "Messages : \n[\n" + s + "]\n";
+    }
+
+    public String toString()
+    {
+        return this.toStringParticipants() + "\n" + this.toStringMessages();
+    }
+
 }
