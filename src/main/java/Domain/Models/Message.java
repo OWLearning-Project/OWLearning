@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
 @Entity
 public class Message {
@@ -86,7 +87,10 @@ public class Message {
         this.utilisateur = unUtilisateur;
     }
 
-    public void ajouterRessource(Ressource uneRessource){
+    public void ajouterRessource(Ressource uneRessource) throws IllegalArgumentException {
+        if (uneRessource == null){
+            throw new IllegalArgumentException("Une ressource null ne peut être ajouter");
+        }
         this.ressources.add(uneRessource);
     }
 
@@ -100,6 +104,11 @@ public class Message {
                 return ressourceARetirer;
             }
         }
-        return null;
+        throw new NoSuchElementException("Aucune ressource trouvée avec l'ID " + uneRessourceId);
+    }
+
+    public String toString()
+    {
+        return "Auteur : " + "(" + this.getUtilisateur() + "), Contenu : " + this.getContenu() ;
     }
 }
