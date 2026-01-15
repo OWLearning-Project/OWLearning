@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import Domain.Models.Ressource;
 import Domain.Models.TypeRessource;
 
-import javax.swing.*;
-
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
