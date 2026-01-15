@@ -31,17 +31,19 @@ public class Cours
                 inverseJoinColumns=@JoinColumn(name="id_eleve")
     )
     private ArrayList<Eleve> eleves;
-    @ManyToOne
-    @JoinColumn(name="id_niveau")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "difficulte")
     private Difficulte difficulte;
     @OneToMany
     @JoinColumn(name="id_cours")
     private ArrayList<Chapitre> chapitres;
-    @ManyToMany
-    @JoinTable(name="categorie_cours",
-                joinColumns=@JoinColumn(name="id_cours"),
-                inverseJoinColumns=@JoinColumn(name="id_categorie")
+    @ElementCollection(targetClass = Categorie.class)
+    @CollectionTable(
+            name = "categorie_cours",
+            joinColumns = @JoinColumn(name = "id_cours")
     )
+    @Enumerated(EnumType.STRING)
+    @Column(name = "categorie")
     private ArrayList<Categorie> categories;
 
     public Cours(){}
@@ -142,7 +144,7 @@ public class Cours
     public void ajouterChapitre(Chapitre chapitre) throws IllegalArgumentException
     {
         if(chapitre == null)
-            throw new IllegalArgumentException("un chapitre ne doit pas être null");
+            throw new IllegalArgumentException("Ajout de chapitre impossible");
         this.chapitres.add(chapitre);
         chapitre.setCours(this);
     }
@@ -151,12 +153,12 @@ public class Cours
     {
         Chapitre chapitre;
         if (chapitreId < 0)
-            throw new ExceptionMauvaisIdChapitre("Id impossible", chapitreId, this.id);
+            throw new ExceptionMauvaisIdChapitre("Id impossible", chapitreId, this.getId());
         int i = 0;
         while(i<this.chapitres.size() && this.chapitres.get(i).getId() != chapitreId)
             i ++;
         if (i == this.chapitres.size())
-            throw new ExceptionMauvaisIdChapitre("Chapitre inexistant", chapitreId, this.id);
+            throw new ExceptionMauvaisIdChapitre("Chapitre inexistant", chapitreId, this.getId());
         return this.chapitres.remove(i);
     }
 
@@ -168,36 +170,39 @@ public class Cours
     public void ajouterCategorie(Categorie categorie)
     {
         if(categorie == null)
-            throw new IllegalArgumentException("une categorie ne doit pas être null");
+            throw new IllegalArgumentException("Ajout de catégorie impossible");
         this.categories.add(categorie);
     }
 
-    public Categorie supprimerCategorie(String label) throws ExceptionMauvaisLabelCategorie {
-        Categorie categorie;
+    public Categorie supprimerCategorie(String label) throws ExceptionMauvaisLabelCategorie
+    {
+        if (!Categorie.existeCategorie(label))
+            throw new ExceptionMauvaisLabelCategorie("Label non existant", label, this.getId());
         int i = 0;
         while(i<this.categories.size() && !this.categories.get(i).getLabel().equals(label))
             i ++;
         if (i == this.categories.size())
-            throw new ExceptionMauvaisLabelCategorie("Categorie inexistante", label, this.id);
+            throw new ExceptionMauvaisLabelCategorie("Categorie non présente", label, this.getId());
         return this.categories.remove(i);
     }
 
     public void ajouterEleve(Eleve eleve) throws IllegalArgumentException
     {
         if(eleve == null)
-            throw new IllegalArgumentException("un eleve ne doit pas être null");
+            throw new IllegalArgumentException("Ajout d'élève impossible");
         this.eleves.add(eleve);
     }
 
-    public Eleve supprimerEleve(int eleveId) throws ExceptionMauvaisIdEleve {
+    public Eleve supprimerEleve(int eleveId) throws ExceptionMauvaisIdEleve
+    {
         Eleve eleve;
         if (eleveId < 0)
-            throw new ExceptionMauvaisIdEleve("Id impossible", eleveId, this.id);
+            throw new ExceptionMauvaisIdEleve("Id impossible", eleveId, this.getId());
         int i = 0;
         while (i < this.eleves.size() && this.eleves.get(i).getId() != eleveId)
             i++;
         if (i == this.eleves.size())
-            throw new ExceptionMauvaisIdEleve("Categorie inexistante", eleveId, this.id);
+            throw new ExceptionMauvaisIdEleve("Eleve non inscrit", eleveId, this.getId());
         return this.eleves.remove(i);
     }
 }

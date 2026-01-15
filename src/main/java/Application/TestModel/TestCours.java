@@ -193,13 +193,28 @@ public class TestCours
         categories.add(categorieTest);
         Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
 
-
         // Act
         Categorie categorieRetire = cours.supprimerCategorie("Base de données");
 
         // Assert
         assertEquals(categorieTest, categorieRetire);
-        assertFalse(cours.getChapitres().contains(categorieTest));
+        assertFalse(cours.getCategories().contains(categorieTest));
+        assertTrue(cours.getCategories().isEmpty());
+    }
+
+    @Test
+    public void testRetirerCategorieNonPresenteDansLaListe()
+    {
+        // Arrange
+        ArrayList<Categorie> categories = new ArrayList<Categorie>();
+        Categorie categorieTest = Categorie.IA_DATASCIENCES;
+        categories.add(categorieTest);
+
+        Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
+
+        // Act & Assert
+        Exception exception = assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Base de données"));
+        assertEquals("Categorie non présente", exception.getMessage());
     }
 
     @Test
@@ -210,27 +225,28 @@ public class TestCours
         Categorie categorieTest = Categorie.IA_DATASCIENCES;
         categories.add(categorieTest);
 
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
 
         // Act & Assert
-        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Base de données"));
-        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Economie"));
+        Exception exception = assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Economie"));
+        assertEquals("Label non existant", exception.getMessage());
     }
 
     @Test
     public void testRetirerEleve() throws ExceptionMauvaisIdChapitre, ExceptionMauvaisIdEleve {
         // Arrange
         Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
-        Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse", 23, "BUT3");
+        Eleve eleveTest = mock(Eleve.class);
 
         cours.ajouterEleve(eleveTest);
-
+        when(eleveTest.getId()).thenReturn(8);
         // Act
-        Eleve eleveRetire = cours.supprimerEleve(0);
+        Eleve eleveRetire = cours.supprimerEleve(8);
 
         // Assert
         assertEquals(eleveTest, eleveRetire);
-        assertFalse(cours.getChapitres().contains(eleveTest));
+        assertFalse(cours.getEleves().contains(eleveTest));
+        assertTrue(cours.getEleves().isEmpty());
     }
 
     @Test

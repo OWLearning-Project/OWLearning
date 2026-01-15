@@ -25,4 +25,14 @@ public enum Categorie
     {
         return label;
     }
+
+    public static boolean existeCategorie(String label)
+    {
+        for (Categorie uneCategorie : Categorie.values())
+        {
+            if (uneCategorie.getLabel().equals(label))
+                return true;
+        }
+        return false;
+    }
 }
