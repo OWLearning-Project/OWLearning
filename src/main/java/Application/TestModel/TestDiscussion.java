@@ -15,7 +15,7 @@ public class TestDiscussion
         Utilisateur fauxUtilisateur1 = new Utilisateur();
         Utilisateur fauxUtilisateur2 = new Utilisateur();
         Discussion fausseDiscussion = new Discussion(fauxUtilisateur1, fauxUtilisateur2);
-        Message fauxMessage = new Message("Faux contenu", fauxUtilisateur1,fausseDiscussion);
+        Message fauxMessage = new Message("Faux contenu", fauxUtilisateur1);
 
         //Act
         fausseDiscussion.ajouterMessage(fauxMessage);
@@ -77,7 +77,7 @@ public class TestDiscussion
         Discussion discussion = new Discussion(expediteur, destinataire);
 
         Message fauxMessage = mock(Message.class);
-        when(fauxMessage.getAuteur()).thenReturn(expediteur);
+        when(fauxMessage.getUtilisateur()).thenReturn(expediteur);
 
         //Act
         discussion.ajouterMessage(fauxMessage);
@@ -101,7 +101,7 @@ public class TestDiscussion
         Discussion discussion = new Discussion(destinataire, expediteur);
 
         Message fauxMessage = mock(Message.class);
-        when(fauxMessage.getAuteur()).thenReturn(intrus);
+        when(fauxMessage.getUtilisateur()).thenReturn(intrus);
 
         //Assert
         assertThrows(ExceptionsDiscussion.class, ()->discussion.ajouterMessage(fauxMessage));
