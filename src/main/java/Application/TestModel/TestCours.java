@@ -1,7 +1,7 @@
 package Application.TestModel;
 
 import Domain.Models.*;
-import Shared.Exceptions.ExceptionMauvaisIdCategorie;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import Shared.Exceptions.ExceptionMauvaisIdEleve;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ public class TestCours
     {
         // Arrange
         Chapitre chapitreTest = new Chapitre("uneDescription", "unTitre", new ArrayList<Ressource>());
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.ajouterChapitre(chapitreTest);
@@ -47,7 +47,7 @@ public class TestCours
     public void testLeChapitreEstNull()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, ()->cours.ajouterChapitre(null));
@@ -58,7 +58,7 @@ public class TestCours
     {
         // Arrange
         Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse", 23, "BUT3");
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.ajouterEleve(eleveTest);
@@ -71,7 +71,7 @@ public class TestCours
     public void testEleveEstNull()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, ()->cours.ajouterEleve(null));
@@ -80,7 +80,7 @@ public class TestCours
     @Test
     public void testRetirerChapitre() throws ExceptionMauvaisIdChapitre {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
         Chapitre chapitreTest = new Chapitre("uneDescription", "unTitre", new ArrayList<Ressource>());
 
         cours.ajouterChapitre(chapitreTest);
@@ -97,7 +97,7 @@ public class TestCours
     public void testRetirerChapitreNonExistant()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
         Chapitre chapitreTest1 = mock(Chapitre.class);
         Chapitre chapitreTest2 = mock(Chapitre.class);
 
@@ -113,8 +113,8 @@ public class TestCours
     public void testLaCategorieEstAjoute()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
-        Categorie categorieTest = new Categorie("test");
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+        Categorie categorieTest = Categorie.BASE_DE_DONNEES;
 
         // Act
         cours.ajouterCategorie(categorieTest);
@@ -127,7 +127,7 @@ public class TestCours
     public void testLaCategorieEstNull()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, ()->cours.ajouterCategorie(null));
@@ -137,7 +137,7 @@ public class TestCours
     public void testLeCoursDevientPrive()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.visibilite(true);
@@ -150,7 +150,7 @@ public class TestCours
     public void testLeCoursDevientPublic()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", true, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", true, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.visibilite(false);
@@ -163,7 +163,7 @@ public class TestCours
     public void testLeCoursRestePublic()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.visibilite(false);
@@ -175,7 +175,7 @@ public class TestCours
     public void testLeCoursRestePrive()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", true, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", true, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
         cours.visibilite(true);
@@ -185,17 +185,17 @@ public class TestCours
     }
 
     @Test
-    public void testRetirerCategorie() throws ExceptionMauvaisIdCategorie
+    public void testRetirerCategorie() throws ExceptionMauvaisLabelCategorie
     {
         // Arrange
         ArrayList<Categorie> categories = new ArrayList<Categorie>();
-        Categorie categorieTest = new Categorie("Base de données");
+        Categorie categorieTest = Categorie.BASE_DE_DONNEES;
         categories.add(categorieTest);
-        Cours cours = new Cours("unTitre", "uneDescription", false, categories, new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
 
 
         // Act
-        Categorie categorieRetire = cours.supprimerCategorie(0);
+        Categorie categorieRetire = cours.supprimerCategorie("Base de données");
 
         // Assert
         assertEquals(categorieTest, categorieRetire);
@@ -207,22 +207,20 @@ public class TestCours
     {
         // Arrange
         ArrayList<Categorie> categories = new ArrayList<Categorie>();
-        Categorie categorieTest = mock(Categorie.class);
+        Categorie categorieTest = Categorie.IA_DATASCIENCES;
         categories.add(categorieTest);
 
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act & Assert
-        when(categorieTest.getIdNiveau()).thenReturn(4);
-
-        assertThrows(ExceptionMauvaisIdCategorie.class, ()->cours.supprimerCategorie(0));
-        assertThrows(ExceptionMauvaisIdCategorie.class, ()->cours.supprimerCategorie(-1));
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Base de données"));
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("Economie"));
     }
 
     @Test
     public void testRetirerEleve() throws ExceptionMauvaisIdChapitre, ExceptionMauvaisIdEleve {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
         Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse", 23, "BUT3");
 
         cours.ajouterEleve(eleveTest);
@@ -239,7 +237,7 @@ public class TestCours
     public void testRetirerEleveNonExistant()
     {
         // Arrange
-        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), new Difficulte(), new Createur());
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
         Eleve eleveTest = mock(Eleve.class);
 
         // Act & Assert

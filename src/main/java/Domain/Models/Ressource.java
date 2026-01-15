@@ -13,8 +13,8 @@ public class Ressource {
     private String nom;
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "id_typeRessource")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_ressource")
     private TypeRessource type;
 
     public Ressource() {
@@ -44,10 +44,5 @@ public class Ressource {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public boolean urlCorrecte(String unNom, TypeRessource unType, String url){
-        // j'ai mis return true pour ne pas avoir d'erreur
-        return true;
     }
 }
