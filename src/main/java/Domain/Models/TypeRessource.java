@@ -1,28 +1,22 @@
 package Domain.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+public enum TypeRessource
+{
+    VIDEO("Vidéo"),
+    FICHIER_PDF("Fichier PDF"),
+    FICHIER_ZIP("Fichier Zip"),
+    IMAGE("Image");
 
-@Entity
-public class TypeRessource {
+    private final String label;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_typeRessource;
-    private String typeRessource;
-
-    public TypeRessource(){}
-
-    public TypeRessource(String unTypeMessage){
-        this.typeRessource = unTypeMessage;
+    private TypeRessource (String label)
+    {
+        this.label = label;
     }
 
-    public int getIdTypeRessource(){
-        return this.id_typeRessource;
+    public String getLabel()
+    {
+        return this.label;
     }
-    public String getTypeRessource(){
-        return this.typeRessource;
-    }
+
 }

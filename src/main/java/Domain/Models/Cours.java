@@ -2,7 +2,7 @@ package Domain.Models;
 import java.sql.Timestamp;
 import java.util.*;
 
-import Shared.Exceptions.ExceptionMauvaisIdCategorie;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import Shared.Exceptions.ExceptionMauvaisIdEleve;
 import jakarta.persistence.*;
@@ -172,15 +172,13 @@ public class Cours
         this.categories.add(categorie);
     }
 
-    public Categorie supprimerCategorie(int categorieId) throws ExceptionMauvaisIdCategorie {
+    public Categorie supprimerCategorie(String label) throws ExceptionMauvaisLabelCategorie {
         Categorie categorie;
-        if (categorieId < 0)
-            throw new ExceptionMauvaisIdCategorie("Id impossible", categorieId, this.id);
         int i = 0;
-        while(i<this.categories.size() && this.categories.get(i).getIdNiveau() != categorieId)
+        while(i<this.categories.size() && !this.categories.get(i).getLabel().equals(label))
             i ++;
         if (i == this.categories.size())
-            throw new ExceptionMauvaisIdCategorie("Categorie inexistante", categorieId, this.id);
+            throw new ExceptionMauvaisLabelCategorie("Categorie inexistante", label, this.id);
         return this.categories.remove(i);
     }
 

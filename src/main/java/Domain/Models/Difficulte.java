@@ -1,29 +1,20 @@
 package Domain.Models;
 
-import jakarta.persistence.*;
+public enum Difficulte
+{
+    DEBUTANT("Débutant"),
+    INTERMEDIAIRE("Intermédiaire"),
+    AVANCE("Avancé");
 
-@Entity
-public class Difficulte {
+    private final String label;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_niveau;
-    private String niveau;
-
-    public Difficulte(){}
-
-    public Difficulte(String niveau)
+    private Difficulte(String label)
     {
-        this.niveau = niveau;
+        this.label = label;
     }
 
-    public int getIdNiveau()
+    public String getLabel()
     {
-        return this.id_niveau;
-    }
-
-    public String getNiveau()
-    {
-        return this.niveau;
+        return label;
     }
 }

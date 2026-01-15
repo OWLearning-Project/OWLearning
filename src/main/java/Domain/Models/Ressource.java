@@ -13,8 +13,8 @@ public class Ressource {
     private String nom;
     private String url;
 
-    @ManyToOne
-    @JoinColumn(name = "id_typeRessource")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type_ressource")
     private TypeRessource type;
 
     public Ressource() {

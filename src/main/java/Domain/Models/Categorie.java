@@ -1,29 +1,28 @@
 package Domain.Models;
 
-import jakarta.persistence.*;
+public enum Categorie
+{
 
-@Entity
-public class Categorie {
+    PROGRAMMATION_ALGORITHMIQUE("Programmation algorithmique"),
+    DEVELOPPEMENT_WEB("Développement web"),
+    BASE_DE_DONNEES("Base de données"),
+    SYSTEMES_RESEAUX("Systèmes et réseaux"),
+    IA_DATASCIENCES("Intelligence artificielle et DataSciences"),
+    DEVELOPPEMENT_MOBILE("Développement mobile"),
+    HISTOIRE_INFORMATIQUE("Histoire de l'informatique"),
+    MANAGEMENT_GESTION("Management et gestion"),
+    MATHEMATIQUES("Mathématiques"),
+    ARCHITECTURE("Architecture");
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_categorie;
-    private String nom;
+    private final String label;
 
-    public Categorie(){}
-
-    public Categorie(String nom)
+    private Categorie(String label)
     {
-        this.nom = nom;
+        this.label = label;
     }
 
-    public int getIdNiveau()
+    public String getLabel()
     {
-        return this.id_categorie;
-    }
-
-    public String getNiveau()
-    {
-        return this.nom;
+        return label;
     }
 }

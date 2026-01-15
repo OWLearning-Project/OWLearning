@@ -73,7 +73,7 @@ public class TestMessage {
 
         //Arrange
         Message messageTest = new Message();
-        TypeRessource unType = new TypeRessource();
+        TypeRessource unType = TypeRessource.VIDEO;
         Ressource ressourceSupprimer = new Ressource("Ressource tester", unType, "http://url.test.com");
         int idRessourceSupprimer = ressourceSupprimer.getId_ressource();
         messageTest.ajouterRessource(ressourceSupprimer);

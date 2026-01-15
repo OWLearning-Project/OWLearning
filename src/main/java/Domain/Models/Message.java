@@ -17,8 +17,8 @@ public class Message {
     private Timestamp date_creation;
     private String contenu;
 
-    @ManyToOne
-    @JoinColumn(name = "id_statutMessage")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "statut")
     private StatutMessage statutMessage;
 
     @ManyToOne

@@ -1,28 +1,19 @@
 package Domain.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+public enum StatutMessage
+{
+    ENVOI("Envoi"),
+    ENVOYE("Envoyé");
 
-@Entity
-public class StatutMessage {
+    private final String label;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_statutMessage;
-    private String statutMessage;
-
-    public StatutMessage(){}
-
-    public StatutMessage(String unStatutMessage){
-        this.statutMessage = unStatutMessage;
+    private StatutMessage(String label)
+    {
+        this.label = label;
     }
 
-    public int getIdStatutMessage(){
-        return this.id_statutMessage;
-    }
-    public String getStatutMessage(){
-        return this.statutMessage;
+    public String getLabel()
+    {
+        return label;
     }
 }
