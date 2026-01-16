@@ -1,5 +1,7 @@
 package Domain.Models;
 import java.util.ArrayList;
+
+import Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,7 +11,14 @@ public class Discussion
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_discussion")
     private int idDiscussion;
+    @ManyToMany
+    @JoinTable(
+            name = "participation_discussion",
+            joinColumns = @JoinColumn(name = "id_discussion"),
+            inverseJoinColumns = @JoinColumn(name = "id_utilisateur")
+    )
     private ArrayList<Utilisateur> participants;
+    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<Message> messages;
 
     public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2) {
@@ -19,9 +28,34 @@ public class Discussion
         this.messages = new ArrayList<Message>();
     }
 
-    public void ajouterMessage(int auteurId, String contenu){}
+    public void ajouterMessage(Message message) throws ExceptionUtilisateurNonAutorise
+    {
+        if(message == null)
+        {
+            throw new IllegalArgumentException("Le message ne peut pas être null");
+        }
+        Utilisateur Auteur = message.getUtilisateur();
+        if (!utilisateurFaitParti(Auteur.getId()))
+        {
+            throw new ExceptionUtilisateurNonAutorise("Accès refusé",Auteur.getId(),this.getId());
+        }
 
-    public boolean utilisateurFaitParti(int id){ return false;}
+        this.messages.add(message);
+        message.setDiscussion(this);
+    }
+
+    public boolean utilisateurFaitParti(int id)
+    {
+        boolean faitParti = false;
+        for (int i = 0; i<this.participants.size(); i++)
+        {
+            if(this.participants.get(i).getId() == id)
+            {
+                faitParti = true;
+            }
+        }
+        return faitParti;
+    }
 
     public int getId() {
         return this.idDiscussion;
@@ -46,4 +80,30 @@ public class Discussion
     {
         this.messages = desMessages;
     }
+
+    private String toStringParticipants()
+    {
+        String s="";
+        for (int i = 0; i<this.participants.size(); i++)
+        {
+            s += " " + this.participants.get(i).toString()+"\n";
+        }
+        return "Participants : \n[\n" + s + "]\n";
+    }
+
+    private String  toStringMessages()
+    {
+        String s="";
+        for (int i = 0; i<this.messages.size(); i++)
+        {
+            s += " " + this.messages.get(i).toString()+"\n";
+        }
+        return "Messages : \n[\n" + s + "]\n";
+    }
+
+    public String toString()
+    {
+        return this.toStringParticipants() + "\n" + this.toStringMessages();
+    }
+
 }

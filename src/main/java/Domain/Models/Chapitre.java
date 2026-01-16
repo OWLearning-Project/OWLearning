@@ -20,21 +20,21 @@ public class Chapitre
     @OneToMany
     @JoinColumn(name = "id_chapitre")
     private ArrayList<Ressource> ressources;
-    public Chapitre(){
+    public Chapitre(){}
 
-    }
-
-    public Chapitre(Cours cours, String titre, String description, ArrayList<Ressource> ressources)
+    public Chapitre(String titre, String description, ArrayList<Ressource> ressources)
     {
-        this.cours = cours;
         this.titre = titre;
         this.description = description;
         this.ressources = ressources;
-
     }
 
+    public int getId()
+    {
+        return this.id;
+    }
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -42,7 +42,7 @@ public class Chapitre
     }
 
     public String getTitre() {
-        return titre;
+        return this.titre;
     }
 
     public void setTitre(String titre) {
@@ -50,7 +50,7 @@ public class Chapitre
     }
 
     public Cours getCours() {
-        return cours;
+        return this.cours;
     }
 
     public void setCours(Cours cours) {
@@ -67,10 +67,32 @@ public class Chapitre
 
     public void ajouterRessource(Ressource ressource)
     {
-
+        this.ressources.add(ressource);
     }
 
     public Ressource supprimerRessource(Ressource ressource){
+        if (this.ressources.remove(ressource)){
+            return ressource;
+        }
         return null;
+    }
+
+    private String toStringRessources()
+    {
+        String s = "";
+        if (this.ressources != null)
+        {
+            for (int i = 0; i < this.ressources.size(); i++)
+            {
+                s += "   - " + this.ressources.get(i).toString() + "\n";
+            }
+        }
+        return "Ressources : \n   [\n" + s + "   ]";
+    }
+
+    public String toString()
+    {
+        return "Chapitre " + this.getId() + " : " + this.getTitre() + " (" + this.getDescription() + ")\n" +
+                this.toStringRessources();
     }
 }

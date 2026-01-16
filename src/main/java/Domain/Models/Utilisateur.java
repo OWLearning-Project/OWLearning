@@ -84,19 +84,28 @@ public class Utilisateur
         this.motDePasseHash = unMotDePasse;
     }
 
-    public Timestamp getDateInscription() {
+    public Timestamp getDateInscription()
+    {
         return this.dateInscription;
     }
 
-    public void setDateInscription(Timestamp uneDateInscription) {
+    public void setDateInscription(Timestamp uneDateInscription)
+    {
         this.dateInscription = uneDateInscription;
     }
 
-    public Timestamp getDerniereActivite() {
+    public Timestamp getDerniereActivite()
+    {
         return this.derniereActivite;
     }
 
-    public void setDerniereActivite(Timestamp uneDerniereActivite) {
+    public void setDerniereActivite(Timestamp uneDerniereActivite)
+    {
         this.derniereActivite = uneDerniereActivite;
+    }
+
+    public String toString()
+    {
+        return "Nom : " + this.getNom() + ", Prenom : " + this.getPrenom() + ", Email : " + this.getEmail() + ", Inscrit le : " + this.dateInscription ;
     }
 }
