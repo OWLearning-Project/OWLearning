@@ -1,6 +1,7 @@
 package Domain.Models;
 import java.util.ArrayList;
-import Shared.Exceptions.ExceptionsDiscussion;
+
+import Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +11,14 @@ public class Discussion
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_discussion")
     private int idDiscussion;
+    @ManyToMany
+    @JoinTable(
+            name = "participation_discussion",
+            joinColumns = @JoinColumn(name = "id_discussion"),
+            inverseJoinColumns = @JoinColumn(name = "id_utilisateur")
+    )
     private ArrayList<Utilisateur> participants;
+    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<Message> messages;
 
     public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2) {
@@ -20,16 +28,16 @@ public class Discussion
         this.messages = new ArrayList<Message>();
     }
 
-    public void ajouterMessage(Message message) throws ExceptionsDiscussion
+    public void ajouterMessage(Message message) throws ExceptionUtilisateurNonAutorise
     {
         if(message == null)
         {
-            throw new ExceptionsDiscussion(ExceptionsDiscussion.messageNull);
+            throw new IllegalArgumentException("Le message ne peut pas être null");
         }
         Utilisateur Auteur = message.getUtilisateur();
         if (!utilisateurFaitParti(Auteur.getId()))
         {
-            throw new ExceptionsDiscussion(ExceptionsDiscussion.utilisateurNonAutorise);
+            throw new ExceptionUtilisateurNonAutorise("Accès refusé",Auteur.getId(),this.getId());
         }
 
         this.messages.add(message);
