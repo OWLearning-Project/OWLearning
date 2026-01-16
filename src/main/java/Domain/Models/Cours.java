@@ -2,9 +2,7 @@ package Domain.Models;
 import java.sql.Timestamp;
 import java.util.*;
 
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisIdEleve;
+import Shared.Exceptions.*;
 import jakarta.persistence.*;
 
 @Entity
@@ -159,6 +157,7 @@ public class Cours
             i ++;
         if (i == this.chapitres.size())
             throw new ExceptionMauvaisIdChapitre("Chapitre inexistant", chapitreId, this.getId());
+        this.chapitres.get(i).setCours(null);
         return this.chapitres.remove(i);
     }
 
@@ -167,10 +166,18 @@ public class Cours
         this.estPrive = estPrive;
     }
 
-    public void ajouterCategorie(Categorie categorie)
+    public void ajouterCategorie(Categorie categorie) throws IllegalArgumentException, ExceptionCategorieDejaPresente
     {
         if(categorie == null)
             throw new IllegalArgumentException("Ajout de catégorie impossible");
+        else
+        {
+            for(Categorie uneCategorie : this.getCategories())
+            {
+                if(uneCategorie.getLabel().equals(categorie.getLabel()))
+                    throw new ExceptionCategorieDejaPresente("Impossible d'ajouter la catégorie", categorie.getLabel(), this.getId());
+            }
+        }
         this.categories.add(categorie);
     }
 
@@ -190,6 +197,14 @@ public class Cours
     {
         if(eleve == null)
             throw new IllegalArgumentException("Ajout d'élève impossible");
+        else
+        {
+            for(Eleve unEleve : this.getEleves())
+            {
+                if(unEleve.getId() == eleve.getId())
+                    throw new ExceptionEleveDejaPresent("Elève déjà inscrit", eleve.getId(), this.getId());
+            }
+        }
         this.eleves.add(eleve);
     }
 

@@ -1,9 +1,7 @@
 package Application.TestModel;
 
 import Domain.Models.*;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisIdEleve;
+import Shared.Exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -41,6 +39,7 @@ public class TestCours
         // Assert
         assertTrue(cours.getChapitres().contains(chapitreTest));
         assertEquals(chapitreTest.getCours(), cours);
+        assertEquals(chapitreTest.getCours().getId(), cours.getId());
     }
 
     @Test
@@ -91,6 +90,7 @@ public class TestCours
         // Assert
         assertEquals(chapitreRetire, chapitreTest);
         assertFalse(cours.getChapitres().contains(chapitreTest));
+        assertNull(chapitreRetire.getCours());
     }
 
     @Test
@@ -261,5 +261,89 @@ public class TestCours
 
         assertThrows(ExceptionMauvaisIdEleve.class, ()->cours.supprimerEleve(3));
         assertThrows(ExceptionMauvaisIdEleve.class, ()->cours.supprimerEleve(-1));
+    }
+
+    @Test
+    public void testAjouterUneCategorieDejaPresente() throws ExceptionCategorieDejaPresente
+    {
+        // Arrange
+        ArrayList<Categorie> categories = new ArrayList<Categorie>();
+        Categorie categorieTest = mock(Categorie.class);
+        Categorie categorieTest2 = mock(Categorie.class);
+        categories.add(categorieTest);
+
+        Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
+
+        when(categorieTest.getLabel()).thenReturn(Categorie.DEVELOPPEMENT_MOBILE.getLabel());
+        when(categorieTest2.getLabel()).thenReturn(Categorie.DEVELOPPEMENT_MOBILE.getLabel());
+
+        // Act & Assert
+        assertThrows(ExceptionCategorieDejaPresente.class, ()->cours.ajouterCategorie(categorieTest2));
+        assertFalse(cours.getCategories().contains(categorieTest2));
+    }
+
+    @Test
+    public void testRetirerUneCategorieSurUneListeVide()
+    {
+        // Arrange
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+        Categorie categorieTest = Categorie.MATHEMATIQUES;
+
+        // Act & Assert
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie(categorieTest.getLabel()));
+    }
+
+    @Test
+    public void testRetirerCategorieAvecSensibiliteCasse()
+    {
+        // Arrange
+        Categorie categorieTest = Categorie.MATHEMATIQUES;
+        ArrayList<Categorie> categories = new ArrayList<Categorie>();
+        categories.add(categorieTest);
+        Cours cours = new Cours("unTitre", "uneDescription", false, categories, Difficulte.DEBUTANT, new Createur());
+
+        // Act & Assert
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("mathematiques"));
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("MATHEMATIQUES"));
+        assertThrows(ExceptionMauvaisLabelCategorie.class, ()->cours.supprimerCategorie("mAthEmAtIques"));
+        assertTrue(cours.getCategories().contains(categorieTest));
+    }
+
+    @Test
+    public void testAjouterUnEleveDejaInscrit()
+    {
+        // Arrange
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+        Eleve eleveTest = mock(Eleve.class);
+        Eleve eleveTest2 = mock(Eleve.class);
+
+        when(eleveTest.getId()).thenReturn(9);
+        when(eleveTest2.getId()).thenReturn(9);
+
+        cours.ajouterEleve(eleveTest);
+
+        // Act & Assert
+        assertThrows(ExceptionEleveDejaPresent.class, ()->cours.ajouterEleve(eleveTest2));
+        assertFalse(cours.getEleves().contains(eleveTest2));
+    }
+
+    @Test
+    public void testRetirerUnEleveSurUneListeVide()
+    {
+        // Arrange
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+
+        // Act & Assert
+        assertThrows(ExceptionMauvaisIdEleve.class, ()->cours.supprimerEleve(91));
+    }
+
+    @Test
+    public void testRetirerUnChapitreSurUneListeVide()
+    {
+        // Arrange
+        Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+
+        // Act & Assert
+        assertThrows(ExceptionMauvaisIdChapitre.class, ()->cours.retirerChapitre(18));
     }
 }
