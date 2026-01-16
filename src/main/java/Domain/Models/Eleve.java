@@ -44,6 +44,10 @@ public class Eleve extends Utilisateur {
     public void setNiveauEtude(String unNiveauEtude) {
         this.niveauEtude = unNiveauEtude;
     }
-    
+
+    public String toString()
+    {
+        return super.toString() + ", Niveau : " + this.getNiveauEtude() + ", Age : " + this.getAge();
+    }
 }
 

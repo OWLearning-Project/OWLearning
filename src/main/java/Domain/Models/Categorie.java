@@ -35,4 +35,9 @@ public enum Categorie
         }
         return false;
     }
+
+    public String toString()
+    {
+        return this.getLabel();
+    }
 }
