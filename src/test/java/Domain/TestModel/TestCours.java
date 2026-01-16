@@ -1,4 +1,4 @@
-package Application.TestModel;
+package Domain.TestModel;
 
 import Domain.Models.*;
 import Shared.Exceptions.*;
