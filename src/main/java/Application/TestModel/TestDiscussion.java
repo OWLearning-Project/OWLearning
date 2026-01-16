@@ -1,7 +1,7 @@
 package Application.TestModel;
 
 import Domain.Models.*;
-import Shared.Exceptions.ExceptionsDiscussion;
+import Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -9,8 +9,7 @@ import static org.mockito.Mockito.*;
 public class TestDiscussion
 {
     @Test
-    public void testLeMessageEstAjoute()
-    {
+    public void testLeMessageEstAjoute() throws ExceptionUtilisateurNonAutorise {
         //Arrange
         Utilisateur fauxUtilisateur1 = new Utilisateur();
         Utilisateur fauxUtilisateur2 = new Utilisateur();
@@ -32,7 +31,7 @@ public class TestDiscussion
         Utilisateur fauxUtilisateur2 = new Utilisateur();
         Discussion fausseDiscussion = new Discussion(fauxUtilisateur1, fauxUtilisateur2);
 
-        assertThrows(ExceptionsDiscussion.class, ()->fausseDiscussion.ajouterMessage(null));
+        assertThrows(IllegalArgumentException.class, ()->fausseDiscussion.ajouterMessage(null));
     }
 
     @Test
@@ -65,8 +64,7 @@ public class TestDiscussion
     }
 
     @Test
-    public void testAjouterMessageEtUtilisateurFaisParti()
-    {
+    public void testAjouterMessageEtUtilisateurFaisParti() throws ExceptionUtilisateurNonAutorise {
         //Arrange
         Utilisateur destinataire = mock(Utilisateur.class);
         Utilisateur expediteur = mock(Utilisateur.class);
@@ -104,6 +102,6 @@ public class TestDiscussion
         when(fauxMessage.getUtilisateur()).thenReturn(intrus);
 
         //Assert
-        assertThrows(ExceptionsDiscussion.class, ()->discussion.ajouterMessage(fauxMessage));
+        assertThrows(ExceptionUtilisateurNonAutorise.class, ()->discussion.ajouterMessage(fauxMessage));
     }
 }

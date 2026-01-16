@@ -19,6 +19,12 @@ public class Eleve extends Utilisateur {
     public Eleve(String nom, String prenom, String email, String motDePasseHash,
                  int age, String niveauEtude) {
         super(nom, prenom, email, motDePasseHash);
+        if (age <= 0) {
+            throw new IllegalArgumentException("Age invalide");
+        }
+        if (niveauEtude == null || niveauEtude.isBlank()) {
+            throw new IllegalArgumentException("Niveau invalide");
+        }
         this.age = age;
         this.niveauEtude = niveauEtude;
     }

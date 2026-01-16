@@ -26,7 +26,12 @@ public class Chapitre
     {
         this.titre = titre;
         this.description = description;
-        this.ressources = ressources;
+        this.ressources = new ArrayList<Ressource>();
+
+        if (ressources != null){
+            this.ressources.addAll(ressources);
+        }
+
     }
 
     public int getId()
@@ -67,10 +72,13 @@ public class Chapitre
 
     public void ajouterRessource(Ressource ressource)
     {
-
+        this.ressources.add(ressource);
     }
 
     public Ressource supprimerRessource(Ressource ressource){
+        if (this.ressources.remove(ressource)){
+            return ressource;
+        }
         return null;
     }
 }
