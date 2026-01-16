@@ -81,4 +81,23 @@ public class Chapitre
         }
         return null;
     }
+
+    private String toStringRessources()
+    {
+        String s = "";
+        if (this.ressources != null)
+        {
+            for (int i = 0; i < this.ressources.size(); i++)
+            {
+                s += "   - " + this.ressources.get(i).toString() + "\n";
+            }
+        }
+        return "Ressources : \n   [\n" + s + "   ]";
+    }
+
+    public String toString()
+    {
+        return "Chapitre " + this.getId() + " : " + this.getTitre() + " (" + this.getDescription() + ")\n" +
+                this.toStringRessources();
+    }
 }

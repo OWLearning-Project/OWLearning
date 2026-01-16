@@ -220,4 +220,56 @@ public class Cours
             throw new ExceptionMauvaisIdEleve("Eleve non inscrit", eleveId, this.getId());
         return this.eleves.remove(i);
     }
+
+    private String toStringChapitres()
+    {
+        String s = "";
+        if (this.chapitres != null)
+        {
+            for (int i = 0; i < this.chapitres.size(); i++)
+            {
+                s += " " + this.chapitres.get(i).toString() + "\n";
+            }
+        }
+        return "Chapitres : \n[\n" + s + "]\n";
+    }
+
+    private String toStringCategories()
+    {
+        String s = "";
+        if (this.categories != null)
+        {
+            for (int i = 0; i < this.categories.size(); i++)
+            {
+                s += " " + this.categories.get(i).toString() + "\n";
+            }
+        }
+        return "Categories : \n[\n" + s + "]\n";
+    }
+
+    private String toStringEleves()
+    {
+        String s = "";
+        if (this.eleves != null)
+        {
+            for (int i = 0; i < this.eleves.size(); i++)
+            {
+                s += " " + this.eleves.get(i).toString() + "\n";
+            }
+        }
+        return "Eleves Inscrits : \n[\n" + s + "]\n";
+    }
+
+    public String toString()
+    {
+        String s = "Cours #" + this.getId() + " : " + this.getTitre() + "\n" +
+                "Description : " + this.getDescription() + "\n" +
+                "Difficulté : " + this.getDifficulte() + "\n" +
+                "Créateur : " + (this.createur != null ? this.createur.getPrenom() + " " + this.createur.getNom() : "Inconnu") + "\n";
+
+        return s + "\n" +
+                this.toStringCategories() +
+                this.toStringChapitres() +
+                this.toStringEleves();
+    }
 }

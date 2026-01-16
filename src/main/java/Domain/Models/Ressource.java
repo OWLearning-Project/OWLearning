@@ -45,4 +45,15 @@ public class Ressource {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public String toString()
+    {
+        String labelType = "";
+        if (this.type == null)
+        {
+            labelType = "Type inconnu";
+        }
+        labelType += this.type.getLabel();
+        return "[" + labelType + "] " + this.getNom() + " (" + this.getUrl() + ")";
+    }
 }

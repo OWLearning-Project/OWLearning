@@ -108,5 +108,4 @@ public class Utilisateur
     {
         return "Nom : " + this.getNom() + ", Prenom : " + this.getPrenom() + ", Email : " + this.getEmail() + ", Inscrit le : " + this.dateInscription ;
     }
-
 }
