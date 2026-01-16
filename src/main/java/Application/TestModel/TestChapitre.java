@@ -6,6 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.util.ArrayList;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +17,7 @@ public class TestChapitre {
 
     @BeforeEach
     void setUp(){
-        chapitre = new Chapitre();
+        chapitre = new Chapitre("chapitreTest", "description", new ArrayList<Ressource>());
     }
 
     @Test

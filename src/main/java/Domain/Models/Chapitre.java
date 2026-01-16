@@ -26,12 +26,7 @@ public class Chapitre
     {
         this.titre = titre;
         this.description = description;
-        this.ressources = new ArrayList<Ressource>();
-
-        if (ressources != null){
-            this.ressources.addAll(ressources);
-        }
-
+        this.ressources = ressources;
     }
 
     public int getId()
