@@ -1,0 +1,73 @@
+package Domain.Models;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "progression")
+public class Progression
+{
+    @EmbeddedId
+    private ProgressionId id;
+
+    @ManyToOne
+    @MapsId("idCours")
+    @JoinColumn(name="id_cours")
+    private Cours cours;
+
+    @ManyToOne
+    @MapsId("idEleve")
+    @JoinColumn(name="id_eleve")
+    private Eleve eleve;
+
+    @Column(name="taux_progression", nullable = false)
+    private float tauxProgression = 0;
+
+    public Progression()
+    {
+    }
+
+    public Progression(Cours cours, Eleve eleve)
+    {
+        this.id = new ProgressionId(cours.getId(), eleve.getId());
+        this.cours = cours;
+        this.eleve = eleve;
+    }
+
+    public float getTauxProgression()
+    {
+        return this.tauxProgression;
+    }
+
+    public Cours getCours()
+    {
+        return cours;
+    }
+    public Eleve getEleve()
+    {
+        return eleve;
+    }
+
+    public void setTauxProgression(float unTauxProgression)
+    {
+        this.tauxProgression = unTauxProgression;
+    }
+
+    public boolean estCoursTermine() {
+        return this.tauxProgression >= 100.0;
+    }
+
+    public void calculerPourcentage(int nbChapitresTermines, int nbTotalChapitres) {
+        if (nbTotalChapitres == 0) {
+            this.tauxProgression = 0;
+        } else {
+            // Correspond au calcul SQL : (nb_fini::NUMERIC / nb_total::NUMERIC) * 100
+            float resultat = ((float) nbChapitresTermines / nbTotalChapitres) * 100;
+            this.tauxProgression = Math.round(resultat * 100.0f) / 100.0f;
+        }
+    }
+
+    public String toString()
+    {
+        return "Progression de " + this.getEleve().getPrenom() + " sur " + this.getCours().getTitre() + " : " + this.getTauxProgression() + "%";
+    }
+}
