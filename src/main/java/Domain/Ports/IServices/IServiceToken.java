@@ -1,0 +1,12 @@
+package Domain.Ports.IServices;
+
+import Domain.Models.Utilisateur;
+
+public interface IServiceToken
+{
+    String genererToken(Utilisateur utilisateur);
+
+    boolean validerToken(String token);
+
+    String extraireID(String token);
+}
