@@ -8,5 +8,7 @@ public interface IServiceToken
 
     boolean validerToken(String token);
 
+    void invaliderToken(String token);
+
     String extraireID(String token);
 }
