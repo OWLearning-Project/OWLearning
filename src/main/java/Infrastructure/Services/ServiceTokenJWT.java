@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,20 +21,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ServiceTokenJWT implements IServiceToken
 {
 
-    @Value("${jwt.secret}")
-    private String secretKetString;
-    @Value("${jwt.expiration}")
-    private long expirationTime;
-    private Key key;
+    private final String secretKeyString;
+    private final long expirationTime;
+    private final Key key;
+    private final Set<String> tokenBlacklist;
 
-    // A modifier car c'est que dans la mémoire la
-    private final Set<String> tokenBlacklist = Collections.newSetFromMap(new ConcurrentHashMap<>());
-
-    @PostConstruct
-    public void init()
+    public ServiceTokenJWT(@Value("${jwt.secret}") String secretKeyString,@Value("${jwt.expiration}") long expirationTime)
     {
-        this.key = Keys.hmacShaKeyFor(secretKetString.getBytes());
+        this.secretKeyString = secretKeyString;
+        this.expirationTime = expirationTime;
+        this.key = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+        this.tokenBlacklist = Collections.newSetFromMap(new ConcurrentHashMap<>()); //Set qui gère les accès concurrents
     }
+
     @Override
     public String genererToken(Utilisateur utilisateur)
     {
