@@ -10,5 +10,5 @@ public interface IServiceToken
 
     void invaliderToken(String token);
 
-    String extraireID(String token);
+    int extraireID(String token);
 }
