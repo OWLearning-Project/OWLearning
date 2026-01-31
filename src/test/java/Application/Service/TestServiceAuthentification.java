@@ -7,6 +7,11 @@ import Domain.Models.Utilisateur;
 import Domain.Ports.IRepository.IUtilisateurRepository;
 import Domain.Ports.IServices.*;
 import Shared.Exceptions.ExceptionCompteExistant;
+import Domain.Models.Utilisateur;
+import Application.Services.ServiceAuthentification;
+import Domain.Ports.IRepository.IUtilisateurRepository;
+import Domain.Ports.IServices.*;
+import Shared.Exceptions.ExceptionMauvaisIdentifiants;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -133,4 +138,74 @@ public class TestServiceAuthentification
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
     }
+}
+
+    @Test
+    public void connexionDoitRenvoyerTokenEmailEtMdpValide()
+    {
+        // ARRANGE
+        String email = "test@example.com";
+        String mdpBrut = "password123";
+        String mdpHash = "hashed_password123";
+        String tokenAttendu = "fake-jwt-token";
+
+        Utilisateur userMock = new Utilisateur("Test", "Utilisateur", email, mdpHash);
+        userMock.setDateInscription(new Timestamp(System.currentTimeMillis()));
+
+        when(utilisateurRepository.trouverParEmail(email)).thenReturn(userMock);
+        when(hacher.valider(mdpBrut, mdpHash)).thenReturn(true);
+        when(serviceToken.genererToken(userMock)).thenReturn(tokenAttendu);
+
+        // ACT
+        String resultatToken = serviceAuthentification.connexion(email, mdpBrut);
+
+        // ASSERT
+        assertEquals(tokenAttendu, resultatToken);
+        verify(utilisateurRepository).sauvegarder(userMock);
+    }
+    @Test
+    void connexionDoitEchouerQuandUtilisateurEstNull()
+    {
+        // ARRANGE
+        String email = "inconnu@example.com";
+
+        when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
+
+        // ACT & ASSERT
+        ExceptionMauvaisIdentifiants ex = assertThrows(ExceptionMauvaisIdentifiants.class, () -> {
+            serviceAuthentification.connexion(email, "mdp");
+        });
+
+        assertTrue(ex.toString().contains(email));
+    }
+
+    @Test
+    void connexionDoitEchouerQuandMotDePasseIncorrect()
+    {
+        // ARRANGE
+        String email = "test@example.com";
+        Utilisateur userMock = new Utilisateur("Nom", "Prenom", email, "vraiHash");
+
+        when(utilisateurRepository.trouverParEmail(email)).thenReturn(userMock);
+        when(hacher.valider("mauvaisMdp", "vraiHash")).thenReturn(false);
+
+        // ACT & ASSERT
+        assertThrows(ExceptionMauvaisIdentifiants.class, () -> {
+            serviceAuthentification.connexion(email, "mauvaisMdp");
+        });
+    }
+
+    @Test
+    void deconnexionDoitInvaliderLeTokenEtRenvoyerVrai() {
+        // ARRANGE
+        String token = "TOKEN_A_INVALIDER";
+
+        // ACT
+        boolean resultat = serviceAuthentification.deconnexion(token);
+
+        // ASSERT
+        assertTrue(resultat, "La déconnexion doit renvoyer true");
+        verify(serviceToken, times(1)).invaliderToken(token);
+    }
+
 }
