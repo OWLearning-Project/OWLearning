@@ -138,7 +138,6 @@ public class TestServiceAuthentification
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
     }
-}
 
     @Test
     public void connexionDoitRenvoyerTokenEmailEtMdpValide()

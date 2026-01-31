@@ -48,13 +48,6 @@ public class ServiceAuthentification
         return utilisateurInsere != null;
     }
 
-}
-        {
-        this.utilisateurRepository = utilisateurRepository;
-        this.hach = hach;
-        this.serviceToken = serviceToken;
-        }
-
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants
     {
         Utilisateur utilisateur = utilisateurRepository.trouverParEmail(email);
