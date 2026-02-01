@@ -43,9 +43,9 @@ public class ServiceAuthentification
             throw new IllegalArgumentException("rôle inexistant");
 
         utilisateur.setMotDePasse(hach.hacher(mdp));
-        Utilisateur utilisateurInsere = utilisateurRepository.sauvegarder(utilisateur);
+        int ligneInseree = utilisateurRepository.sauvegarder(utilisateur);
 
-        return utilisateurInsere != null;
+        return ligneInseree == 1;
     }
 
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants

@@ -47,11 +47,9 @@ public class TestServiceAuthentification
         String nom = "Dylan";
         String role = "CREATEUR";
 
-        Utilisateur utilisateurSauvegarde = new Createur(nom, prenom, email, mdpHash);
-
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(utilisateurSauvegarde);
+        when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(1);
 
         // Act & Assert
         assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
@@ -90,11 +88,9 @@ public class TestServiceAuthentification
         int age = 20;
         String role = "ELEVE";
 
-        Utilisateur utilisateurSauvegarde = new Eleve(nom, prenom, email, mdpHash, age, niveauEtude);
-
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(utilisateurSauvegarde);
+        when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(1);
 
         // Act & Assert
         assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, age, niveauEtude, role));
