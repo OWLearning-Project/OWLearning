@@ -1,2 +1,2 @@
 jwt.secret=VoiciLaCleSecretePourLeProjetOwLearningIlFaudraLaChanger
-jwt.expiration=14400
+jwt.expiration=14400000

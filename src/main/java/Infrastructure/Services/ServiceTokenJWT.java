@@ -42,7 +42,7 @@ public class ServiceTokenJWT implements IServiceToken
         return Jwts.builder()
                 .setSubject(utilisateur.getEmail()) // On stocke l'email comme identifiant
                 .claim("id", utilisateur.getId())   // On ajoute l'ID dans le token
-                .claim("pseuod", utilisateur.getPseudo())
+                .claim("pseudo", utilisateur.getPseudo())
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + expirationTime))
                 .signWith(key, SignatureAlgorithm.HS256)
