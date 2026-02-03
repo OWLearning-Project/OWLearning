@@ -3,6 +3,7 @@ package Domain.Models;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Chapitre
@@ -17,9 +18,9 @@ public class Chapitre
     @JoinColumn(name = "id_cours")
     private Cours cours;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_chapitre")
-    private ArrayList<Ressource> ressources;
+    private List<Ressource> ressources;
     public Chapitre(){}
 
     public Chapitre(String titre, String description, ArrayList<Ressource> ressources)
@@ -57,7 +58,7 @@ public class Chapitre
         this.cours = cours;
     }
 
-    public ArrayList<Ressource> getRessources() {
+    public List<Ressource> getRessources() {
         return ressources;
     }
 
