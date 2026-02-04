@@ -14,10 +14,22 @@ public interface JpaUtilisateurRepository extends JpaRepository<Utilisateur, Int
     @Query(value = "SELECT * FROM Utilisateur WHERE email = :email", nativeQuery = true)
     public Utilisateur findByEmailNative (@Param("email") String email);
 
+    @Query(value = "SELECT id_utilisateur FROM utilisateur WHERE email = :email", nativeQuery = true)
+    public Integer findIdByEmailNative (@Param("email") String email);
 
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO Utilisateur (nom, prenom, email, mot_de_passe) VALUES (:nom, :prenom, :email, :mdpHash)", nativeQuery = true)
     public int insertUtilisateurNative (@Param("nom") String nom, @Param("prenom") String prenom,
                                                 @Param("email") String email, @Param("mdpHash") String mdpHash);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO Createur (id_utilisateur) VALUES (:id)", nativeQuery = true)
+    public int insertCreateurNative (@Param("id") int id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "INSERT INTO Eleve (id_utilisateur) VALUES (:id)", nativeQuery = true)
+    public int insertEleveNative (@Param("id") int id);
 }

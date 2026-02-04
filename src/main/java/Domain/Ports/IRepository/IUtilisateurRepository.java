@@ -9,4 +9,10 @@ public interface IUtilisateurRepository
 
     // Mettre à jour la dernière connexion / Sauvegarder son inscription
     public int sauvegarder(Utilisateur utilisateur);
+
+    public int sauvegarderCreateur(int id);
+
+    public int sauvegarderEleve(int id);
+
+    public int trouverIdParEmail(String email);
 }

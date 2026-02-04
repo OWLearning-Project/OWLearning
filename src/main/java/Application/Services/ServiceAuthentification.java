@@ -9,6 +9,7 @@ import Domain.Ports.IServices.IServiceToken;
 import Shared.Exceptions.ExceptionCompteExistant;
 
 import Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -26,26 +27,36 @@ public class ServiceAuthentification
         this.serviceToken = serviceToken;
     }
 
+    @Transactional
     public boolean inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant
     {
         Utilisateur utilisateur;
+        int ligneInsereeUtilisateur;
+        int ligneInsereeRole;
+
+        String mdpHache = hach.hacher(mdp);
 
         if (utilisateurRepository.trouverParEmail(email) != null)
             throw new ExceptionCompteExistant("Un compte existe déjà", email);
 
         if (role.equalsIgnoreCase("createur"))
-            utilisateur = new Createur(nom, prenom, email, mdp);
-
+        {
+            utilisateur = new Createur(nom, prenom, email, mdpHache);
+            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
+            ligneInsereeRole = utilisateurRepository.sauvegarderCreateur(utilisateurRepository.trouverIdParEmail(email));
+        }
         else if (role.equalsIgnoreCase("eleve"))
-            utilisateur = new Eleve(nom, prenom, email, mdp, age, niveauEtude);
-
+        {
+            utilisateur = new Eleve(nom, prenom, email, mdpHache, age, niveauEtude);
+            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
+            ligneInsereeRole = utilisateurRepository.sauvegarderEleve(utilisateurRepository.trouverIdParEmail(email));
+        }
         else
+        {
             throw new IllegalArgumentException("rôle inexistant");
+        }
 
-        utilisateur.setMotDePasse(hach.hacher(mdp));
-        int ligneInseree = utilisateurRepository.sauvegarder(utilisateur);
-
-        return ligneInseree == 1;
+        return ligneInsereeRole == 1 && ligneInsereeUtilisateur == 1;
     }
 
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants

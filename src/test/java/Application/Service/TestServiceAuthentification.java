@@ -50,10 +50,14 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
         when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(1);
+        when(utilisateurRepository.sauvegarderCreateur(anyInt())).thenReturn(1);
 
         // Act & Assert
         assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
-        verify(utilisateurRepository).sauvegarder(any(Createur.class));
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Createur.class));
+        verify(utilisateurRepository, times(1)).sauvegarderCreateur(anyInt());
+        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+
     }
 
     @Test
@@ -91,10 +95,13 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
         when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(1);
+        when(utilisateurRepository.sauvegarderEleve(anyInt())).thenReturn(1);
 
         // Act & Assert
         assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, age, niveauEtude, role));
-        verify(utilisateurRepository).sauvegarder(any(Eleve.class));
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Eleve.class));
+        verify(utilisateurRepository, times(1)).sauvegarderEleve(anyInt());
+        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
     }
 
     @Test
