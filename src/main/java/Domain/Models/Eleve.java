@@ -16,17 +16,9 @@ public class Eleve extends Utilisateur {
         super();
     }
 
-    public Eleve(String nom, String prenom, String email, String motDePasseHash,
-                 int age, String niveauEtude) {
+    public Eleve(String nom, String prenom, String email, String motDePasseHash)
+    {
         super(nom, prenom, email, motDePasseHash);
-        if (age <= 0) {
-            throw new IllegalArgumentException("Age invalide");
-        }
-        if (niveauEtude == null || niveauEtude.isBlank()) {
-            throw new IllegalArgumentException("Niveau invalide");
-        }
-        this.age = age;
-        this.niveauEtude = niveauEtude;
     }
 
     public int getAge() {

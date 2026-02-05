@@ -28,7 +28,7 @@ public class ServiceAuthentification
     }
 
     @Transactional
-    public boolean inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant
+    public boolean inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
     {
         Utilisateur utilisateur;
         int ligneInsereeUtilisateur;
@@ -47,7 +47,7 @@ public class ServiceAuthentification
         }
         else if (role.equalsIgnoreCase("eleve"))
         {
-            utilisateur = new Eleve(nom, prenom, email, mdpHache, age, niveauEtude);
+            utilisateur = new Eleve(nom, prenom, email, mdpHache);
             ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
             ligneInsereeRole = utilisateurRepository.sauvegarderEleve(utilisateurRepository.trouverIdParEmail(email));
         }

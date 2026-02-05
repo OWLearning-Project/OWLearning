@@ -53,7 +53,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.sauvegarderCreateur(anyInt())).thenReturn(1);
 
         // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
         verify(utilisateurRepository, times(1)).sauvegarder(any(Createur.class));
         verify(utilisateurRepository, times(1)).sauvegarderCreateur(anyInt());
         verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
@@ -76,7 +76,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(utilisateurSauvegarde);
 
         // Act & Assert
-        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
@@ -88,8 +88,6 @@ public class TestServiceAuthentification
         String mdpHash = "hashed_password123";
         String prenom = "Bob";
         String nom = "Dylan";
-        String niveauEtude = "BAC +3";
-        int age = 20;
         String role = "ELEVE";
 
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
@@ -98,7 +96,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.sauvegarderEleve(anyInt())).thenReturn(1);
 
         // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, age, niveauEtude, role));
+        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
         verify(utilisateurRepository, times(1)).sauvegarder(any(Eleve.class));
         verify(utilisateurRepository, times(1)).sauvegarderEleve(anyInt());
         verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
@@ -113,16 +111,14 @@ public class TestServiceAuthentification
         String mdpHash = "hashed_password123";
         String prenom = "Bob";
         String nom = "Dylan";
-        String niveauEtude = "BAC +3";
-        int age = 20;
         String role = "ELEVE";
 
-        Utilisateur utilisateurSauvegarde = new Eleve(nom, prenom, email, mdpHash, age, niveauEtude);
+        Utilisateur utilisateurSauvegarde = new Eleve(nom, prenom, email, mdpHash);
 
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(utilisateurSauvegarde);
 
         // Act & Assert
-        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
@@ -139,7 +135,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
