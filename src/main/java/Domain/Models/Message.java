@@ -144,6 +144,18 @@ public class Message {
         }
         throw new NoSuchElementException("Aucune ressource trouvée avec l'ID " + uneRessourceId);
     }
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Message message = (Message) o;
+        if (this.id_message == 0 || message.id_message == 0)
+            return false;
+        return id_message == message.id_message;
+    }
 
     public String toString()
     {

@@ -8,6 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Interface permettant de réutiliser une interface de JPA pour redfinir nos requêtes SQL
+ */
 @Repository
 public interface JpaUtilisateurRepository extends JpaRepository<Utilisateur, Integer>
 {

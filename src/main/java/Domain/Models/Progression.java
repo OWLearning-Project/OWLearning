@@ -81,6 +81,17 @@ public class Progression
             this.tauxProgression = Math.round(resultat * 100.0f) / 100.0f;
         }
     }
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Progression that = (Progression) o;
+        return Objects.equals(cours, that.cours) &&
+                Objects.equals(eleve, that.eleve);
+    }
 
     public String toString()
     {

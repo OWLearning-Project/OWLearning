@@ -276,6 +276,19 @@ public class Cours
         return this.eleves.remove(i);
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Cours cours = (Cours) o;
+        if (this.id == 0 || cours.id == 0)
+            return false;
+        return id == cours.id;
+    }
+
     private String toStringChapitres()
     {
         String s = "";

@@ -33,11 +33,14 @@ public class ProgressionId implements Serializable
     @Override
     public boolean equals(Object o)
     {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+        return true;
+    if (o == null || getClass() != o.getClass())
+        return false;
     ProgressionId that = (ProgressionId) o;
     return idCours == that.idCours && idEleve == that.idEleve;
     }
+
     @Override
     public int hashCode()
     {

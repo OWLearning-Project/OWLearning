@@ -14,19 +14,38 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+/**
+ * Classe ServiceAuthentification qui permet d'inscrire de connecter ou de déconnecter un utilisateur
+ */
 public class ServiceAuthentification
 {
     private final IUtilisateurRepository utilisateurRepository;
     private final IHach hach;
     private final IServiceToken serviceToken;
 
-    public ServiceAuthentification(IUtilisateurRepository utilisateurRepository, IHach hach, IServiceToken serviceToken)
+    /**
+     * Constructeur de ServiceAuthentification
+     * @param utilisateurRepository
+     * @param hach
+     * @param serviceToken
+     */
+    public ServiceAuthentification(IUtilisateurRepository utilisateurRepository, IHach hach, IServiceToken serviceToken) // Utilisation des Interfaces pour ne pas dépendre de l'implémentation concrète
     {
         this.utilisateurRepository = utilisateurRepository;
         this.hach = hach;
         this.serviceToken = serviceToken;
     }
 
+    /**
+     * Méthode qui permet d'inscrire un utilisateur
+     * @param nom
+     * @param prenom
+     * @param email
+     * @param mdp
+     * @param role
+     * @return le nombre de ligne inséré en base
+     * @throws ExceptionCompteExistant
+     */
     @Transactional
     public boolean inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
     {
@@ -59,6 +78,13 @@ public class ServiceAuthentification
         return ligneInsereeRole == 1 && ligneInsereeUtilisateur == 1;
     }
 
+    /**
+     * Méthode qui permet de connecter un utilisateur
+     * @param email
+     * @param mdp
+     * @return le token de connexion
+     * @throws ExceptionMauvaisIdentifiants
+     */
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants
     {
         Utilisateur utilisateur = utilisateurRepository.trouverParEmail(email);
@@ -77,6 +103,12 @@ public class ServiceAuthentification
         return serviceToken.genererToken(utilisateur);
     }
 
+    /**
+     * Méthode qui permet de déconnecter un utilisateur
+     * @param token
+     * @return true si déconnexion réussi false sinon
+     * @throws ExceptionMauvaisIdentifiants
+     */
     public boolean deconnexion(String token) throws ExceptionMauvaisIdentifiants
     {
         if (token == null || token.isEmpty()) {

@@ -17,6 +17,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Classe ServiceTokenJWT qui permet de générer un Token le valider, l'invalider et d'extraire l'ID
+ */
 @Service
 public class ServiceTokenJWT implements IServiceToken
 {
@@ -26,6 +29,11 @@ public class ServiceTokenJWT implements IServiceToken
     private final Key key;
     private final Set<String> tokenBlacklist;
 
+    /**
+     * Constructeur de ServiceTokenJWT
+     * @param secretKeyString
+     * @param expirationTime
+     */
     public ServiceTokenJWT(@Value("${jwt.secret}") String secretKeyString,@Value("${jwt.expiration}") long expirationTime)
     {
         this.secretKeyString = secretKeyString;
@@ -34,6 +42,11 @@ public class ServiceTokenJWT implements IServiceToken
         this.tokenBlacklist = Collections.newSetFromMap(new ConcurrentHashMap<>()); //Set qui gère les accès concurrents
     }
 
+    /**
+     * Méthode qui permet de générer un token avec dedans l'email, l'id, le pseudo, la date de création du token, la date de fin du token
+     * @param utilisateur
+     * @return le token générer
+     */
     @Override
     public String genererToken(Utilisateur utilisateur)
     {
@@ -49,6 +62,10 @@ public class ServiceTokenJWT implements IServiceToken
                 .compact();
     }
 
+    /**
+     * Méthode qui permet d'invalider un token
+     * @param token
+     */
     @Override
     public void invaliderToken(String token)
     {
@@ -58,6 +75,11 @@ public class ServiceTokenJWT implements IServiceToken
         }
     }
 
+    /**
+     * Méthode qui permet d'extraire l'ID du token
+     * @param token
+     * @return l'id trouver
+     */
     @Override
     public int extraireID(String token)
     {
@@ -71,6 +93,11 @@ public class ServiceTokenJWT implements IServiceToken
         return claims.get("id", Integer.class);
     }
 
+    /**
+     * Méthode qui permet de valider le token
+     * @param token
+     * @return true si token valide false sinon
+     */
     public boolean validerToken(String token) {
         if (tokenBlacklist.contains(token)) {
             return false;

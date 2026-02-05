@@ -117,6 +117,18 @@ public class Utilisateur
         this.derniereActivite = uneDerniereActivite;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (!(o instanceof Utilisateur))
+            return false;
+        Utilisateur that = (Utilisateur) o;
+        if (getEmail() != null ? !getEmail().equals(that.getEmail()) : that.getEmail() != null)
+            return false;
+        return true;
+    }
     public String toString()
     {
         return "Nom : " + this.getNom() + ", Prenom : " + this.getPrenom() + ", Email : " + this.getEmail() + ", Inscrit le : " + this.dateInscription ;

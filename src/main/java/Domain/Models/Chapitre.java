@@ -96,6 +96,18 @@ public class Chapitre
         return null;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Chapitre chapitre = (Chapitre) o;
+        if (this.id == 0 || chapitre.id == 0)
+            return false;
+        return id == chapitre.id;
+    }
     private String toStringRessources()
     {
         String s = "";

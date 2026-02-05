@@ -2,6 +2,9 @@ package Domain.Models;
 
 import jakarta.persistence.*;
 
+/**
+ * classe Eleve qui représente un étudiant
+ */
 @Entity
 @Table(name = "eleve")
 public class Eleve extends Utilisateur {
@@ -12,10 +15,20 @@ public class Eleve extends Utilisateur {
     @Column(name = "niveau_etude")
     private String niveauEtude;
 
+    /**
+     * Constructeur vide de Eleve
+     */
     public Eleve() {
         super();
     }
 
+    /**
+     * Constructeur de Eleve
+     * @param nom
+     * @param prenom
+     * @param email
+     * @param motDePasseHash
+     */
     public Eleve(String nom, String prenom, String email, String motDePasseHash)
     {
         super(nom, prenom, email, motDePasseHash);

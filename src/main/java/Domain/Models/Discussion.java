@@ -100,6 +100,18 @@ public class Discussion
         this.messages = desMessages;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Discussion that = (Discussion) o;
+        if (this.idDiscussion == 0 || that.idDiscussion == 0)
+            return false;
+        return idDiscussion == that.idDiscussion;
+    }
     private String toStringParticipants()
     {
         String s="";
