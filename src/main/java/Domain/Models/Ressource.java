@@ -2,6 +2,9 @@ package Domain.Models;
 
 import jakarta.persistence.*;
 
+/**
+ * Classe Ressource qui représente les pièces jointes
+ */
 @Entity
 public class Ressource {
 
@@ -17,32 +20,47 @@ public class Ressource {
     @Column(name = "type_ressource")
     private TypeRessource type;
 
+    /**
+     * Constructeur vide de Ressource
+     */
     public Ressource() {
     }
 
-    public Ressource(String unNom, TypeRessource unType, String unUrl) {
+    /**
+     * Constructeur de Ressource
+     * @param unNom
+     * @param unType
+     * @param unUrl
+     */
+    public Ressource(String unNom, TypeRessource unType, String unUrl)
+    {
         this.nom = unNom;
         this.type = unType;
         this.url = unUrl;
     }
 
-    public int getId_ressource() {
+    public int getId_ressource()
+    {
         return this.id_ressource;
     }
 
-    public String getNom() {
+    public String getNom()
+    {
         return this.nom;
     }
 
-    public String getUrl() {
+    public String getUrl()
+    {
         return this.url;
     }
 
-    public void setNom(String nom) {
+    public void setNom(String nom)
+    {
         this.nom = nom;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(String url)
+    {
         this.url = url;
     }
 

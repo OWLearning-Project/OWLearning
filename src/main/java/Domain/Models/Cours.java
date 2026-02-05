@@ -5,6 +5,9 @@ import java.util.*;
 import Shared.Exceptions.*;
 import jakarta.persistence.*;
 
+/**
+ * Classe Cours qui permet de construire un cours en lui assignant ses chaptires, sa catégorie, sa difficulté, les éléves qui participent, son créateur, sa visiblité et en le publiant.
+ */
 @Entity
 public class Cours
 {
@@ -44,8 +47,20 @@ public class Cours
     @Column(name = "categorie")
     private ArrayList<Categorie> categories;
 
+    /**
+     * Constructeur vide de Cours
+     */
     public Cours(){}
 
+    /**
+     * Constructeur de Cours
+     * @param titre
+     * @param description
+     * @param estPrive
+     * @param categories
+     * @param difficulte
+     * @param createur
+     */
     public Cours(String titre, String description, boolean estPrive, ArrayList<Categorie> categories, Difficulte difficulte, Createur createur)
     {
         this.titre = titre;
@@ -134,11 +149,19 @@ public class Cours
         return this.categories;
     }
 
+    /**
+     * Méthode qui publie un cours
+     */
     public void publier()
     {
         this.estPublie = true;
     }
 
+    /**
+     * Méthode qui ajoute un chapitre au cours
+     * @param chapitre
+     * @throws IllegalArgumentException
+     */
     public void ajouterChapitre(Chapitre chapitre) throws IllegalArgumentException
     {
         if(chapitre == null)
@@ -146,7 +169,12 @@ public class Cours
         this.chapitres.add(chapitre);
         chapitre.setCours(this);
     }
-
+    /**
+     * Méthode qui retire un chapitre du cours
+     * @param chapitreId
+     * @return le chapitre retourné
+     * @throws ExceptionMauvaisIdChapitre
+     */
     public Chapitre retirerChapitre(int chapitreId) throws ExceptionMauvaisIdChapitre
     {
         Chapitre chapitre;
@@ -161,11 +189,21 @@ public class Cours
         return this.chapitres.remove(i);
     }
 
+    /**
+     * Méthode qui rend un cours privé/public
+     * @param estPrive
+     */
     public void visibilite(boolean estPrive)
     {
         this.estPrive = estPrive;
     }
 
+    /**
+     * Méthode qui ajoute une catégorie au cours
+     * @param categorie
+     * @throws IllegalArgumentException
+     * @throws ExceptionCategorieDejaPresente
+     */
     public void ajouterCategorie(Categorie categorie) throws IllegalArgumentException, ExceptionCategorieDejaPresente
     {
         if(categorie == null)
@@ -181,6 +219,12 @@ public class Cours
         this.categories.add(categorie);
     }
 
+    /**
+     * Méthode qui supprime une catégorie du cours
+     * @param label
+     * @return la catégorie supprimée
+     * @throws ExceptionMauvaisLabelCategorie
+     */
     public Categorie supprimerCategorie(String label) throws ExceptionMauvaisLabelCategorie
     {
         if (!Categorie.existeCategorie(label))
@@ -193,6 +237,11 @@ public class Cours
         return this.categories.remove(i);
     }
 
+    /**
+     * Méthode qui ajoute un étudiant comme participant au cours
+     * @param eleve
+     * @throws IllegalArgumentException
+     */
     public void ajouterEleve(Eleve eleve) throws IllegalArgumentException
     {
         if(eleve == null)
@@ -208,6 +257,12 @@ public class Cours
         this.eleves.add(eleve);
     }
 
+    /**
+     * Méthode qui supprime un étudiant qui participait au cours
+     * @param eleveId
+     * @return l'étudiant supprimé
+     * @throws ExceptionMauvaisIdEleve
+     */
     public Eleve supprimerEleve(int eleveId) throws ExceptionMauvaisIdEleve
     {
         Eleve eleve;

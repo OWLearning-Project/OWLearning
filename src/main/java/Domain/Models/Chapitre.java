@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 
+/**
+ * Classe Chaptire qui permet de construire un chapitre en lui ajoutant/retirant des ressources et de l'attribuer à un cours
+ */
 @Entity
 public class Chapitre
 {
@@ -22,6 +25,12 @@ public class Chapitre
     private ArrayList<Ressource> ressources;
     public Chapitre(){}
 
+    /**
+     * Constructeur de Chaptire
+     * @param titre
+     * @param description
+     * @param ressources
+     */
     public Chapitre(String titre, String description, ArrayList<Ressource> ressources)
     {
         this.titre = titre;
@@ -65,13 +74,23 @@ public class Chapitre
         this.ressources = ressources;
     }
 
+    /**
+     * Méthode qui ajoute une ressource au chapitre
+     * @param ressource
+     */
     public void ajouterRessource(Ressource ressource)
     {
         this.ressources.add(ressource);
     }
 
+    /**
+     * Méthode qui supprime une ressource du chapitre
+     * @param ressource
+     * @return la ressource supprimé
+     */
     public Ressource supprimerRessource(Ressource ressource){
-        if (this.ressources.remove(ressource)){
+        if (this.ressources.remove(ressource))
+        {
             return ressource;
         }
         return null;

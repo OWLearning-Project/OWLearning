@@ -4,16 +4,26 @@ import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
 import java.util.Objects;
-
+/**
+ * Classe ProgressionId qui représente la clé primaire de progression qui est la composition de la la clé primaire de Eleve et de Cours
+ */
 @Embeddable
 public class ProgressionId implements Serializable
 {
     private int idCours;
     private int idEleve;
 
+    /**
+     * Constructeur vide de ProgressionId
+     */
     public ProgressionId()
     {}
 
+    /**
+     * Constructeur de ProgressionId
+     * @param idCours
+     * @param idEleve
+     */
     public ProgressionId(int idCours, int idEleve)
     {
         this.idCours = idCours;

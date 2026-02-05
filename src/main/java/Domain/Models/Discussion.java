@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import jakarta.persistence.*;
 
+/**
+ * Classe Discussion qui permet de créer une discussion en gérant ses participants et les messages de la discussion
+ */
 @Entity
 public class Discussion 
 {
@@ -21,6 +24,11 @@ public class Discussion
     @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
     private ArrayList<Message> messages;
 
+    /**
+     * Constructeur de Discussion
+     * @param utilisateur1
+     * @param utilisateur2
+     */
     public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2) {
         this.participants = new ArrayList<Utilisateur>();
         this.participants.add(utilisateur1);
@@ -28,6 +36,11 @@ public class Discussion
         this.messages = new ArrayList<Message>();
     }
 
+    /**
+     * Méthode qui ajoute un message à la discussion
+     * @param message
+     * @throws ExceptionUtilisateurNonAutorise
+     */
     public void ajouterMessage(Message message) throws ExceptionUtilisateurNonAutorise
     {
         if(message == null)
@@ -44,6 +57,11 @@ public class Discussion
         message.setDiscussion(this);
     }
 
+    /**
+     * Méthode qui vérifie si un utilisateur fais parti de la discussion
+     * @param id
+     * @return true si l'utilisateur fais parti, false sinon
+     */
     public boolean utilisateurFaitParti(int id)
     {
         boolean faitParti = false;
@@ -57,7 +75,8 @@ public class Discussion
         return faitParti;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return this.idDiscussion;
     }
 

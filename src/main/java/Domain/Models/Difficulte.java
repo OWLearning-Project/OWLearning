@@ -1,5 +1,8 @@
 package Domain.Models;
 
+/**
+ * Enum Difficulté qui répértorie les différent niveaux de difficultés d'un cours
+ */
 public enum Difficulte
 {
     DEBUTANT("Débutant"),
@@ -8,6 +11,10 @@ public enum Difficulte
 
     private final String label;
 
+    /**
+     * Constructeur de Difficulté
+     * @param label
+     */
     private Difficulte(String label)
     {
         this.label = label;
