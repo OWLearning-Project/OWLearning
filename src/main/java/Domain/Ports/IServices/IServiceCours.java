@@ -38,4 +38,44 @@ public interface IServiceCours
      * @return l'ArrayList des Cours inscrits
      */
     public abstract ArrayList<Cours> getCoursInscrits(int eleveId, String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive);
+
+    /**
+     * Cette méthode crée un nouveau cours après vérification des données
+     * @param titre titre du cours
+     * @param description description du cours
+     * @param categorie catégorie du cours
+     * @param createurId id du créateur
+     * @return le cours créé
+     */
+    public abstract Cours creerCours(String titre, String description, String categorie, int createurId);
+
+    /**
+     * Publier un cours
+     * @param coursId id du cours à publier
+     */
+    public abstract void publierCours(int coursId);
+
+    /**
+     * Modifie le titre et la description d’un cours
+     * @param coursId id du cours
+     * @param titre nouveau titre du cours
+     * @param description nouvelle description du cours
+     */
+    public abstract void modifierInformationsCours(int coursId, String titre, String description);
+
+    /**
+     * Cette methode change le statut privé ou public d’un cours
+     * @param coursId id du cours
+     * @param estPrive nouveau statut du cours
+     */
+    public abstract void coursPrive(int coursId, boolean estPrive);
+
+    /**
+     * Methode permettant de supprimer un cours
+     * @param coursId id du cours
+     * @return l'objet Cours supprimé
+     */
+    public abstract Cours supprimerCours(int coursId);
+
+
 }
