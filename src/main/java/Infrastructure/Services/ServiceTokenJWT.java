@@ -99,13 +99,16 @@ public class ServiceTokenJWT implements IServiceToken
      * @return true si token valide false sinon
      */
     public boolean validerToken(String token) {
-        if (tokenBlacklist.contains(token)) {
+        if (tokenBlacklist.contains(token))
+        {
             return false;
         }
-        try {
+        try
+        {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             return false;
         }
     }

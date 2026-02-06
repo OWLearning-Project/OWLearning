@@ -9,6 +9,7 @@ import Domain.Ports.IServices.IServiceToken;
 import Shared.Exceptions.ExceptionCompteExistant;
 
 import Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import Shared.Exceptions.ExceptionTokenInvalide;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
@@ -106,17 +107,15 @@ public class ServiceAuthentification
     /**
      * Méthode qui permet de déconnecter un utilisateur
      * @param token
-     * @return true si déconnexion réussi false sinon
      * @throws ExceptionMauvaisIdentifiants
      */
-    public boolean deconnexion(String token) throws ExceptionMauvaisIdentifiants
+    public void deconnexion(String token)
     {
-        if (token == null || token.isEmpty()) {
-            return false;
+        if (token == null || token.isEmpty())
+        {
+            throw new ExceptionTokenInvalide("Impossible de se déconnecter","token vide");
         }
-
         serviceToken.invaliderToken(token);
 
-        return true;
     }
 }

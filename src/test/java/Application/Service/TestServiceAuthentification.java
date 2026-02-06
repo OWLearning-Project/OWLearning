@@ -12,6 +12,7 @@ import Application.Services.ServiceAuthentification;
 import Domain.Ports.IRepository.IUtilisateurRepository;
 import Domain.Ports.IServices.*;
 import Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import Shared.Exceptions.ExceptionTokenInvalide;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -170,7 +171,8 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
 
         // ACT & ASSERT
-        ExceptionMauvaisIdentifiants ex = assertThrows(ExceptionMauvaisIdentifiants.class, () -> {
+        ExceptionMauvaisIdentifiants ex = assertThrows(ExceptionMauvaisIdentifiants.class, () ->
+        {
             serviceAuthentification.connexion(email, "mdp");
         });
 
@@ -194,16 +196,36 @@ public class TestServiceAuthentification
     }
 
     @Test
-    void deconnexionDoitInvaliderLeTokenEtRenvoyerVrai() {
+    void deconnexionDoitInvaliderLeToken()
+    {
         // ARRANGE
         String token = "TOKEN_A_INVALIDER";
 
         // ACT
-        boolean resultat = serviceAuthentification.deconnexion(token);
+        serviceAuthentification.deconnexion(token);
 
         // ASSERT
-        assertTrue(resultat, "La déconnexion doit renvoyer true");
         verify(serviceToken, times(1)).invaliderToken(token);
     }
 
+    @Test
+    void deconnexionDoitLeverExceptionTokenInvalide()
+    {
+        // ARRANGE
+        String tokenNull = "";
+        String tokenVide = "";
+
+        // ACT & ASSERT
+        assertThrows(ExceptionTokenInvalide.class, () ->
+        {
+            serviceAuthentification.deconnexion(tokenNull);
+        });
+
+        assertThrows(ExceptionTokenInvalide.class, () ->
+        {
+            serviceAuthentification.deconnexion((tokenVide));
+        });
+
+        verify(serviceToken, never()).invaliderToken(any());
+    }
 }
