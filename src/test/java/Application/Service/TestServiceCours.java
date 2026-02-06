@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TestServiceCours
@@ -264,8 +265,7 @@ public class TestServiceCours
     }
 
     @Test
-    public void recupererLesCoursPubliesAvecFiltreMultiple()
-    {
+    public void recupererLesCoursPubliesAvecFiltreMultiple() {
         // Arrange
         Cours cours1 = new Cours("Développement web", "", true, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
         Cours cours2 = new Cours("Developpement d'applications", "", true, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
@@ -283,5 +283,146 @@ public class TestServiceCours
         assertEquals(listeAttendues, listeRecuperee);
         assertNotNull(listeRecuperee);
         verify(coursRepository, times(1)).trouverCoursFiltre(anyString(), isNull(), isNull(), isNull(), anyBoolean());
+    }
+
+    @Test
+    void creerCours() {
+        // Arrange
+        String titre = "Java";
+        String description = "Cours Java";
+        String categorie = "PROGRAMMATION";
+        int createurId = 1;
+
+        Cours coursCree = new Cours();
+        when(coursRepository.creerCours(titre, description, categorie, createurId)).thenReturn(coursCree);
+
+        // Act
+        Cours resultat = serviceCours.creerCours(titre, description, categorie, createurId);
+
+        // Assert
+        assertThat(resultat).isSameAs(coursCree);
+        verify(coursRepository).creerCours(titre, description, categorie, createurId);
+        verifyNoMoreInteractions(coursRepository);
+    }
+
+    @Test
+    void creerCoursAvecTitreVide() {
+        // Arrange
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.creerCours("", "desc", "CAT", 1))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(coursRepository);
+    }
+
+    @Test
+    void publierCours() {
+        // Arrange
+        int coursId = 10;
+        doNothing().when(coursRepository).publierCours(coursId);
+
+        // Act
+        serviceCours.publierCours(coursId);
+
+        // Assert
+        verify(coursRepository).publierCours(coursId);
+        verifyNoMoreInteractions(coursRepository);
+    }
+
+    @Test
+    void publierCoursIdNonValide() {
+        // Arrange
+        int coursId = 0;
+
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.publierCours(coursId))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(coursRepository);
+    }
+
+    @Test
+    void modifierInformationsCours() {
+        // Arrange
+        int coursId = 5;
+        String titre = "Nouveau titre";
+        String description = "Nouvelle description";
+
+        doNothing().when(coursRepository).modifierInformationsCours(coursId, titre, description);
+
+        // Act
+        serviceCours.modifierInformationsCours(coursId, titre, description);
+
+        // Assert
+        verify(coursRepository).modifierInformationsCours(coursId, titre, description);
+        verifyNoMoreInteractions(coursRepository);
+    }
+
+    @Test
+    void modifierInformationsCoursDescriptionVide() {
+        // Arrange
+        int coursId = 5;
+
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.modifierInformationsCours(coursId, "titre", ""))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(coursRepository);
+    }
+
+    @Test
+    void coursPrive() {
+        // Arrange
+        int coursId = 7;
+        boolean estPrive = true;
+
+        doNothing().when(coursRepository).coursPrive(coursId, estPrive);
+
+        // Act
+        serviceCours.coursPrive(coursId, estPrive);
+
+        // Assert
+        verify(coursRepository).coursPrive(coursId, estPrive);
+        verifyNoMoreInteractions(coursRepository);
+    }
+
+    @Test
+    void coursPriveIdNonValide() {
+        // Arrange
+        int coursId = -1;
+
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.coursPrive(coursId, true))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(coursRepository);
+    }
+
+    @Test
+    void supprimerCours() {
+        // Arrange
+        int coursId = 3;
+        Cours coursSupprime = new Cours();
+        when(coursRepository.supprimerCours(coursId)).thenReturn(coursSupprime);
+
+        // Act
+        Cours resultat = serviceCours.supprimerCours(coursId);
+
+        // Assert
+        assertThat(resultat).isSameAs(coursSupprime);
+        verify(coursRepository).supprimerCours(coursId);
+        verifyNoMoreInteractions(coursRepository);
+    }
+
+    @Test
+    void supprimerCoursIdNonValide() {
+        // Arrange
+        int coursId = 0;
+
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.supprimerCours(coursId))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        verifyNoInteractions(coursRepository);
     }
 }
