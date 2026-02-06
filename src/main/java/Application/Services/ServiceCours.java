@@ -66,4 +66,89 @@ public class ServiceCours implements IServiceCours
     {
         return coursRepository.trouverCoursFiltre(titre, nomCreateur, difficulte, categorie, estPrive);
     }
+
+    /**
+     * Cette méthode crée un nouveau cours après vérification des données
+     * @param titre titre du cours
+     * @param description description du cours
+     * @param categorie catégorie du cours
+     * @param createurId identifiant du créateur
+     * @return le cours créé
+     */
+    @Override
+    public Cours creerCours(String titre, String description, String categorie, int createurId)
+    {
+        if (titre == null || titre.isBlank()) throw new IllegalArgumentException("Le titre n'est pas valide");
+        if (description == null || description.isBlank()) throw new IllegalArgumentException("La description n'est pas valide");
+        if (categorie == null || categorie.isBlank()) throw new IllegalArgumentException("Categorie non valide");
+        if (createurId <= 0) throw new IllegalArgumentException("Identifiant du créateur invalide");
+
+        Cours cours = coursRepository.creerCours(titre, description, categorie, createurId);
+
+        if (cours == null) throw new IllegalStateException("La création du cours a échoué");
+
+        return cours;
+    }
+
+    /**
+     * Publier un cours
+     * @param coursId identifiant du cours
+     */
+    @Override
+    public void publierCours(int coursId)
+    {
+        if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
+
+        coursRepository.publierCours(coursId);
+    }
+
+    /**
+     * Modifie le titre et la description d’un cours
+     * @param coursId identifiant du cours
+     * @param titre nouveau titre
+     * @param description nouvelle description
+     */
+    @Override
+    public void modifierInformationsCours(int coursId, String titre, String description)
+    {
+        if (coursId <= 0) throw new IllegalArgumentException("L'Id du cours n'est pas valide");
+        if (titre == null || titre.isBlank()) throw new IllegalArgumentException("Titre non valide");
+        if (description == null || description.isBlank()) throw new IllegalArgumentException("Description est vide");
+
+        coursRepository.modifierInformationsCours(coursId, titre, description);
+    }
+
+    /**
+     * Cette methode change le statut privé ou public d’un cours
+     * @param coursId identifiant du cours
+     * @param estPrive nouveau statut
+     */
+    @Override
+    public void coursPrive(int coursId, boolean estPrive)
+    {
+        if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
+
+        coursRepository.coursPrive(coursId, estPrive);
+    }
+    /**
+     * Methode permettant de supprimer un cours
+     * @param coursId identifiant du cours
+     * @return le cours supprimé
+     */
+    @Override
+    public Cours supprimerCours(int coursId)
+    {
+        if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
+
+        Cours coursSupprime = coursRepository.supprimerCours(coursId);
+
+        if (coursSupprime == null) throw new IllegalStateException("Impossible de suppression le cours");
+
+        return coursSupprime;
+    }
+
+
+
+
+
 }
