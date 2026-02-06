@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestHach
 {
-    private IHach hacher = new Hach(new BCryptPasswordEncoder());
+    private final IHach hacher = new Hach(new BCryptPasswordEncoder());
 
     @Test
     public void leMotDePasseEstHache()

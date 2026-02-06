@@ -9,45 +9,83 @@ import Domain.Ports.IServices.IServiceToken;
 import Shared.Exceptions.ExceptionCompteExistant;
 
 import Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import Shared.Exceptions.ExceptionTokenInvalide;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 
+/**
+ * Classe ServiceAuthentification qui permet d'inscrire de connecter ou de déconnecter un utilisateur
+ */
 public class ServiceAuthentification
 {
     private final IUtilisateurRepository utilisateurRepository;
     private final IHach hach;
     private final IServiceToken serviceToken;
 
-    public ServiceAuthentification(IUtilisateurRepository utilisateurRepository, IHach hach, IServiceToken serviceToken)
+    /**
+     * Constructeur de ServiceAuthentification
+     * @param utilisateurRepository
+     * @param hach
+     * @param serviceToken
+     */
+    public ServiceAuthentification(IUtilisateurRepository utilisateurRepository, IHach hach, IServiceToken serviceToken) // Utilisation des Interfaces pour ne pas dépendre de l'implémentation concrète
     {
         this.utilisateurRepository = utilisateurRepository;
         this.hach = hach;
         this.serviceToken = serviceToken;
     }
 
-    public boolean inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant
+    /**
+     * Méthode qui permet d'inscrire un utilisateur
+     * @param nom
+     * @param prenom
+     * @param email
+     * @param mdp
+     * @param role
+     * @return le nombre de ligne inséré en base
+     * @throws ExceptionCompteExistant
+     */
+    @Transactional
+    public boolean inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
     {
         Utilisateur utilisateur;
+        int ligneInsereeUtilisateur;
+        int ligneInsereeRole;
+
+        String mdpHache = hach.hacher(mdp);
 
         if (utilisateurRepository.trouverParEmail(email) != null)
             throw new ExceptionCompteExistant("Un compte existe déjà", email);
 
         if (role.equalsIgnoreCase("createur"))
-            utilisateur = new Createur(nom, prenom, email, mdp);
-
+        {
+            utilisateur = new Createur(nom, prenom, email, mdpHache);
+            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
+            ligneInsereeRole = utilisateurRepository.sauvegarderCreateur(utilisateurRepository.trouverIdParEmail(email));
+        }
         else if (role.equalsIgnoreCase("eleve"))
-            utilisateur = new Eleve(nom, prenom, email, mdp, age, niveauEtude);
-
+        {
+            utilisateur = new Eleve(nom, prenom, email, mdpHache);
+            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
+            ligneInsereeRole = utilisateurRepository.sauvegarderEleve(utilisateurRepository.trouverIdParEmail(email));
+        }
         else
+        {
             throw new IllegalArgumentException("rôle inexistant");
+        }
 
-        utilisateur.setMotDePasse(hach.hacher(mdp));
-        int ligneInseree = utilisateurRepository.sauvegarder(utilisateur);
-
-        return ligneInseree == 1;
+        return ligneInsereeRole == 1 && ligneInsereeUtilisateur == 1;
     }
 
+    /**
+     * Méthode qui permet de connecter un utilisateur
+     * @param email
+     * @param mdp
+     * @return le token de connexion
+     * @throws ExceptionMauvaisIdentifiants
+     */
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants
     {
         Utilisateur utilisateur = utilisateurRepository.trouverParEmail(email);
@@ -66,14 +104,18 @@ public class ServiceAuthentification
         return serviceToken.genererToken(utilisateur);
     }
 
-    public boolean deconnexion(String token) throws ExceptionMauvaisIdentifiants
+    /**
+     * Méthode qui permet de déconnecter un utilisateur
+     * @param token
+     * @throws ExceptionMauvaisIdentifiants
+     */
+    public void deconnexion(String token)
     {
-        if (token == null || token.isEmpty()) {
-            return false;
+        if (token == null || token.isEmpty())
+        {
+            throw new ExceptionTokenInvalide("Impossible de se déconnecter","token vide");
         }
-
         serviceToken.invaliderToken(token);
 
-        return true;
     }
 }

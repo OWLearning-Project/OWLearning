@@ -56,7 +56,9 @@ public class TestCours
     public void testEleveEstAjoute()
     {
         // Arrange
-        Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse", 23, "BUT3");
+        Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse");
+        eleveTest.setAge(23);
+        eleveTest.setNiveauEtude("BUT3");
         Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act

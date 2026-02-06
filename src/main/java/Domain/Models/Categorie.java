@@ -1,5 +1,8 @@
 package Domain.Models;
 
+/**
+ * Enum Categorie qui répértorie les différents types de cours
+ */
 public enum Categorie
 {
 
@@ -16,6 +19,10 @@ public enum Categorie
 
     private final String label;
 
+    /**
+     * Constructeur de catégorie
+     * @param label
+     */
     private Categorie(String label)
     {
         this.label = label;
@@ -26,6 +33,11 @@ public enum Categorie
         return label;
     }
 
+    /**
+     * Méthode qui vérifie si une catégorie existe bien
+     * @param label
+     * @return true si la catégorie existe false sinon
+     */
     public static boolean existeCategorie(String label)
     {
         for (Categorie uneCategorie : Categorie.values())

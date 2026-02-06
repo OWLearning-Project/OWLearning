@@ -12,6 +12,7 @@ import Application.Services.ServiceAuthentification;
 import Domain.Ports.IRepository.IUtilisateurRepository;
 import Domain.Ports.IServices.*;
 import Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import Shared.Exceptions.ExceptionTokenInvalide;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -50,10 +51,14 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
         when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(1);
+        when(utilisateurRepository.sauvegarderCreateur(anyInt())).thenReturn(1);
 
         // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
-        verify(utilisateurRepository).sauvegarder(any(Createur.class));
+        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Createur.class));
+        verify(utilisateurRepository, times(1)).sauvegarderCreateur(anyInt());
+        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+
     }
 
     @Test
@@ -72,7 +77,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(utilisateurSauvegarde);
 
         // Act & Assert
-        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
@@ -84,17 +89,18 @@ public class TestServiceAuthentification
         String mdpHash = "hashed_password123";
         String prenom = "Bob";
         String nom = "Dylan";
-        String niveauEtude = "BAC +3";
-        int age = 20;
         String role = "ELEVE";
 
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
         when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(1);
+        when(utilisateurRepository.sauvegarderEleve(anyInt())).thenReturn(1);
 
         // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, age, niveauEtude, role));
-        verify(utilisateurRepository).sauvegarder(any(Eleve.class));
+        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Eleve.class));
+        verify(utilisateurRepository, times(1)).sauvegarderEleve(anyInt());
+        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
     }
 
     @Test
@@ -106,16 +112,14 @@ public class TestServiceAuthentification
         String mdpHash = "hashed_password123";
         String prenom = "Bob";
         String nom = "Dylan";
-        String niveauEtude = "BAC +3";
-        int age = 20;
         String role = "ELEVE";
 
-        Utilisateur utilisateurSauvegarde = new Eleve(nom, prenom, email, mdpHash, age, niveauEtude);
+        Utilisateur utilisateurSauvegarde = new Eleve(nom, prenom, email, mdpHash);
 
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(utilisateurSauvegarde);
 
         // Act & Assert
-        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(ExceptionCompteExistant.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
@@ -132,7 +136,7 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, 0, null, role));
+        assertThrows(IllegalArgumentException.class, () -> serviceAuthentification.inscription(nom, prenom, email, mdp, role));
     }
 
     @Test
@@ -167,7 +171,8 @@ public class TestServiceAuthentification
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
 
         // ACT & ASSERT
-        ExceptionMauvaisIdentifiants ex = assertThrows(ExceptionMauvaisIdentifiants.class, () -> {
+        ExceptionMauvaisIdentifiants ex = assertThrows(ExceptionMauvaisIdentifiants.class, () ->
+        {
             serviceAuthentification.connexion(email, "mdp");
         });
 
@@ -191,16 +196,36 @@ public class TestServiceAuthentification
     }
 
     @Test
-    void deconnexionDoitInvaliderLeTokenEtRenvoyerVrai() {
+    void deconnexionDoitInvaliderLeToken()
+    {
         // ARRANGE
         String token = "TOKEN_A_INVALIDER";
 
         // ACT
-        boolean resultat = serviceAuthentification.deconnexion(token);
+        serviceAuthentification.deconnexion(token);
 
         // ASSERT
-        assertTrue(resultat, "La déconnexion doit renvoyer true");
         verify(serviceToken, times(1)).invaliderToken(token);
     }
 
+    @Test
+    void deconnexionDoitLeverExceptionTokenInvalide()
+    {
+        // ARRANGE
+        String tokenNull = "";
+        String tokenVide = "";
+
+        // ACT & ASSERT
+        assertThrows(ExceptionTokenInvalide.class, () ->
+        {
+            serviceAuthentification.deconnexion(tokenNull);
+        });
+
+        assertThrows(ExceptionTokenInvalide.class, () ->
+        {
+            serviceAuthentification.deconnexion((tokenVide));
+        });
+
+        verify(serviceToken, never()).invaliderToken(any());
+    }
 }
