@@ -14,5 +14,12 @@ public interface IProgressionRepository {
     public int maj(Progression uneProgression);
     **/
     //Permets de récuprer une progression d'un élève sur un cours précis
+
+    /**
+     * Méthode qui va permettre de récupérer la progression d'un eleve sur un cours précis grace a leurs id
+     * @param elevId id de l'élève
+     * @param coursId id du cours
+     * @return un objet progression
+     */
     public Progression trouverParId(int elevId, int coursId);
 }
