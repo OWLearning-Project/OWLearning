@@ -17,7 +17,7 @@ public class ServiceProgression implements IServiceProgression {
     public ServiceProgression(IProgressionRepository progressionRepository) {
         this.progressionRepository = progressionRepository;
     }
-
+/**
     @Override
     public ArrayList<Cours> getCoursTermines(int eleveId) {
         List<Progression> toutesLesProgressions = progressionRepository.recupererToutesLesProgressionsParEleve(eleveId);
@@ -65,15 +65,10 @@ public class ServiceProgression implements IServiceProgression {
             progressionRepository.maj(progressionExistante);
         }
     }
-
+**/
     @Override
     public float getProgressionEleve(int eleveId, int coursId) {
         Progression progression = progressionRepository.trouverParId(eleveId, coursId);
-        if(progression == null){
-            return 0.0f;
-        }
-        else{
-            return progression.getTauxProgression();
-        }
+        return progression.getTauxProgression();
     }
 }
