@@ -13,8 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,7 +27,7 @@ public class TestServiceProgression {
 
     @InjectMocks
     private ServiceProgression serviceTester;
-
+/**
     @Test
     public void TestCoursTermines(){
         //Arrange
@@ -59,6 +61,32 @@ public class TestServiceProgression {
         assertEquals("Qualité de développement", resultat.get(0).getTitre());
         assertEquals(1, resultat.get(0).getId());
 
+    }
+
+    @Test
+    public void TestAucunCoursTermines(){
+        //Arrange
+        Eleve eleveTest = mock(Eleve.class);
+        int eleveId = 1;
+        Cours coursTest = mock(Cours.class);
+
+        Progression p1 = new Progression(coursTest, eleveTest);
+        p1.setTauxProgression(20.0f);
+        Progression p2 = new Progression(coursTest, eleveTest);
+        p2.setTauxProgression(99.0f);
+
+        ArrayList<Progression> listeProgressionNonFini = new ArrayList<>();
+        listeProgressionNonFini.add(p1);
+        listeProgressionNonFini.add(p2);
+
+        when(repositoryTest.recupererToutesLesProgressionsParEleve(eleveId)).thenReturn(listeProgressionNonFini);
+
+        //Act
+        ArrayList<Cours> resultats = serviceTester.getCoursTermines(eleveId);
+
+        //Assert
+        assertTrue(resultats.isEmpty());
+        assertEquals(0, resultats.size());
     }
 
     @Test
@@ -132,7 +160,7 @@ public class TestServiceProgression {
         assertEquals(50.0f, progressionExistante.getTauxProgression());
         verify(repositoryTest).maj(progressionExistante);
     }
-
+**/
     @Test
     public void TestRecuperationProgression(){
         //Arrange

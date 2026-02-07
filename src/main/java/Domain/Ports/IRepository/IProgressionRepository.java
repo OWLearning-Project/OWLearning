@@ -9,9 +9,6 @@ public interface IProgressionRepository {
     //Chercher toutes les progressions d'un élève et permets ensuite le traitement pour des progession précise
     public List<Progression> recupererToutesLesProgressionsParEleve(int eleveId);
 
-    //Permets la création dans la base de donées d'une progression
-    public int sauvegarder(Progression uneProgression);
-
     //Permets la mise a jour dans la base de données d'une progression
     public int maj(Progression uneProgression);
 
