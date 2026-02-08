@@ -4,6 +4,7 @@ import Domain.Models.Categorie;
 import Domain.Models.Chapitre;
 import Domain.Models.Cours;
 import Domain.Models.Difficulte;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 
 import java.util.ArrayList;
 
@@ -115,5 +116,5 @@ public interface IServiceCours
      * @param categorie categorie a supprimer
      * @return la categorie qui est retirer du cours
      */
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie);
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
 }

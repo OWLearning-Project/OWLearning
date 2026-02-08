@@ -6,6 +6,7 @@ import Domain.Models.Cours;
 import Domain.Models.Difficulte;
 import Domain.Ports.IRepository.ICoursRepository;
 import Domain.Ports.IServices.IServiceCours;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -205,12 +206,12 @@ public class ServiceCours implements IServiceCours
     }
 
     @Override
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorieASupprimer) {
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
         Cours cours = coursRepository.trouverParId(coursId);
         if (cours == null){
             throw new IllegalArgumentException("le cours n'existe pas");
         }
-        Categorie categorieSupprimer = cours.supprimerCategorie(categorieASupprimer);
+        Categorie categorieSupprimer = cours.supprimerCategorie(categorieASupprimer.getLabel());
         coursRepository.supprimerCategorieCours(coursId, categorieASupprimer);
         return categorieSupprimer;
     }

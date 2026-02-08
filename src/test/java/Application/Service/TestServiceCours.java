@@ -3,6 +3,7 @@ package Application.Service;
 import Application.Services.ServiceCours;
 import Domain.Models.*;
 import Domain.Ports.IRepository.ICoursRepository;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -553,7 +554,7 @@ public class TestServiceCours
         assertEquals("le cours n'existe pas", exception.getMessage());
     }
     @Test
-    public void TestSupprimerCategorieValide(){
+    public void TestSupprimerCategorieValide() throws ExceptionMauvaisLabelCategorie {
         //Arrange
         int coursId = 7;
         ArrayList<Categorie> listeCategories = new ArrayList<>();
