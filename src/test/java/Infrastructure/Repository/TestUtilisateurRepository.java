@@ -1,7 +1,5 @@
 package Infrastructure.Repository;
 
-import Domain.Models.Chapitre;
-import Domain.Models.Ressource;
 import Domain.Models.Utilisateur;
 import Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
 import Infrastructure.Persistence.Repository.UtilisateurRepository;
@@ -9,12 +7,9 @@ import Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.shadow.de.siegmar.fastcsv.util.Util;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

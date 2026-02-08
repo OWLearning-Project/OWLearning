@@ -2,6 +2,8 @@ package Domain.Models;
 
 import jakarta.persistence.*;
 
+import java.lang.reflect.Type;
+
 /**
  * Classe Ressource qui représente les pièces jointes
  */
@@ -52,6 +54,11 @@ public class Ressource {
     public String getUrl()
     {
         return this.url;
+    }
+
+    public TypeRessource getType()
+    {
+        return this.type;
     }
 
     public void setNom(String nom)
