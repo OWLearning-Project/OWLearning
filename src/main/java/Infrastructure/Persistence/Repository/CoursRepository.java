@@ -1,6 +1,9 @@
 package Infrastructure.Persistence.Repository;
 
+import Domain.Models.Categorie;
+import Domain.Models.Chapitre;
 import Domain.Models.Cours;
+import Domain.Models.Difficulte;
 import Domain.Ports.IRepository.ICoursRepository;
 import Infrastructure.Persistence.Interface.JpaCoursRepository;
 import org.springframework.stereotype.Component;
@@ -51,6 +54,56 @@ public class CoursRepository implements ICoursRepository
     public ArrayList<Cours> trouverParIdEleve(int eleveId, String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive)
     {
         return new ArrayList<>(jpaRepository.findByIdEleveNative(eleveId, titre, nomCreateur, difficulte, categorie, estPrive));
+    }
+
+    @Override
+    public Cours creerCours(String titre, String description, String categorie, int createurId) {
+        return null;
+    }
+
+    @Override
+    public void publierCours(int coursId) {
+
+    }
+
+    @Override
+    public void modifierInformationsCours(int coursId, String titre, String description) {
+
+    }
+
+    @Override
+    public void coursPrive(int coursId, boolean estPrive) {
+
+    }
+
+    @Override
+    public Cours supprimerCours(int coursId) {
+        return null;
+    }
+
+    @Override
+    public void ajouterChapitre(int coursId, Chapitre chapitre) {
+
+    }
+
+    @Override
+    public Chapitre retirerChapitre(int coursId, int ChapitreId) {
+        return null;
+    }
+
+    @Override
+    public void modifierDifficulteCours(int coursId, Difficulte difficulte) {
+
+    }
+
+    @Override
+    public void ajouterCategorieCours(int coursId, Categorie categorie) {
+
+    }
+
+    @Override
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) {
+        return null;
     }
 
     /**
