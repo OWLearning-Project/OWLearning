@@ -84,6 +84,11 @@ public class Message {
         return this.utilisateur;
     }
 
+    public StatutMessage getStatutMessage()
+    {
+        return this.statutMessage;
+    }
+
     public void setDate_creation(Timestamp date_creation)
     {
         this.date_creation = date_creation;
@@ -97,6 +102,11 @@ public class Message {
     public void setRessources(ArrayList<Ressource> desRessources)
     {
         this.ressources = desRessources;
+    }
+
+    public void setStatutMessage(StatutMessage statutMessage)
+    {
+        this.statutMessage = statutMessage;
     }
 
     public void setDiscussion(Discussion uneDiscussion)
