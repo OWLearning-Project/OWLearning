@@ -1,6 +1,9 @@
 package Application.Services;
 
+import Domain.Models.Categorie;
+import Domain.Models.Chapitre;
 import Domain.Models.Cours;
+import Domain.Models.Difficulte;
 import Domain.Ports.IRepository.ICoursRepository;
 import Domain.Ports.IServices.IServiceCours;
 import org.springframework.stereotype.Service;
@@ -147,8 +150,68 @@ public class ServiceCours implements IServiceCours
         return coursSupprime;
     }
 
+    /**
+     * Methode qui va verifier qu'un chapitre n'est pas null avant de l'ajouter à un cours
+     * @param coursId id du cours
+     * @param chapitre chapitre à ajouter
+     */
+    @Override
+    public void ajouterChapitre(int coursId, Chapitre chapitre) {
+        if(chapitre == null){
+            throw new IllegalArgumentException("Un chapitre à ajouter ne peut pas être null");
+        }
+        coursRepository.ajouterChapitre(coursId, chapitre);
+    }
 
+    /**
+     * Methode permettant de retirer un chapitre à un cours grâce a leurs id
+     * @param coursId id du cours
+     * @param chapitreId id du chapitre
+     * @return l'objet chapitre qui est retirer
+     */
+    @Override
+    public Chapitre retirerChapitre(int coursId, int chapitreId) {
+        if(coursId <= 0 || chapitreId <= 0) {
+            throw new IllegalArgumentException("l'id du cours ou l'id du chapitre est invalide");
+        }
+        return coursRepository.retirerChapitre(coursId, chapitreId);
+    }
 
+    /**
+     * Methode permettant de modifié la difficulté d'un cours
+     * @param coursId id du cours
+     * @param nouvelleDifficulte la difficulté à modifier
+     */
+    @Override
+    public void modifierDifficulteCours(int coursId, Difficulte nouvelleDifficulte) {
+        Cours coursAvecDifficulteModifie = coursRepository.trouverParId(coursId);
+        coursAvecDifficulteModifie.setDifficulte(nouvelleDifficulte);
+        coursRepository.modifierDifficulteCours(coursId, nouvelleDifficulte);
+    }
 
+    /**
+     * Methode qui permet d'ajouter une categorie à un cours si il existe et leve une exception si les cours n'existe pas
+     * @param coursId id du cours
+     * @param categorieAjouter categorie à ajouter au cours
+     */
+    @Override
+    public void ajouterCategorieCours(int coursId, Categorie categorieAjouter) {
+        Cours cours = coursRepository.trouverParId(coursId);
+        if (cours == null){
+            throw new IllegalArgumentException("le cours n'existe pas");
+        }
+        cours.ajouterCategorie(categorieAjouter);
+        coursRepository.ajouterCategorieCours(coursId, categorieAjouter);
+    }
 
+    @Override
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorieASupprimer) {
+        Cours cours = coursRepository.trouverParId(coursId);
+        if (cours == null){
+            throw new IllegalArgumentException("le cours n'existe pas");
+        }
+        Categorie categorieSupprimer = cours.supprimerCategorie(categorieASupprimer);
+        coursRepository.supprimerCategorieCours(coursId, categorieASupprimer);
+        return categorieSupprimer;
+    }
 }

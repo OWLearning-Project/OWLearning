@@ -1,6 +1,10 @@
 package Domain.Ports.IRepository;
 
+import Domain.Models.Categorie;
+import Domain.Models.Chapitre;
 import Domain.Models.Cours;
+import Domain.Models.Difficulte;
+
 import java.util.ArrayList;
 
 /**
@@ -73,4 +77,40 @@ public interface ICoursRepository
      */
     public abstract Cours supprimerCours(int coursId);
 
+    /**
+     * Methode permettant d'ajouter un chapitre à un cours
+     * @param coursId id du cours
+     * @param chapitre chapitre à ajouter
+     */
+    public void ajouterChapitre(int coursId, Chapitre chapitre);
+
+    /**
+     * Methode permettant de retirer un chapitre à un cours
+     * @param coursId id du cours
+     * @param ChapitreId id du chapitre
+     * @return l'objet chapitre qui est retirer
+     */
+    public Chapitre retirerChapitre(int coursId, int ChapitreId);
+
+    /**
+     * Methode qui permet la modification d'une difficulté d'un cours
+     * @param coursId id du cours
+     * @param difficulte la difficulté à modifier
+     */
+    public void modifierDifficulteCours(int coursId, Difficulte difficulte);
+
+    /**
+     * Methode permettant d'ajouter une categorie à un cours
+     * @param coursId id du cours
+     * @param categorie categorie à ajouter au cours
+     */
+    public void ajouterCategorieCours(int coursId, Categorie categorie);
+
+    /**
+     * Methode permettant de supprimer une categorie d'un cours
+     * @param coursId id du cours
+     * @param categorie categorie a supprimer
+     * @return la categorie qui est retirer du cours
+     */
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie);
 }

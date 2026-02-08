@@ -2,6 +2,8 @@ package Domain.Models;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 /**
  * Classe de Progression qui permet de créer une Progression en calculant le taux de progression d'un cours.
  */
