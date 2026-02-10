@@ -46,10 +46,6 @@ public class ServiceMessage implements IServiceMessage
             throw new ExceptionMessageIntrouvable("Le message est introuvable ",idMessage);
         }
         Ressource ressource = ressourceRepository.trouverParId(idRessource);
-        if (ressource == null)
-        {
-            throw new ExceptionRessourceIntrouvable("La ressource est introuvable ",idRessource);
-        }
         message.ajouterRessource(ressource);
         messageRepository.sauvegarder(message);
     }

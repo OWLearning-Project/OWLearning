@@ -43,10 +43,12 @@ public class MessageRepository implements IMessageRepository
             }
             for (Ressource ressource : message.getRessources())
             {
-                jpaMessageRepository.ajouterLiaisonPieceJointeNative(
-                        messageSauvegarde.getId_message(),
-                        ressource.getId_ressource()
-                );
+                if (ressource.getId_ressource() != 0) {
+                    jpaMessageRepository.ajouterLiaisonPieceJointeNative(
+                            messageSauvegarde.getId_message(),
+                            ressource.getId_ressource()
+                    );
+                }
             }
             messageSauvegarde.setRessources(messageSauvegarde.getRessources());
             return messageSauvegarde;
