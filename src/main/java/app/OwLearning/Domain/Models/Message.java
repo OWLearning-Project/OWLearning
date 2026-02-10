@@ -31,8 +31,10 @@ public class Message {
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
-    @OneToMany
-    @JoinColumn(name = "id_message")
+    @ManyToMany( fetch = FetchType.EAGER) // Chargement des PJ avec le message
+    @JoinTable(name = "piece_jointe",
+            joinColumns = @JoinColumn(name = "id_message"),
+            inverseJoinColumns = @JoinColumn(name = "id_ressource"))
     private ArrayList<Ressource> ressources = new ArrayList<>();
 
     /**
