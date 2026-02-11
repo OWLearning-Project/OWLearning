@@ -6,6 +6,7 @@ import jakarta.persistence.*;
  * Classe d'Utilisateur qui permet de créer un utilisateur
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Utilisateur 
 {
     @Id

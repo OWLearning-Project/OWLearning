@@ -7,9 +7,9 @@ import jakarta.persistence.*;
  */
 @Entity
 @Table(name = "eleve")
+@PrimaryKeyJoinColumn(name = "id_utilisateur")
 public class Eleve extends Utilisateur {
 
-    @Column(nullable = false)
     private int age;
 
     @Column(name = "niveau_etude")

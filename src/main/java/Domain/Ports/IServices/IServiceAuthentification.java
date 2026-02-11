@@ -17,10 +17,9 @@ public interface IServiceAuthentification
      * @param age
      * @param niveauEtude
      * @param role
-     * @return true si inscription réussi false sinon
      * @throws ExceptionCompteExistant
      */
-    public boolean inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant;
+    public void inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant;
 
     /**
      * Méthode qui permet de se connecter à l'application

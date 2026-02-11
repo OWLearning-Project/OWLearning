@@ -48,17 +48,18 @@ public class TestServiceAuthentification
         String nom = "Dylan";
         String role = "CREATEUR";
 
+        Utilisateur createurAttendu = new Createur(nom, prenom, email, mdpHash);
+
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(1);
-        when(utilisateurRepository.sauvegarderCreateur(anyInt())).thenReturn(1);
+        when(utilisateurRepository.sauvegarder(any(Utilisateur.class))).thenReturn(createurAttendu);
 
-        // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
-        verify(utilisateurRepository, times(1)).sauvegarder(any(Createur.class));
-        verify(utilisateurRepository, times(1)).sauvegarderCreateur(anyInt());
-        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+        // Act
+        serviceAuthentification.inscription(nom, prenom, email, mdp, role);
 
+        // Assert
+        verify(hacher, times(1)).hacher(mdp);
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Utilisateur.class));
     }
 
     @Test
@@ -91,16 +92,18 @@ public class TestServiceAuthentification
         String nom = "Dylan";
         String role = "ELEVE";
 
+        Utilisateur eleveAttendu = new Eleve(nom, prenom, email, mdpHash);
+
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(1);
-        when(utilisateurRepository.sauvegarderEleve(anyInt())).thenReturn(1);
+        when(utilisateurRepository.sauvegarder(any(Utilisateur.class))).thenReturn(eleveAttendu);
 
-        // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
-        verify(utilisateurRepository, times(1)).sauvegarder(any(Eleve.class));
-        verify(utilisateurRepository, times(1)).sauvegarderEleve(anyInt());
-        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+        // Act
+        serviceAuthentification.inscription(nom, prenom, email, mdp, role);
+
+        // Assert
+        verify(hacher, times(1)).hacher(mdp);
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Utilisateur.class));
     }
 
     @Test

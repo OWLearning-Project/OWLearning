@@ -44,16 +44,11 @@ public class ServiceAuthentification
      * @param email
      * @param mdp
      * @param role
-     * @return le nombre de ligne inséré en base
      * @throws ExceptionCompteExistant
      */
-    @Transactional
-    public boolean inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
+    public void inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
     {
         Utilisateur utilisateur;
-        int ligneInsereeUtilisateur;
-        int ligneInsereeRole;
-
         String mdpHache = hach.hacher(mdp);
 
         if (utilisateurRepository.trouverParEmail(email) != null)
@@ -62,21 +57,16 @@ public class ServiceAuthentification
         if (role.equalsIgnoreCase("createur"))
         {
             utilisateur = new Createur(nom, prenom, email, mdpHache);
-            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
-            ligneInsereeRole = utilisateurRepository.sauvegarderCreateur(utilisateurRepository.trouverIdParEmail(email));
         }
         else if (role.equalsIgnoreCase("eleve"))
         {
             utilisateur = new Eleve(nom, prenom, email, mdpHache);
-            ligneInsereeUtilisateur = utilisateurRepository.sauvegarder(utilisateur);
-            ligneInsereeRole = utilisateurRepository.sauvegarderEleve(utilisateurRepository.trouverIdParEmail(email));
         }
         else
         {
             throw new IllegalArgumentException("rôle inexistant");
         }
-
-        return ligneInsereeRole == 1 && ligneInsereeUtilisateur == 1;
+        utilisateurRepository.sauvegarder(utilisateur);
     }
 
     /**

@@ -17,13 +17,7 @@ public interface IUtilisateurRepository
     /**
      * Méthode qui permet de sauvegarder un Utilisateur
      * @param utilisateur
-     * @return le nombre de ligne sauvegarder
+     * @return l'utilisateur sauvegardé
      */
-    public int sauvegarder(Utilisateur utilisateur);
-
-    public int sauvegarderCreateur(int id);
-
-    public int sauvegarderEleve(int id);
-
-    public int trouverIdParEmail(String email);
+    public Utilisateur sauvegarder(Utilisateur utilisateur);
 }

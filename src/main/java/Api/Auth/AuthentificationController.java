@@ -22,9 +22,7 @@ public class AuthentificationController
     @PostMapping("/inscription")
     public ResponseEntity<String> inscription (@RequestBody UtilisateurInscriptionDTO u)
     {
-        boolean inscrit = this.serviceAuth.inscription(u.getNom(), u.getPrenom(), u.getEmail(), u.getMdp(), u.getRole());
-        if (!inscrit)
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("L'inscription a échoue");
+        this.serviceAuth.inscription(u.getNom(), u.getPrenom(), u.getEmail(), u.getMdp(), u.getRole());
         return ResponseEntity.status(HttpStatus.CREATED).body("L'utilisateur est inscrit");
     }
 
