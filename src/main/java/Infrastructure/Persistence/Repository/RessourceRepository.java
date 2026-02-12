@@ -19,39 +19,19 @@ public class RessourceRepository implements IRessourceRepository
     @Transactional
     public Ressource sauvegarder(Ressource ressource)
     {
-        if (ressource.getId_ressource() == 0)
-        {
-            jpaRessourceRepository.ajouterRessourceNative(
-                    ressource.getNom(),
-                    ressource.getUrl(),
-                    ressource.getType().getLabel()
-                    );
-            Ressource ressourceSauvegarde = jpaRessourceRepository.trouverParUrlNative(ressource.getUrl());
-
-            if (ressourceSauvegarde == null)
-            {
-                throw new RuntimeException("Erreur : Impossible de récupérer la ressource insérée.");
-            }
-            return ressourceSauvegarde;
-        }
-        else
-        {
-            jpaRessourceRepository.changerRessourceNative(
-                    ressource.getId_ressource(),
-                    ressource.getNom(),
-                    ressource.getUrl(),
-                    ressource.getType().getLabel()
-            );
-            return ressource;
-        }
+        return jpaRessourceRepository.save(ressource);
     }
 
     public Ressource trouverParId(int id)
     {
-        return jpaRessourceRepository.trouverParIdNative(id);
+        return jpaRessourceRepository.findById(id).orElse(null);
     }
     public void supprimer(int id)
     {
-        jpaRessourceRepository.supprimerRessourceNative(id);
+        jpaRessourceRepository.deleteById(id);
+    }
+    public Ressource findByUrl(String url)
+    {
+        return jpaRessourceRepository.findByUrl(url);
     }
 }

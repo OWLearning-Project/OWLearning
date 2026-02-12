@@ -6,10 +6,7 @@ import Domain.Ports.IRepository.IMessageRepository;
 import Domain.Ports.IRepository.IRessourceRepository;
 import Domain.Ports.IServices.IServiceMessage;
 import Shared.Exceptions.ExceptionMessageIntrouvable;
-import Shared.Exceptions.ExceptionRessourceIntrouvable;
-
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.util.List;
 
 public class ServiceMessage implements IServiceMessage
 {
@@ -28,7 +25,7 @@ public class ServiceMessage implements IServiceMessage
      * @param idDiscussion
      * @return la liste de messages
      */
-    public ArrayList<Message> trouverMessageParDiscussion(int idDiscussion)
+    public List<Message> trouverMessageParDiscussion(int idDiscussion)
     {
         return messageRepository.trouverParDiscussion(idDiscussion);
     }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -31,11 +32,11 @@ public class Message {
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
-    @ManyToMany( fetch = FetchType.EAGER) // Chargement des PJ avec le message
+    @ManyToMany( fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}) // Chargement des PJ avec le message & permet de sauver la liaison sans requete manuelle
     @JoinTable(name = "piece_jointe",
             joinColumns = @JoinColumn(name = "id_message"),
             inverseJoinColumns = @JoinColumn(name = "id_ressource"))
-    private ArrayList<Ressource> ressources = new ArrayList<>();
+    private List<Ressource> ressources = new ArrayList<>();
 
     /**
      * Constructeur vide de Message
@@ -71,7 +72,7 @@ public class Message {
         return this.contenu;
     }
 
-    public ArrayList<Ressource> getRessources()
+    public List<Ressource> getRessources()
     {
         return this.ressources;
     }
@@ -101,7 +102,7 @@ public class Message {
         this.contenu = contenu;
     }
 
-    public void setRessources(ArrayList<Ressource> desRessources)
+    public void setRessources(List<Ressource> desRessources)
     {
         this.ressources = desRessources;
     }

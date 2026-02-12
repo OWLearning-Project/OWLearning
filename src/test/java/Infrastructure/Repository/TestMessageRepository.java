@@ -3,6 +3,7 @@ package Infrastructure.Repository;
 import Domain.Models.*;
 import Infrastructure.Persistence.Interface.JpaMessageRepository;
 import Infrastructure.Persistence.Repository.MessageRepository;
+import com.zaxxer.hikari.util.Credentials;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,8 +40,6 @@ public class TestMessageRepository {
         auteur = new Utilisateur("Nom", "Prenom", "email", "mdp");
 
         Discussion discussionMock = mock(Discussion.class);
-        lenient().when(discussionMock.getId()).thenReturn(99);
-
         messageNouveau = new Message("Contenu Test", auteur);
         messageNouveau.setDate_creation(Timestamp.from(Instant.now()));
         messageNouveau.setStatutMessage(StatutMessage.ENVOI);
@@ -47,31 +48,18 @@ public class TestMessageRepository {
     }
 
     @Test
-    public void sauvegarderNouveauMessageDoitInsererRecupererIdEtLierRessources()
+    public void sauvegarderNouveauMessageDoitAppelerSaveJPA()
     {
         // ARRANGE
-        Ressource pjMock = mock(Ressource.class);
-        when(pjMock.getId_ressource()).thenReturn(10);
-        messageNouveau.ajouterRessource(pjMock);
+        Message messageSauvegarde = new Message("Contenu Test", auteur);
+        when(jpaMessageRepository.save(messageNouveau)).thenReturn(messageSauvegarde);
 
-        Message message = mock(Message.class);
-        when(message.getId_message()).thenReturn(55);
-        when(jpaMessageRepository.trouverParAuteurEtParDateNative(anyInt(), any(Timestamp.class)))
-                .thenReturn(message);
         // ACT
         Message resultat = messageRepository.sauvegarder(messageNouveau);
 
         // ASSERT
-        verify(jpaMessageRepository).ajouterMessageNative(
-                eq("Contenu Test"),
-                any(Timestamp.class),
-                eq("Envoi"),
-                eq(99),
-                anyInt()
-        );
-
-        verify(jpaMessageRepository).ajouterLiaisonPieceJointeNative(55, 10);
-        assertEquals(message, resultat);
+        verify(jpaMessageRepository).save(messageNouveau);
+        assertEquals(messageSauvegarde,resultat);
     }
 
     @Test
@@ -80,23 +68,27 @@ public class TestMessageRepository {
         ArrayList<Message> listeAttendue = new ArrayList<>();
         listeAttendue.add(messageNouveau);
 
-        when(jpaMessageRepository.trouverParDiscussionIdNative(1)).thenReturn(listeAttendue);
+        when(jpaMessageRepository.findByDiscussionIdOrderByDateCreationAsc(1)).thenReturn(listeAttendue);
 
         // ACT
-        ArrayList<Message> resultat = messageRepository.trouverParDiscussion(1);
+        List<Message> resultat = messageRepository.trouverParDiscussion(1);
 
         // ASSERT
         assertEquals(1, resultat.size());
-        verify(jpaMessageRepository).trouverParDiscussionIdNative(1);
+        verify(jpaMessageRepository).findByDiscussionIdOrderByDateCreationAsc(1);
     }
-
     @Test
-    public void sauvegarderEchecRecuperationIdDoitLeverException() {
+    public void trouverParIdDoitRetournerMessage()
+    {
         // ARRANGE
-        when(jpaMessageRepository.trouverParAuteurEtParDateNative(anyInt(), any(Timestamp.class)))
-                .thenReturn(null);
 
-        // ACT & ASSERT
-        assertThrows(RuntimeException.class, () -> messageRepository.sauvegarder(messageNouveau));
+        when(jpaMessageRepository.findById(55)).thenReturn(Optional.of(messageNouveau));
+
+        // ACT
+        Message resultat = messageRepository.trouverParId(55);
+
+        // ASSERT
+        assertNotNull(resultat);
+        assertEquals(messageNouveau, resultat);
     }
 }

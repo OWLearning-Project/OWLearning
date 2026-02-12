@@ -9,6 +9,6 @@ public interface IMessageRepository
 {
     Message sauvegarder(Message message);
     Message trouverParId(int id);
-    ArrayList<Message> trouverParDiscussion(int id);
+    List<Message> trouverParDiscussion(int id);
     void supprimer(int id);
 }

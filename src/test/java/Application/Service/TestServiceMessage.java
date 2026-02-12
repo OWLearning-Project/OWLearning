@@ -44,7 +44,7 @@ public class TestServiceMessage
         when(messageRepository.trouverParDiscussion(idDiscussion)).thenReturn(messages);
 
         // ACT
-        ArrayList<Message> resultat = serviceMessage.trouverMessageParDiscussion(idDiscussion);
+        List<Message> resultat = serviceMessage.trouverMessageParDiscussion(idDiscussion);
 
         // ASSERT
         assertNotNull(resultat);
@@ -60,7 +60,7 @@ public class TestServiceMessage
         when(messageRepository.trouverParDiscussion(idDiscussion)).thenReturn(new ArrayList<>());
 
         // ACT
-        ArrayList<Message> resultat = serviceMessage.trouverMessageParDiscussion(idDiscussion);
+        List<Message> resultat = serviceMessage.trouverMessageParDiscussion(idDiscussion);
 
         // ASSERT
         assertNotNull(resultat);

@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,42 +32,39 @@ public class TestRessourceRepository
     }
 
     @Test
-    public void sauvegarderNouvelleRessourceDoitInsererEtRecupererObjet()
+    public void sauvegarderNouvelleRessourceDoitAppelerSaveJPA()
     {
         // ARRANGE
-        Ressource ressourceMock = mock(Ressource.class);
-        when(jpaRessourceRepository.trouverParUrlNative(ressourceNouvelle.getUrl())).thenReturn(ressourceMock);
+        when(jpaRessourceRepository.save(ressourceNouvelle)).thenReturn(ressourceNouvelle);
 
         // ACT
         Ressource resultat = ressourceRepository.sauvegarder(ressourceNouvelle);
 
         // ASSERT
-        verify(jpaRessourceRepository).ajouterRessourceNative(eq(ressourceNouvelle.getNom()), eq(ressourceNouvelle.getUrl()), eq(ressourceNouvelle.getType().getLabel()));
-        verify(jpaRessourceRepository).trouverParUrlNative(ressourceNouvelle.getUrl());
-        assertEquals(ressourceMock, resultat);
+        verify(jpaRessourceRepository).save(ressourceNouvelle);
+        assertEquals(ressourceNouvelle, resultat);
     }
 
     @Test
-    public void sauvegarderErreurInsertionDoitLeverException()
+    public void trouverParIdDoitRetournerRessource()
     {
         // ARRANGE
-        when(jpaRessourceRepository.trouverParUrlNative(anyString())).thenReturn(null);
-
-        // ACT & ASSERT
-        assertThrows(RuntimeException.class,() -> ressourceRepository.sauvegarder(ressourceNouvelle));
-    }
-
-    @Test
-    public void trouverParIdDoitRetournerRessource() {
-        // ARRANGE
-        Ressource ressourceMock = mock(Ressource.class);
-        when(jpaRessourceRepository.trouverParIdNative(10)).thenReturn(ressourceMock);
+        when(jpaRessourceRepository.findById(10)).thenReturn(Optional.of(ressourceNouvelle));
 
         // ACT
         Ressource resultat = ressourceRepository.trouverParId(10);
 
         // ASSERT
-        assertEquals(ressourceMock, resultat);
+        assertNotNull(resultat);
+        assertEquals(ressourceNouvelle, resultat);
     }
 
+    @Test
+    public void supprimerDoitAppelerDeleteById() {
+        // ACT
+        ressourceRepository.supprimer(10);
+
+        // ASSERT
+        verify(jpaRessourceRepository).deleteById(10);
+    }
 }
