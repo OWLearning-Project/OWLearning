@@ -1,9 +1,10 @@
 package Application.Services;
 import Domain.Models.Utilisateur;
 import Domain.Ports.IRepository.IUtilisateurRepository;
+import Domain.Ports.IServices.IServiceUtilisateur;
 
 
-public class ServiceUtilisateur {
+public class ServiceUtilisateur implements IServiceUtilisateur {
 
 
     private final IUtilisateurRepository utilisateurRepository;
@@ -13,29 +14,20 @@ public class ServiceUtilisateur {
         this.utilisateurRepository = utilisateurRepository;
     }
 
-
+    @Override
     public Utilisateur getProfil(int id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("L'identifiant n'est pas valide");
-        }
-
+        if (id <= 0) {throw new IllegalArgumentException("L'identifiant n'est pas valide");}
 
         Utilisateur utilisateur = utilisateurRepository.trouverParId(id);
 
-
-        if (utilisateur == null) {
-            throw new IllegalStateException("Utilisateur introuvable");
-        }
-
+        if (utilisateur == null) {throw new IllegalStateException("Utilisateur introuvable");}
 
         return utilisateur;
     }
 
-
+    @Override
     public void modifierProfil(int id, String pseudo, String email) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("l'identifiant n'est pas valide");
-        }
+        if (id <= 0) {throw new IllegalArgumentException("l'identifiant n'est pas valide");}
 
 
         Utilisateur utilisateur = utilisateurRepository.trouverParId(id);
