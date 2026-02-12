@@ -1,7 +1,9 @@
 package Domain.TestModel;
 
-import Domain.Models.*;
-import Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Models.Discussion;
+import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

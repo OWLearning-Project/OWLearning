@@ -1,18 +1,16 @@
 package Infrastructure.Repository;
 
-import Domain.Models.*;
-import Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
-import Infrastructure.Persistence.Repository.UtilisateurRepository;
-import Shared.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Domain.Models.Createur;
+import app.OwLearning.Domain.Models.Eleve;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.UtilisateurRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.shadow.de.siegmar.fastcsv.util.Util;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

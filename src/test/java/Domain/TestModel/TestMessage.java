@@ -1,9 +1,9 @@
 package Domain.TestModel;
 
-import Domain.Models.Message;
+import app.OwLearning.Domain.Models.Message;
 import org.junit.jupiter.api.Test;
-import Domain.Models.Ressource;
-import Domain.Models.TypeRessource;
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.TypeRessource;
 
 import java.util.NoSuchElementException;
 
