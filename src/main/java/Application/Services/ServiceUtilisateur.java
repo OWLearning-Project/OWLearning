@@ -2,18 +2,29 @@ package Application.Services;
 import Domain.Models.Utilisateur;
 import Domain.Ports.IRepository.IUtilisateurRepository;
 import Domain.Ports.IServices.IServiceUtilisateur;
+import org.springframework.stereotype.Service;
 
-
+/**
+ * Le Service Utilisateur permet de gérer le traitement des utilisateurs
+ */
 public class ServiceUtilisateur implements IServiceUtilisateur {
 
 
     private final IUtilisateurRepository utilisateurRepository;
 
-
+    /**
+     * Constructeur
+     * @param utilisateurRepository
+     */
     public ServiceUtilisateur(IUtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
     }
 
+    /**
+     * Cette méthode permet de récuperer le profil d'un utilisateur via son identifiant
+     * @param id identifiant du user
+     * @return l'utilisateur correspondant
+     */
     @Override
     public Utilisateur getProfil(int id) {
         if (id <= 0) {throw new IllegalArgumentException("L'identifiant n'est pas valide");}
@@ -24,7 +35,12 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
 
         return utilisateur;
     }
-
+    /**
+     * Cette methode permet de modifier les informations de l'utilisateur
+     * @param id identifiant du user
+     * @param pseudo on met le nouveau pseudo
+     * @param email le nouveau email
+     */
     @Override
     public void modifierProfil(int id, String pseudo, String email) {
         if (id <= 0) {throw new IllegalArgumentException("l'identifiant n'est pas valide");}
