@@ -4,6 +4,8 @@ import Domain.Models.Categorie;
 import Domain.Models.Chapitre;
 import Domain.Models.Cours;
 import Domain.Models.Difficulte;
+import Shared.Exceptions.ExceptionMauvaisIdChapitre;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 
 import java.util.ArrayList;
 
@@ -90,7 +92,7 @@ public interface ICoursRepository
      * @param ChapitreId id du chapitre
      * @return l'objet chapitre qui est retirer
      */
-    public Chapitre retirerChapitre(int coursId, int ChapitreId);
+    public Chapitre retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
 
     /**
      * Methode qui permet la modification d'une difficulté d'un cours
@@ -112,5 +114,9 @@ public interface ICoursRepository
      * @param categorie categorie a supprimer
      * @return la categorie qui est retirer du cours
      */
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie);
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
+
+    boolean coursExiste(int coursId);
+
+    void sauvegarder(Cours cours);
 }

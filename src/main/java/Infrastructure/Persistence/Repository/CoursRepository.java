@@ -6,6 +6,9 @@ import Domain.Models.Cours;
 import Domain.Models.Difficulte;
 import Domain.Ports.IRepository.ICoursRepository;
 import Infrastructure.Persistence.Interface.JpaCoursRepository;
+import Shared.Exceptions.ExceptionCategorieDejaPresente;
+import Shared.Exceptions.ExceptionMauvaisIdChapitre;
+import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -81,28 +84,94 @@ public class CoursRepository implements ICoursRepository
         return null;
     }
 
+    /**
+     * Methode qui permet d'ajouter un chapitre a un cours
+     * @param coursId id du cours
+     * @param chapitre chapitre à ajouter
+     */
     @Override
     public void ajouterChapitre(int coursId, Chapitre chapitre) {
-
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if (cours != null) {
+            cours.ajouterChapitre(chapitre);
+            this.jpaRepository.save(cours);
+        }
     }
 
+    /**
+     * Methode qui permet de supprimer un chapitre d'un cours
+     * @param coursId id du cours
+     * @param chapitreId id du chapitre
+     * @return l'obejet chapitre retirer
+     * @throws ExceptionMauvaisIdChapitre
+     */
     @Override
-    public Chapitre retirerChapitre(int coursId, int ChapitreId) {
+    public Chapitre retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if (cours != null){
+            Chapitre chapitreRetirer = cours.retirerChapitre(chapitreId);
+            this.jpaRepository.save(cours);
+            return chapitreRetirer;
+        }
         return null;
     }
 
+    /**
+     * Methode qui permet de modifier la difficulté d'un cours grace a l'id
+     * @param coursId id du cours
+     * @param difficulte la difficulté à modifier
+     */
     @Override
     public void modifierDifficulteCours(int coursId, Difficulte difficulte) {
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if (cours != null){
+            cours.setDifficulte(difficulte);
+            this.jpaRepository.save(cours);
+        }
 
     }
 
+    /**
+     * Methode qui permet d'ajouter une categorie à un cours grace a l'id du cours
+     * @param coursId id du cours
+     * @param categorie categorie à ajouter au cours
+     */
     @Override
     public void ajouterCategorieCours(int coursId, Categorie categorie) {
-
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if(cours != null){
+            try{
+                cours.ajouterCategorie(categorie);
+                this.jpaRepository.save(cours);
+            } catch (ExceptionCategorieDejaPresente e){
+                throw new ExceptionCategorieDejaPresente("Erreur la catégorie est déjà liées à ce cours.", categorie.getLabel(), coursId);
+            } catch (Exception e){
+                throw new RuntimeException("Erreur technique lors de l'ajoute", e);
+            }
+        }
     }
 
+    /**
+     * Methode qui permet la suppression d'une categorie d'un cours qui leve une exception si la categorie n'existe pas dans le cours
+     * @param coursId id du cours
+     * @param categorie categorie a supprimer
+     * @return
+     * @throws ExceptionMauvaisLabelCategorie
+     */
     @Override
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) {
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie {
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if (cours != null) {
+            try{
+                Categorie categorieSupprimee = cours.supprimerCategorie(categorie.getLabel());
+                this.jpaRepository.save(cours);
+                return categorieSupprimee;
+            } catch (ExceptionMauvaisLabelCategorie e){
+                throw new ExceptionMauvaisLabelCategorie("label de categorie inexistant", categorie.getLabel(), coursId);
+            } catch (Exception e) {
+                throw new RuntimeException("Erreur technique lors de la suppression");
+            }
+        }
         return null;
     }
 
@@ -114,5 +183,14 @@ public class CoursRepository implements ICoursRepository
     public ArrayList<Cours> trouverCoursFiltre(String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive)
     {
         return new ArrayList<>(jpaRepository.findAllCoursPubliesNative(titre, nomCreateur, difficulte, categorie, estPrive));
+    }
+
+    public boolean coursExiste(int id){
+        return this.jpaRepository.existsById(id);
+    }
+
+    @Override
+    public void sauvegarder(Cours cours) {
+        this.jpaRepository.save(cours);
     }
 }

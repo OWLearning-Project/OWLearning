@@ -3,8 +3,8 @@ package Application.Service;
 import Application.Services.ServiceCours;
 import Domain.Models.*;
 import Domain.Ports.IRepository.ICoursRepository;
+import Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.assertj.core.api.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -458,7 +458,20 @@ public class TestServiceCours
     }
 
     @Test
-    public void TestRetirerChapitreExistant(){
+    public void TestAjouterChapitreCoursNull() {
+        //Arrange
+        Chapitre chapitreTest = new Chapitre();
+        int coursIdInexistant = 85;
+
+        //Act et Assert
+        assertThrows(IllegalArgumentException.class, () -> {
+            serviceCours.ajouterChapitre(coursIdInexistant, chapitreTest);
+        });
+        verify(coursRepository, never()).sauvegarder(any());
+    }
+
+    @Test
+    public void TestRetirerChapitreExistant() throws ExceptionMauvaisIdChapitre {
         //Arrange
         int coursId = 9;
         int chapitreId = 17;
@@ -488,7 +501,7 @@ public class TestServiceCours
     }
 
     @Test
-    public void TestRetirerChapitreInexistant(){
+    public void TestRetirerChapitreInexistant() throws ExceptionMauvaisIdChapitre {
         //Arrange
         int coursId = 5;
         int chapitreId = 12;
@@ -518,7 +531,7 @@ public class TestServiceCours
         serviceCours.modifierDifficulteCours(coursId, nouvelleDifficulte);
 
         //Assert
-        verify(coursRepository).modifierDifficulteCours(coursId, nouvelleDifficulte);
+        verify(coursRepository).sauvegarder(coursTest);
         assertEquals(nouvelleDifficulte, coursTest.getDifficulte());
     }
 
@@ -553,6 +566,7 @@ public class TestServiceCours
         });
         assertEquals("le cours n'existe pas", exception.getMessage());
     }
+
     @Test
     public void TestSupprimerCategorieValide() throws ExceptionMauvaisLabelCategorie {
         //Arrange

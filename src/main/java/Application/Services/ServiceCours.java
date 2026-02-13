@@ -6,6 +6,7 @@ import Domain.Models.Cours;
 import Domain.Models.Difficulte;
 import Domain.Ports.IRepository.ICoursRepository;
 import Domain.Ports.IServices.IServiceCours;
+import Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Service;
 
@@ -161,6 +162,9 @@ public class ServiceCours implements IServiceCours
         if(chapitre == null){
             throw new IllegalArgumentException("Un chapitre à ajouter ne peut pas être null");
         }
+        if (!coursRepository.coursExiste(coursId)){
+            throw new IllegalArgumentException("Le cours n'existe pas");
+        }
         coursRepository.ajouterChapitre(coursId, chapitre);
     }
 
@@ -171,7 +175,7 @@ public class ServiceCours implements IServiceCours
      * @return l'objet chapitre qui est retirer
      */
     @Override
-    public Chapitre retirerChapitre(int coursId, int chapitreId) {
+    public Chapitre retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
         if(coursId <= 0 || chapitreId <= 0) {
             throw new IllegalArgumentException("l'id du cours ou l'id du chapitre est invalide");
         }
@@ -186,8 +190,11 @@ public class ServiceCours implements IServiceCours
     @Override
     public void modifierDifficulteCours(int coursId, Difficulte nouvelleDifficulte) {
         Cours coursAvecDifficulteModifie = coursRepository.trouverParId(coursId);
+        if (coursAvecDifficulteModifie == null){
+            throw new IllegalArgumentException("Le cours n'existe pas");
+        }
         coursAvecDifficulteModifie.setDifficulte(nouvelleDifficulte);
-        coursRepository.modifierDifficulteCours(coursId, nouvelleDifficulte);
+        coursRepository.sauvegarder(coursAvecDifficulteModifie);
     }
 
     /**
@@ -205,6 +212,13 @@ public class ServiceCours implements IServiceCours
         coursRepository.ajouterCategorieCours(coursId, categorieAjouter);
     }
 
+    /**
+     * Methode qui permet de supprimer une categorie d'un cours et leve une exception si le cours n'existe pas
+     * @param coursId id du cours
+     * @param categorieASupprimer categorie a supprimer
+     * @return un objet categorie, celle qui a été supprimer
+     * @throws ExceptionMauvaisLabelCategorie
+     */
     @Override
     public Categorie supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
         Cours cours = coursRepository.trouverParId(coursId);
