@@ -23,7 +23,7 @@ public class  TestServiceUtilisateur {
     private ServiceUtilisateur serviceUtilisateur;
 
     @Test
-    void getProfil_HappyPath() {
+    void getProfil() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "user@email.com", "hash");
@@ -40,7 +40,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void getProfil_Erreur_IdInvalide() {
+    void getProfilAvecIdInvalide() {
         // Arrange
         int id = 0;
 
@@ -52,7 +52,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void getProfil_Erreur_UtilisateurIntrouvable() {
+    void getProfilUtilisateurIntrouvable() {
         // Arrange
         int id = 99;
         when(utilisateurRepository.trouverParId(id)).thenReturn(null);
@@ -66,7 +66,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfil_HappyPath_ModifiePseudoEtEmail() {
+    void modifierProfilModifiePseudoEtEmail() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "ancien@email.com", "hash");
@@ -90,7 +90,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfil_Erreur_IdInvalide() {
+    void modifierProfilAvecIdInvalide() {
         // Arrange
         int id = -5;
 
@@ -102,7 +102,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfil_Erreur_UtilisateurIntrouvable() {
+    void modifierProfilUtilisateurIntrouvable() {
         // Arrange
         int id = 10;
         when(utilisateurRepository.trouverParId(id)).thenReturn(null);
@@ -116,7 +116,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfil_Erreur_EmailDejaUtilise() {
+    void modifierProfilAvecEmailDejaUtilise() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser1", "PrenomUser1", "ancien@email.com", "hash");
@@ -135,7 +135,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfil_Erreur_MiseAJourEchouee() {
+    void modifierProfilMiseAJourEchouee() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "ancien@email.com", "hash");
