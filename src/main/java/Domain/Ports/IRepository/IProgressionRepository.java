@@ -5,16 +5,6 @@ import Domain.Models.Progression;
 import java.util.List;
 
 public interface IProgressionRepository {
-
-    /**
-    //Chercher toutes les progressions d'un élève et permets ensuite le traitement pour des progession précise
-    public List<Progression> recupererToutesLesProgressionsParEleve(int eleveId);
-
-    //Permets la mise a jour dans la base de données d'une progression
-    public int maj(Progression uneProgression);
-    **/
-    //Permets de récuprer une progression d'un élève sur un cours précis
-
     /**
      * Méthode qui va permettre de récupérer la progression d'un eleve sur un cours précis grace a leurs id
      * @param elevId id de l'élève

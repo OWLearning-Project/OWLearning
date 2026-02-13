@@ -5,13 +5,6 @@ import Domain.Models.Cours;
 import java.util.ArrayList;
 
 public interface IServiceProgression {
-/**
-    public ArrayList<Cours> getCoursTermines(int eleveId);
-
-    public ArrayList<Cours> getCoursPasTermines(int eleveId);
-
-    public void majProgression(int elevId, int coursId, int chapitreId);
-**/
     /**
      * Méthode qui permet de récupérer le taux de progression d'un élève sur un cours
      * @param eleveId id de l'élève
