@@ -3,6 +3,7 @@ package app.OwLearning.Api.Auth;
 import app.OwLearning.Application.Services.ServiceAuthentification;
 import app.OwLearning.Shared.DTO.UtilisateurConnexionDTO;
 import app.OwLearning.Shared.DTO.UtilisateurInscriptionDTO;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class AuthentificationController
     }
 
     @PostMapping("/deconnexion")
-    public ResponseEntity<String> deconnexion (@RequestHeader("Authorization") String unToken)
+    public ResponseEntity<String> deconnexion (@Parameter(hidden = true) @RequestHeader("Authorization") String unToken)
     {
         String tokenPur = unToken;
         // On retire le préfixe Bearer ajouté par le front
