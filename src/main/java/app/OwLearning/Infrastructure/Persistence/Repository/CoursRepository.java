@@ -1,14 +1,13 @@
-package Infrastructure.Persistence.Repository;
+package app.OwLearning.Infrastructure.Persistence.Repository;
 
-import Domain.Models.Categorie;
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Difficulte;
-import Domain.Ports.IRepository.ICoursRepository;
-import Infrastructure.Persistence.Interface.JpaCoursRepository;
+import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Classe CoursRepository pour récupérer les cours
@@ -31,29 +30,29 @@ public class CoursRepository implements ICoursRepository
     @Override
     public Cours trouverParId(int id)
     {
-        return jpaRepository.findByIdNative(id);
+        return jpaRepository.findById(id).orElseThrow(() -> new ExceptionCoursInexistant("Le cours n'existe pas", id));
     }
 
     /**
-     * Méthode pour trouver les cours crées par un créateur via son id
-     * @param createurId id du créateur
-     * @return l'ArrayList des cours crées
+     * Méthode pour trouver les cours créés par un créateur via son id
+     * @param idCreateur id du créateur
+     * @return l'ArrayList des cours créés
      */
     @Override
-    public ArrayList<Cours> trouverParIdCreateur(String titre, int createurId, String difficulte, String categorie, Boolean estPrive)
+    public ArrayList<Cours> trouverParIdCreateur(int idCreateur)
     {
-        return new ArrayList<>(jpaRepository.findByIdCreateurNative(titre, createurId, difficulte, categorie, estPrive));
+        return new ArrayList<>(jpaRepository.findByCreateurIdUtilisateur(idCreateur));
     }
 
     /**
-     * Méthode pour trouver les cours où un élève est inscrit via son id
-     * @param eleveId id de l'élève
+     * Méthode pour trouver les cours auxquels un élève est inscrit via son id
+     * @param idEleve id de l'élève
      * @return l'ArrayList des cours inscrits
      */
     @Override
-    public ArrayList<Cours> trouverParIdEleve(int eleveId, String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive)
+    public ArrayList<Cours> trouverParIdEleve(int idEleve)
     {
-        return new ArrayList<>(jpaRepository.findByIdEleveNative(eleveId, titre, nomCreateur, difficulte, categorie, estPrive));
+        return new ArrayList<>(jpaRepository.findByElevesIdUtilisateur(idEleve));
     }
 
     @Override
@@ -111,8 +110,8 @@ public class CoursRepository implements ICoursRepository
      * @return l'ArrayList des Cours publiés
      */
     @Override
-    public ArrayList<Cours> trouverCoursFiltre(String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive)
+    public ArrayList<Cours> trouverCoursPublies()
     {
-        return new ArrayList<>(jpaRepository.findAllCoursPubliesNative(titre, nomCreateur, difficulte, categorie, estPrive));
+        return new ArrayList<>(jpaRepository.findByEstPublieTrue());
     }
 }

@@ -1,11 +1,8 @@
-package Domain.Ports.IRepository;
+package app.OwLearning.Domain.Ports.IRepository;
 
-import Domain.Models.Categorie;
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Difficulte;
-
+import app.OwLearning.Domain.Models.*;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Interface ICoursRepository définissant le contrat pour la récupération des cours
@@ -13,10 +10,10 @@ import java.util.ArrayList;
 public interface ICoursRepository
 {
     /**
-     * Méthode pour trouver les cours publiés avec ou sans filtre
+     * Méthode pour trouver les cours publiés
      * @return l'ArrayList des Cours publiés
      */
-    public abstract ArrayList<Cours> trouverCoursFiltre(String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> trouverCoursPublies();
 
     /**
      * Méthode pour trouver un cours par son id
@@ -27,17 +24,17 @@ public interface ICoursRepository
 
     /**
      * Méthode pour trouver les cours créés par un créateur via son id
-     * @param createurId id du créateur
+     * @param idCreateur id du créateur
      * @return l'ArrayList des cours créés
      */
-    public abstract ArrayList<Cours> trouverParIdCreateur(String titre, int createurId, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> trouverParIdCreateur(int idCreateur);
 
     /**
-     * Méthode pour trouver les cours où un élève est inscrit via son id
-     * @param eleveId id de l'élève
+     * Méthode pour trouver les cours auxquels un élève est inscrit via son id
+     * @param idEleve id de l'élève
      * @return l'ArrayList des cours inscrits
      */
-    public abstract ArrayList<Cours> trouverParIdEleve(int eleveId, String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> trouverParIdEleve(int idEleve);
 
     /**
      * Cette méthode crée un nouveau cours après vérification des données

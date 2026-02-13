@@ -1,8 +1,10 @@
 package app.OwLearning.Domain.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe Chaptire qui permet de construire un chapitre en lui ajoutant/retirant des ressources et de l'attribuer à un cours
@@ -16,13 +18,18 @@ public class Chapitre
     private int id;
     private String description;
     private String titre;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cours")
     private Cours cours;
 
-    @OneToMany
-    @JoinColumn(name = "id_chapitre")
-    private ArrayList<Ressource> ressources;
+    @ManyToMany
+    @JoinTable(name = "ressource_chapitre",
+            joinColumns = @JoinColumn(name = "id_chapitre"),
+            inverseJoinColumns = @JoinColumn(name = "id_ressource")
+    )
+    private List<Ressource> ressources;
+
     public Chapitre(){}
 
     /**
@@ -66,7 +73,7 @@ public class Chapitre
         this.cours = cours;
     }
 
-    public ArrayList<Ressource> getRessources() {
+    public List<Ressource> getRessources() {
         return ressources;
     }
 

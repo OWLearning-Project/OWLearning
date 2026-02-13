@@ -1,10 +1,8 @@
-package Domain.Ports.IServices;
+package app.OwLearning.Domain.Ports.IServices;
 
-import Domain.Models.Categorie;
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Difficulte;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+
+import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 
 import java.util.ArrayList;
 
@@ -15,10 +13,9 @@ public interface IServiceCours
 {
     /**
      * Méthode permettant de récupérer l'entièreté des Cours publiés
-     * Filtrage possible avec les paramètres
      * @return l'ArrayList des Cours publiés
      */
-    public abstract ArrayList<Cours> getLesCours(String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> getCoursPublies();
 
     /**
      * Méthode permettant de récupérer un cours avec son id
@@ -29,19 +26,17 @@ public interface IServiceCours
 
     /**
      * Méthode qui permet de récupérer les cours créés par un créateur avec son id
-     * Filtrage possible avec les paramètres
      * @param idCreateur id du créateur
      * @return l'ArrayList des Cours créés
      */
-    public abstract ArrayList<Cours> getCoursCrees(String titre, int idCreateur, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> getCoursCrees(int idCreateur);
 
     /**
-     * Méthode permettant de récupérer les Cours où un élève est inscrit avec son id
-     * Filtrage possible avec les paramètres
-     * @param eleveId id de l'élève
+     * Méthode permettant de récupérer les Cours auxquels un élève est inscrit avec son id
+     * @param idEleve id de l'élève
      * @return l'ArrayList des Cours inscrits
      */
-    public abstract ArrayList<Cours> getCoursInscrits(int eleveId, String titre, String nomCreateur, String difficulte, String categorie, Boolean estPrive);
+    public abstract ArrayList<Cours> getCoursInscrits(int idEleve);
 
     /**
      * Cette méthode crée un nouveau cours après vérification des données

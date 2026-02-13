@@ -31,13 +31,13 @@ public class Cours
                 joinColumns=@JoinColumn(name="id_cours"),
                 inverseJoinColumns=@JoinColumn(name="id_eleve")
     )
-    private ArrayList<Eleve> eleves;
+    private List<Eleve> eleves;
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulte")
     private Difficulte difficulte;
     @OneToMany
     @JoinColumn(name="id_cours")
-    private ArrayList<Chapitre> chapitres;
+    private List<Chapitre> chapitres;
     @ElementCollection(targetClass = Categorie.class)
     @CollectionTable(
             name = "categorie_cours",
@@ -45,7 +45,7 @@ public class Cours
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "categorie")
-    private ArrayList<Categorie> categories;
+    private List<Categorie> categories;
 
     /**
      * Constructeur vide de Cours
@@ -124,7 +124,7 @@ public class Cours
         return this.createur;
     }
 
-    public ArrayList<Eleve> getEleves()
+    public List<Eleve> getEleves()
     {
         return this.eleves;
     }
@@ -139,12 +139,12 @@ public class Cours
         this.difficulte = difficulte;
     }
 
-    public ArrayList<Chapitre> getChapitres()
+    public List<Chapitre> getChapitres()
     {
         return this.chapitres;
     }
 
-    public ArrayList<Categorie> getCategories()
+    public List<Categorie> getCategories()
     {
         return this.categories;
     }
