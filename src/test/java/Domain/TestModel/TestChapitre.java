@@ -1,7 +1,7 @@
 package Domain.TestModel;
 
-import Domain.Models.*;
-
+import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.Ressource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
