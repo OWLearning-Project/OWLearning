@@ -13,20 +13,18 @@ public interface IUtilisateurRepository
      * @return l'Utilisateur trouvé
      */
     public Utilisateur trouverParEmail(String email);
-    // trouver le user par son Id
-    public Utilisateur trouverParId(int id);
     /**
-     * Méthode qui permet de sauvegarder un Utilisateur
-     * @param utilisateur
-     * @return le nombre de ligne sauvegarder
+     * Méthode qui permet de trouver l'utilisateur via son id
+     * @param id identifiant de user
+     * @return l'Utilisateur trouvé
      */
-    public int sauvegarder(Utilisateur utilisateur);
+    public Utilisateur trouverParId(int id);
 
-    public int sauvegarderCreateur(int id);
-
-    public int sauvegarderEleve(int id);
-
-    public int trouverIdParEmail(String email);
-
+    /**
+     * Méthode qui permet de mettre à jour un Utilisateur
+     * @param utilisateur l'utilisateur
+     * @return le nombre de lignes modifiées
+     */
     public int mettreAJour(Utilisateur utilisateur);
+
 }
