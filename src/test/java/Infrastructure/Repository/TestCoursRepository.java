@@ -1,5 +1,9 @@
 package Infrastructure.Repository;
 
+import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.CoursRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import Domain.Models.*;
 import Domain.Ports.IRepository.ICoursRepository;
 import Infrastructure.Persistence.Interface.JpaCoursRepository;
@@ -34,7 +38,7 @@ public class TestCoursRepository {
         // Arrange
         Cours coursAttendu = new Cours();
 
-        when(repositoryJpa.findByIdNative(anyInt())).thenReturn(coursAttendu);
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.of(coursAttendu));
 
         // Act
         Cours coursTrouve = repository.trouverParId(93);
@@ -42,206 +46,113 @@ public class TestCoursRepository {
         // Assert
         assertEquals(coursAttendu, coursTrouve);
         assertNotNull(coursTrouve);
-        verify(repositoryJpa, times(1)).findByIdNative(anyInt());
+        verify(repositoryJpa, times(1)).findById(anyInt());
     }
 
     @Test
     public void coursTrouveParIdNull() {
         // Arrange
-        when(repositoryJpa.findByIdNative(anyInt())).thenReturn(null);
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.empty());
 
-        // Act
-        Cours coursTrouve = repository.trouverParId(928);
-
-        // Assert
-        assertNull(coursTrouve);
-        verify(repositoryJpa, times(1)).findByIdNative(anyInt());
+        // Act & Assert
+        assertThrows(ExceptionCoursInexistant.class, () -> repository.trouverParId(82));
+        verify(repositoryJpa, times(1)).findById(anyInt());
     }
 
     @Test
-    public void coursCreesSansFiltre() {
+    public void rechercheCoursCreesParCreateur()
+    {
         // Arrange
         ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
 
-        when(repositoryJpa.findByIdCreateurNative(isNull(), anyInt(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByCreateurIdUtilisateur(anyInt())).thenReturn(listeAttendues);
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur(null, 39, null, null, null);
+        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur(39);
 
         // Assert
         assertEquals(listeAttendues, listeRecuperee);
         assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdCreateurNative(isNull(), anyInt(), isNull(), isNull(), isNull());
+        verify(repositoryJpa, times(1)).findByCreateurIdUtilisateur(anyInt());
     }
 
     @Test
-    public void coursCreesAvecFiltreUnique() {
+    public void createurACreeAucunCours()
+    {
         // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findByIdCreateurNative(anyString(), anyInt(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByCreateurIdUtilisateur(anyInt())).thenReturn(new ArrayList<Cours>());
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur("développement", 23, null, null, null);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdCreateurNative(anyString(), anyInt(), isNull(), isNull(), isNull());
-    }
-
-    @Test
-    public void coursCreesAvecFiltreMultiple() {
-        // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findByIdCreateurNative(anyString(), anyInt(), isNull(), isNull(), anyBoolean())).thenReturn(listeAttendues);
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur("développement", 21, null, null, true);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdCreateurNative(anyString(), anyInt(), isNull(), isNull(), anyBoolean());
-    }
-
-    @Test
-    public void aucunCoursCreesAvecFiltre() {
-        // Arrange
-        when(repositoryJpa.findByIdCreateurNative(anyString(), anyInt(), anyString(), anyString(), anyBoolean())).thenReturn(new ArrayList<Cours>());
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur("unTitre", 10, "uneDifficulte", "uneCategorie", true);
+        ArrayList<Cours> listeRecuperee = repository.trouverParIdCreateur(10);
 
         // Assert
         assertEquals(new ArrayList<Cours>(), listeRecuperee);
         assertEquals(0, listeRecuperee.size());
-        verify(repositoryJpa, times(1)).findByIdCreateurNative(anyString(), anyInt(), anyString(), anyString(), anyBoolean());
+        verify(repositoryJpa, times(1)).findByCreateurIdUtilisateur(anyInt());
     }
 
     @Test
-    public void coursTrouvesSansFiltre() {
+    public void rechercheCoursPublies()
+    {
         // Arrange
         ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
 
-        when(repositoryJpa.findAllCoursPubliesNative(isNull(), isNull(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByEstPublieTrue()).thenReturn(listeAttendues);
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverCoursFiltre(null, null, null, null, null);
+        ArrayList<Cours> listeRecuperee = repository.trouverCoursPublies();
 
         // Assert
         assertEquals(listeAttendues, listeRecuperee);
         assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findAllCoursPubliesNative(isNull(), isNull(), isNull(), isNull(), isNull());
+        verify(repositoryJpa, times(1)).findByEstPublieTrue();
     }
 
     @Test
-    public void coursTrouvesAvecFiltreUnique() {
+    public void aucunCoursPublieTrouve()
+    {
         // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findAllCoursPubliesNative(anyString(), isNull(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByEstPublieTrue()).thenReturn(new ArrayList<Cours>());
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverCoursFiltre("développement", null, null, null, null);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findAllCoursPubliesNative(anyString(), isNull(), isNull(), isNull(), isNull());
-    }
-
-    @Test
-    public void coursTrouvesAvecFiltreMultiple() {
-        // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findAllCoursPubliesNative(anyString(), isNull(), isNull(), isNull(), anyBoolean())).thenReturn(listeAttendues);
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverCoursFiltre("développement", null, null, null, true);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findAllCoursPubliesNative(anyString(), isNull(), isNull(), isNull(), anyBoolean());
-    }
-
-    @Test
-    public void aucunCoursTrouveAvecFiltre() {
-        // Arrange
-        when(repositoryJpa.findAllCoursPubliesNative(anyString(), anyString(), anyString(), anyString(), anyBoolean())).thenReturn(new ArrayList<Cours>());
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverCoursFiltre("unTitre", "unCreateur", "uneDifficulte", "uneCategorie", true);
+        ArrayList<Cours> listeRecuperee = repository.trouverCoursPublies();
 
         // Assert
         assertEquals(new ArrayList<Cours>(), listeRecuperee);
         assertEquals(0, listeRecuperee.size());
-        verify(repositoryJpa, times(1)).findAllCoursPubliesNative(anyString(), anyString(), anyString(), anyString(), anyBoolean());
+        verify(repositoryJpa, times(1)).findByEstPublieTrue();
     }
 
     @Test
-    public void coursInscritsSansFiltre() {
+    public void rechercheCoursOuEstIncritEleve()
+    {
         // Arrange
         ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
 
-        when(repositoryJpa.findByIdEleveNative(anyInt(), isNull(), isNull(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByElevesIdUtilisateur(anyInt())).thenReturn(listeAttendues);
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(23, null, null, null, null, null);
+        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(23);
 
         // Assert
         assertEquals(listeAttendues, listeRecuperee);
         assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdEleveNative(anyInt(), isNull(), isNull(), isNull(), isNull(), isNull());
+        verify(repositoryJpa, times(1)).findByElevesIdUtilisateur(anyInt());
     }
 
     @Test
-    public void coursInscritsAvecFiltreUnique() {
+    public void eleveInscritAAucunCours()
+    {
         // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findByIdEleveNative(anyInt(), anyString(), isNull(), isNull(), isNull(), isNull())).thenReturn(listeAttendues);
+        when(repositoryJpa.findByElevesIdUtilisateur(anyInt())).thenReturn(new ArrayList<Cours>());
 
         // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(23, "développement", null, null, null, null);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdEleveNative(anyInt(), anyString(), isNull(), isNull(), isNull(), isNull());
-    }
-
-    @Test
-    public void coursInscritsAvecFiltreMultiple() {
-        // Arrange
-        ArrayList<Cours> listeAttendues = new ArrayList<Cours>();
-
-        when(repositoryJpa.findByIdEleveNative(anyInt(), anyString(), isNull(), isNull(), isNull(), anyBoolean())).thenReturn(listeAttendues);
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(19, "développement", null, null, null, true);
-
-        // Assert
-        assertEquals(listeAttendues, listeRecuperee);
-        assertNotNull(listeRecuperee);
-        verify(repositoryJpa, times(1)).findByIdEleveNative(anyInt(), anyString(), isNull(), isNull(), isNull(), anyBoolean());
-    }
-
-    @Test
-    public void aucunCoursInscritsAvecFiltre() {
-        // Arrange
-        when(repositoryJpa.findByIdEleveNative(anyInt(), anyString(), anyString(), anyString(), anyString(), anyBoolean())).thenReturn(new ArrayList<Cours>());
-
-        // Act
-        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(34, "unTitre", "unCreateur", "uneDifficulte", "uneCategorie", true);
+        ArrayList<Cours> listeRecuperee = repository.trouverParIdEleve(34);
 
         // Assert
         assertEquals(new ArrayList<Cours>(), listeRecuperee);
         assertEquals(0, listeRecuperee.size());
-        verify(repositoryJpa, times(1)).findByIdEleveNative(anyInt(), anyString(), anyString(), anyString(), anyString(), anyBoolean());
+        verify(repositoryJpa, times(1)).findByElevesIdUtilisateur(anyInt());
     }
 
     @Test

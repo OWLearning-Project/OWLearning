@@ -1,18 +1,15 @@
 package Application.Service;
 
-import Application.Services.ServiceAuthentification;
-import Domain.Models.Createur;
-import Domain.Models.Eleve;
-import Domain.Models.Utilisateur;
-import Domain.Ports.IRepository.IUtilisateurRepository;
-import Domain.Ports.IServices.*;
-import Shared.Exceptions.ExceptionCompteExistant;
-import Domain.Models.Utilisateur;
-import Application.Services.ServiceAuthentification;
-import Domain.Ports.IRepository.IUtilisateurRepository;
-import Domain.Ports.IServices.*;
-import Shared.Exceptions.ExceptionMauvaisIdentifiants;
-import Shared.Exceptions.ExceptionTokenInvalide;
+import app.OwLearning.Application.Services.ServiceAuthentification;
+import app.OwLearning.Domain.Models.Createur;
+import app.OwLearning.Domain.Models.Eleve;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Domain.Ports.IServices.IHach;
+import app.OwLearning.Domain.Ports.IServices.IServiceToken;
+import app.OwLearning.Shared.Exceptions.ExceptionCompteExistant;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import app.OwLearning.Shared.Exceptions.ExceptionTokenInvalide;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -48,17 +45,18 @@ public class TestServiceAuthentification
         String nom = "Dylan";
         String role = "CREATEUR";
 
+        Utilisateur createurAttendu = new Createur(nom, prenom, email, mdpHash);
+
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Createur.class))).thenReturn(1);
-        when(utilisateurRepository.sauvegarderCreateur(anyInt())).thenReturn(1);
+        when(utilisateurRepository.sauvegarder(any(Utilisateur.class))).thenReturn(createurAttendu);
 
-        // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
-        verify(utilisateurRepository, times(1)).sauvegarder(any(Createur.class));
-        verify(utilisateurRepository, times(1)).sauvegarderCreateur(anyInt());
-        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+        // Act
+        serviceAuthentification.inscription(nom, prenom, email, mdp, role);
 
+        // Assert
+        verify(hacher, times(1)).hacher(mdp);
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Utilisateur.class));
     }
 
     @Test
@@ -91,16 +89,18 @@ public class TestServiceAuthentification
         String nom = "Dylan";
         String role = "ELEVE";
 
+        Utilisateur eleveAttendu = new Eleve(nom, prenom, email, mdpHash);
+
         when(utilisateurRepository.trouverParEmail(email)).thenReturn(null);
         when(hacher.hacher(mdp)).thenReturn(mdpHash);
-        when(utilisateurRepository.sauvegarder(any(Eleve.class))).thenReturn(1);
-        when(utilisateurRepository.sauvegarderEleve(anyInt())).thenReturn(1);
+        when(utilisateurRepository.sauvegarder(any(Utilisateur.class))).thenReturn(eleveAttendu);
 
-        // Act & Assert
-        assertTrue(serviceAuthentification.inscription(nom, prenom, email, mdp, role));
-        verify(utilisateurRepository, times(1)).sauvegarder(any(Eleve.class));
-        verify(utilisateurRepository, times(1)).sauvegarderEleve(anyInt());
-        verify(utilisateurRepository, times(1)).trouverIdParEmail(any(String.class));
+        // Act
+        serviceAuthentification.inscription(nom, prenom, email, mdp, role);
+
+        // Assert
+        verify(hacher, times(1)).hacher(mdp);
+        verify(utilisateurRepository, times(1)).sauvegarder(any(Utilisateur.class));
     }
 
     @Test
