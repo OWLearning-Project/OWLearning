@@ -1,8 +1,8 @@
 package Application.Service;
 
 import Application.Services.ServiceUtilisateur;
-import Domain.Models.Utilisateur;
-import Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
