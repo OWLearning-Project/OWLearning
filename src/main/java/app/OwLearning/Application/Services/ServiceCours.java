@@ -3,12 +3,8 @@ package app.OwLearning.Application.Services;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import Domain.Ports.IRepository.ICoursRepository;
-import Domain.Ports.IServices.IServiceCours;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

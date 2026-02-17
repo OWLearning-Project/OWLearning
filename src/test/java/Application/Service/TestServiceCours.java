@@ -4,12 +4,8 @@ import app.OwLearning.Application.Services.ServiceCours;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import Application.Services.ServiceCours;
-import Domain.Models.*;
-import Domain.Ports.IRepository.ICoursRepository;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -305,6 +301,8 @@ public class TestServiceCours
         int coursId = 5;
         ArrayList<Ressource> ressourceTest = new ArrayList<>();
         Chapitre chapitreTest = new Chapitre("test", "je suis le test", ressourceTest);
+
+        when(coursRepository.coursExiste(coursId)).thenReturn(true);
 
         //Act
         serviceCours.ajouterChapitre(coursId, chapitreTest);

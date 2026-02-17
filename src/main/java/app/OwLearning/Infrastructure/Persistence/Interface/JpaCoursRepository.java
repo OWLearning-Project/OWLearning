@@ -2,9 +2,6 @@ package app.OwLearning.Infrastructure.Persistence.Interface;
 
 import app.OwLearning.Domain.Models.Cours;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 
 /**

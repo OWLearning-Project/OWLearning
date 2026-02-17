@@ -3,20 +3,13 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCategorieDejaPresente;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
-import Domain.Models.Categorie;
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Difficulte;
-import Domain.Ports.IRepository.ICoursRepository;
-import Infrastructure.Persistence.Interface.JpaCoursRepository;
-import Shared.Exceptions.ExceptionCategorieDejaPresente;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Classe CoursRepository pour récupérer les cours
@@ -156,8 +149,26 @@ public class CoursRepository implements ICoursRepository
         }
     }
 
+    /**
+     * Methode qui permet de supprimer une catégorie d'un cours
+     * @param coursId id du cours
+     * @param categorie categorie a supprimer
+     * @return
+     */
     @Override
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) {
+    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie {
+        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
+        if (cours != null) {
+            try{
+                Categorie categorieSupprimee = cours.supprimerCategorie(categorie.getLabel());
+                this.jpaRepository.save(cours);
+                return categorieSupprimee;
+            } catch (ExceptionMauvaisLabelCategorie e){
+                throw new ExceptionMauvaisLabelCategorie("label de categorie inexistant", categorie.getLabel(), coursId);
+            } catch (Exception e) {
+                throw new RuntimeException("Erreur technique lors de la suppression");
+            }
+        }
         return null;
     }
 

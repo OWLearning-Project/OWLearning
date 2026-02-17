@@ -1,11 +1,8 @@
-package Domain.Ports.IServices;
-
+package app.OwLearning.Domain.Ports.IServices;
 
 import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-
 import java.util.ArrayList;
 
 /**

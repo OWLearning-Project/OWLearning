@@ -1,7 +1,6 @@
 package app.OwLearning.Domain.Models;
 import java.sql.Timestamp;
 import java.util.*;
-
 import app.OwLearning.Shared.Exceptions.*;
 import jakarta.persistence.*;
 

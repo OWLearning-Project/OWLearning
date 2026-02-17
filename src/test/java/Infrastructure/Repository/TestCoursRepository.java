@@ -3,15 +3,10 @@ package Infrastructure.Repository;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
 import app.OwLearning.Infrastructure.Persistence.Repository.CoursRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCategorieDejaPresente;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
-import Domain.Models.*;
-import Domain.Ports.IRepository.ICoursRepository;
-import Infrastructure.Persistence.Interface.JpaCoursRepository;
-import Infrastructure.Persistence.Repository.CoursRepository;
-import Shared.Exceptions.ExceptionCategorieDejaPresente;
-import Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.hibernate.mapping.Any;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -154,7 +149,6 @@ public class TestCoursRepository {
         assertEquals(0, listeRecuperee.size());
         verify(repositoryJpa, times(1)).findByElevesIdUtilisateur(anyInt());
     }
-
     @Test
     public void TestAjoutChapitreReussi() {
         //Arrange

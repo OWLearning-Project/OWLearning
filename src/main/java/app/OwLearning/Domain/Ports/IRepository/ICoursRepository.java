@@ -1,8 +1,9 @@
 package app.OwLearning.Domain.Ports.IRepository;
 
 import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import java.util.ArrayList;
-import java.util.Optional;
 
 /**
  * Interface ICoursRepository définissant le contrat pour la récupération des cours
