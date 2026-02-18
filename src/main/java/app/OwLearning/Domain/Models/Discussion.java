@@ -1,5 +1,6 @@
 package app.OwLearning.Domain.Models;
 import java.util.ArrayList;
+import java.util.List;
 
 import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import jakarta.persistence.*;
@@ -20,16 +21,22 @@ public class Discussion
             joinColumns = @JoinColumn(name = "id_discussion"),
             inverseJoinColumns = @JoinColumn(name = "id_utilisateur")
     )
-    private ArrayList<Utilisateur> participants;
+    private List<Utilisateur> participants;
     @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<Message> messages;
+    private List<Message> messages;
+
+    /**
+     * Constructeur par défaut
+     */
+    public Discussion(){}
 
     /**
      * Constructeur de Discussion
      * @param utilisateur1
      * @param utilisateur2
      */
-    public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2) {
+    public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2)
+    {
         this.participants = new ArrayList<Utilisateur>();
         this.participants.add(utilisateur1);
         this.participants.add(utilisateur2);
@@ -80,7 +87,7 @@ public class Discussion
         return this.idDiscussion;
     }
 
-    public ArrayList<Utilisateur> getParticipants() 
+    public List<Utilisateur> getParticipants()
     {
         return this.participants;
     }
@@ -90,7 +97,7 @@ public class Discussion
         this.participants = desParticipants;
     }
 
-    public ArrayList<Message> getMessages() 
+    public List<Message> getMessages()
     {
         return this.messages;
     }

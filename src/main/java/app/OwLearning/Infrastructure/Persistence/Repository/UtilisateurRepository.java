@@ -3,6 +3,7 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,5 +43,15 @@ public class UtilisateurRepository implements IUtilisateurRepository
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
         return jpaRepository.save(utilisateur);
+    }
+
+    /**
+     * Méthode qui permet de trouver un utilisateur par son id
+     * @param id id de l'utilisateur
+     * @return l'objet Utilisateur associé ou lance une exception sinon
+     */
+    public Utilisateur trouverParId(int id)
+    {
+        return jpaRepository.findById(id).orElseThrow(() -> new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", id));
     }
 }
