@@ -1,4 +1,4 @@
-package Shared.Exceptions;
+package app.OwLearning.Shared.Exceptions;
 
 public class ExceptionMessageIntrouvable extends RuntimeException
 {

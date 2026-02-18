@@ -1,6 +1,6 @@
-package Domain.Ports.IRepository;
+package app.OwLearning.Domain.Ports.IRepository;
 
-import Domain.Models.Message;
+import app.OwLearning.Domain.Models.Message;
 
 import java.util.ArrayList;
 import java.util.List;

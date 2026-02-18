@@ -1,7 +1,7 @@
-package Domain.Ports.IServices;
+package app.OwLearning.Domain.Ports.IServices;
 
-import Domain.Models.Message;
-import Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domain.Models.Ressource;
 
 import java.util.ArrayList;
 import java.util.List;

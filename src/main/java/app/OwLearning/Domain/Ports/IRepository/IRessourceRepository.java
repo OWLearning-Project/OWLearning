@@ -1,6 +1,6 @@
-package Domain.Ports.IRepository;
+package app.OwLearning.Domain.Ports.IRepository;
 
-import Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.Ressource;
 
 public interface IRessourceRepository
 {

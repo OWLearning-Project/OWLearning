@@ -1,11 +1,11 @@
-package Application.Services;
+package app.OwLearning.Application.Services;
 
-import Domain.Models.Message;
-import Domain.Models.Ressource;
-import Domain.Ports.IRepository.IMessageRepository;
-import Domain.Ports.IRepository.IRessourceRepository;
-import Domain.Ports.IServices.IServiceMessage;
-import Shared.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
+import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
+import app.OwLearning.Domain.Ports.IServices.IServiceMessage;
+import app.OwLearning.Shared.Exceptions.ExceptionMessageIntrouvable;
 import java.util.List;
 
 public class ServiceMessage implements IServiceMessage
