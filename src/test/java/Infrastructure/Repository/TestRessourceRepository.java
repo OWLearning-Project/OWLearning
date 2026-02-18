@@ -1,9 +1,9 @@
 package Infrastructure.Repository;
 
-import Domain.Models.Ressource;
-import Domain.Models.TypeRessource;
-import Infrastructure.Persistence.Interface.JpaRessourceRepository;
-import Infrastructure.Persistence.Repository.RessourceRepository;
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.TypeRessource;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaRessourceRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.RessourceRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

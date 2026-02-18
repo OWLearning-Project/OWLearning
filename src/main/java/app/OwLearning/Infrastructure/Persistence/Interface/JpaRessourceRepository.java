@@ -1,6 +1,6 @@
-package Infrastructure.Persistence.Interface;
+package app.OwLearning.Infrastructure.Persistence.Interface;
 
-import Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.Ressource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 @Repository

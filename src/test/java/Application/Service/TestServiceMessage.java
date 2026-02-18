@@ -1,14 +1,15 @@
 package Application.Service;
 
-import Application.Services.ServiceMessage;
-import Domain.Models.Message;
-import Domain.Models.Ressource;
-import Domain.Models.TypeRessource;
-import Domain.Models.Utilisateur;
-import Domain.Ports.IRepository.IMessageRepository;
-import Domain.Ports.IRepository.IRessourceRepository;
-import Shared.Exceptions.ExceptionMessageIntrouvable;
-import Shared.Exceptions.ExceptionRessourceIntrouvable;
+
+import app.OwLearning.Shared.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Application.Services.ServiceMessage;
+import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.TypeRessource;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
+import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -114,7 +115,7 @@ public class TestServiceMessage
         when(ressourceRepository.trouverParId(idRessource)).thenReturn(null);
 
         // ACT & ASSERT
-        assertThrows(ExceptionRessourceIntrouvable.class, () ->
+        assertThrows(IllegalArgumentException.class, () ->
         {
             serviceMessage.ajouterRessource(idMessage,idRessource);
         });

@@ -1,13 +1,13 @@
-package Infrastructure.Persistence.Repository;
+package app.OwLearning.Infrastructure.Persistence.Repository;
 
-import Domain.Models.Message;
-import Domain.Models.Ressource;
-import Domain.Ports.IRepository.IMessageRepository;
-import Infrastructure.Persistence.Interface.JpaMessageRepository;
+
+
+import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaMessageRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component

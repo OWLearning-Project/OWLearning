@@ -1,9 +1,8 @@
 package Infrastructure.Repository;
 
-import Domain.Models.*;
-import Infrastructure.Persistence.Interface.JpaMessageRepository;
-import Infrastructure.Persistence.Repository.MessageRepository;
-import com.zaxxer.hikari.util.Credentials;
+import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaMessageRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.MessageRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +39,7 @@ public class TestMessageRepository {
 
         Discussion discussionMock = mock(Discussion.class);
         messageNouveau = new Message("Contenu Test", auteur);
-        messageNouveau.setDate_creation(Timestamp.from(Instant.now()));
+        messageNouveau.setDateCreation(Timestamp.from(Instant.now()));
         messageNouveau.setStatutMessage(StatutMessage.ENVOI);
         messageNouveau.setDiscussion(discussionMock);
 

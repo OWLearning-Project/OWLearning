@@ -1,8 +1,9 @@
-package Infrastructure.Persistence.Repository;
+package app.OwLearning.Infrastructure.Persistence.Repository;
 
-import Domain.Models.Ressource;
-import Domain.Ports.IRepository.IRessourceRepository;
-import Infrastructure.Persistence.Interface.JpaRessourceRepository;
+
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaRessourceRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 

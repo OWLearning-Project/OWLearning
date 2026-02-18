@@ -17,7 +17,8 @@ public class Message {
     @Column(name = "id_message")
     private int id_message;
 
-    private Timestamp date_creation;
+    @Column(name = "date_creation")
+    private Timestamp dateCreation;
     private String contenu;
 
     @Enumerated(EnumType.STRING)
@@ -62,9 +63,9 @@ public class Message {
         return this.id_message;
     }
 
-    public Timestamp getDate_creation()
+    public Timestamp getDateCreation()
     {
-        return this.date_creation;
+        return this.dateCreation;
     }
 
     public String getContenu()
@@ -92,9 +93,9 @@ public class Message {
         return this.statutMessage;
     }
 
-    public void setDate_creation(Timestamp date_creation)
+    public void setDateCreation(Timestamp dateCreation)
     {
-        this.date_creation = date_creation;
+        this.dateCreation = dateCreation;
     }
 
     public void setContenu(String contenu)
