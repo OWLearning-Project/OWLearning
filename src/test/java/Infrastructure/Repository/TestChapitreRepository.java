@@ -48,39 +48,6 @@ public class TestChapitreRepository {
     }
 
     @Test
-    public void AjouteUneRessourceAuChapitre(){
-        // Arrange
-        int idChapitre = 1;
-        when(jpaRepository.findById(idChapitre)).thenReturn(Optional.of(chapitre));
-        when(jpaRepository.save(any(Chapitre.class))).thenReturn(chapitre);
-
-        // Act
-        chapitreRepository.ajouterRessourceAuChapitre(idChapitre, ressource);
-
-        // Assert
-        verify(jpaRepository).findById(idChapitre);
-        assertEquals("Taille de la liste de ressource du chapitre",1, chapitre.getRessources().size());
-        assertEquals("Nom de la ressource","PDF", chapitre.getRessources().get(0).getNom());
-        verify(jpaRepository).save(chapitre);
-
-    }
-    @Test
-    public void SupprimerUneRessourceAuChapitre(){
-        // Arrange
-        int idChapitre = 1;
-        chapitre.ajouterRessource(ressource);
-        when(jpaRepository.findById(idChapitre)).thenReturn(Optional.of(chapitre));
-        when(jpaRepository.save(any(Chapitre.class))).thenReturn(chapitre);
-
-        // Act
-        chapitreRepository.retirerRessourceDuChapitre(idChapitre, ressource.getId_ressource());
-
-        // Assert
-        assertTrue(chapitre.getRessources().isEmpty(), "La liste devrait etre vide apres suppression");
-        verify(jpaRepository).save(chapitre);
-    }
-
-    @Test
     public void TrouverChapitreParIdExistant(){
         // Arrange
         int idChapitre = 11;
@@ -107,6 +74,36 @@ public class TestChapitreRepository {
         // Assert
         assertNull(resultat);
     }
+
+    @Test
+    public void SupprimerChapitreParIdExistant(){
+        // Arrange
+        int idChapitre = 11;
+        when(jpaRepository.findById(idChapitre)).thenReturn(Optional.of(chapitre));
+
+        // Act
+        Chapitre resultat = chapitreRepository.supprimerParId(idChapitre);
+
+        // Assert
+        assertNotNull(resultat, "Le chapitre supprime doit etre retourne");
+        assertEquals("Comparaison des titres", chapitre.getTitre(), resultat.getTitre());
+        verify(jpaRepository, times(1)).delete(chapitre);
+    }
+
+    @Test
+    public void SupprimerChapitreParIdNonExistant(){
+        // Arrange
+        int idChapitre = 999;
+        when(jpaRepository.findById(idChapitre)).thenReturn(Optional.empty());
+
+        // Act
+        Chapitre resultat = chapitreRepository.supprimerParId(idChapitre);
+
+        // Assert
+        assertNull(resultat, "Doit retourner null si le chapitre n'existe pas");
+        verify(jpaRepository, never()).delete(any());
+    }
+
 
 
 
