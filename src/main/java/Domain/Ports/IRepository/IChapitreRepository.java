@@ -20,36 +20,6 @@ public interface IChapitreRepository {
     public Chapitre trouverParId(int id);
 
     /**
-     * Permet de changer de titre ou de description pour un chapitre
-     *
-     * @param chapitre à modifier
-     * @return Nombre de ligne modifier
-     */
-    public int modifier(Chapitre chapitre);
-
-    /**
-     * Ajout une ressource au chapitre selectionné
-     * @param id du chapitre
-     * @param ressource
-     */
-    public int ajouterRessourceAuChapitre(int id, Ressource ressource);
-
-    /**
-     * Supprime la ressource de tout les chapitres
-     * @param id
-     */
-    //public void supprimerRessourceAuChapitre(int id);
-
-    /**
-     * Détache la ressource du chapitre
-     *
-     * @param idChapitre
-     * @param idRessource
-     * @return Nombre le ligne supprimé
-     */
-    public Ressource retirerRessourceDuChapitre(int idChapitre, int idRessource);
-
-    /**
      * supprimé le chapitre
      * @param id du chapitre
      * @return le chapitre qui a été supprimé
