@@ -149,6 +149,182 @@ public class TestCoursRepository {
         assertEquals(0, listeRecuperee.size());
         verify(repositoryJpa, times(1)).findByElevesIdUtilisateur(anyInt());
     }
+
+    @Test
+    public void creerCours(){
+        //Arrange
+        String titre = "Java";
+        String description = "POO en Java";
+        String categorie = "DEVELOPPEMENT_WEB";
+        int createurId = 1;
+
+        when(repositoryJpa.save(any(Cours.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArgument(0));
+
+        // Act
+        Cours cours1 = repository.creerCours(titre, description, categorie, createurId);
+
+        // Assert
+        assertNotNull(cours1);
+        assertEquals(titre, cours1.getTitre());
+        assertEquals(description, cours1.getDescription());
+        assertFalse(cours1.getEstPrive());
+        assertNotNull(cours1.getCategories());
+        assertTrue(cours1.getCategories().contains(Categorie.valueOf(categorie.toUpperCase())));
+
+        verify(repositoryJpa, times(1)).save(any(Cours.class));
+    }
+
+    @Test
+    public void creerCoursInexistant(){
+        // Arrange
+        String titre = "   ";
+        String description = "desc";
+        String categorie = "DEV";
+        int createurId = 1;
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class,()-> repository.creerCours(titre, description, categorie, createurId));
+        verifyNoInteractions(repositoryJpa);
+    }
+
+    @Test
+    public void creerCoursSansDescription(){
+        // Arrange
+        String titre = "Java";
+        String description = "";
+        String categorie = "DEV";
+        int createurId = 1;
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class,()-> repository.creerCours(titre, description, categorie, createurId));
+        verifyNoInteractions(repositoryJpa);
+    }
+
+    @Test
+    public void publierCours(){
+        // Arrange
+        int coursId = 7;
+        Cours cours = new Cours(); //estPublie = false au départ
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.of(cours));
+        when(repositoryJpa.save(cours)).thenReturn(cours);
+
+        // Act
+        repository.publierCours(coursId);
+
+        // Assert
+        assertTrue(cours.getEstPublie());
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, times(1)).save(cours);
+    }
+
+    @Test
+    public void publierCoursIntrouvable() {
+
+        int coursId = 77;
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.empty());
+
+        assertThrows(IllegalArgumentException.class, () ->
+                repository.publierCours(coursId)
+        );
+
+        verify(repositoryJpa).findById(coursId);
+        verify(repositoryJpa, never()).save(any());
+    }
+
+    @Test
+    public void modifierInformationCours(){
+        // Arrange
+        int coursId = 7;
+        Cours cours = new Cours();
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.of(cours));
+        when(repositoryJpa.save(any(Cours.class))).thenReturn(cours);
+
+        String nouveauTitre = "Nouveau Titre";
+        String nouvelleDescription = "Nouvelle Description";
+
+        // Act
+        repository.modifierInformationsCours(coursId, nouveauTitre, nouvelleDescription);
+        // Assert
+        assertEquals(nouveauTitre, cours.getTitre());
+        assertEquals(nouvelleDescription, cours.getDescription());
+        verify(repositoryJpa).findById(coursId);
+        verify(repositoryJpa).save(cours);
+    }
+
+
+    @Test
+    public void modifierInformationsCoursIntrouvable(){
+        // Arrange
+        int coursId = 77;
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.empty());
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () -> repository.modifierInformationsCours(coursId, "t", "d"));
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, never()).save(any());
+    }
+    @Test
+    void coursPrive() {
+        // Arrange
+        int coursId = 7;
+        Cours cours = new Cours();
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.of(cours));
+        when(repositoryJpa.save(any(Cours.class))).thenReturn(cours);
+
+        // Act
+        repository.coursPrive(coursId, true);
+
+        // Assert
+        assertTrue(cours.getEstPrive());
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, times(1)).save(cours);
+    }
+    @Test
+    void coursPriveAvecCoursIntrouvable()
+    {
+        // Arrange
+        int coursId = 77;
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                repository.coursPrive(coursId, true)
+        );
+
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, never()).save(any());
+    }
+    @Test
+    void supprimerCours()
+    {
+        // Arrange
+        int coursId = 7;
+        Cours cours = new Cours();
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.of(cours));
+
+        // Act
+        Cours resultat = repository.supprimerCours(coursId);
+
+        // Assert
+        assertEquals(cours, resultat);
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, times(1)).delete(cours);
+    }
+    @Test
+    void supprimerCoursUnCoursIntrouvable()
+    {
+        // Arrange
+        int coursId = 77;
+        when(repositoryJpa.findById(coursId)).thenReturn(Optional.empty());
+
+        // Act
+        Cours resultat = repository.supprimerCours(coursId);
+
+        // Assert
+        assertNull(resultat);
+        verify(repositoryJpa, times(1)).findById(coursId);
+        verify(repositoryJpa, never()).delete(any());
+    }
+
     @Test
     public void TestAjoutChapitreReussi() {
         //Arrange
