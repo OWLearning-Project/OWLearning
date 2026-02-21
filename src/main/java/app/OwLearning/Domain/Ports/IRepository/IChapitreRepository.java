@@ -1,7 +1,8 @@
-package Domain.Ports.IRepository;
+package app.OwLearning.Domain.Ports.IRepository;
 
-import Domain.Models.Chapitre;
-import Domain.Models.Ressource;
+
+import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.Ressource;
 
 public interface IChapitreRepository {
 

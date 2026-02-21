@@ -1,9 +1,10 @@
-package Infrastructure.Persistence.Repository;
+package app.OwLearning.Infrastructure.Persistence.Repository;
 
-import Domain.Models.Chapitre;
-import Domain.Models.Ressource;
-import Domain.Ports.IRepository.IChapitreRepository;
-import Infrastructure.Persistence.Interface.JpaChapitreRepository;
+
+import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaChapitreRepository;
+import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.Ressource;
 
 public class ChapitreRepository implements IChapitreRepository {
 

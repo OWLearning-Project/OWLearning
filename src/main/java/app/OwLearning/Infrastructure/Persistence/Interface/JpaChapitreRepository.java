@@ -1,6 +1,7 @@
-package Infrastructure.Persistence.Interface;
+package app.OwLearning.Infrastructure.Persistence.Interface;
 
-import Domain.Models.Chapitre;
+
+import app.OwLearning.Domain.Models.Chapitre;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

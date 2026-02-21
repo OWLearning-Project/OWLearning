@@ -1,10 +1,11 @@
 package Infrastructure.Repository;
 
-import Domain.Models.Chapitre;
-import Domain.Models.Ressource;
-import Domain.Models.TypeRessource;
-import Infrastructure.Persistence.Interface.JpaChapitreRepository;
-import Infrastructure.Persistence.Repository.ChapitreRepository;
+
+import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Domain.Models.TypeRessource;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaChapitreRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.ChapitreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
