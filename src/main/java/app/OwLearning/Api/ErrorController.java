@@ -31,7 +31,8 @@ public class ErrorController
             ExceptionMauvaisIdChapitre.class,
             ExceptionMauvaisLabelCategorie.class,
             ExceptionUtilisateurInexistant.class,
-            ExceptionDiscussionInexistante.class})
+            ExceptionDiscussionInexistante.class,
+            ExceptionMessageIntrouvable.class})
     public ResponseEntity<String> not_found(Exception ex)
     {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.toString());

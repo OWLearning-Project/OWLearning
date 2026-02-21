@@ -6,8 +6,11 @@ import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
 import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceMessage;
 import app.OwLearning.Shared.Exceptions.ExceptionMessageIntrouvable;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 
+@Service
 public class ServiceMessage implements IServiceMessage
 {
 

@@ -1,5 +1,6 @@
 package app.OwLearning.Domain.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -27,10 +28,12 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "id_discussion")
+    @JsonIgnore
     private Discussion discussion;
 
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
+    @JsonIgnore
     private Utilisateur utilisateur;
 
     @ManyToMany( fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}) // Chargement des PJ avec le message & permet de sauver la liaison sans requete manuelle
