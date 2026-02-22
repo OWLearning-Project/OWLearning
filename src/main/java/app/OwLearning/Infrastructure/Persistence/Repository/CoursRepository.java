@@ -10,6 +10,7 @@ import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe CoursRepository pour récupérer les cours
@@ -57,29 +58,87 @@ public class CoursRepository implements ICoursRepository
         return new ArrayList<>(jpaRepository.findByElevesIdUtilisateur(idEleve));
     }
 
+    /**
+     * Cette méthode crée un nouveau cours après vérification des données
+     * @param titre titre du cours
+     * @param description description du cours
+     * @param categorie catégorie du cours
+     * @param createurId id du créateur
+     * @return le cours créé
+     */
     @Override
-    public Cours creerCours(String titre, String description, String categorie, int createurId) {
-        return null;
+    public Cours creerCours(String titre, String description, String categorie, int createurId){
+        if(titre == null || titre.isBlank()) throw new IllegalArgumentException("Ce titre n'est pas valide");
+        if(description == null || description.isBlank()) throw new IllegalArgumentException("Ce description n'est pas valide");
+
+        // Création d'une liste de catégories
+        ArrayList<Categorie> categories = new ArrayList<>();
+        if (categorie != null && !categorie.isBlank()){ categories.add(Categorie.valueOf(categorie));}
+
+        // Création du cours
+        Cours cours = new Cours(
+                titre, description, false, categories, Difficulte.DEBUTANT, null
+        );
+        return jpaRepository.save(cours);
     }
 
+    /**
+     * Publier un cours
+     * @param coursId id du cours à publier
+     */
     @Override
-    public void publierCours(int coursId) {
-
+    public void publierCours(int coursId){
+        Cours cours = jpaRepository.findById(coursId).orElse(null);
+        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
+        cours.publier();
+        jpaRepository.save(cours);
     }
 
+    /**
+     * Modifie le titre et la description d’un cours
+     * @param coursId id du cours
+     * @param titre nouveau titre du cours
+     * @param description nouvelle description du cours
+     */
     @Override
-    public void modifierInformationsCours(int coursId, String titre, String description) {
+    public void modifierInformationsCours(int coursId, String titre, String description){
 
+        Cours cours = jpaRepository.findById(coursId).orElse(null);
+        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
+        if (titre !=null && !titre.isBlank()) cours.setTitre(titre);
+        if (description !=null && !description.isBlank()) cours.setDescription(description);
+
+        jpaRepository.save(cours);
     }
 
+    /**
+     * Cette methode change le statut privé ou public d’un cours
+     * @param coursId id du cours
+     * @param estPrive nouveau statut du cours
+     */
     @Override
-    public void coursPrive(int coursId, boolean estPrive) {
+    public void coursPrive(int coursId, boolean estPrive){
+        Cours cours = jpaRepository.findById(coursId).orElse(null);
 
+        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
+
+        cours.setEstPrive(estPrive);
+        jpaRepository.save(cours);
     }
 
+    /**
+     * Methode permettant de supprimer un cours
+     * @param coursId id du cours
+     * @return l'objet Cours supprimé
+     */
     @Override
-    public Cours supprimerCours(int coursId) {
-        return null;
+    public Cours supprimerCours(int coursId){
+        Cours cours = jpaRepository.findById(coursId).orElse(null);
+
+        if(cours == null)
+            return null;
+        jpaRepository.delete(cours);
+        return cours;
     }
 
     /**
