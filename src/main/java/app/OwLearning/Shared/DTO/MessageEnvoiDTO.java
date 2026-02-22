@@ -4,12 +4,12 @@ public class MessageEnvoiDTO
 {
     private int auteurId;
     private String contenu;
-    private int ressourceId;
+    private Integer ressourceId;
 
     public MessageEnvoiDTO()
     {}
 
-    public MessageEnvoiDTO(int auteurId, String contenu,  int ressourceId)
+    public MessageEnvoiDTO(int auteurId, String contenu,  Integer ressourceId)
     {
         this.auteurId = auteurId;
         this.contenu = contenu;

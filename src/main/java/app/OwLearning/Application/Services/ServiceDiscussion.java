@@ -8,6 +8,7 @@ import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
 import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,12 +52,14 @@ public class ServiceDiscussion implements IServiceDiscussion
      * @throws ExceptionUtilisateurNonAutorise
      */
     @Override
+    @Transactional
     public Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise
     {
         Discussion discussion = this.repositoryDiscussion.trouverDiscussionParId(discussionId);
         Utilisateur auteur = this.repositoryUtilisateur.trouverParId(auteurId);
         Message message = new Message(contenu, auteur);
         discussion.ajouterMessage(message);
+        discussion.getMessages().size();
         return this.repositoryDiscussion.sauvegarder(discussion);
     }
 }
