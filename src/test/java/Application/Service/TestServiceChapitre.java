@@ -2,6 +2,8 @@ package Application.Service;
 
 import app.OwLearning.Application.Services.ServiceChapitre;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
+import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +41,7 @@ public class TestServiceChapitre {
     }
 
     @Test
-    public void GetContenu_DoitRetournerChapitre_QuandIlExiste() {
+    public void GetContenuExiste() {
         if (chapitre == null){
             throw new RuntimeException("Erreur dans le test");
         }
@@ -54,6 +56,91 @@ public class TestServiceChapitre {
         assertNotNull(resultat);
         assertEquals("Chapitre Test", resultat.getTitre());
         verify(repository, times(1)).trouverParId(idChapitre);
+    }
+
+    @Test
+    public void ModifierTitreEtDescription() {
+        // ARRANGE
+        int id = 1;
+        String nouvTitre = "Nouveau Titre";
+        String nouvDesc = "Nouvelle Description";
+
+        when(repository.trouverParId(id)).thenReturn(chapitre);
+
+        // ACT
+        serviceChapitre.modifier(id, nouvTitre, nouvDesc);
+
+        // ASSERT
+        assertEquals(nouvTitre, chapitre.getTitre());
+        assertEquals(nouvDesc, chapitre.getDescription());
+        verify(repository).sauvegarder(chapitre);
+    }
+
+    @Test
+    public void ModifierTitre() {
+        // ARRANGE
+        int id = 1;
+        String nouvTitre = "Titre Seulement";
+
+        when(repository.trouverParId(id)).thenReturn(chapitre);
+
+        // ACT
+        serviceChapitre.modifier(id, nouvTitre, null);
+
+        // ASSERT
+        assertEquals(nouvTitre, chapitre.getTitre(), "Le titre doit changer");
+        assertEquals("Description Test", chapitre.getDescription(), "La description ne doit pas changer");
+        verify(repository).sauvegarder(chapitre);
+    }
+
+    @Test
+    public void ModifierDescription() {
+        // ARRANGE
+        int id = 1;
+        String nouvDesc = "Description Seulement";
+
+        when(repository.trouverParId(id)).thenReturn(chapitre);
+
+        // ACT
+        serviceChapitre.modifier(id, null, nouvDesc);
+
+        // ASSERT
+        assertEquals("Chapitre Test", chapitre.getTitre(), "Le titre ne doit pas changer");
+        assertEquals(nouvDesc, chapitre.getDescription(), "La description doit changer");
+        verify(repository).sauvegarder(chapitre);
+    }
+
+    @Test
+    public void ModifierExceptionChapitreInexistant() {
+        // ARRANGE
+        when(repository.trouverParId(anyInt())).thenReturn(null);
+
+        // ACT & ASSERT
+        assertThrows(ExceptionChapitreIntrouvable.class, () -> {
+            serviceChapitre.modifier(99, "Titre", "Desc");
+        });
+        verify(repository, never()).sauvegarder(any());
+    }
+
+    @Test
+    public void RetirerRessourceExceptionRessourceAbsente() {
+        // ARRANGE
+        when(repository.trouverParId(1)).thenReturn(chapitre);
+
+        // ACT & ASSERT
+        assertThrows(ExceptionRessourceIntrouvable.class, () -> { serviceChapitre.retirerRessource(1, 50);});
+        verify(repository, never()).sauvegarder(any());
+    }
+
+    @Test
+    public void RetirerRessourceExceptionChapitreInexistant() {
+        // ARRANGE
+        when(repository.trouverParId(99)).thenReturn(null);
+
+        // ACT & ASSERT
+        assertThrows(ExceptionChapitreIntrouvable.class, () -> {
+            serviceChapitre.retirerRessource(99, 50);
+        });
     }
 
     @Test
@@ -73,6 +160,7 @@ public class TestServiceChapitre {
         verify(repository).sauvegarder(chapitre);
 
     }
+
     @Test
     public void SupprimerUneRessourceAuChapitre(){
         // Arrange
