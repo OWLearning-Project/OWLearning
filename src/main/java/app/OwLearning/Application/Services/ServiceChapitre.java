@@ -7,7 +7,9 @@ import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServiceChapitre implements IServiceChapitre {
 
     private final IChapitreRepository repository;

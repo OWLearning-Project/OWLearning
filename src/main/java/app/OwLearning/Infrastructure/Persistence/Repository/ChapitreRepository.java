@@ -5,7 +5,9 @@ import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaChapitreRepository;
 import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChapitreRepository implements IChapitreRepository {
 
     private final JpaChapitreRepository jpaRepository;
