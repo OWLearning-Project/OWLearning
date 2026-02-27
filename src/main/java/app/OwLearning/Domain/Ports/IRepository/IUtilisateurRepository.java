@@ -20,4 +20,11 @@ public interface IUtilisateurRepository
      * @return l'utilisateur sauvegardé
      */
     public Utilisateur sauvegarder(Utilisateur utilisateur);
+
+    /**
+     * Méthode qui permet de trouver un utilisateur par son id
+     * @param id id de l'utilisateur
+     * @return l'objet Utilisateur associé ou lance une exception sinon
+     */
+    public Utilisateur trouverParId(int id);
 }
