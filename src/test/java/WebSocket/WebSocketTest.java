@@ -1,10 +1,14 @@
 package WebSocket;
 
+import app.OwLearning.Application.Services.ServiceDiscussion;
 import app.OwLearning.Domain.Models.Discussion;
+import app.OwLearning.Infrastructure.Persistence.Repository.MessageRepository;
 import app.OwLearning.Main;
 import app.OwLearning.Shared.DTO.MessageEnvoiDTO;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.messaging.converter.JacksonJsonMessageConverter;
@@ -21,10 +25,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-
+// Attention ces test ne passent que si la base de donnée est bien construite
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebSocketTest
 {
@@ -32,6 +35,10 @@ public class WebSocketTest
     private int port;
 
     private WebSocketStompClient stompClient;
+    @Autowired
+    private MessageRepository messageRepository;
+    @Autowired
+    private ServiceDiscussion serviceDiscussion;
 
     @BeforeEach
     public void setUp()
@@ -72,5 +79,24 @@ public class WebSocketTest
 
         assertEquals("Test d'integration WS", contenuRecu, "Le contenu du message reçu ne correspond pas !");
 
+    }
+
+    @Test
+    public void testEnvoiMessageUtilisateurNonAutorise_DoitEchouer() {
+        long nombreMessagesAvant = messageRepository.trouverParDiscussion(1).size();
+
+        MessageEnvoiDTO messagePirate = new MessageEnvoiDTO(3, "hack", null);
+
+        ExceptionUtilisateurNonAutorise exception = assertThrows(
+                ExceptionUtilisateurNonAutorise.class,
+                () ->
+                {
+                    serviceDiscussion.envoyerMessage(1, messagePirate.getAuteurId(), messagePirate.getContenu());
+                },
+                "Une ExceptionUtilisateurNonAutorise doit être levée"
+        );
+
+        long nombreMessagesApres = messageRepository.trouverParDiscussion(1).size();
+        assertEquals(nombreMessagesAvant, nombreMessagesApres, "La base ne doit pas être modifié");
     }
 }
