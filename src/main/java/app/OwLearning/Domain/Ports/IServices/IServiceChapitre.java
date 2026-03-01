@@ -9,5 +9,7 @@ public interface IServiceChapitre {
 
     public void ajouterRessource(int id, Ressource ressource);
 
+    public void modifier(int id, String titre, String description);
+
     public Ressource retirerRessource(int idChapitre, int idRessource);
 }
