@@ -5,6 +5,9 @@ import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
+import app.OwLearning.Shared.DTO.CoursCreationDTO;
+import app.OwLearning.Shared.DTO.CoursModificationDTO;
+import app.OwLearning.Shared.DTO.CoursAccesDTO;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
@@ -73,6 +76,66 @@ public class CoursController {
             return ResponseEntity.ok(cours);
         } catch (ExceptionCoursInexistant e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
+        }
+    }
+    @PostMapping
+    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO) {
+        try{
+            Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getCategorie(),coursCreationDTO.getCreateurId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(cours);}
+        catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PostMapping("/{idCours}/publication")
+    public ResponseEntity<?> publierCours(@PathVariable("idCours") int idCours) {
+        try {
+            serviceCours.publierCours(idCours);
+            return ResponseEntity.ok().build();
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        catch (ExceptionCoursInexistant e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    
+    @PutMapping("/{idCours}")
+    public ResponseEntity<?> modifierInformationsCours(@PathVariable("idCours") int idCours, @RequestBody CoursModificationDTO dto){
+        try{
+            serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription());
+            return ResponseEntity.ok().build();
+        }
+        catch(ExceptionCoursInexistant e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+    @PutMapping("/{idCours/Acces}")
+    public ResponseEntity<?> coursPrive(@PathVariable("idCours") int idCours, @RequestBody CoursAccesDTO dto) {
+        try{
+            serviceCours.coursPrive(idCours, dto.getEstPrive());
+            return ResponseEntity.ok().build();
+        }
+        catch(ExceptionCoursInexistant e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/{idCours}")
+    public ResponseEntity<?> supprimerCours(@PathVariable("idCours") int idCours) {
+        try{
+            Cours coursSupprime = serviceCours.supprimerCours(idCours);
+            return ResponseEntity.ok().body(coursSupprime);
+        }
+        catch(ExceptionCoursInexistant e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
