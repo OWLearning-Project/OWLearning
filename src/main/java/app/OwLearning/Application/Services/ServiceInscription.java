@@ -1,10 +1,10 @@
-package Application.Services;
+package app.OwLearning.Application.Services;
 
-import Domain.Models.Cours;
-import Domain.Models.Utilisateur;
-import Domain.Ports.IRepository.ICoursRepository;
-import Domain.Ports.IRepository.IUtilisateurRepository;
-import Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ServiceInscription implements IServiceInscription
 {
     private final ICoursRepository coursRepository;
-    private final IUtilisateurRepository utilisateurRepository;
+    private final app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository utilisateurRepository;
 
     /**
      * Constructeur du ServiceInscription
