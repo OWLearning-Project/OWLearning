@@ -1,12 +1,7 @@
 package Domain.TestModel;
 
-<<<<<<< HEAD
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Shared.Exceptions.*;
-=======
-import Domain.Models.*;
-import Shared.Exceptions.*;
->>>>>>> 5d01e33040e569ea804cdffb94bc8c867ebb92ea
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -61,13 +56,9 @@ public class TestCours
     public void testEleveEstAjoute()
     {
         // Arrange
-<<<<<<< HEAD
         Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse");
         eleveTest.setAge(23);
         eleveTest.setNiveauEtude("BUT3");
-=======
-        Eleve eleveTest = new Eleve("Bob", "Martin", "bobmartin@email.com", "fauxmotdepasse", 23, "BUT3");
->>>>>>> 5d01e33040e569ea804cdffb94bc8c867ebb92ea
         Cours cours = new Cours("unTitre", "uneDescription", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
 
         // Act
