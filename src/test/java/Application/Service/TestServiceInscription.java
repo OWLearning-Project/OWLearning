@@ -1,10 +1,10 @@
 package Application.Service;
 
-import Application.Services.ServiceInscription;
-import Domain.Models.Cours;
-import Domain.Models.Utilisateur;
-import Domain.Ports.IRepository.ICoursRepository;
-import Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Application.Services.ServiceInscription;
+import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
