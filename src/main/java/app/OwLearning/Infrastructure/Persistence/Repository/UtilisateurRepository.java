@@ -5,6 +5,8 @@ import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
  * Classe UtilisateurRepository qui permet d'intéragir avec la base de données
  */
@@ -42,5 +44,34 @@ public class UtilisateurRepository implements IUtilisateurRepository
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
         return jpaRepository.save(utilisateur);
+    }
+
+    /**
+     * Cette méthode permet de trouver un utilisateur via son identifiant
+     * @param id identifiant de user
+     * @return l'utilisateur trouvé
+     */
+    @Override
+    public Utilisateur trouverParId(int id)
+    {
+        return jpaRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * cette méthode permet de mettre à jour les infos d'un utilisateur
+     * @param utilisateur l'utilisateur
+     * @return les données mises à jour
+     */
+    @Override
+    public int mettreAJour(Utilisateur utilisateur)
+    {
+        Utilisateur sauvegarde = jpaRepository.save(utilisateur);
+        // On retourne 1 si ça a été sauvegardé correctement, sinon 0
+        return (sauvegarde != null) ? 1 : 0;
+    }
+
+    @Override
+    public ArrayList<Utilisateur> trouverEtudiantsInscrits(int idCours) {
+        return jpaRepository.findEtudiantsInscrits(idCours);
     }
 }
