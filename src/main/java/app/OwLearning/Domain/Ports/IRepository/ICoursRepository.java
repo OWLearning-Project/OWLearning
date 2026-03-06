@@ -3,6 +3,8 @@ package app.OwLearning.Domain.Ports.IRepository;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+import org.apache.commons.lang3.builder.Diff;
+
 import java.util.ArrayList;
 
 /**
@@ -41,17 +43,11 @@ public interface ICoursRepository
      * Cette méthode crée un nouveau cours après vérification des données
      * @param titre titre du cours
      * @param description description du cours
-     * @param categorie catégorie du cours
+     * @param difficulte difficulté du cours
      * @param createurId id du créateur
      * @return le cours créé
      */
-    public abstract Cours creerCours(String titre, String description, String categorie, int createurId);
-
-    /**
-     * Publier un cours
-     * @param coursId id du cours à publier
-     */
-    public abstract void publierCours(int coursId);
+    public abstract Cours creerCours(String titre, String description, Difficulte difficulte, int createurId);
 
     /**
      * Modifie le titre et la description d’un cours
@@ -62,33 +58,11 @@ public interface ICoursRepository
     public abstract void modifierInformationsCours(int coursId, String titre, String description);
 
     /**
-     * Cette methode change le statut privé ou public d’un cours
-     * @param coursId id du cours
-     * @param estPrive nouveau statut du cours
-     */
-    public abstract void coursPrive(int coursId, boolean estPrive);
-
-    /**
      * Methode permettant de supprimer un cours
      * @param coursId id du cours
      * @return l'objet Cours supprimé
      */
     public abstract Cours supprimerCours(int coursId);
-
-    /**
-     * Methode permettant d'ajouter un chapitre à un cours
-     * @param coursId id du cours
-     * @param chapitre chapitre à ajouter
-     */
-    public void ajouterChapitre(int coursId, Chapitre chapitre);
-
-    /**
-     * Methode permettant de retirer un chapitre à un cours
-     * @param coursId id du cours
-     * @param ChapitreId id du chapitre
-     * @return l'objet chapitre qui est retirer
-     */
-    public Chapitre retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
 
     /**
      * Methode qui permet la modification d'une difficulté d'un cours
@@ -97,22 +71,8 @@ public interface ICoursRepository
      */
     public void modifierDifficulteCours(int coursId, Difficulte difficulte);
 
-    /**
-     * Methode permettant d'ajouter une categorie à un cours
-     * @param coursId id du cours
-     * @param categorie categorie à ajouter au cours
-     */
-    public void ajouterCategorieCours(int coursId, Categorie categorie);
 
-    /**
-     * Methode permettant de supprimer une categorie d'un cours
-     * @param coursId id du cours
-     * @param categorie categorie a supprimer
-     * @return la categorie qui est retirer du cours
-     */
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
+    public abstract boolean coursExiste(int coursId);
 
-    boolean coursExiste(int coursId);
-
-    void sauvegarder(Cours cours);
+    public abstract Cours sauvegarder(Cours cours);
 }

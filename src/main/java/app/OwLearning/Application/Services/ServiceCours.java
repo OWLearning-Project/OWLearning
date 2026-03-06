@@ -72,19 +72,19 @@ public class ServiceCours implements IServiceCours
      * Cette méthode crée un nouveau cours après vérification des données
      * @param titre titre du cours
      * @param description description du cours
-     * @param categorie catégorie du cours
+     * @param difficulte catégorie du cours
      * @param createurId identifiant du créateur
      * @return le cours créé
      */
     @Override
-    public Cours creerCours(String titre, String description, String categorie, int createurId)
+    public Cours creerCours(String titre, String description, Difficulte difficulte , int createurId)
     {
         if (titre == null || titre.isBlank()) throw new IllegalArgumentException("Le titre n'est pas valide");
         if (description == null || description.isBlank()) throw new IllegalArgumentException("La description n'est pas valide");
-        if (categorie == null || categorie.isBlank()) throw new IllegalArgumentException("Categorie non valide");
+        if (difficulte == null) throw new IllegalArgumentException("Difficulté non valide");
         if (createurId <= 0) throw new IllegalArgumentException("Identifiant du créateur invalide");
 
-        Cours cours = coursRepository.creerCours(titre, description, categorie, createurId);
+        Cours cours = coursRepository.creerCours(titre, description, difficulte, createurId);
 
         if (cours == null) throw new IllegalStateException("La création du cours a échoué");
 
@@ -99,8 +99,12 @@ public class ServiceCours implements IServiceCours
     public void publierCours(int coursId)
     {
         if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
-
-        coursRepository.publierCours(coursId);
+        if (!coursRepository.coursExiste(coursId)){
+            throw new IllegalArgumentException("Le cours n'existe pas");
+        }
+        Cours cours = coursRepository.trouverParId(coursId);
+        cours.publier();
+        coursRepository.sauvegarder(cours);
     }
 
     /**
@@ -128,9 +132,14 @@ public class ServiceCours implements IServiceCours
     public void coursPrive(int coursId, boolean estPrive)
     {
         if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
-
-        coursRepository.coursPrive(coursId, estPrive);
+        if (!coursRepository.coursExiste(coursId)){
+            throw new IllegalArgumentException("Le cours n'existe pas");
+        }
+        Cours leCours = coursRepository.trouverParId(coursId);
+        leCours.visibilite(estPrive);
+        coursRepository.sauvegarder(leCours);
     }
+
     /**
      * Methode permettant de supprimer un cours
      * @param coursId identifiant du cours
@@ -161,7 +170,9 @@ public class ServiceCours implements IServiceCours
         if (!coursRepository.coursExiste(coursId)){
             throw new IllegalArgumentException("Le cours n'existe pas");
         }
-        coursRepository.ajouterChapitre(coursId, chapitre);
+        Cours leCours = coursRepository.trouverParId(coursId);
+        leCours.ajouterChapitre(chapitre);
+        coursRepository.sauvegarder(leCours);
     }
 
     /**
@@ -171,11 +182,17 @@ public class ServiceCours implements IServiceCours
      * @return l'objet chapitre qui est retirer
      */
     @Override
-    public Chapitre retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
+    public boolean retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
         if(coursId <= 0 || chapitreId <= 0) {
             throw new IllegalArgumentException("l'id du cours ou l'id du chapitre est invalide");
         }
-        return coursRepository.retirerChapitre(coursId, chapitreId);
+        if (!coursRepository.coursExiste(coursId)){
+            throw new IllegalArgumentException("Le cours n'existe pas");
+        }
+        Cours leCours = coursRepository.trouverParId(coursId);
+        leCours.retirerChapitre(chapitreId);
+        coursRepository.sauvegarder(leCours);
+        return true;
     }
 
     /**
@@ -205,7 +222,7 @@ public class ServiceCours implements IServiceCours
             throw new IllegalArgumentException("le cours n'existe pas");
         }
         cours.ajouterCategorie(categorieAjouter);
-        coursRepository.ajouterCategorieCours(coursId, categorieAjouter);
+        coursRepository.sauvegarder(cours);
     }
 
     /**
@@ -216,13 +233,13 @@ public class ServiceCours implements IServiceCours
      * @throws ExceptionMauvaisLabelCategorie
      */
     @Override
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
+    public boolean supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
         Cours cours = coursRepository.trouverParId(coursId);
         if (cours == null){
             throw new IllegalArgumentException("le cours n'existe pas");
         }
-        Categorie categorieSupprimer = cours.supprimerCategorie(categorieASupprimer.getLabel());
-        coursRepository.supprimerCategorieCours(coursId, categorieASupprimer);
-        return categorieSupprimer;
+        cours.supprimerCategorie(categorieASupprimer.getLabel());
+        coursRepository.sauvegarder(cours);
+        return true;
     }
 }

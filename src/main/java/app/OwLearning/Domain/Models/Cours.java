@@ -34,8 +34,7 @@ public class Cours
     @Enumerated(EnumType.STRING)
     @Column(name = "difficulte")
     private Difficulte difficulte;
-    @OneToMany
-    @JoinColumn(name="id_cours")
+    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chapitre> chapitres;
     @ElementCollection(targetClass = Categorie.class)
     @CollectionTable(

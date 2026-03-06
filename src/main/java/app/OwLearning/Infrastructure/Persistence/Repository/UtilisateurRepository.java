@@ -3,6 +3,8 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,5 +44,10 @@ public class UtilisateurRepository implements IUtilisateurRepository
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
         return jpaRepository.save(utilisateur);
+    }
+
+    @Override
+    public Utilisateur trouverParId(int id) {
+        return jpaRepository.findById(id).orElseThrow(() -> new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", id));
     }
 }

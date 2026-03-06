@@ -41,11 +41,11 @@ public interface IServiceCours
      * Cette méthode crée un nouveau cours après vérification des données
      * @param titre titre du cours
      * @param description description du cours
-     * @param categorie catégorie du cours
+     * @param difficulte difficulté du cours
      * @param createurId id du créateur
      * @return le cours créé
      */
-    public abstract Cours creerCours(String titre, String description, String categorie, int createurId);
+    public abstract Cours creerCours(String titre, String description, Difficulte difficulte, int createurId);
 
     /**
      * Publier un cours
@@ -88,7 +88,7 @@ public interface IServiceCours
      * @param ChapitreId id du chapitre
      * @return l'objet chapitre qui est retirer
      */
-    public Chapitre retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
+    public boolean retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
 
     /**
      * Methode qui permet la modification d'une difficulté d'un cours
@@ -110,5 +110,5 @@ public interface IServiceCours
      * @param categorie categorie a supprimer
      * @return la categorie qui est retirer du cours
      */
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
+    public boolean supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
 }

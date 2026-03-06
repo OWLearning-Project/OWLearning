@@ -2,11 +2,13 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionCategorieDejaPresente;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+import org.apache.commons.lang3.builder.Diff;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,10 +21,12 @@ import java.util.List;
 public class CoursRepository implements ICoursRepository
 {
     private final JpaCoursRepository jpaRepository;
+    private final IUtilisateurRepository utilisateurRepository;
 
-    public CoursRepository(JpaCoursRepository jpaRepository)
+    public CoursRepository(JpaCoursRepository jpaRepository, IUtilisateurRepository utilisateurRepository)
     {
         this.jpaRepository = jpaRepository;
+        this.utilisateurRepository = utilisateurRepository;
     }
 
     /**
@@ -62,36 +66,20 @@ public class CoursRepository implements ICoursRepository
      * Cette méthode crée un nouveau cours après vérification des données
      * @param titre titre du cours
      * @param description description du cours
-     * @param categorie catégorie du cours
+     * @param difficulte difficulté du cours
      * @param createurId id du créateur
      * @return le cours créé
      */
     @Override
-    public Cours creerCours(String titre, String description, String categorie, int createurId){
-        if(titre == null || titre.isBlank()) throw new IllegalArgumentException("Ce titre n'est pas valide");
-        if(description == null || description.isBlank()) throw new IllegalArgumentException("Ce description n'est pas valide");
-
-        // Création d'une liste de catégories
+    public Cours creerCours(String titre, String description, Difficulte difficulte, int createurId)
+    {
+        // Création d'une liste de catégories vide
         ArrayList<Categorie> categories = new ArrayList<>();
-        if (categorie != null && !categorie.isBlank()){ categories.add(Categorie.valueOf(categorie));}
+        Createur createur = (Createur) utilisateurRepository.trouverParId(createurId);
 
         // Création du cours
-        Cours cours = new Cours(
-                titre, description, false, categories, Difficulte.DEBUTANT, null
-        );
+        Cours cours = new Cours(titre, description, false, categories, difficulte, createur);
         return jpaRepository.save(cours);
-    }
-
-    /**
-     * Publier un cours
-     * @param coursId id du cours à publier
-     */
-    @Override
-    public void publierCours(int coursId){
-        Cours cours = jpaRepository.findById(coursId).orElse(null);
-        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
-        cours.publier();
-        jpaRepository.save(cours);
     }
 
     /**
@@ -112,21 +100,6 @@ public class CoursRepository implements ICoursRepository
     }
 
     /**
-     * Cette methode change le statut privé ou public d’un cours
-     * @param coursId id du cours
-     * @param estPrive nouveau statut du cours
-     */
-    @Override
-    public void coursPrive(int coursId, boolean estPrive){
-        Cours cours = jpaRepository.findById(coursId).orElse(null);
-
-        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
-
-        cours.setEstPrive(estPrive);
-        jpaRepository.save(cours);
-    }
-
-    /**
      * Methode permettant de supprimer un cours
      * @param coursId id du cours
      * @return l'objet Cours supprimé
@@ -139,38 +112,6 @@ public class CoursRepository implements ICoursRepository
             return null;
         jpaRepository.delete(cours);
         return cours;
-    }
-
-    /**
-     * Methode qui permet d'ajouter un chapitre a un cours
-     * @param coursId id du cours
-     * @param chapitre chapitre à ajouter
-     */
-    @Override
-    public void ajouterChapitre(int coursId, Chapitre chapitre) {
-        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
-        if (cours != null) {
-            cours.ajouterChapitre(chapitre);
-            this.jpaRepository.save(cours);
-        }
-    }
-
-    /**
-     * Methode qui permet de supprimer un chapitre d'un cours
-     * @param coursId id du cours
-     * @param chapitreId id du chapitre
-     * @return l'obejet chapitre retirer
-     * @throws ExceptionMauvaisIdChapitre
-     */
-    @Override
-    public Chapitre retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
-        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
-        if (cours != null){
-            Chapitre chapitreRetirer = cours.retirerChapitre(chapitreId);
-            this.jpaRepository.save(cours);
-            return chapitreRetirer;
-        }
-        return null;
     }
 
     /**
@@ -188,48 +129,6 @@ public class CoursRepository implements ICoursRepository
 
     }
 
-    /**
-     * Methode qui permet d'ajouter une categorie à un cours grace a l'id du cours
-     * @param coursId id du cours
-     * @param categorie categorie à ajouter au cours
-     */
-    @Override
-    public void ajouterCategorieCours(int coursId, Categorie categorie) {
-        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
-        if(cours != null){
-            try{
-                cours.ajouterCategorie(categorie);
-                this.jpaRepository.save(cours);
-            } catch (ExceptionCategorieDejaPresente e){
-                throw new ExceptionCategorieDejaPresente("Erreur la catégorie est déjà liées à ce cours.", categorie.getLabel(), coursId);
-            } catch (Exception e){
-                throw new RuntimeException("Erreur technique lors de l'ajoute", e);
-            }
-        }
-    }
-
-    /**
-     * Methode qui permet de supprimer une catégorie d'un cours
-     * @param coursId id du cours
-     * @param categorie categorie a supprimer
-     * @return
-     */
-    @Override
-    public Categorie supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie {
-        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
-        if (cours != null) {
-            try{
-                Categorie categorieSupprimee = cours.supprimerCategorie(categorie.getLabel());
-                this.jpaRepository.save(cours);
-                return categorieSupprimee;
-            } catch (ExceptionMauvaisLabelCategorie e){
-                throw new ExceptionMauvaisLabelCategorie("label de categorie inexistant", categorie.getLabel(), coursId);
-            } catch (Exception e) {
-                throw new RuntimeException("Erreur technique lors de la suppression");
-            }
-        }
-        return null;
-    }
 
     /**
      * Méthode pour trouver les cours publiés avec ou sans filtre
@@ -246,7 +145,8 @@ public class CoursRepository implements ICoursRepository
     }
 
     @Override
-    public void sauvegarder(Cours cours) {
-        this.jpaRepository.save(cours);
+    public Cours sauvegarder(Cours cours)
+    {
+        return this.jpaRepository.save(cours);
     }
 }

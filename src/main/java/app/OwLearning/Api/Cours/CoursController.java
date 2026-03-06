@@ -2,6 +2,7 @@ package app.OwLearning.Api.Cours;
 
 import app.OwLearning.Domain.Models.Categorie;
 import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
@@ -27,7 +28,8 @@ import static java.lang.Integer.parseInt;
 public class CoursController {
     private final IServiceCours serviceCours;
 
-    public CoursController(IServiceCours serviceCours) {
+    public CoursController(IServiceCours serviceCours)
+    {
         this.serviceCours = serviceCours;
     }
 
@@ -37,7 +39,8 @@ public class CoursController {
      * @return la liste des cours au format JSON
      */
     @GetMapping
-    public ResponseEntity<ArrayList<Cours>> getCoursPublies() {
+    public ResponseEntity<ArrayList<Cours>> getCoursPublies()
+    {
         return ResponseEntity.ok(serviceCours.getCoursPublies());
     }
 
@@ -48,7 +51,8 @@ public class CoursController {
      * @return la liste des cours créés au format JSON
      */
     @GetMapping("/utilisateurs/{idCreateur}/publications")
-    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@PathVariable("idCreateur") int idCreateur) {
+    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@PathVariable("idCreateur") int idCreateur)
+    {
         return ResponseEntity.ok(serviceCours.getCoursCrees(idCreateur));
     }
 
@@ -59,7 +63,8 @@ public class CoursController {
      * @return la liste des cours inscrits au format JSON
      */
     @GetMapping("/utilisateurs/{idEleve}/inscriptions")
-    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@PathVariable("idEleve") int idEleve) {
+    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@PathVariable("idEleve") int idEleve)
+    {
         return ResponseEntity.ok(serviceCours.getCoursInscrits(idEleve));
     }
 
@@ -78,27 +83,19 @@ public class CoursController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
         }
     }
+
     @PostMapping
-    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO) {
-        try{
-            Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getCategorie(),coursCreationDTO.getCreateurId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(cours);}
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO)
+    {
+        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(),coursCreationDTO.getCreateurId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(cours);
     }
+
     @PostMapping("/{idCours}/publication")
-    public ResponseEntity<?> publierCours(@PathVariable("idCours") int idCours) {
-        try {
-            serviceCours.publierCours(idCours);
-            return ResponseEntity.ok().build();
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        catch (ExceptionCoursInexistant e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<?> publierCours(@PathVariable("idCours") int idCours)
+    {
+        serviceCours.publierCours(idCours);
+        return ResponseEntity.ok().build();
     }
     
     @PutMapping("/{idCours}")
@@ -128,58 +125,66 @@ public class CoursController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @DeleteMapping("/{idCours}")
-    public ResponseEntity<?> supprimerCours(@PathVariable("idCours") int idCours) {
-        try{
-            Cours coursSupprime = serviceCours.supprimerCours(idCours);
-            return ResponseEntity.ok().body(coursSupprime);
-        }
-        catch(ExceptionCoursInexistant e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<?> supprimerCours(@PathVariable("idCours") int idCours)
+    {
+        Cours coursSupprime = serviceCours.supprimerCours(idCours);
+        return ResponseEntity.accepted().body("le cours a été supprimé");
     }
 
 
+    /**
+     * Ajout d'un chapitre dans un cours
+     * @param coursId id du cours
+     * @param chapitreDto chapitre (titre et description)
+     * @return
+     */
     @PostMapping("/{idCours}/chapitres")
-    public ResponseEntity<?> ajouterChapitre(@PathVariable int coursId, @RequestBody ChapitreDTO chapitreDto) {
-        try {
-            Chapitre nouveauChapitre = new Chapitre(chapitreDto.getTitre(), chapitreDto.getDescription(), new ArrayList<>());
-            serviceCours.ajouterChapitre(coursId, nouveauChapitre);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> ajouterChapitre(@PathVariable("idCours") int coursId, @RequestBody ChapitreDTO chapitreDto) {
+
+        Chapitre nouveauChapitre = new Chapitre(chapitreDto.getTitre(), chapitreDto.getDescription(), new ArrayList<Ressource>());
+        serviceCours.ajouterChapitre(coursId, nouveauChapitre);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Le chapitre a été crée");
     }
 
+    /**
+     * Supprimer un chapitre associé à un cours
+     * @param coursId
+     * @param chapitreId
+     * @return
+     */
     @DeleteMapping("/{idCours}/chapitres/{idChapitre}")
-    public ResponseEntity<?> retirerChapitre(@PathVariable("idCours") int coursId, @PathVariable("idChapitre") int chapitreId) {
-        try {
-            Chapitre chapitreRetirer = serviceCours.retirerChapitre(coursId, chapitreId);
-            return ResponseEntity.ok(chapitreRetirer);
-        } catch (ExceptionMauvaisIdChapitre e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> retirerChapitre(@PathVariable("idCours") int coursId, @PathVariable("idChapitre") int chapitreId) throws ExceptionMauvaisIdChapitre {
+        boolean chapitreRetiree = serviceCours.retirerChapitre(coursId, chapitreId);
+        if (chapitreRetiree)
+            return ResponseEntity.accepted().body("le chapitre a été retiré");
+        return ResponseEntity.badRequest().body("Le chapitre n'a pas pu être retiré");
     }
 
+    /**
+     * Ajouter une catégorie à un cours
+     * @param coursId
+     * @param uneCategorie
+     * @return
+     */
     @PostMapping("/{idCours}/categories")
-    public ResponseEntity<?> ajouterCategorie(@PathVariable int coursId, @RequestBody Categorie uneCategorie) {
-        try {
-            serviceCours.ajouterCategorieCours(coursId, uneCategorie);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> ajouterCategorie(@PathVariable("idCours") int coursId, @RequestBody Categorie uneCategorie) {
+        serviceCours.ajouterCategorieCours(coursId, uneCategorie);
+        return ResponseEntity.accepted().body("La catégorie a été ajoutée au cours : " + coursId);
     }
 
+    /**
+     * Enlever une catégorie à un cours
+     * @param coursId
+     * @param uneCategorie
+     * @return
+     */
     @DeleteMapping("/{idCours}/categories/{nomCategorie}")
-    public ResponseEntity<?> supprimerCategorie(@PathVariable("idCours") int coursId, @PathVariable("nomCategorie") Categorie uneCategorie) {
-        try {
-            Categorie categorieSupprimer = serviceCours.supprimerCategorieCours(coursId, uneCategorie);
-            return ResponseEntity.ok(categorieSupprimer);
-        } catch (ExceptionMauvaisLabelCategorie e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> supprimerCategorie(@PathVariable("idCours") int coursId, @PathVariable("nomCategorie") Categorie uneCategorie) throws ExceptionMauvaisLabelCategorie {
+        boolean categorieSupprimee = serviceCours.supprimerCategorieCours(coursId, uneCategorie);
+        if (categorieSupprimee)
+            return ResponseEntity.accepted().build();
+        return ResponseEntity.badRequest().body("Le chapitre n'a pas pu être retiré");
     }
 }
