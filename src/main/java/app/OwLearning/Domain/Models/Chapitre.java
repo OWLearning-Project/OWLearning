@@ -23,13 +23,12 @@ public class Chapitre
     @JoinColumn(name = "id_cours")
     private Cours cours;
 
-    @ManyToMany
-    @JoinTable(name = "ressource_chapitre",
-            joinColumns = @JoinColumn(name = "id_chapitre"),
-            inverseJoinColumns = @JoinColumn(name = "id_ressource")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="ressource_chapitre",
+                joinColumns = @JoinColumn(name="id_chapitre"),
+                inverseJoinColumns = @JoinColumn(name="id_ressource")
     )
     private List<Ressource> ressources;
-
     public Chapitre(){}
 
     /**
@@ -77,7 +76,7 @@ public class Chapitre
         return ressources;
     }
 
-    public void setRessources(ArrayList<Ressource> ressources) {
+    public void setRessources(List<Ressource> ressources) {
         this.ressources = ressources;
     }
 
