@@ -31,11 +31,15 @@ public class ErrorController
             ExceptionMauvaisIdChapitre.class,
             ExceptionMauvaisLabelCategorie.class,
             ExceptionUtilisateurInexistant.class,
-            ExceptionChapitreIntrouvable.class,
-            ExceptionRessourceIntrouvable.class})
+            ExceptionCoursInexistant.class,
+            ExceptionCategorieInexistante.class})
     public ResponseEntity<String> not_found(Exception ex)
     {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.toString());
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> bad_request(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exception(Exception ex)

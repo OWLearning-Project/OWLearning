@@ -20,4 +20,6 @@ public interface IUtilisateurRepository
      * @return l'utilisateur sauvegardé
      */
     public Utilisateur sauvegarder(Utilisateur utilisateur);
+
+    public Utilisateur trouverParId(int id);
 }

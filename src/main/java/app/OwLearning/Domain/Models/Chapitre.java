@@ -1,5 +1,6 @@
 package app.OwLearning.Domain.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class Chapitre
     private int id;
     private String description;
     private String titre;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cours")
     private Cours cours;
