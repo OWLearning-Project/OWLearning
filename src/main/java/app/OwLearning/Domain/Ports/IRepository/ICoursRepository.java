@@ -1,9 +1,6 @@
 package app.OwLearning.Domain.Ports.IRepository;
 
 import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.apache.commons.lang3.builder.Diff;
 
 import java.util.ArrayList;
 
@@ -50,29 +47,13 @@ public interface ICoursRepository
     public abstract Cours creerCours(String titre, String description, Difficulte difficulte, int createurId);
 
     /**
-     * Modifie le titre et la description d’un cours
-     * @param coursId id du cours
-     * @param titre nouveau titre du cours
-     * @param description nouvelle description du cours
-     */
-    public abstract void modifierInformationsCours(int coursId, String titre, String description);
-
-    /**
      * Methode permettant de supprimer un cours
      * @param coursId id du cours
      * @return l'objet Cours supprimé
      */
     public abstract Cours supprimerCours(int coursId);
 
-    /**
-     * Methode qui permet la modification d'une difficulté d'un cours
-     * @param coursId id du cours
-     * @param difficulte la difficulté à modifier
-     */
-    public void modifierDifficulteCours(int coursId, Difficulte difficulte);
-
-
     public abstract boolean coursExiste(int coursId);
 
-    public abstract Cours sauvegarder(Cours cours);
+    public abstract void sauvegarder(Cours cours);
 }

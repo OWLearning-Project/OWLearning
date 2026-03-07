@@ -1,5 +1,7 @@
 package app.OwLearning.Domain.Models;
 
+import app.OwLearning.Shared.Exceptions.ExceptionCategorieInexistante;
+
 /**
  * Enum Categorie qui répértorie les différents types de cours
  */
@@ -42,10 +44,20 @@ public enum Categorie
     {
         for (Categorie uneCategorie : Categorie.values())
         {
-            if (uneCategorie.getLabel().equals(label))
+            if (uneCategorie.getLabel().equalsIgnoreCase(label))
                 return true;
         }
         return false;
+    }
+
+    public static Categorie stringEnCategorie(String label)
+    {
+        for (Categorie uneCategorie : Categorie.values())
+        {
+            if (uneCategorie.getLabel().equalsIgnoreCase(label))
+                return uneCategorie;
+        }
+        throw new ExceptionCategorieInexistante("La catégorie n'existe pas", label);
     }
 
     public String toString()

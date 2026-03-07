@@ -59,14 +59,8 @@ public interface IServiceCours
      * @param titre nouveau titre du cours
      * @param description nouvelle description du cours
      */
-    public abstract void modifierInformationsCours(int coursId, String titre, String description);
+    public abstract void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive);
 
-    /**
-     * Cette methode change le statut privé ou public d’un cours
-     * @param coursId id du cours
-     * @param estPrive nouveau statut du cours
-     */
-    public abstract void coursPrive(int coursId, boolean estPrive);
 
     /**
      * Methode permettant de supprimer un cours
@@ -88,14 +82,7 @@ public interface IServiceCours
      * @param ChapitreId id du chapitre
      * @return l'objet chapitre qui est retirer
      */
-    public boolean retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
-
-    /**
-     * Methode qui permet la modification d'une difficulté d'un cours
-     * @param coursId id du cours
-     * @param difficulte la difficulté à modifier
-     */
-    public void modifierDifficulteCours(int coursId, Difficulte difficulte);
+    public void retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
 
     /**
      * Methode permettant d'ajouter une categorie à un cours
@@ -110,5 +97,5 @@ public interface IServiceCours
      * @param categorie categorie a supprimer
      * @return la categorie qui est retirer du cours
      */
-    public boolean supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
+    public void supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
 }

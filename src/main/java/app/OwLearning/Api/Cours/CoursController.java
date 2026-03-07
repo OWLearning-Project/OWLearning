@@ -8,7 +8,6 @@ import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
 import app.OwLearning.Shared.DTO.CoursCreationDTO;
 import app.OwLearning.Shared.DTO.CoursModificationDTO;
-import app.OwLearning.Shared.DTO.CoursAccesDTO;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
@@ -91,7 +90,7 @@ public class CoursController {
         return ResponseEntity.status(HttpStatus.CREATED).body(cours);
     }
 
-    @PostMapping("/{idCours}/publication")
+    @PostMapping("/{idCours}/publier")
     public ResponseEntity<?> publierCours(@PathVariable("idCours") int idCours)
     {
         serviceCours.publierCours(idCours);
@@ -100,30 +99,8 @@ public class CoursController {
     
     @PutMapping("/{idCours}")
     public ResponseEntity<?> modifierInformationsCours(@PathVariable("idCours") int idCours, @RequestBody CoursModificationDTO dto){
-        try{
-            serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription());
-            return ResponseEntity.ok().build();
-        }
-        catch(ExceptionCoursInexistant e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-
-    }
-    @PutMapping("/{idCours/Acces}")
-    public ResponseEntity<?> coursPrive(@PathVariable("idCours") int idCours, @RequestBody CoursAccesDTO dto) {
-        try{
-            serviceCours.coursPrive(idCours, dto.getEstPrive());
-            return ResponseEntity.ok().build();
-        }
-        catch(ExceptionCoursInexistant e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte(), dto.getEstPrive());
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{idCours}")
@@ -132,7 +109,6 @@ public class CoursController {
         Cours coursSupprime = serviceCours.supprimerCours(idCours);
         return ResponseEntity.accepted().body("le cours a été supprimé");
     }
-
 
     /**
      * Ajout d'un chapitre dans un cours
@@ -156,10 +132,8 @@ public class CoursController {
      */
     @DeleteMapping("/{idCours}/chapitres/{idChapitre}")
     public ResponseEntity<?> retirerChapitre(@PathVariable("idCours") int coursId, @PathVariable("idChapitre") int chapitreId) throws ExceptionMauvaisIdChapitre {
-        boolean chapitreRetiree = serviceCours.retirerChapitre(coursId, chapitreId);
-        if (chapitreRetiree)
-            return ResponseEntity.accepted().body("le chapitre a été retiré");
-        return ResponseEntity.badRequest().body("Le chapitre n'a pas pu être retiré");
+        serviceCours.retirerChapitre(coursId, chapitreId);
+        return ResponseEntity.accepted().body("le chapitre a été retiré");
     }
 
     /**
@@ -177,14 +151,13 @@ public class CoursController {
     /**
      * Enlever une catégorie à un cours
      * @param coursId
-     * @param uneCategorie
+     * @param unNomCategorie
      * @return
      */
     @DeleteMapping("/{idCours}/categories/{nomCategorie}")
-    public ResponseEntity<?> supprimerCategorie(@PathVariable("idCours") int coursId, @PathVariable("nomCategorie") Categorie uneCategorie) throws ExceptionMauvaisLabelCategorie {
-        boolean categorieSupprimee = serviceCours.supprimerCategorieCours(coursId, uneCategorie);
-        if (categorieSupprimee)
-            return ResponseEntity.accepted().build();
-        return ResponseEntity.badRequest().body("Le chapitre n'a pas pu être retiré");
+    public ResponseEntity<?> supprimerCategorie(@PathVariable("idCours") int coursId, @PathVariable("nomCategorie") String unNomCategorie) throws ExceptionMauvaisLabelCategorie {
+        Categorie laCategorie = Categorie.stringEnCategorie(unNomCategorie);
+        serviceCours.supprimerCategorieCours(coursId, laCategorie);
+        return ResponseEntity.accepted().build();
     }
 }

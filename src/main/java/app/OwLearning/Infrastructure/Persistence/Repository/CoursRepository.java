@@ -4,15 +4,10 @@ import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
-import app.OwLearning.Shared.Exceptions.ExceptionCategorieDejaPresente;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.apache.commons.lang3.builder.Diff;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe CoursRepository pour récupérer les cours
@@ -83,23 +78,6 @@ public class CoursRepository implements ICoursRepository
     }
 
     /**
-     * Modifie le titre et la description d’un cours
-     * @param coursId id du cours
-     * @param titre nouveau titre du cours
-     * @param description nouvelle description du cours
-     */
-    @Override
-    public void modifierInformationsCours(int coursId, String titre, String description){
-
-        Cours cours = jpaRepository.findById(coursId).orElse(null);
-        if (cours == null) throw new IllegalArgumentException("Cours introuvable");
-        if (titre !=null && !titre.isBlank()) cours.setTitre(titre);
-        if (description !=null && !description.isBlank()) cours.setDescription(description);
-
-        jpaRepository.save(cours);
-    }
-
-    /**
      * Methode permettant de supprimer un cours
      * @param coursId id du cours
      * @return l'objet Cours supprimé
@@ -115,22 +93,6 @@ public class CoursRepository implements ICoursRepository
     }
 
     /**
-     * Methode qui permet de modifier la difficulté d'un cours grace a l'id
-     * @param coursId id du cours
-     * @param difficulte la difficulté à modifier
-     */
-    @Override
-    public void modifierDifficulteCours(int coursId, Difficulte difficulte) {
-        Cours cours = this.jpaRepository.findById(coursId).orElse(null);
-        if (cours != null){
-            cours.setDifficulte(difficulte);
-            this.jpaRepository.save(cours);
-        }
-
-    }
-
-
-    /**
      * Méthode pour trouver les cours publiés avec ou sans filtre
      * @return l'ArrayList des Cours publiés
      */
@@ -140,13 +102,14 @@ public class CoursRepository implements ICoursRepository
         return new ArrayList<>(jpaRepository.findByEstPublieTrue());
     }
 
-    public boolean coursExiste(int id){
+    public boolean coursExiste(int id)
+    {
         return this.jpaRepository.existsById(id);
     }
 
     @Override
-    public Cours sauvegarder(Cours cours)
+    public void sauvegarder(Cours cours)
     {
-        return this.jpaRepository.save(cours);
+        this.jpaRepository.save(cours);
     }
 }

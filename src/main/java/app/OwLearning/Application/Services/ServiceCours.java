@@ -3,6 +3,7 @@ package app.OwLearning.Application.Services;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class ServiceCours implements IServiceCours
     {
         if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
         if (!coursRepository.coursExiste(coursId)){
-            throw new IllegalArgumentException("Le cours n'existe pas");
+            throw new ExceptionCoursInexistant("Le cours n'existe pas", coursId);
         }
         Cours cours = coursRepository.trouverParId(coursId);
         cours.publier();
@@ -114,29 +115,23 @@ public class ServiceCours implements IServiceCours
      * @param description nouvelle description
      */
     @Override
-    public void modifierInformationsCours(int coursId, String titre, String description)
+    public void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive)
     {
         if (coursId <= 0) throw new IllegalArgumentException("L'Id du cours n'est pas valide");
         if (titre == null || titre.isBlank()) throw new IllegalArgumentException("Titre non valide");
         if (description == null || description.isBlank()) throw new IllegalArgumentException("Description est vide");
-
-        coursRepository.modifierInformationsCours(coursId, titre, description);
-    }
-
-    /**
-     * Cette methode change le statut privé ou public d’un cours
-     * @param coursId identifiant du cours
-     * @param estPrive nouveau statut
-     */
-    @Override
-    public void coursPrive(int coursId, boolean estPrive)
-    {
-        if (coursId <= 0) throw new IllegalArgumentException("Identifiant du cours invalide");
+        if (difficulte == null) throw new IllegalArgumentException("La difficulté du cours n'est pas renseignée");
         if (!coursRepository.coursExiste(coursId)){
-            throw new IllegalArgumentException("Le cours n'existe pas");
+            throw new ExceptionCoursInexistant("Le cours n'existe pas", coursId);
         }
+
         Cours leCours = coursRepository.trouverParId(coursId);
+
+        leCours.setTitre(titre);
+        leCours.setDescription(description);
+        leCours.setDifficulte(difficulte);
         leCours.visibilite(estPrive);
+
         coursRepository.sauvegarder(leCours);
     }
 
@@ -168,7 +163,7 @@ public class ServiceCours implements IServiceCours
             throw new IllegalArgumentException("Un chapitre à ajouter ne peut pas être null");
         }
         if (!coursRepository.coursExiste(coursId)){
-            throw new IllegalArgumentException("Le cours n'existe pas");
+            throw new ExceptionCoursInexistant("Le cours n'existe pas", coursId);
         }
         Cours leCours = coursRepository.trouverParId(coursId);
         leCours.ajouterChapitre(chapitre);
@@ -182,32 +177,16 @@ public class ServiceCours implements IServiceCours
      * @return l'objet chapitre qui est retirer
      */
     @Override
-    public boolean retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
+    public void retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
         if(coursId <= 0 || chapitreId <= 0) {
             throw new IllegalArgumentException("l'id du cours ou l'id du chapitre est invalide");
         }
         if (!coursRepository.coursExiste(coursId)){
-            throw new IllegalArgumentException("Le cours n'existe pas");
+            throw new ExceptionCoursInexistant("Le cours n'existe pas", coursId);
         }
         Cours leCours = coursRepository.trouverParId(coursId);
         leCours.retirerChapitre(chapitreId);
         coursRepository.sauvegarder(leCours);
-        return true;
-    }
-
-    /**
-     * Methode permettant de modifié la difficulté d'un cours
-     * @param coursId id du cours
-     * @param nouvelleDifficulte la difficulté à modifier
-     */
-    @Override
-    public void modifierDifficulteCours(int coursId, Difficulte nouvelleDifficulte) {
-        Cours coursAvecDifficulteModifie = coursRepository.trouverParId(coursId);
-        if (coursAvecDifficulteModifie == null){
-            throw new IllegalArgumentException("Le cours n'existe pas");
-        }
-        coursAvecDifficulteModifie.setDifficulte(nouvelleDifficulte);
-        coursRepository.sauvegarder(coursAvecDifficulteModifie);
     }
 
     /**
@@ -219,7 +198,7 @@ public class ServiceCours implements IServiceCours
     public void ajouterCategorieCours(int coursId, Categorie categorieAjouter) {
         Cours cours = coursRepository.trouverParId(coursId);
         if (cours == null){
-            throw new IllegalArgumentException("le cours n'existe pas");
+            throw new ExceptionCoursInexistant("le cours n'existe pas", coursId);
         }
         cours.ajouterCategorie(categorieAjouter);
         coursRepository.sauvegarder(cours);
@@ -233,13 +212,12 @@ public class ServiceCours implements IServiceCours
      * @throws ExceptionMauvaisLabelCategorie
      */
     @Override
-    public boolean supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
+    public void supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
         Cours cours = coursRepository.trouverParId(coursId);
         if (cours == null){
-            throw new IllegalArgumentException("le cours n'existe pas");
+            throw new ExceptionCoursInexistant("le cours n'existe pas", coursId);
         }
         cours.supprimerCategorie(categorieASupprimer.getLabel());
         coursRepository.sauvegarder(cours);
-        return true;
     }
 }

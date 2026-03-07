@@ -6,6 +6,7 @@ import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+import org.apache.commons.lang3.builder.Diff;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -155,51 +156,60 @@ public class TestServiceCours
     }
 
     @Test
-    void creerCours() {
+    public void creerCours()
+    {
         // Arrange
         String titre = "Java";
         String description = "Cours Java";
-        String categorie = "PROGRAMMATION";
+        Difficulte difficulte = Difficulte.DEBUTANT;
         int createurId = 1;
+        Createur createur = new Createur();
 
-        Cours coursCree = new Cours();
-        when(coursRepository.creerCours(titre, description, categorie, createurId)).thenReturn(coursCree);
+        Cours coursCree = new Cours(titre, description, false, new ArrayList<Categorie>(), difficulte, createur);
+        when(coursRepository.creerCours(titre, description, difficulte, createurId)).thenReturn(coursCree);
 
         // Act
-        Cours resultat = serviceCours.creerCours(titre, description, categorie, createurId);
+        Cours resultat = serviceCours.creerCours(titre, description, difficulte, createurId);
 
         // Assert
         assertThat(resultat).isSameAs(coursCree);
-        verify(coursRepository).creerCours(titre, description, categorie, createurId);
+        verify(coursRepository).creerCours(titre, description, difficulte, createurId);
         verifyNoMoreInteractions(coursRepository);
     }
 
     @Test
-    void creerCoursAvecTitreVide() {
-        // Arrange
+    public void creerCoursAvecTitreVide()
+    {
         // Act + Assert
-        assertThatThrownBy(() -> serviceCours.creerCours("", "desc", "CAT", 1))
+        assertThatThrownBy(() -> serviceCours.creerCours("", "desc", Difficulte.DEBUTANT, 1))
                 .isInstanceOf(IllegalArgumentException.class);
 
         verifyNoInteractions(coursRepository);
     }
 
     @Test
-    void publierCours() {
+    public void publierCours()
+    {
         // Arrange
         int coursId = 10;
-        doNothing().when(coursRepository).publierCours(coursId);
+        Cours cours = new Cours();
+        when(coursRepository.coursExiste(coursId)).thenReturn(true);
+        when(coursRepository.trouverParId(coursId)).thenReturn(cours);
 
         // Act
         serviceCours.publierCours(coursId);
 
         // Assert
-        verify(coursRepository).publierCours(coursId);
+        assertTrue(cours.getEstPublie());
+        verify(coursRepository).coursExiste(coursId);
+        verify(coursRepository).trouverParId(coursId);
+        verify(coursRepository).sauvegarder(any(Cours.class));
         verifyNoMoreInteractions(coursRepository);
     }
 
     @Test
-    void publierCoursIdNonValide() {
+    public void publierCoursIdNonValide()
+    {
         // Arrange
         int coursId = 0;
 
@@ -211,64 +221,62 @@ public class TestServiceCours
     }
 
     @Test
-    void modifierInformationsCours() {
+    public void publierCoursInexistant()
+    {
+        // Arrange
+        int coursId = 23;
+        when(coursRepository.coursExiste(coursId)).thenReturn(false);
+
+        // Act + Assert
+        assertThrows(ExceptionCoursInexistant.class, () -> serviceCours.publierCours(coursId));
+        verify(coursRepository, times(1)).coursExiste(coursId);
+    }
+
+    @Test
+    void modifierInformationsCours()
+    {
         // Arrange
         int coursId = 5;
         String titre = "Nouveau titre";
         String description = "Nouvelle description";
+        Difficulte difficulte = Difficulte.DEBUTANT;
+        boolean estPrive = true;
 
-        doNothing().when(coursRepository).modifierInformationsCours(coursId, titre, description);
+        Cours cours = new Cours();
+
+        when(coursRepository.coursExiste(coursId)).thenReturn(true);
+        when(coursRepository.trouverParId(coursId)).thenReturn(cours);
 
         // Act
-        serviceCours.modifierInformationsCours(coursId, titre, description);
+        serviceCours.modifierInformationsCours(coursId, titre, description, difficulte, estPrive);
 
         // Assert
-        verify(coursRepository).modifierInformationsCours(coursId, titre, description);
+        assertEquals(titre, cours.getTitre());
+        assertEquals(description, cours.getDescription());
+        assertEquals(difficulte, cours.getDifficulte());
+        assertEquals(estPrive, cours.getEstPrive());
+
+        verify(coursRepository).trouverParId(coursId);
+        verify(coursRepository).sauvegarder(cours);
         verifyNoMoreInteractions(coursRepository);
     }
 
     @Test
-    void modifierInformationsCoursDescriptionVide() {
+    void modifierInformationsCoursDescriptionVide()
+    {
         // Arrange
         int coursId = 5;
 
         // Act + Assert
-        assertThatThrownBy(() -> serviceCours.modifierInformationsCours(coursId, "titre", ""))
+        assertThatThrownBy(() -> serviceCours.modifierInformationsCours(coursId, "titre", "", Difficulte.DEBUTANT, true))
                 .isInstanceOf(IllegalArgumentException.class);
 
         verifyNoInteractions(coursRepository);
     }
 
     @Test
-    void coursPrive() {
-        // Arrange
-        int coursId = 7;
-        boolean estPrive = true;
-
-        doNothing().when(coursRepository).coursPrive(coursId, estPrive);
-
-        // Act
-        serviceCours.coursPrive(coursId, estPrive);
-
-        // Assert
-        verify(coursRepository).coursPrive(coursId, estPrive);
-        verifyNoMoreInteractions(coursRepository);
-    }
-
-    @Test
-    void coursPriveIdNonValide() {
-        // Arrange
-        int coursId = -1;
-
-        // Act + Assert
-        assertThatThrownBy(() -> serviceCours.coursPrive(coursId, true))
-                .isInstanceOf(IllegalArgumentException.class);
-
-        verifyNoInteractions(coursRepository);
-    }
-
-    @Test
-    void supprimerCours() {
+    void supprimerCours()
+    {
         // Arrange
         int coursId = 3;
         Cours coursSupprime = new Cours();
@@ -284,7 +292,8 @@ public class TestServiceCours
     }
 
     @Test
-    void supprimerCoursIdNonValide() {
+    void supprimerCoursIdNonValide()
+    {
         // Arrange
         int coursId = 0;
 
@@ -296,25 +305,31 @@ public class TestServiceCours
     }
 
     @Test
-    public void TestAjouterChapitreValide(){
+    public void TestAjouterChapitreValide()
+    {
         //Arrange
         int coursId = 5;
         ArrayList<Ressource> ressourceTest = new ArrayList<>();
         Chapitre chapitreTest = new Chapitre("test", "je suis le test", ressourceTest);
+        Cours coursTest = new Cours("test", "", false, new ArrayList<Categorie>(), Difficulte.AVANCE, new Createur());
 
         when(coursRepository.coursExiste(coursId)).thenReturn(true);
+        when(coursRepository.trouverParId(coursId)).thenReturn(coursTest);
 
         //Act
         serviceCours.ajouterChapitre(coursId, chapitreTest);
 
         //Assert
-        verify(coursRepository, times(1)).ajouterChapitre(coursId, chapitreTest);
-        assertEquals("test", chapitreTest.getTitre());
-        assertEquals("je suis le test", chapitreTest.getDescription());
+        verify(coursRepository, times(1)).sauvegarder(coursTest);
+        verify(coursRepository, times(1)).trouverParId(coursId);
+        verify(coursRepository, times(1)).coursExiste(coursId);
+        assertTrue(coursTest.getChapitres().contains(chapitreTest));
+        assertEquals(coursTest, chapitreTest.getCours());
     }
 
     @Test
-    public void TestAjouterChapitreNull(){
+    public void TestAjouterChapitreNull()
+    {
         //Arrange
         int coursId = 4;
         Chapitre chapitreTestNull = null;
@@ -327,37 +342,51 @@ public class TestServiceCours
     }
 
     @Test
-    public void TestAjouterChapitreCoursNull() {
+    public void TestAjouterChapitreCoursInexistant()
+    {
         //Arrange
         Chapitre chapitreTest = new Chapitre();
         int coursIdInexistant = 85;
 
+        when(coursRepository.coursExiste(coursIdInexistant)).thenReturn(false);
+
         //Act et Assert
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(ExceptionCoursInexistant.class, () -> {
             serviceCours.ajouterChapitre(coursIdInexistant, chapitreTest);
         });
         verify(coursRepository, never()).sauvegarder(any());
     }
 
     @Test
-    public void TestRetirerChapitreExistant() throws ExceptionMauvaisIdChapitre {
+    public void TestRetirerChapitreExistant() throws ExceptionMauvaisIdChapitre
+    {
         //Arrange
         int coursId = 9;
         int chapitreId = 17;
-        Chapitre chapitreTest = mock(Chapitre.class);
-        when(chapitreTest.getId()).thenReturn(chapitreId);
-        when(coursRepository.retirerChapitre(coursId, chapitreId)).thenReturn(chapitreTest);
+
+        Cours cours = new Cours("Test", "Description", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, new Createur());
+
+        Chapitre chapitreARetirer = mock(Chapitre.class);
+        when(chapitreARetirer.getId()).thenReturn(chapitreId);
+
+        cours.ajouterChapitre(chapitreARetirer);
+
+        when(coursRepository.coursExiste(coursId)).thenReturn(true);
+        when(coursRepository.trouverParId(coursId)).thenReturn(cours);
 
         //Act
-        Chapitre chapitreRetire = serviceCours.retirerChapitre(coursId, chapitreId);
+        serviceCours.retirerChapitre(coursId, chapitreId);
 
         //Assert
-        verify(coursRepository, times(1)).retirerChapitre(coursId, chapitreId);
-        assertEquals(chapitreRetire.getId(), chapitreId);
+        assertEquals(0, cours.getChapitres().size());
+        verify(coursRepository, times(1)).coursExiste(coursId);
+        verify(coursRepository, times(1)).trouverParId(coursId);
+        verify(coursRepository, times(1)).sauvegarder(cours);
     }
 
     @Test
-    public void TestRetirerChapitreInvalide(){
+    public void TestRetirerChapitreInvalide()
+    {
         //Arrange
         int coursId = -9;
         int chapitreIdInvalide = -15;
@@ -370,74 +399,49 @@ public class TestServiceCours
     }
 
     @Test
-    public void TestRetirerChapitreInexistant() throws ExceptionMauvaisIdChapitre {
+    public void TestRetirerChapitreCoursInexistant() throws ExceptionCoursInexistant
+    {
         //Arrange
         int coursId = 5;
         int chapitreId = 12;
 
-        when(coursRepository.retirerChapitre(coursId, chapitreId)).thenReturn(null);
+        when(coursRepository.coursExiste(coursId)).thenReturn(false);
 
-        //Act
-        Chapitre resultat = serviceCours.retirerChapitre(coursId, chapitreId);
-
-        //Assert
-        assertNull(resultat);
-        verify(coursRepository).retirerChapitre(coursId, chapitreId);
+        //Act + Assert
+        assertThrows(ExceptionCoursInexistant.class, () -> serviceCours.retirerChapitre(coursId, chapitreId));
+        verify(coursRepository).coursExiste(coursId);
     }
 
     @Test
-    public void TestModifierDifficulteValide(){
+    public void TestRetirerChapitreInexistant()
+    {
         //Arrange
-        int coursId = 10;
-        Cours coursTest = new Cours();
-        Difficulte actuelleDificulte = Difficulte.AVANCE;
-        Difficulte nouvelleDifficulte = Difficulte.DEBUTANT;
+        int coursId = 5;
+        int chapitreId = -23;
 
-        coursTest.setDifficulte(actuelleDificulte);
-        when(coursRepository.trouverParId(coursId)).thenReturn(coursTest);
-
-        //Act
-        serviceCours.modifierDifficulteCours(coursId, nouvelleDifficulte);
-
-        //Assert
-        verify(coursRepository).sauvegarder(coursTest);
-        assertEquals(nouvelleDifficulte, coursTest.getDifficulte());
+        //Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> serviceCours.retirerChapitre(coursId, chapitreId));
     }
 
     @Test
-    public void TestAjouterCategorieCoursValide(){
-        //Arrange
-        int coursId = 3;
-        ArrayList<Categorie> listeCategories = new ArrayList<>();
-        Cours coursTest = new Cours("Cours de test", "cours qui va servire de test", false, listeCategories,  Difficulte.DEBUTANT, new Createur());
-        Categorie categorieAjouter = Categorie.DEVELOPPEMENT_MOBILE;
-
-        when(coursRepository.trouverParId(coursId)).thenReturn(coursTest);
-
-        //Act
-        serviceCours.ajouterCategorieCours(coursId, categorieAjouter);
-
-        //Assert
-        assertTrue(coursTest.getCategories().contains(categorieAjouter));
-        assertEquals(1, coursTest.getCategories().size());
-        verify(coursRepository).ajouterCategorieCours(coursId, categorieAjouter);
-    }
-
-    @Test
-    public void TestAjouterCategorieCoursInexistant(){
+    public void TestAjouterCategorieCoursInexistant()
+    {
         //Arrange
         int coursIdInexistant = 555;
+
         when(coursRepository.trouverParId(coursIdInexistant)).thenReturn(null);
 
         //Act et Assert
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        Exception exception = assertThrows(ExceptionCoursInexistant.class, () -> {
             serviceCours.ajouterCategorieCours(coursIdInexistant, Categorie.DEVELOPPEMENT_MOBILE);
         });
         assertEquals("le cours n'existe pas", exception.getMessage());
+        verify(coursRepository, times(1)).trouverParId(coursIdInexistant);
     }
 
     @Test
-    public void TestSupprimerCategorieValide() throws ExceptionMauvaisLabelCategorie {
+    public void TestSupprimerCategorieValide() throws ExceptionMauvaisLabelCategorie
+    {
         //Arrange
         int coursId = 7;
         ArrayList<Categorie> listeCategories = new ArrayList<>();
@@ -450,12 +454,12 @@ public class TestServiceCours
         when(coursRepository.trouverParId(coursId)).thenReturn(coursTest);
 
         //Act
-        Categorie resultat = serviceCours.supprimerCategorieCours(coursId, Categorie.IA_DATASCIENCES);
+        serviceCours.supprimerCategorieCours(coursId, Categorie.IA_DATASCIENCES);
 
         //Assert
         assertTrue(coursTest.getCategories().contains(categoriePasSupprimer));
+        assertFalse(coursTest.getCategories().contains(categorieSupprimer));
         assertEquals(1, coursTest.getCategories().size());
-        assertEquals(resultat, categorieSupprimer);
-        verify(coursRepository).supprimerCategorieCours(coursId, categorieSupprimer);
+        verify(coursRepository).trouverParId(coursId);
     }
 }
