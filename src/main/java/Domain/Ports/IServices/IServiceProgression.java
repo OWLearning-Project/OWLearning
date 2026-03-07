@@ -1,9 +1,5 @@
 package Domain.Ports.IServices;
 
-import Domain.Models.Cours;
-
-import java.util.ArrayList;
-
 public interface IServiceProgression {
     /**
      * Méthode qui permet de récupérer le taux de progression d'un élève sur un cours

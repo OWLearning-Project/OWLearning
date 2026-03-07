@@ -1,7 +1,7 @@
 package Infrastructure.Repository;
 
-import Domain.Models.Progression;
-import Domain.Models.ProgressionId;
+import app.OwLearning.Domain.Models.Progression;
+import app.OwLearning.Domain.Models.ProgressionId;
 import Infrastructure.Persistence.Interface.JpaProgressionRepository;
 import Infrastructure.Persistence.Repository.ProgressionRepository;
 import org.junit.jupiter.api.Test;

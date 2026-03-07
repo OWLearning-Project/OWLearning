@@ -1,14 +1,8 @@
 package Application.Services;
 
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Progression;
+import app.OwLearning.Domain.Models.Progression;
 import Domain.Ports.IRepository.IProgressionRepository;
 import Domain.Ports.IServices.IServiceProgression;
-import jakarta.persistence.EntityNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServiceProgression implements IServiceProgression {
 

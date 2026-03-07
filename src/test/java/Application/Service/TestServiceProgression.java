@@ -1,10 +1,9 @@
 package Application.Service;
 
 import Application.Services.ServiceProgression;
-import Domain.Models.Chapitre;
-import Domain.Models.Cours;
-import Domain.Models.Eleve;
-import Domain.Models.Progression;
+import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Domain.Models.Eleve;
+import app.OwLearning.Domain.Models.Progression;
 import Domain.Ports.IRepository.IProgressionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
