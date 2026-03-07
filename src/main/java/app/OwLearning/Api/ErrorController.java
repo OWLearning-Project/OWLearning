@@ -32,7 +32,7 @@ public class ErrorController
             ExceptionMauvaisLabelCategorie.class,
             ExceptionUtilisateurInexistant.class,
             ExceptionChapitreIntrouvable.class,
-            ExceptionRessourceIntrouvable.class})
+            ExceptionRessourceIntrouvableDansChap.class})
     public ResponseEntity<String> not_found(Exception ex)
     {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.toString());

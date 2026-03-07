@@ -64,6 +64,8 @@ public class Ressource {
         this.url = url;
     }
 
+    public void setType(TypeRessource type){this.type = type;}
+
     public String toString()
     {
         String labelType = "";
