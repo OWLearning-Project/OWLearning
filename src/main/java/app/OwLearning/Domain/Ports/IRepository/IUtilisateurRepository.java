@@ -2,6 +2,8 @@ package app.OwLearning.Domain.Ports.IRepository;
 
 import app.OwLearning.Domain.Models.Utilisateur;
 
+import java.util.ArrayList;
+
 /**
  * Interface de UtilisateurRepository qui permet de trouver un Utilisateur grâce à son email et de sauvegarder un Utilisateur
  */
@@ -27,4 +29,15 @@ public interface IUtilisateurRepository
      * @return l'utilisateur trouvé
      */
     public  Utilisateur trouverParId(int id);
+
+    public int mettreAJour(Utilisateur utilisateur);
+
+    //Ajout methode pour ServiceInscription
+    /**
+     * Méthode qui récupére les élèves inscrits à un cours
+     *
+     * @param idCours id du cours
+     * @return la liste des utilisateurs inscrits
+     */
+    public abstract ArrayList<Utilisateur> trouverEtudiantsInscrits(int idCours);
 }
