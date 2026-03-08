@@ -1,8 +1,6 @@
-package Domain.Ports.IRepository;
+package app.OwLearning.Domain.Ports.IRepository;
 
 import app.OwLearning.Domain.Models.Progression;
-
-import java.util.List;
 
 public interface IProgressionRepository {
     /**

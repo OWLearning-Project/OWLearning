@@ -1,9 +1,11 @@
-package Application.Services;
+package app.OwLearning.Application.Services;
 
 import app.OwLearning.Domain.Models.Progression;
-import Domain.Ports.IRepository.IProgressionRepository;
-import Domain.Ports.IServices.IServiceProgression;
+import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
+import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServiceProgression implements IServiceProgression {
 
     private final IProgressionRepository progressionRepository;

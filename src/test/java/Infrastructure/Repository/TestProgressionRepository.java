@@ -2,8 +2,8 @@ package Infrastructure.Repository;
 
 import app.OwLearning.Domain.Models.Progression;
 import app.OwLearning.Domain.Models.ProgressionId;
-import Infrastructure.Persistence.Interface.JpaProgressionRepository;
-import Infrastructure.Persistence.Repository.ProgressionRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaProgressionRepository;
+import app.OwLearning.Infrastructure.Persistence.Repository.ProgressionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

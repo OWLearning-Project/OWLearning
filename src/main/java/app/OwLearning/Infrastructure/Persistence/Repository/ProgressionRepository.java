@@ -1,7 +1,7 @@
-package Infrastructure.Persistence.Repository;
+package app.OwLearning.Infrastructure.Persistence.Repository;
 
-import Domain.Ports.IRepository.IProgressionRepository;
-import Infrastructure.Persistence.Interface.JpaProgressionRepository;
+import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
+import app.OwLearning.Infrastructure.Persistence.Interface.JpaProgressionRepository;
 import app.OwLearning.Domain.Models.Progression;
 import app.OwLearning.Domain.Models.ProgressionId;
 import org.springframework.stereotype.Component;

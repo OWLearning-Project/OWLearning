@@ -1,4 +1,4 @@
-package Domain.Ports.IServices;
+package app.OwLearning.Domain.Ports.IServices;
 
 public interface IServiceProgression {
     /**

@@ -41,10 +41,15 @@ public class ErrorController
     public ResponseEntity<String> bad_request(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> exception(NullPointerException ex)
+    {
+        return ResponseEntity.status(404).body("Une erreur est survenue : " + ex.getMessage());
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exception(Exception ex)
     {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Une erreure est survenue : " + ex.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Une erreur est survenue : " + ex.getMessage());
     }
 
 }

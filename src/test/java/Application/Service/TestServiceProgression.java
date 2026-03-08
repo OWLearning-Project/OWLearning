@@ -1,10 +1,10 @@
 package Application.Service;
 
-import Application.Services.ServiceProgression;
+import app.OwLearning.Application.Services.ServiceProgression;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Progression;
-import Domain.Ports.IRepository.IProgressionRepository;
+import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
