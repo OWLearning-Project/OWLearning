@@ -21,56 +21,25 @@ public class InscriptionController {
     }
 
     @PostMapping("etudiants/{idEtudiant}/cours/{idCours}")
-    public ResponseEntity<?> inscrireEtudiant(@PathVariable("idEtudiant") int idEtudiant, @PathVariable("dCours") int idCours){
-        try{
-            int resultat = serviceInscription.inscrireEtudiant(idEtudiant, idCours);
-            if(resultat <- 0)
-                return ResponseEntity.badRequest().body("Inscription impossible");
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+    public ResponseEntity<?> inscrireEtudiant(@PathVariable("idEtudiant") int idEtudiant, @PathVariable("idCours") int idCours){
+        int resultat = serviceInscription.inscrireEtudiant(idEtudiant, idCours);
+        return ResponseEntity.status(HttpStatus.CREATED).body(resultat);
+    }
 
-    }
-    @GetMapping("/etudiants/{idEtudiant}")
-    public ResponseEntity<?> getInscriptionsEtudiant(@PathVariable("idEtudiant") int idEtudiant){
-        try{
-            ArrayList<Cours> cours = serviceInscription.getInscriptionsEtudiant(idEtudiant);
-            return ResponseEntity.ok(cours);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-    @PostMapping("/cours/{idCours/etudiants/{idEtudiant}/validation")
+    @PostMapping("/cours/{idCours}/etudiants/{idEtudiant}/validation")
     public ResponseEntity<?> validerInscription(@PathVariable("idCours") int idCours, @PathVariable("idEtudiant") int idEtudiant){
-        try{
-            serviceInscription.validerInscription(idCours, idEtudiant);
-            return ResponseEntity.ok().build();
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        serviceInscription.validerInscription(idCours, idEtudiant);
+        return ResponseEntity.ok().build();
     }
     @PostMapping("/cours/{idCours}/etudiants/{idEtudiant}/refus")
     public ResponseEntity<?> refuserInscription(@PathVariable("idCours") int idCours, @PathVariable("idEtudiant") int idEtudiant){
-        try{
-            serviceInscription.refuserInscription(idCours, idEtudiant);
-            return ResponseEntity.ok().build();
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        serviceInscription.refuserInscription(idCours, idEtudiant);
+        return ResponseEntity.ok().build();
+
     }
     @GetMapping("/cours/{idCours}/etudiants")
     public ResponseEntity<?> getEtudiantsInscrits(@PathVariable("idCours") int idCours){
-        try{
-            ArrayList<Utilisateur> etudiant = serviceInscription.getEtudiantsInscrits(idCours);
-            return ResponseEntity.ok(etudiant);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        ArrayList<Utilisateur> etudiant = serviceInscription.getEtudiantsInscrits(idCours);
+        return ResponseEntity.ok(etudiant);
     }
 }

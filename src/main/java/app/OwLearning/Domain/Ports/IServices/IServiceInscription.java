@@ -14,13 +14,6 @@ public interface IServiceInscription {
      */
     public abstract int inscrireEtudiant(int idEtudiant, int idCours);
 
-    /**
-     * On récupère les cours auxquels un élève est inscrit
-     *
-     * @param idEtudiant id de l'élève
-     * @return la liste de ses cours
-     */
-    public abstract ArrayList<Cours> getInscriptionsEtudiant(int idEtudiant);
 
     /**
      * On valide l'inscription d'un élève à un cours

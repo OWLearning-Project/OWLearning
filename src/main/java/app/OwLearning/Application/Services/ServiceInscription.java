@@ -1,6 +1,7 @@
 package app.OwLearning.Application.Services;
 
 import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
@@ -40,21 +41,12 @@ public class ServiceInscription implements IServiceInscription
         if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
         if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
 
-        return coursRepository.inscrireEtudiant(idEtudiant, idCours);
-    }
+        Cours cours = coursRepository.trouverParId(idCours);
+        Eleve eleve = (Eleve) utilisateurRepository.trouverParId(idEtudiant);
+        cours.ajouterEleve(eleve);
+        coursRepository.sauvegarder(cours);
 
-    /**
-     * On récupère les cours auxquels un élève est inscrit
-     *
-     * @param idEtudiant id de l'élève
-     * @return la liste de ses cours
-     */
-    @Override
-    public ArrayList<Cours> getInscriptionsEtudiant(int idEtudiant)
-    {
-        if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
-
-        return coursRepository.trouverInscriptionsEtudiant(idEtudiant);
+        return cours.getId();
     }
 
     /**

@@ -108,5 +108,5 @@ public interface ICoursRepository
      */
     public abstract void refuserInscription(int idCours, int idEtudiant);
 
-
+    public abstract void sauvegarder(Cours cours);
 }
