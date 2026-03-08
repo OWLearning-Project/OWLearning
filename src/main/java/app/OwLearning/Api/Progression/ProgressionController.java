@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/progression")
 public class ProgressionController {
@@ -23,6 +25,6 @@ public class ProgressionController {
             return ResponseEntity.badRequest().body("id incorrect");
         }
         float taux = serviceProgression.getProgressionEleve(eleveId, coursId);
-        return ResponseEntity.ok(taux);
+        return ResponseEntity.ok(Map.of("tauxProgression", taux));
     }
 }
