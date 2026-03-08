@@ -1,5 +1,8 @@
 package app.OwLearning.Shared.DTO;
 
+/**
+ * DTO pour la création d'un chapitre
+ */
 public class ChapitreDTO {
 
     private String titre;

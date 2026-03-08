@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/**
+ * Controller ProgressionController permettant d'accéder aux données liées à la progression
+ */
 @RestController
 @RequestMapping("api/progression")
 public class ProgressionController {

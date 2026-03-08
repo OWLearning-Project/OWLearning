@@ -1,5 +1,8 @@
 package app.OwLearning.Shared.DTO;
 
+/**
+ * DTO pour l'inscription d'un utilisateur
+ */
 public class UtilisateurInscriptionDTO
 {
     private String nom;

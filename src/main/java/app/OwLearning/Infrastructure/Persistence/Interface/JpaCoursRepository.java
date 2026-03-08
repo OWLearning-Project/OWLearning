@@ -5,14 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 /**
- * Interface JpaCoursRepository permettant de récupérer les cours dans la bd avec des requêtes SQL natives
+ * Interface JpaCoursRepository permettant de récupérer les cours dans la bd
  */
 public interface JpaCoursRepository extends JpaRepository<Cours, Integer>
 {
 
-    /**
-     * @return la liste des cours publiés
-     */
     public List<Cours> findByEstPublieTrue();
 
     public List<Cours> findByCreateurIdUtilisateur(int idCreateur);

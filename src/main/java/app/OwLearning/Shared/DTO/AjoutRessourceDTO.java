@@ -2,6 +2,9 @@ package app.OwLearning.Shared.DTO;
 
 import app.OwLearning.Domain.Models.TypeRessource;
 
+/**
+ * DTO permettant l'ajout de ressource
+ */
 public class AjoutRessourceDTO
 {
     private String nom;

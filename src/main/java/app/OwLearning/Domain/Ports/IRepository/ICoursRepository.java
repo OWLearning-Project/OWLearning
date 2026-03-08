@@ -52,8 +52,17 @@ public interface ICoursRepository
      */
     public abstract Cours supprimerCours(int coursId);
 
+    /**
+     * Vérifie si un cours existe via son id
+     * @param coursId
+     * @return true ou false
+     */
     public abstract boolean coursExiste(int coursId);
 
 
+    /**
+     * Sauvegarde le nouvel objet Cours
+     * @param cours
+     */
     public abstract void sauvegarder(Cours cours);
 }

@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+/**
+ * Controller permettant de gérer le retour textuel des exceptions
+ */
 @RestControllerAdvice
 public class ErrorController
 {

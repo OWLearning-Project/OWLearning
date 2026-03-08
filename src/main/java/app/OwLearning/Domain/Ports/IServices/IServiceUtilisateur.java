@@ -1,6 +1,9 @@
 package app.OwLearning.Domain.Ports.IServices;
 import app.OwLearning.Domain.Models.Utilisateur;
 
+/**
+ * Interface IServiceUtilisateur définissant le contrat pour le traitement des utilisateurs
+ */
 public interface IServiceUtilisateur {
     /**
      * Cette méthode permet de récupérer le profil d'un utilisateur via son identifiant

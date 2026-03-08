@@ -5,11 +5,18 @@ import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
 import org.springframework.stereotype.Service;
 
+/**
+ * Classe ServiceProgression, permet de gérer les traitements liés à la progression
+ */
 @Service
 public class ServiceProgression implements IServiceProgression {
 
     private final IProgressionRepository progressionRepository;
 
+    /**
+     * Constructeur de ServiceProgression
+     * @param progressionRepository
+     */
     public ServiceProgression(IProgressionRepository progressionRepository) {
         this.progressionRepository = progressionRepository;
     }

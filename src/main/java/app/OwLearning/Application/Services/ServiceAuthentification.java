@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 /**
- * Classe ServiceAuthentification qui permet d'inscrire de connecter ou de déconnecter un utilisateur
+ * Classe ServiceAuthentification qui permet de gérer les traitements d'authentification
  */
 @Service
 public class ServiceAuthentification

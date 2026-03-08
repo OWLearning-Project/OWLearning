@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller AuthentificationController permettant d'accéder aux données liées à l'authentification
+ */
 @RestController
 @RequestMapping("/api/authentification")
 public class AuthentificationController

@@ -19,7 +19,7 @@ public interface IServiceAuthentification
      * @param role
      * @throws ExceptionCompteExistant
      */
-    public void inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant;
+    public abstract void inscription(String nom, String prenom, String email, String mdp, int age, String niveauEtude, String role) throws ExceptionCompteExistant;
 
     /**
      * Méthode qui permet de se connecter à l'application
@@ -28,7 +28,7 @@ public interface IServiceAuthentification
      * @return le token de connexion
      * @throws ExceptionMauvaisIdentifiants
      */
-    public String connexion(String email,String mdp) throws ExceptionMauvaisIdentifiants;
+    public abstract String connexion(String email,String mdp) throws ExceptionMauvaisIdentifiants;
 
     /**
      * Méthode qui permet de se déconnecter
@@ -36,5 +36,5 @@ public interface IServiceAuthentification
      * @return true si déconnexion réussi false sinon
      * @throws ExceptionMauvaisIdentifiants
      */
-    public boolean deconnexion(String token) throws ExceptionMauvaisIdentifiants;
+    public abstract boolean deconnexion(String token) throws ExceptionMauvaisIdentifiants;
 }

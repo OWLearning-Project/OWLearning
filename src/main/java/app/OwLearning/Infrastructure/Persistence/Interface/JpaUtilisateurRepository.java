@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Interface permettant de réutiliser une interface de JPA pour redfinir nos requêtes SQL
+ * Interface JpaUtilisateurRepository permettant de récupérer les utilisateurs dans la bd
  */
 @Repository
 public interface JpaUtilisateurRepository extends JpaRepository<Utilisateur, Integer>

@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+/**
+ * Controller ChapitreController permettant d'accéder aux données liées aux chapitres
+ */
 @RestController
 @RequestMapping("api/chapitre")
 public class ChapitreController {

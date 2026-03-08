@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 /**
- * Classe UtilisateurRepository qui permet d'intéragir avec la base de données
+ * Classe UtilisateurRepository qui permet de récupérer les utilisateurs
  */
 @Component
 public class UtilisateurRepository implements IUtilisateurRepository

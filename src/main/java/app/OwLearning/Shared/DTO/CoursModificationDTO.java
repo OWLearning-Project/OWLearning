@@ -2,6 +2,9 @@ package app.OwLearning.Shared.DTO;
 
 import app.OwLearning.Domain.Models.Difficulte;
 
+/**
+ * DTO pour la modification d'un cours
+ */
 public class CoursModificationDTO {
     private String titre;
     private String description;

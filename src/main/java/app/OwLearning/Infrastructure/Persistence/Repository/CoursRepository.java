@@ -18,6 +18,11 @@ public class CoursRepository implements ICoursRepository
     private final JpaCoursRepository jpaRepository;
     private final IUtilisateurRepository utilisateurRepository;
 
+    /**
+     * Constructeur de CoursRepository
+     * @param jpaRepository
+     * @param utilisateurRepository
+     */
     public CoursRepository(JpaCoursRepository jpaRepository, IUtilisateurRepository utilisateurRepository)
     {
         this.jpaRepository = jpaRepository;
@@ -101,11 +106,20 @@ public class CoursRepository implements ICoursRepository
         return new ArrayList<>(jpaRepository.findByEstPublieTrue());
     }
 
+    /**
+     * Méthode pour vérifier si un cours existe
+     * @param id
+     * @return true ou false
+     */
     public boolean coursExiste(int id)
     {
         return this.jpaRepository.existsById(id);
     }
 
+    /**
+     * Méthode qui permet de sauvegarder un cours
+     * @param cours
+     */
     @Override
     public void sauvegarder(Cours cours)
     {

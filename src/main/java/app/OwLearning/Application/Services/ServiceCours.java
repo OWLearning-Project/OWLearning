@@ -39,7 +39,6 @@ public class ServiceCours implements IServiceCours
 
     /**
      * Méthode qui permet de récupérer les cours créés par un créateur avec son id
-     * Filtrage possible avec les paramètres
      * @param idCreateur id du créateur
      * @return l'ArrayList des Cours créés
      */
@@ -93,7 +92,7 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Publier un cours
+     * Publier un cours via son identifiant
      * @param coursId identifiant du cours
      */
     @Override
@@ -109,10 +108,11 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Modifie le titre et la description d’un cours
+     * Modifie le titre, la description, la difficulté et la visibilité d'un cours
      * @param coursId identifiant du cours
      * @param titre nouveau titre
      * @param description nouvelle description
+     * @param estPrive visibilité du cours
      */
     @Override
     public void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive)
@@ -153,7 +153,7 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Methode qui va verifier qu'un chapitre n'est pas null avant de l'ajouter à un cours
+     * Methode qui ajoute un chapitre à un cours
      * @param coursId id du cours
      * @param chapitre chapitre à ajouter
      */
@@ -171,10 +171,9 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Methode permettant de retirer un chapitre à un cours grâce a leurs id
+     * Methode permettant de retirer un chapitre à un cours grâce à leurs id
      * @param coursId id du cours
      * @param chapitreId id du chapitre
-     * @return l'objet chapitre qui est retirer
      */
     @Override
     public void retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
@@ -190,9 +189,9 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Methode qui permet d'ajouter une categorie à un cours si il existe et leve une exception si les cours n'existe pas
+     * Methode qui permet d'ajouter une categorie à un cours s'il existe et lève une exception si le cours n'existe pas
      * @param coursId id du cours
-     * @param categorieAjouter categorie à ajouter au cours
+     * @param categorieAjouter catégorie à ajouter au cours
      */
     @Override
     public void ajouterCategorieCours(int coursId, Categorie categorieAjouter) {
@@ -205,10 +204,9 @@ public class ServiceCours implements IServiceCours
     }
 
     /**
-     * Methode qui permet de supprimer une categorie d'un cours et leve une exception si le cours n'existe pas
+     * Methode qui permet de supprimer une categorie d'un cours et lève une exception si le cours n'existe pas
      * @param coursId id du cours
-     * @param categorieASupprimer categorie a supprimer
-     * @return un objet categorie, celle qui a été supprimer
+     * @param categorieASupprimer catégorie a supprimer
      * @throws ExceptionMauvaisLabelCategorie
      */
     @Override

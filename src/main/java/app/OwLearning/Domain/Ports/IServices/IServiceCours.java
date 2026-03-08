@@ -74,7 +74,7 @@ public interface IServiceCours
      * @param coursId id du cours
      * @param chapitre chapitre à ajouter
      */
-    public void ajouterChapitre(int coursId, Chapitre chapitre);
+    public abstract void ajouterChapitre(int coursId, Chapitre chapitre);
 
     /**
      * Methode permettant de retirer un chapitre à un cours
@@ -82,14 +82,14 @@ public interface IServiceCours
      * @param ChapitreId id du chapitre
      * @return l'objet chapitre qui est retirer
      */
-    public void retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
+    public abstract void retirerChapitre(int coursId, int ChapitreId) throws ExceptionMauvaisIdChapitre;
 
     /**
      * Methode permettant d'ajouter une categorie à un cours
      * @param coursId id du cours
      * @param categorie categorie à ajouter au cours
      */
-    public void ajouterCategorieCours(int coursId, Categorie categorie);
+    public abstract void ajouterCategorieCours(int coursId, Categorie categorie);
 
     /**
      * Methode permettant de supprimer une categorie d'un cours
@@ -97,5 +97,5 @@ public interface IServiceCours
      * @param categorie categorie a supprimer
      * @return la categorie qui est retirer du cours
      */
-    public void supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
+    public abstract void supprimerCategorieCours(int coursId, Categorie categorie) throws ExceptionMauvaisLabelCategorie;
 }

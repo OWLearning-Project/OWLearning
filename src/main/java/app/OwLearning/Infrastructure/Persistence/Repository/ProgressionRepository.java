@@ -6,12 +6,20 @@ import app.OwLearning.Domain.Models.Progression;
 import app.OwLearning.Domain.Models.ProgressionId;
 import org.springframework.stereotype.Component;
 
+/**
+ * Classe ProgressionRepository pour récupérer la progression
+ */
 @Component
 public class ProgressionRepository implements IProgressionRepository {
 
     private final JpaProgressionRepository jpaProgressionRepository;
 
-    public ProgressionRepository(JpaProgressionRepository unJpaProgressionRepository) {
+    /**
+     * Constructeur de ProgressionRepository
+     * @param unJpaProgressionRepository
+     */
+    public ProgressionRepository(JpaProgressionRepository unJpaProgressionRepository)
+    {
         this.jpaProgressionRepository = unJpaProgressionRepository;
     }
 

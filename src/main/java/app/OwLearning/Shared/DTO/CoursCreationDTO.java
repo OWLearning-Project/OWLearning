@@ -3,6 +3,9 @@ package app.OwLearning.Shared.DTO;
 import app.OwLearning.Domain.Models.Difficulte;
 import org.apache.commons.lang3.builder.Diff;
 
+/**
+ * DTO pour la création d'un cours
+ */
 public class CoursCreationDTO {
     private String titre;
     private String description;
