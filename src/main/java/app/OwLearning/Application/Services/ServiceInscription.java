@@ -6,6 +6,7 @@ import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -50,38 +51,23 @@ public class ServiceInscription implements IServiceInscription
     }
 
     /**
-     * On valide l'inscription d'un élève à un cours
-     *
-     * @param idCours id du cours
-     * @param idEtudiant id de l'élève
-     */
-    @Override
-    public void validerInscription(int idCours, int idEtudiant)
-    {
-        if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
-        if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
-
-        coursRepository.validerInscription(idCours, idEtudiant);
-    }
-
-    /**
      * Refuser l'inscription d'un élève à un cours
      *
      * @param idCours id du cours
      * @param idEtudiant id de l'élève
      */
     @Override
-    public void refuserInscription(int idCours, int idEtudiant)
-    {
+    public void supprimerInscriptionCours(int idCours, int idEtudiant) throws ExceptionMauvaisIdEleve {
         if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
         if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
 
-        coursRepository.refuserInscription(idCours, idEtudiant);
+        Cours cours = coursRepository.trouverParId(idCours);
+        cours.supprimerEleve(idEtudiant);
+        coursRepository.sauvegarder(cours);
     }
 
     /**
      * Méthode qui récupére les élèves inscrits à un cours
-     *
      * @param idCours id du cours
      * @return la liste des utilisateurs inscrits
      */
@@ -90,6 +76,7 @@ public class ServiceInscription implements IServiceInscription
     {
         if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
 
-        return utilisateurRepository.trouverEtudiantsInscrits(idCours);
+        Cours cours = coursRepository.trouverParId(idCours);
+        return new ArrayList<>(cours.getEleves());
     }
 }

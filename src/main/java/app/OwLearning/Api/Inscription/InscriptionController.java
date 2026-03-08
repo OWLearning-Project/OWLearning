@@ -3,6 +3,7 @@ package app.OwLearning.Api.Inscription;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +27,10 @@ public class InscriptionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(resultat);
     }
 
-    @PostMapping("/cours/{idCours}/etudiants/{idEtudiant}/validation")
-    public ResponseEntity<?> validerInscription(@PathVariable("idCours") int idCours, @PathVariable("idEtudiant") int idEtudiant){
-        serviceInscription.validerInscription(idCours, idEtudiant);
-        return ResponseEntity.ok().build();
-    }
     @PostMapping("/cours/{idCours}/etudiants/{idEtudiant}/refus")
-    public ResponseEntity<?> refuserInscription(@PathVariable("idCours") int idCours, @PathVariable("idEtudiant") int idEtudiant){
-        serviceInscription.refuserInscription(idCours, idEtudiant);
+    public ResponseEntity<?> refuserInscription(@PathVariable("idCours") int idCours, @PathVariable("idEtudiant") int idEtudiant) throws ExceptionMauvaisIdEleve {
+        serviceInscription.supprimerInscriptionCours(idCours, idEtudiant);
         return ResponseEntity.ok().build();
-
     }
     @GetMapping("/cours/{idCours}/etudiants")
     public ResponseEntity<?> getEtudiantsInscrits(@PathVariable("idCours") int idCours){

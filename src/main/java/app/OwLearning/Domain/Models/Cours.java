@@ -263,7 +263,6 @@ public class Cours
      */
     public Eleve supprimerEleve(int eleveId) throws ExceptionMauvaisIdEleve
     {
-        Eleve eleve;
         if (eleveId < 0)
             throw new ExceptionMauvaisIdEleve("Id impossible", eleveId, this.getId());
         int i = 0;

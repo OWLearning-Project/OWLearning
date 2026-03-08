@@ -2,13 +2,16 @@ package Application.Service;
 
 import app.OwLearning.Application.Services.ServiceInscription;
 import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,16 +39,20 @@ public class TestServiceInscription
         int idEtudiant = 1;
         int idCours = 2;
 
-        when(coursRepository.inscrireEtudiant(idEtudiant, idCours)).thenReturn(1);
+        Cours mockCours = mock(Cours.class);
+        Eleve mockEleve = mock(Eleve.class);
+
+        when(coursRepository.trouverParId(idCours)).thenReturn(mockCours);
+        when(utilisateurRepository.trouverParId(idEtudiant)).thenReturn(mockEleve);
+        when(mockCours.getId()).thenReturn(idCours);
 
         // Act
         int resultat = serviceInscription.inscrireEtudiant(idEtudiant, idCours);
 
         // Assert
-        assertEquals(1, resultat);
-        verify(coursRepository).inscrireEtudiant(idEtudiant, idCours);
-        verifyNoMoreInteractions(coursRepository);
-        verifyNoInteractions(utilisateurRepository);
+        assertEquals(idCours, resultat);
+        verify(mockCours, times(1)).ajouterEleve(mockEleve);
+        verify(coursRepository, times(1)).sauvegarder(mockCours);
     }
 
     @Test
@@ -62,92 +69,45 @@ public class TestServiceInscription
     }
 
     @Test
-    public void getInscriptionsEtudiant()
-    {
-        // Arrange
-        int idEtudiant = 1;
-        ArrayList<Cours> liste = new ArrayList<>();
-        liste.add(new Cours());
-        when(coursRepository.trouverInscriptionsEtudiant(idEtudiant)).thenReturn(liste);
-
-        // Act
-        ArrayList<Cours> resultat = serviceInscription.getInscriptionsEtudiant(idEtudiant);
-
-        // Assert
-        assertSame(liste, resultat);
-        verify(coursRepository).trouverInscriptionsEtudiant(idEtudiant);
-        verifyNoMoreInteractions(coursRepository);
-        verifyNoInteractions(utilisateurRepository);
-    }
-
-    @Test
-    public void getInscriptionsEtudiantAvecUnIdNonValide()
-    {
-        // Arrange
-        int idEtudiant = -1;
-
-        // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> serviceInscription.getInscriptionsEtudiant(idEtudiant));
-        verifyNoInteractions(coursRepository);
-        verifyNoInteractions(utilisateurRepository);
-    }
-
-    @Test
-    public void validerInscription()
-    {
-        // Arrange
-        int idCours = 2;
-        int idEtudiant = 1;
-        doNothing().when(coursRepository).validerInscription(idCours, idEtudiant);
-
-        // Act
-        serviceInscription.validerInscription(idCours, idEtudiant);
-
-        // Assert
-        verify(coursRepository).validerInscription(idCours, idEtudiant);
-        verifyNoMoreInteractions(coursRepository);
-        verifyNoInteractions(utilisateurRepository);
-    }
-
-    @Test
-    public void validerInscriptionAvecUnIdCoursInvalide()
+    public void inscrireEtudiantAvecUnIdCoursInvalide()
     {
         // Arrange
         int idCours = 0;
         int idEtudiant = 1;
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> serviceInscription.validerInscription(idCours, idEtudiant));
+        assertThrows(IllegalArgumentException.class, () -> serviceInscription.inscrireEtudiant(idCours, idEtudiant));
         verifyNoInteractions(coursRepository);
         verifyNoInteractions(utilisateurRepository);
     }
 
     @Test
-    public void refuserInscription()
-    {
+    public void supprimerInscriptionCours() throws ExceptionMauvaisIdEleve {
         // Arrange
         int idCours = 2;
         int idEtudiant = 1;
-        doNothing().when(coursRepository).refuserInscription(idCours, idEtudiant);
+
+        Cours mockCours = mock(Cours.class);
+        when(coursRepository.trouverParId(idCours)).thenReturn(mockCours);
 
         // Act
-        serviceInscription.refuserInscription(idCours, idEtudiant);
+        serviceInscription.supprimerInscriptionCours(idCours, idEtudiant);
 
         // Assert
-        verify(coursRepository).refuserInscription(idCours, idEtudiant);
-        verifyNoMoreInteractions(coursRepository);
+        verify(mockCours,times(1)).supprimerEleve(idEtudiant);
+        verify(coursRepository, times(1)).sauvegarder(mockCours);
         verifyNoInteractions(utilisateurRepository);
     }
 
     @Test
-    public void refuserInscriptionAvecUnIdNonValide()
+    public void supprimerInscriptionCoursAvecUnIdEtudiantNonValide()
     {
         // Arrange
         int idCours = 2;
         int idEtudiant = 0;
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> serviceInscription.refuserInscription(idCours, idEtudiant));
+        assertThrows(IllegalArgumentException.class, () -> serviceInscription.supprimerInscriptionCours(idCours, idEtudiant));
         verifyNoInteractions(coursRepository);
         verifyNoInteractions(utilisateurRepository);
     }
@@ -157,19 +117,25 @@ public class TestServiceInscription
     {
         // Arrange
         int idCours = 2;
-        ArrayList<Utilisateur> liste = new ArrayList<>();
-        liste.add(new Utilisateur());
+        Cours mockCours = mock(Cours.class);
 
-        when(utilisateurRepository.trouverEtudiantsInscrits(idCours)).thenReturn(liste);
+        List<Eleve> eleves = new ArrayList<>();
+        Eleve mockEleve = mock(Eleve.class);
+        eleves.add(mockEleve);
+
+        when(coursRepository.trouverParId(idCours)).thenReturn(mockCours);
+        when(mockCours.getEleves()).thenReturn(eleves);
 
         // Act
         ArrayList<Utilisateur> resultat = serviceInscription.getEtudiantsInscrits(idCours);
 
         // Assert
-        assertSame(liste, resultat);
-        verify(utilisateurRepository).trouverEtudiantsInscrits(idCours);
-        verifyNoMoreInteractions(utilisateurRepository);
-        verifyNoInteractions(coursRepository);
+        assertNotNull(resultat);
+        assertEquals(1,resultat.size());
+        assertTrue(resultat.contains(mockEleve));
+
+        verify(coursRepository, times(1)).trouverParId(idCours);
+        verify(mockCours, times(1)).getEleves();
     }
 
     @Test

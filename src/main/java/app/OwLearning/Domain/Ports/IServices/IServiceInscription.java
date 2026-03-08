@@ -2,6 +2,7 @@ package app.OwLearning.Domain.Ports.IServices;
 
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Utilisateur;
+import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
 
 import java.util.ArrayList;
 public interface IServiceInscription {
@@ -16,20 +17,12 @@ public interface IServiceInscription {
 
 
     /**
-     * On valide l'inscription d'un élève à un cours
-     *
-     * @param idCours id du cours
-     * @param idEtudiant id de l'élève
-     */
-    public abstract void validerInscription(int idCours, int idEtudiant);
-
-    /**
      * Refuser l'inscription d'un élève à un cours
      *
      * @param idCours id du cours
      * @param idEtudiant id de l'élève
      */
-    public abstract void refuserInscription(int idCours, int idEtudiant);
+    public abstract void supprimerInscriptionCours(int idCours, int idEtudiant) throws ExceptionMauvaisIdEleve;
     /**
      * Méthode qui récupére les élèves inscrits à un cours
      *

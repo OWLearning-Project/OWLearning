@@ -59,22 +59,3 @@ public class UtilisateurRepository implements IUtilisateurRepository
         return jpaRepository.findById(id).orElse(null);
     }
 }
-
-    /**
-     * cette méthode permet de mettre à jour les infos d'un utilisateur
-     * @param utilisateur l'utilisateur
-     * @return les données mises à jour
-     */
-    @Override
-    public int mettreAJour(Utilisateur utilisateur)
-    {
-        Utilisateur sauvegarde = jpaRepository.save(utilisateur);
-        // On retourne 1 si ça a été sauvegardé correctement, sinon 0
-        return (sauvegarde != null) ? 1 : 0;
-    }
-
-    @Override
-    public ArrayList<Utilisateur> trouverEtudiantsInscrits(int idCours) {
-        return jpaRepository.findEtudiantsInscrits(idCours);
-    }
-}

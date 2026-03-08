@@ -15,7 +15,5 @@ import java.util.Queue;
 public interface JpaUtilisateurRepository extends JpaRepository<Utilisateur, Integer>
 {
     public Utilisateur findByEmail(String email);
-
-    public ArrayList<Utilisateur> findEtudiantsInscrits(int idCours);
 }
 

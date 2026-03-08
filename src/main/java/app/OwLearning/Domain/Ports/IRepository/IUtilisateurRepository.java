@@ -30,14 +30,4 @@ public interface IUtilisateurRepository
      */
     public  Utilisateur trouverParId(int id);
 
-    public int mettreAJour(Utilisateur utilisateur);
-
-    //Ajout methode pour ServiceInscription
-    /**
-     * Méthode qui récupére les élèves inscrits à un cours
-     *
-     * @param idCours id du cours
-     * @return la liste des utilisateurs inscrits
-     */
-    public abstract ArrayList<Utilisateur> trouverEtudiantsInscrits(int idCours);
 }

@@ -91,7 +91,6 @@ public class CoursRepository implements ICoursRepository
         jpaRepository.delete(cours);
         return cours;
     }
-
     /**
      * Méthode pour trouver les cours publiés avec ou sans filtre
      * @return l'ArrayList des Cours publiés

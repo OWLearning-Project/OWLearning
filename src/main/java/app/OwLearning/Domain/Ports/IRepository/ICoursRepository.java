@@ -44,26 +44,6 @@ public interface ICoursRepository
      * @return le cours créé
      */
     public abstract Cours creerCours(String titre, String description, Difficulte difficulte, int createurId);
-    /**
-     * Publier un cours
-     * @param coursId id du cours à publier
-     */
-    public abstract void publierCours(int coursId);
-
-    /**
-     * Modifie le titre et la description d’un cours
-     * @param coursId id du cours
-     * @param titre nouveau titre du cours
-     * @param description nouvelle description du cours
-     */
-    public abstract void modifierInformationsCours(int coursId, String titre, String description);
-
-    /**
-     * Cette methode change le statut privé ou public d’un cours
-     * @param coursId id du cours
-     * @param estPrive nouveau statut du cours
-     */
-    public abstract void coursPrive(int coursId, boolean estPrive);
 
     /**
      * Methode permettant de supprimer un cours
@@ -74,30 +54,6 @@ public interface ICoursRepository
 
     public abstract boolean coursExiste(int coursId);
 
-    /**
-     * cette méthode nous  permet d'inscrire un étudiant (élève) à un cours
-     *
-     * @param idEtudiant id de l'élève
-     * @param idCours id du cours
-     * @return un entier indiquant le résultat de l'inscription
-     */
-    public abstract int inscrireEtudiant(int idEtudiant, int idCours);
-
-    /**
-     * Valider l'inscription d'un élève à un cours
-     *
-     * @param idCours id du cours
-     * @param idEtudiant id de l'élève
-     */
-    public abstract void validerInscription(int idCours, int idEtudiant);
-
-    /**
-     * Refuser l'inscription d'un élève à un cours
-     *
-     * @param idCours id du cours
-     * @param idEtudiant id de l'élève
-     */
-    public abstract void refuserInscription(int idCours, int idEtudiant);
 
     public abstract void sauvegarder(Cours cours);
 }
