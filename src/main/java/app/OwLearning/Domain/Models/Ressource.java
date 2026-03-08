@@ -54,6 +54,8 @@ public class Ressource {
         return this.url;
     }
 
+    public TypeRessource getType(){return this.type;}
+
     public void setNom(String nom)
     {
         this.nom = nom;
