@@ -1,4 +1,5 @@
-package Application.Services;
+package app.OwLearning.Application.Services;
+import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * Le Service Utilisateur permet de gérer le traitement des utilisateurs
  */
+@Service
 public class ServiceUtilisateur implements IServiceUtilisateur {
 
 
@@ -35,40 +37,57 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
 
         return utilisateur;
     }
+
     /**
      * Cette methode permet de modifier les informations de l'utilisateur
      * @param id identifiant du user
      * @param pseudo on met le nouveau pseudo
      * @param email le nouveau email
+     * @param age l'age
+     * @param niveauEtude le niveau d'étude
+     * @return l'utilisateur modifié
      */
     @Override
-    public void modifierProfil(int id, String pseudo, String email) {
+    public Utilisateur modifierProfil(int id, String pseudo, String email, Integer age, String niveauEtude) {
         if (id <= 0) {throw new IllegalArgumentException("l'identifiant n'est pas valide");}
-
 
         Utilisateur utilisateur = utilisateurRepository.trouverParId(id);
         if (utilisateur == null) {
             throw new IllegalStateException("Utilisateur introuvable");
         }
 
-
-        if (pseudo != null && pseudo.isBlank() == false) {
-            utilisateur.setPseudo(pseudo);
+        if (pseudo == null || pseudo.isBlank()) {
+            throw new IllegalArgumentException("le pseudo n'est pas valide");
         }
 
+        utilisateur.setPseudo(pseudo);
 
-        if (email != null && email.isBlank() == false) {
-            Utilisateur autre = utilisateurRepository.trouverParEmail(email);
-            if (autre != null && autre.getId() != id) {
-                throw new IllegalStateException("Email déjà Utilisé");
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("l'email n'est pas valide");
+        }
+
+        Utilisateur autre = utilisateurRepository.trouverParEmail(email);
+        if (autre != null && autre.getId() != id) {
+            throw new IllegalStateException("Email déjà Utilisé");
+        }
+        utilisateur.setEmail(email);
+
+        if (utilisateur instanceof Eleve)
+        {
+            Eleve eleve = (Eleve)utilisateur;
+
+            if (age == null || age < 0)
+            {
+                throw new IllegalArgumentException("l'age n'est pas valide");
             }
-            utilisateur.setEmail(email);
+            eleve.setAge(age);
+            if (niveauEtude == null || niveauEtude.isBlank())
+            {
+                throw new IllegalArgumentException("le niveau d'étude n'est pas valide");
+            }
+            eleve.setNiveauEtude(niveauEtude);
         }
 
-
-        int lignes = utilisateurRepository.mettreAJour(utilisateur);
-        if (lignes <= 0) {
-            throw new IllegalStateException("Echec de la mise à jour");
-        }
+        return utilisateurRepository.sauvegarder(utilisateur);
     }
 }

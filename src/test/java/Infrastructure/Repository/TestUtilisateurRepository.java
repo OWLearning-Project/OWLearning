@@ -117,29 +117,4 @@ public class TestUtilisateurRepository {
         assertNull(resultat);
         verify(repositoryJpa, times(1)).findById(anyInt());
     }
-
-    public void mettreAJour(){
-        // Arrange
-        when(repositoryJpa.save(any(Utilisateur.class))).thenReturn(this.utilisateur);
-
-        // Act
-        int lignes = repository.mettreAJour(utilisateur);
-
-        // Assert
-        assertEquals(1, lignes);
-        verify(repositoryJpa, times(1)).save(any(Utilisateur.class));
-    }
-
-    @Test
-    public void EchecMiseAJour(){
-        // Arrange
-        when(repositoryJpa.save(any(Utilisateur.class))).thenReturn(null);
-
-        // Act
-        int lignes = repository.mettreAJour(utilisateur);
-
-        // Assert
-        assertEquals(0, lignes);
-        verify(repositoryJpa, times(1)).save(any(Utilisateur.class));
-        }
 }

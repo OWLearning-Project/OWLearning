@@ -21,29 +21,15 @@ public class UtilisateurController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProfil(@PathVariable int id) {
-        try{
-            Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
-            return ResponseEntity.ok(utilisateur);
-        }
-        catch(IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        catch(IllegalStateException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
+        return ResponseEntity.ok(utilisateur);
     }
 
-    @PutMapping("/id")
-    public ResponseEntity<?> modifierProfil(@PathVariable int id, @RequestParam String pseudo, @RequestParam String email) {
-        try {
-            serviceUtilisateur.modifierProfil(id, pseudo, email);
-            return ResponseEntity.ok().build();
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        catch (IllegalStateException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> modifierProfil(@PathVariable int id, @RequestParam String pseudo, @RequestParam String email,
+                                            @RequestParam(required = false) Integer age, @RequestParam(required = false) String niveauEtude)
+    {
+        Utilisateur utilisateur = serviceUtilisateur.modifierProfil(id, pseudo, email, age, niveauEtude);
+        return ResponseEntity.ok(utilisateur);
     }
 }

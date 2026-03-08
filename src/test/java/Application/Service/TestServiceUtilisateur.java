@@ -1,12 +1,14 @@
 package Application.Service;
 
-import Application.Services.ServiceUtilisateur;
+import app.OwLearning.Application.Services.ServiceUtilisateur;
+import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import org.mockito.InjectMocks;
@@ -23,7 +25,7 @@ public class  TestServiceUtilisateur {
     private ServiceUtilisateur serviceUtilisateur;
 
     @Test
-    void getProfil() {
+    public void getProfil() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "user@email.com", "hash");
@@ -40,7 +42,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void getProfilAvecIdInvalide() {
+    public void getProfilAvecIdInvalide() {
         // Arrange
         int id = 0;
 
@@ -52,7 +54,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void getProfilUtilisateurIntrouvable() {
+    public void getProfilUtilisateurIntrouvable() {
         // Arrange
         int id = 99;
         when(utilisateurRepository.trouverParId(id)).thenReturn(null);
@@ -66,49 +68,52 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfilModifiePseudoEtEmail() {
+    public void modifierProfilModifiePseudoEtEmail() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "ancien@email.com", "hash");
         utilisateur.setPseudo("ancienPseudo");
 
+        Utilisateur utilisateurModifie = new Utilisateur("NomUser", "PrenomUser", "new@email.com", "hash");
+        utilisateurModifie.setPseudo("nouveauPseudo");
+
         when(utilisateurRepository.trouverParId(id)).thenReturn(utilisateur);
         when(utilisateurRepository.trouverParEmail("new@email.com")).thenReturn(null);
-        when(utilisateurRepository.mettreAJour(utilisateur)).thenReturn(1);
+        when(utilisateurRepository.sauvegarder(utilisateur)).thenReturn(utilisateurModifie);
 
         // Act
-        serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com");
+        Utilisateur resultat = serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com", null, null);
 
         // Assert
-        assertThat(utilisateur.getPseudo()).isEqualTo("nouveauPseudo");
-        assertThat(utilisateur.getEmail()).isEqualTo("new@email.com");
+        assertThat(resultat.getPseudo()).isEqualTo("nouveauPseudo");
+        assertThat(resultat.getEmail()).isEqualTo("new@email.com");
 
         verify(utilisateurRepository).trouverParId(id);
         verify(utilisateurRepository).trouverParEmail("new@email.com");
-        verify(utilisateurRepository).mettreAJour(utilisateur);
+        verify(utilisateurRepository).sauvegarder(utilisateur);
         verifyNoMoreInteractions(utilisateurRepository);
     }
 
     @Test
-    void modifierProfilAvecIdInvalide() {
+    public void modifierProfilAvecIdInvalide() {
         // Arrange
         int id = -5;
 
         // Act + Assert
-        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "email@test.com"))
+        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "email@test.com", 23, "Bac+3"))
                 .isInstanceOf(IllegalArgumentException.class);
 
         verifyNoInteractions(utilisateurRepository);
     }
 
     @Test
-    void modifierProfilUtilisateurIntrouvable() {
+    public void modifierProfilUtilisateurIntrouvable() {
         // Arrange
         int id = 10;
         when(utilisateurRepository.trouverParId(id)).thenReturn(null);
 
         // Act + Assert
-        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "email@test.com"))
+        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "email@test.com", 23, "Bac+3"))
                 .isInstanceOf(IllegalStateException.class);
 
         verify(utilisateurRepository).trouverParId(id);
@@ -116,7 +121,7 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfilAvecEmailDejaUtilise() {
+    public void modifierProfilAvecEmailDejaUtilise() {
         // Arrange
         int id = 1;
         Utilisateur utilisateur = new Utilisateur("NomUser1", "PrenomUser1", "ancien@email.com", "hash");
@@ -126,7 +131,7 @@ public class  TestServiceUtilisateur {
         when(utilisateurRepository.trouverParEmail("nouveau@email.com")).thenReturn(autreUtilisateur);
 
         // Act + Assert
-        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "nouveau@email.com"))
+        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, "pseudo", "nouveau@email.com", 23, "Bac+3"))
                 .isInstanceOf(IllegalStateException.class);
 
         verify(utilisateurRepository).trouverParId(id);
@@ -135,22 +140,90 @@ public class  TestServiceUtilisateur {
     }
 
     @Test
-    void modifierProfilMiseAJourEchouee() {
+    public void modifierProfilEleveAvecAgeEtNiveauEtude()
+    {
         // Arrange
         int id = 1;
-        Utilisateur utilisateur = new Utilisateur("NomUser", "PrenomUser", "ancien@email.com", "hash");
+        Eleve eleve = new Eleve("NomUser", "PrenomUser", "ancien@email.com", "hash");
 
-        when(utilisateurRepository.trouverParId(id)).thenReturn(utilisateur);
-        when(utilisateurRepository.trouverParEmail("nouveau@email.com")).thenReturn(null);
-        when(utilisateurRepository.mettreAJour(utilisateur)).thenReturn(0);
+        Eleve eleveModifie = new Eleve("NomUser", "PrenomUser", "new@email.com", "hash");
+        eleveModifie.setPseudo("nouveauPseudo");
+        eleveModifie.setNiveauEtude("Bac+3");
+        eleveModifie.setAge(23);
 
-        // Act + Assert
-        assertThatThrownBy(() -> serviceUtilisateur.modifierProfil(id, null, "nouveau@email.com"))
-                .isInstanceOf(IllegalStateException.class);
+
+        when(utilisateurRepository.trouverParId(id)).thenReturn(eleve);
+        when(utilisateurRepository.trouverParEmail("new@email.com")).thenReturn(null);
+        when(utilisateurRepository.sauvegarder(eleve)).thenReturn(eleveModifie);
+
+        // Act
+        Utilisateur resultat = serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com", 23, "Bac+3");
+        Eleve eleveResultat = (Eleve) resultat;
+
+        // Assert
+        assertThat(eleveResultat.getPseudo()).isEqualTo("nouveauPseudo");
+        assertThat(eleveResultat.getEmail()).isEqualTo("new@email.com");
+        assertThat(eleveResultat.getNiveauEtude()).isEqualTo("Bac+3");
+        assertThat(eleveResultat.getAge()).isEqualTo(23);
+
 
         verify(utilisateurRepository).trouverParId(id);
-        verify(utilisateurRepository).trouverParEmail("nouveau@email.com");
-        verify(utilisateurRepository).mettreAJour(utilisateur);
+        verify(utilisateurRepository).trouverParEmail("new@email.com");
+        verify(utilisateurRepository).sauvegarder(eleve);
+        verifyNoMoreInteractions(utilisateurRepository);
+    }
+
+    @Test
+    public void modifierProfilEleveSansAge()
+    {
+        // Arrange
+        int id = 1;
+        Eleve eleve = new Eleve("NomUser", "PrenomUser", "ancien@email.com", "hash");
+
+        when(utilisateurRepository.trouverParId(id)).thenReturn(eleve);
+        when(utilisateurRepository.trouverParEmail("new@email.com")).thenReturn(null);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com", null, "Bac+3"));
+
+        verify(utilisateurRepository).trouverParId(id);
+        verify(utilisateurRepository).trouverParEmail("new@email.com");
+        verifyNoMoreInteractions(utilisateurRepository);
+    }
+
+    @Test
+    public void modifierProfilEleveAgeInferieurA0()
+    {
+        // Arrange
+        int id = 1;
+        Eleve eleve = new Eleve("NomUser", "PrenomUser", "ancien@email.com", "hash");
+
+        when(utilisateurRepository.trouverParId(id)).thenReturn(eleve);
+        when(utilisateurRepository.trouverParEmail("new@email.com")).thenReturn(null);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com", -8, "Bac+3"));
+
+        verify(utilisateurRepository).trouverParId(id);
+        verify(utilisateurRepository).trouverParEmail("new@email.com");
+        verifyNoMoreInteractions(utilisateurRepository);
+    }
+
+    @Test
+    public void modifierProfilEleveSansNiveauEtude()
+    {
+        // Arrange
+        int id = 1;
+        Eleve eleve = new Eleve("NomUser", "PrenomUser", "ancien@email.com", "hash");
+
+        when(utilisateurRepository.trouverParId(id)).thenReturn(eleve);
+        when(utilisateurRepository.trouverParEmail("new@email.com")).thenReturn(null);
+
+        // Act + Assert
+        assertThrows(IllegalArgumentException.class, () -> serviceUtilisateur.modifierProfil(id, "nouveauPseudo", "new@email.com", 23, null));
+
+        verify(utilisateurRepository).trouverParId(id);
+        verify(utilisateurRepository).trouverParEmail("new@email.com");
         verifyNoMoreInteractions(utilisateurRepository);
     }
 }

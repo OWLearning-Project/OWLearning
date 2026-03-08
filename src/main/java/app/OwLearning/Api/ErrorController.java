@@ -35,6 +35,11 @@ public class ErrorController
     {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.toString());
     }
+    @ExceptionHandler({IllegalArgumentException.class,
+                      IllegalStateException.class})
+    public ResponseEntity<String> bad_request(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exception(Exception ex)
     {
