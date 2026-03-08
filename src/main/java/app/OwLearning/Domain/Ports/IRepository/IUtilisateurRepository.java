@@ -21,5 +21,10 @@ public interface IUtilisateurRepository
      */
     public Utilisateur sauvegarder(Utilisateur utilisateur);
 
-    public Utilisateur trouverParId(int id);
+    /**
+     * Cette méthode permet de trouver un utilisateur via son identifiant
+     * @param id identifiant de l'utilisateur
+     * @return l'utilisateur trouvé
+     */
+    public  Utilisateur trouverParId(int id);
 }

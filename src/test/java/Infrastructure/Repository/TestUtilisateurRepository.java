@@ -12,6 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -87,5 +89,32 @@ public class TestUtilisateurRepository {
         assertNotEquals(this.utilisateur, utilisateurTrouve);
         verify(repositoryJpa, times(1)).findByEmail(any(String.class));
     }
+    @Test
+    public void trouverParId(){
+        // Arrange
+        int id = 1;
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.of(this.utilisateur));
 
+        // Act
+        Utilisateur utilisateurTrouve = repository.trouverParId(id);
+
+        // Assert
+        assertEquals(this.utilisateur, utilisateurTrouve);
+        verify(repositoryJpa, times(1)).findById(anyInt());
+
+    }
+
+    @Test
+    public void UtilisateurPasId(){
+        //Arrange
+        int id = 999;
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.empty());
+
+        // Act
+        Utilisateur resultat = repository.trouverParId(id);
+
+        // Assert
+        assertNull(resultat);
+        verify(repositoryJpa, times(1)).findById(anyInt());
+    }
 }

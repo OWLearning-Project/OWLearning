@@ -46,8 +46,14 @@ public class UtilisateurRepository implements IUtilisateurRepository
         return jpaRepository.save(utilisateur);
     }
 
+    /**
+     * Cette méthode permet de trouver un utilisateur via son identifiant
+     * @param id identifiant de l'utilisateur
+     * @return l'utilisateur trouvé
+     */
     @Override
-    public Utilisateur trouverParId(int id) {
-        return jpaRepository.findById(id).orElseThrow(() -> new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", id));
+    public Utilisateur trouverParId(int id)
+    {
+        return jpaRepository.findById(id).orElse(null);
     }
 }
