@@ -3,6 +3,8 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.stereotype.Component;
 
 /**
