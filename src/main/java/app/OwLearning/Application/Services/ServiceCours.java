@@ -220,4 +220,6 @@ public class ServiceCours implements IServiceCours
         cours.supprimerCategorie(categorieASupprimer.getLabel());
         coursRepository.sauvegarder(cours);
     }
+
+    // Ajouter accepterEleve et refuserEleve apres les merge.
 }
