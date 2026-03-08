@@ -7,7 +7,9 @@ import app.OwLearning.Domain.Ports.IServices.IServiceRessource;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvableDansChap;
 import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ServiceRessource implements IServiceRessource {
 
     private final IRessourceRepository repository;
