@@ -18,7 +18,7 @@ public class Eleve extends Utilisateur {
     /**
      * Constructeur vide de Eleve
      */
-    public Eleve(String nom, String prenom, String email, String motDePasse, int age, String niveauEtude) {
+    public Eleve() {
         super();
     }
 
