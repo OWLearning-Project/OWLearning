@@ -10,6 +10,7 @@ import app.OwLearning.Shared.Exceptions.ExceptionCompteExistant;
 
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdentifiants;
 import app.OwLearning.Shared.Exceptions.ExceptionTokenInvalide;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -18,6 +19,7 @@ import java.time.Instant;
 /**
  * Classe ServiceAuthentification qui permet de gérer les traitements d'authentification
  */
+@Slf4j
 @Service
 public class ServiceAuthentification
 {
@@ -49,11 +51,15 @@ public class ServiceAuthentification
      */
     public void inscription(String nom, String prenom, String email, String mdp, String role) throws ExceptionCompteExistant
     {
+        log.debug("Demande d'inscription: nom='{}', prenom='{}', email='{}', role='{}'", nom, prenom, email ,role);
         Utilisateur utilisateur;
         String mdpHache = hach.hacher(mdp);
 
-        if (utilisateurRepository.trouverParEmail(email) != null)
+        if (utilisateurRepository.trouverParEmail(email) != null){
+            log.warn("Echec de l'inscription: l'email '{}' est déja utilisé", email);
             throw new ExceptionCompteExistant("Un compte existe déjà", email);
+        }
+
 
         if (role.equalsIgnoreCase("createur"))
         {
@@ -65,9 +71,11 @@ public class ServiceAuthentification
         }
         else
         {
+            log.warn("Echec de l'inscription le role '{}' n'existe pas", role);
             throw new IllegalArgumentException("rôle inexistant");
         }
         utilisateurRepository.sauvegarder(utilisateur);
+        log.info("Nouvel utilisateur inscrit: email='{}', role='{}'", email, role);
     }
 
     /**
@@ -79,19 +87,23 @@ public class ServiceAuthentification
      */
     public String connexion(String email, String mdp) throws ExceptionMauvaisIdentifiants
     {
+        log.debug("Demande de connexion: email='{}'", email);
         Utilisateur utilisateur = utilisateurRepository.trouverParEmail(email);
         if (utilisateur == null)
         {
+            log.warn("Echec de la connexion: l'email '{}' est introuvable", email);
             throw new ExceptionMauvaisIdentifiants("Identifiants incorrects", email);
         }
         if (!hach.valider(mdp, utilisateur.getMotDePasse()))
         {
+            log.warn("Echec de la connexion: mot de passe incorrect pour l'email '{}'", email);
             throw new ExceptionMauvaisIdentifiants("Identifiants incorrecte", email);
         }
 
         utilisateur.setDerniereActivite(Timestamp.from(Instant.now()));
         utilisateurRepository.sauvegarder(utilisateur);
 
+        log.info("Connexion de l'utilisateur: email='{}'", email);
         return serviceToken.genererToken(utilisateur);
     }
 
@@ -102,11 +114,14 @@ public class ServiceAuthentification
      */
     public void deconnexion(String token)
     {
+        log.debug("Demande de deconnexion");
         if (token == null || token.isEmpty())
         {
+            log.warn("Echec de la deconnexion: token vide ou null");
             throw new ExceptionTokenInvalide("Impossible de se déconnecter","token vide");
         }
         serviceToken.invaliderToken(token);
+        log.info("Deconnexion: le token a été invalidé");
 
     }
 }
