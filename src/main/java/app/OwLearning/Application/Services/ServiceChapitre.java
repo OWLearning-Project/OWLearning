@@ -108,7 +108,7 @@ public class ServiceChapitre implements IServiceChapitre {
             this.repository.sauvegarder(chapitre);
             return ressourceASupp;
         } else {
-            throw new ExceptionRessourceIntrouvable(idRessource, idChapitre);
+            throw new ExceptionRessourceIntrouvable("La ressource est introuvable",idRessource);
         }
     }
 }

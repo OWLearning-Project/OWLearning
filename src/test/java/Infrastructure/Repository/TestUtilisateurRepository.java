@@ -106,10 +106,19 @@ public class TestUtilisateurRepository {
     }
 
     @Test
-    public void UtilisateurPasId(){
+    public void UtilisateurPasId() {
         //Arrange
         int id = 999;
         when(repositoryJpa.findById(anyInt())).thenReturn(Optional.empty());
+
+        // Act
+        Utilisateur resultat = repository.trouverParId(id);
+
+        // Assert
+        assertNull(resultat);
+        verify(repositoryJpa,times(1)).findById(anyInt());
+
+    }
 
     @Test
     public void doitRetournerUtilisateurTrouveParId()
@@ -125,19 +134,6 @@ public class TestUtilisateurRepository {
         // Assert
         assertEquals(this.utilisateur, utilisateurRecupere);
         assertNotNull(utilisateurRecupere);
-        verify(repositoryJpa, times(1)).findById(idUtilisateur);
-    }
-
-    @Test
-    public void doitLancerUneExceptionCarPasDUtilisateurAssocieAId()
-    {
-        // Arrange
-        int idUtilisateur = 10;
-
-        when(repositoryJpa.findById(idUtilisateur)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ExceptionUtilisateurInexistant.class, () -> repository.trouverParId(idUtilisateur));
         verify(repositoryJpa, times(1)).findById(idUtilisateur);
     }
 }
