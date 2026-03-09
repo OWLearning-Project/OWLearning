@@ -3,10 +3,12 @@ package app.OwLearning.Api.Inscription;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,9 +27,9 @@ public class InscriptionController {
         this.serviceInscription = serviceInscription;
     }
 
-    @PostMapping("etudiants/{idEtudiant}/cours/{idCours}")
-    public ResponseEntity<?> inscrireEtudiant(@PathVariable("idEtudiant") int idEtudiant, @PathVariable("idCours") int idCours){
-        int resultat = serviceInscription.inscrireEtudiant(idEtudiant, idCours);
+    @PostMapping("/etudiants/cours/{idCours}")
+    public ResponseEntity<?> inscrireEtudiant(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie, @PathVariable("idCours") int idCours){
+        int resultat = serviceInscription.inscrireEtudiant(utilisateurAuthentifie.getId(), idCours);
         return ResponseEntity.status(HttpStatus.CREATED).body(resultat);
     }
 

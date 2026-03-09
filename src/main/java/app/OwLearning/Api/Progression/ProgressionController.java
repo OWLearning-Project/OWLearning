@@ -2,8 +2,10 @@ package app.OwLearning.Api.Progression;
 
 import app.OwLearning.Application.Services.ServiceProgression;
 import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
+import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +27,13 @@ public class ProgressionController {
     }
 
     @PreAuthorize("hasAuthority('ELEVE')")
-    @GetMapping("/{idCours}/{idEleve}")
-    public ResponseEntity<?> getTauxProgression(@PathVariable("idCours") int coursId, @PathVariable("idEleve") int eleveId){
-        if (coursId <= 0 || eleveId <= 0) {
+    @GetMapping("/{idCours}")
+    public ResponseEntity<?> getTauxProgression(@PathVariable("idCours") int coursId, @AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie){
+        if (coursId <= 0 )
+        {
             return ResponseEntity.badRequest().body("id incorrect");
         }
-        float taux = serviceProgression.getProgressionEleve(eleveId, coursId);
+        float taux = serviceProgression.getProgressionEleve(utilisateurAuthentifie.getId(), coursId);
         return ResponseEntity.ok(Map.of("tauxProgression", taux));
     }
 }

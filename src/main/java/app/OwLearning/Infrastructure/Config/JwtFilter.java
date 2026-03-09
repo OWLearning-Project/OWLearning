@@ -21,16 +21,17 @@ import java.util.Collections;
 public class JwtFilter extends OncePerRequestFilter
 {
     private final ServiceTokenJWT serviceTokenJWT;
-    private final String secretKey;
 
-    public JwtFilter(ServiceTokenJWT unServiceTokenJWT, @Value("$jwt.secret") String uneSecretKey)
+    public JwtFilter(ServiceTokenJWT unServiceTokenJWT)
     {
         this.serviceTokenJWT = unServiceTokenJWT;
-        this.secretKey = uneSecretKey;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException
+    {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer "))
@@ -38,13 +39,16 @@ public class JwtFilter extends OncePerRequestFilter
             String token = authHeader.substring(7);
             if (serviceTokenJWT.validerToken(token))
             {
+                int id = serviceTokenJWT.extraireID(token);
                 String email = serviceTokenJWT.extraireEmail(token);
                 String role = serviceTokenJWT.extraireRole(token);
+
+                UtilisateurAuthentifie utilisateurAuthentifie = new UtilisateurAuthentifie(id,email,role);
 
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.toUpperCase());
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        email,
+                        utilisateurAuthentifie,
                         null,
                         Collections.singletonList(authority)
                 );

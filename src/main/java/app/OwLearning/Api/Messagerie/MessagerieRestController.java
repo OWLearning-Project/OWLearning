@@ -5,10 +5,12 @@ import app.OwLearning.Application.Services.ServiceMessage;
 import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
 import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,26 +22,17 @@ public class MessagerieRestController
 {
     private final ServiceDiscussion serviceDiscussion;
     private final ServiceMessage serviceMessage;
-    private final ServiceTokenJWT serviceTokenJWT;
 
-    public MessagerieRestController(ServiceDiscussion serviceDiscussion, ServiceMessage serviceMessage,  ServiceTokenJWT serviceTokenJWT)
+    public MessagerieRestController(ServiceDiscussion serviceDiscussion, ServiceMessage serviceMessage)
     {
         this.serviceDiscussion = serviceDiscussion;
         this.serviceMessage = serviceMessage;
-        this.serviceTokenJWT = serviceTokenJWT;
     }
 
     @GetMapping("/mes-discussions")
-    public ResponseEntity<List<Discussion>> trouverDiscussions(@Parameter(hidden = true) @RequestHeader("Authorization") String authHeader)
+    public ResponseEntity<List<Discussion>> trouverDiscussions(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie)
     {
-        String tokenPur = authHeader;
-        if (authHeader != null && authHeader.startsWith("Bearer "))
-        {
-            tokenPur = authHeader.substring(7);
-        }
-        int idUtilisateur = serviceTokenJWT.extraireID(tokenPur);
-
-        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(idUtilisateur);
+        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(utilisateurAuthentifie.getId());
         return ResponseEntity.ok(discussions);
     }
 
