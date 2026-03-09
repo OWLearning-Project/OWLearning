@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Controller ChapitreController permettant d'accéder aux données liées aux chapitres
  */
 @RestController
-@RequestMapping("/api/chapitre")
+@RequestMapping("/api/chapitres")
 @PreAuthorize("isAuthenticated()")
 public class ChapitreController {
     private final IServiceChapitre serviceChapitre;
