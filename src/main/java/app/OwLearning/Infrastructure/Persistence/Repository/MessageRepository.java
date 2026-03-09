@@ -26,28 +26,24 @@ public class MessageRepository implements IMessageRepository
     @Transactional
     public Message sauvegarder(Message message)
     {
-        log.debug("Sauvegarde du message dans la BD");
         return jpaMessageRepository.save(message);
     }
 
     @Override
     public Message trouverParId(int id)
     {
-        log.debug("Cherche le message associé a l'id {}", id);
         return jpaMessageRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<Message> trouverParDiscussion(int id)
     {
-        log.debug("Retrouve la liste de message associé a la discussion {}", id);
         return jpaMessageRepository.findByDiscussionIdOrderByDateCreationAsc(id);
     }
 
     @Override
     public void supprimer(int id)
     {
-        log.debug("Supprime le message associé a l'id {}", id);
         jpaMessageRepository.deleteById(id);
     }
 }

@@ -35,7 +35,6 @@ public class ProgressionRepository implements IProgressionRepository {
     @Override
     public Progression trouverParId(int elevId, int coursId) {
         ProgressionId id = new ProgressionId(coursId, elevId);
-        log.debug("Exécution de la requête sur la BD pour avoir la progression associé à l'id {}", id);
         return jpaProgressionRepository.findById(id).orElse(null);
     }
 }
