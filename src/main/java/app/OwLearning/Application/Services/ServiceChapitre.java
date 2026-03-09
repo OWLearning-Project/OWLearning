@@ -6,7 +6,7 @@ import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
-import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvableDansChap;
 import org.springframework.stereotype.Service;
 
 /**
@@ -108,7 +108,7 @@ public class ServiceChapitre implements IServiceChapitre {
             this.repository.sauvegarder(chapitre);
             return ressourceASupp;
         } else {
-            throw new ExceptionRessourceIntrouvable(idRessource, idChapitre);
+            throw new ExceptionRessourceIntrouvableDansChap(idRessource, idChapitre);
         }
     }
 }
