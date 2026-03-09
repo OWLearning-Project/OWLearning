@@ -19,8 +19,9 @@ public class ExceptionUtilisateurInexistant extends RuntimeException
 
     public String toString()
     {
-        if( email != null )
+        if (this.email != null)
             return  super.toString() + "Il n'y a pas d'utilisateur associé à l'email : " + this.email;
-        return super.toString() + "Il n'y a pas d'utilisateur associé à l'id : " + this.id;
+        else
+            return super.toString() + "Il n'y a pas d'utilisateur associé à l'id : " + this.id;
     }
 }

@@ -34,6 +34,8 @@ public class ErrorController
             ExceptionMauvaisIdChapitre.class,
             ExceptionMauvaisLabelCategorie.class,
             ExceptionUtilisateurInexistant.class,
+            ExceptionDiscussionInexistante.class,
+            ExceptionMessageIntrouvable.class})
             ExceptionCoursInexistant.class,
             ExceptionCategorieInexistante.class})
     public ResponseEntity<String> not_found(Exception ex)
