@@ -1,15 +1,15 @@
-package app.OwLearning.Infrastructure.Config;
+package app.OwLearning.Shared.DTO;
 
 /**
  * Représente les informations de l'utilisateur authentifié, extraites du JWT et stockées dans le SecurityContext
  */
-public class UtilisateurAuthentifie
+public class UtilisateurAuthentifieDTO
 {
     private final int id;
     private final String email;
     private final String role;
 
-    public UtilisateurAuthentifie(int id, String email, String role)
+    public UtilisateurAuthentifieDTO(int id, String email, String role)
     {
         this.id = id;
         this.email = email;

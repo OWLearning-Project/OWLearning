@@ -1,13 +1,11 @@
 package app.OwLearning.Infrastructure.Config;
 
 import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -43,12 +41,12 @@ public class JwtFilter extends OncePerRequestFilter
                 String email = serviceTokenJWT.extraireEmail(token);
                 String role = serviceTokenJWT.extraireRole(token);
 
-                UtilisateurAuthentifie utilisateurAuthentifie = new UtilisateurAuthentifie(id,email,role);
+                UtilisateurAuthentifieDTO utilisateurAuthentifieDTO = new UtilisateurAuthentifieDTO(id,email,role);
 
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.toUpperCase());
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                        utilisateurAuthentifie,
+                        utilisateurAuthentifieDTO,
                         null,
                         Collections.singletonList(authority)
                 );

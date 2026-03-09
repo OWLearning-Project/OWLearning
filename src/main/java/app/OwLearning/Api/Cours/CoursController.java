@@ -5,7 +5,7 @@ import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.Cours;
-import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
 import app.OwLearning.Shared.DTO.CoursCreationDTO;
 import app.OwLearning.Shared.DTO.CoursModificationDTO;
@@ -54,9 +54,9 @@ public class CoursController {
      */
     @PreAuthorize("hasAuthority('CREATEUR')")
     @GetMapping("/utilisateurs/publications")
-    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie)
+    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        return ResponseEntity.ok(serviceCours.getCoursCrees(utilisateurAuthentifie.getId()));
+        return ResponseEntity.ok(serviceCours.getCoursCrees(utilisateurAuthentifieDTO.getId()));
     }
 
     /**
@@ -66,9 +66,9 @@ public class CoursController {
      */
     @PreAuthorize("hasAuthority('ELEVE')")
     @GetMapping("/utilisateurs/inscriptions")
-    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie)
+    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        return ResponseEntity.ok(serviceCours.getCoursInscrits(utilisateurAuthentifie.getId()));
+        return ResponseEntity.ok(serviceCours.getCoursInscrits(utilisateurAuthentifieDTO.getId()));
     }
 
     /**
@@ -89,9 +89,9 @@ public class CoursController {
 
     @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping
-    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO,@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie)
+    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO,@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(),utilisateurAuthentifie.getId());
+        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(), utilisateurAuthentifieDTO.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(cours);
     }
 

@@ -5,9 +5,7 @@ import app.OwLearning.Application.Services.ServiceMessage;
 import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
-import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
-import io.swagger.v3.oas.annotations.Parameter;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,9 +28,9 @@ public class MessagerieRestController
     }
 
     @GetMapping("/mes-discussions")
-    public ResponseEntity<List<Discussion>> trouverDiscussions(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie)
+    public ResponseEntity<List<Discussion>> trouverDiscussions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(utilisateurAuthentifie.getId());
+        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(utilisateurAuthentifieDTO.getId());
         return ResponseEntity.ok(discussions);
     }
 
