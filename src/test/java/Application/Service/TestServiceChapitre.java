@@ -3,7 +3,7 @@ package Application.Service;
 import app.OwLearning.Application.Services.ServiceChapitre;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
-import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvableDansChap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -128,7 +128,7 @@ public class TestServiceChapitre {
         when(repository.trouverParId(1)).thenReturn(chapitre);
 
         // ACT & ASSERT
-        assertThrows(ExceptionRessourceIntrouvable.class, () -> { serviceChapitre.retirerRessource(1, 50);});
+        assertThrows(ExceptionRessourceIntrouvableDansChap.class, () -> { serviceChapitre.retirerRessource(1, 50);});
         verify(repository, never()).sauvegarder(any());
     }
 

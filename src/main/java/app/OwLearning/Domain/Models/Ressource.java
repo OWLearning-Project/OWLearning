@@ -56,10 +56,7 @@ public class Ressource {
         return this.url;
     }
 
-    public TypeRessource getType()
-    {
-        return this.type;
-    }
+    public TypeRessource getType(){return this.type;}
 
     public void setNom(String nom)
     {
@@ -70,6 +67,8 @@ public class Ressource {
     {
         this.url = url;
     }
+
+    public void setType(TypeRessource type){this.type = type;}
 
     public String toString()
     {

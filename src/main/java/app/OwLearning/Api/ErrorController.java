@@ -34,6 +34,7 @@ public class ErrorController
             ExceptionMauvaisIdChapitre.class,
             ExceptionMauvaisLabelCategorie.class,
             ExceptionUtilisateurInexistant.class,
+            ExceptionChapitreIntrouvable.class,
             ExceptionDiscussionInexistante.class,
             ExceptionMessageIntrouvable.class,
             ExceptionCoursInexistant.class,
