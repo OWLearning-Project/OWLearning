@@ -1,5 +1,6 @@
 package app.OwLearning.Domain.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,12 +18,16 @@ public class Chapitre
     private int id;
     private String description;
     private String titre;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cours")
     private Cours cours;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_chapitre")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name="ressource_chapitre",
+                joinColumns = @JoinColumn(name="id_chapitre"),
+                inverseJoinColumns = @JoinColumn(name="id_ressource")
+    )
     private List<Ressource> ressources;
     public Chapitre(){}
 
@@ -71,7 +76,7 @@ public class Chapitre
         return ressources;
     }
 
-    public void setRessources(ArrayList<Ressource> ressources) {
+    public void setRessources(List<Ressource> ressources) {
         this.ressources = ressources;
     }
 

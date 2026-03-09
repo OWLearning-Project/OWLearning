@@ -2,6 +2,8 @@ package app.OwLearning.Domain.Models;
 
 import jakarta.persistence.*;
 
+import java.lang.reflect.Type;
+
 /**
  * Classe Ressource qui représente les pièces jointes
  */

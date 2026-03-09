@@ -1,9 +1,11 @@
 package app.OwLearning.Domain.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -16,7 +18,8 @@ public class Message {
     @Column(name = "id_message")
     private int id_message;
 
-    private Timestamp date_creation;
+    @Column(name = "date_creation")
+    private Timestamp dateCreation;
     private String contenu;
 
     @Enumerated(EnumType.STRING)
@@ -25,15 +28,19 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "id_discussion")
+    @JsonIgnore
     private Discussion discussion;
 
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
+    @JsonIgnore
     private Utilisateur utilisateur;
 
-    @OneToMany
-    @JoinColumn(name = "id_message")
-    private ArrayList<Ressource> ressources = new ArrayList<>();
+    @ManyToMany( fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}) // Chargement des PJ avec le message & permet de sauver la liaison sans requete manuelle
+    @JoinTable(name = "piece_jointe",
+            joinColumns = @JoinColumn(name = "id_message"),
+            inverseJoinColumns = @JoinColumn(name = "id_ressource"))
+    private List<Ressource> ressources = new ArrayList<>();
 
     /**
      * Constructeur vide de Message
@@ -59,9 +66,9 @@ public class Message {
         return this.id_message;
     }
 
-    public Timestamp getDate_creation()
+    public Timestamp getDateCreation()
     {
-        return this.date_creation;
+        return this.dateCreation;
     }
 
     public String getContenu()
@@ -69,7 +76,7 @@ public class Message {
         return this.contenu;
     }
 
-    public ArrayList<Ressource> getRessources()
+    public List<Ressource> getRessources()
     {
         return this.ressources;
     }
@@ -84,9 +91,14 @@ public class Message {
         return this.utilisateur;
     }
 
-    public void setDate_creation(Timestamp date_creation)
+    public StatutMessage getStatutMessage()
     {
-        this.date_creation = date_creation;
+        return this.statutMessage;
+    }
+
+    public void setDateCreation(Timestamp dateCreation)
+    {
+        this.dateCreation = dateCreation;
     }
 
     public void setContenu(String contenu)
@@ -94,9 +106,14 @@ public class Message {
         this.contenu = contenu;
     }
 
-    public void setRessources(ArrayList<Ressource> desRessources)
+    public void setRessources(List<Ressource> desRessources)
     {
         this.ressources = desRessources;
+    }
+
+    public void setStatutMessage(StatutMessage statutMessage)
+    {
+        this.statutMessage = statutMessage;
     }
 
     public void setDiscussion(Discussion uneDiscussion)

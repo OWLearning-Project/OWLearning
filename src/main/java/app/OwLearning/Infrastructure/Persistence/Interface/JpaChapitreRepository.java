@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Interface JpaChapitreRepository permettant de récupérer les chapitres dans la bd
+ */
 @Repository
 public interface JpaChapitreRepository extends JpaRepository<Chapitre,Integer> {
 

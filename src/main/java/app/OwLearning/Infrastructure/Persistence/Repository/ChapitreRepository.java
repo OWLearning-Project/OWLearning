@@ -7,18 +7,26 @@ import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
 import org.springframework.stereotype.Component;
 
+/**
+ * Classe ChapitreRepository pour récupérer les chapitres
+ */
 @Component
 public class ChapitreRepository implements IChapitreRepository {
 
     private final JpaChapitreRepository jpaRepository;
 
+    /**
+     * Constructeur de ChapitreRepository
+     * @param jpaRepository
+     */
     public ChapitreRepository(JpaChapitreRepository jpaRepository){
         this.jpaRepository = jpaRepository;
     }
+
     /**
      * Sauvegarde un chapitre dans la bd
-     * @param chapitre a sauvgaerder
-     * @return l'id creé a la quelle le chapitre est inscrit dans la bd
+     * @param chapitre à sauvegarder
+     * @return l'id crée auquel le chapitre est inscrit dans la bd
      */
     public int sauvegarder(Chapitre chapitre){
         Chapitre chapitreSave = this.jpaRepository.save(chapitre);
@@ -35,7 +43,7 @@ public class ChapitreRepository implements IChapitreRepository {
     }
 
     /**
-     * supprimé le chapitre
+     * Supprimé le chapitre
      * @param id du chapitre
      * @return le chapitre qui a été supprimé
      */
@@ -47,9 +55,9 @@ public class ChapitreRepository implements IChapitreRepository {
     }
 
     /**
-     * verification de l'existance du chapitre
+     * Vérification de l'existence du chapitre
      * @param id id du chapitre
-     * @return True si le chapitre existe, sinon false si il n'existe pas
+     * @return True si le chapitre existe, sinon false s'il n'existe pas
      */
      public boolean existe(int id){
          return this.jpaRepository.existsById(id);

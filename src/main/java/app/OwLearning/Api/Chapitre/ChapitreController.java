@@ -4,6 +4,7 @@ package app.OwLearning.Api.Chapitre;
 import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
+import app.OwLearning.Shared.DTO.AjoutRessourceDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
+/**
+ * Controller ChapitreController permettant d'accéder aux données liées aux chapitres
+ */
 @RestController
 @RequestMapping("api/chapitre")
 public class ChapitreController {
@@ -21,8 +25,13 @@ public class ChapitreController {
     }
 
     @GetMapping("/{idChapitre}")
-    public ResponseEntity<Chapitre> getChapitre(@PathVariable("idChapitre")int idChapitre){
-        return ResponseEntity.ok(this.serviceChapitre.getContenuChapitre(idChapitre));
+    public ResponseEntity<ChapitreDTO> getChapitre(@PathVariable("idChapitre")int idChapitre)
+    {
+        Chapitre chapitre = this.serviceChapitre.getContenuChapitre(idChapitre);
+        ChapitreDTO chapitreDTO = new ChapitreDTO();
+        chapitreDTO.setTitre(chapitre.getTitre());
+        chapitreDTO.setDescription(chapitre.getDescription());
+        return ResponseEntity.ok(chapitreDTO);
     }
 
     @PutMapping("/{idChapitre}")
@@ -31,12 +40,13 @@ public class ChapitreController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/ressources")
-    public ResponseEntity<Void> ajouterRessource(
-            @PathVariable("id") int id,
-            @RequestBody Ressource ressource) {
+    @PostMapping("/{idChapitre}/ressources")
+    public ResponseEntity<Ressource> ajouterRessource(
+            @PathVariable("idChapitre") int idChapitre,
+            @RequestBody AjoutRessourceDTO dto) {
 
-        this.serviceChapitre.ajouterRessource(id, ressource);
+        Ressource nouvelleRessource = new Ressource(dto.getNom(), dto.getType(), dto.getUrl());
+        this.serviceChapitre.ajouterRessource(idChapitre, nouvelleRessource);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

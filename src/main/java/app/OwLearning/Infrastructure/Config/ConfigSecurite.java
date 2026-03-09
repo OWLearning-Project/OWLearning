@@ -27,6 +27,12 @@ public class ConfigSecurite
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     *
+     * @param http
+     * @return retirer l'authentification en entrée du swagger
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

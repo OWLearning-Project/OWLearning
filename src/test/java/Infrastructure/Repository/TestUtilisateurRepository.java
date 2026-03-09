@@ -5,12 +5,15 @@ import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Repository.UtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,7 +39,7 @@ public class TestUtilisateurRepository {
     }
 
     @Test
-    public void utilisateurBienInsereDansLaBd() {
+    public void doitRetournerUtilisateurInsereDansLaBd() {
         // Arrange
         when(repositoryJpa.save(any(Utilisateur.class))).thenReturn(this.utilisateur);
 
@@ -49,7 +52,7 @@ public class TestUtilisateurRepository {
     }
 
     @Test
-    public void utilisateurPasInsereDansLaBd() {
+    public void doitLancerUneExceptionCarUtilisateurNonInsereDansLaBd() {
         // Arrange
         when(repositoryJpa.save(any(Utilisateur.class))).thenThrow(new RuntimeException("L'utilisateur n'a pas été inséré"));
 
@@ -59,7 +62,7 @@ public class TestUtilisateurRepository {
     }
 
     @Test
-    public void emailTrouve() {
+    public void doitRetourneUtilisateurTrouveParEmail() {
         // Arrange
         String email = "bob@test.com";
 
@@ -74,7 +77,7 @@ public class TestUtilisateurRepository {
     }
 
     @Test
-    public void emailNonTrouve() {
+    public void doitRetournerNullCarPasDUtilisateurAssocieAEmail() {
         // Arrange
         String email = "emailInconnu@test.com";
 
@@ -87,5 +90,54 @@ public class TestUtilisateurRepository {
         assertNotEquals(this.utilisateur, utilisateurTrouve);
         verify(repositoryJpa, times(1)).findByEmail(any(String.class));
     }
+    @Test
+    public void trouverParId(){
+        // Arrange
+        int id = 1;
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.of(this.utilisateur));
 
+        // Act
+        Utilisateur utilisateurTrouve = repository.trouverParId(id);
+
+        // Assert
+        assertEquals(this.utilisateur, utilisateurTrouve);
+        verify(repositoryJpa, times(1)).findById(anyInt());
+
+    }
+
+    @Test
+    public void UtilisateurPasId(){
+        //Arrange
+        int id = 999;
+        when(repositoryJpa.findById(anyInt())).thenReturn(Optional.empty());
+
+    @Test
+    public void doitRetournerUtilisateurTrouveParId()
+    {
+        // Arrange
+        int idUtilisateur = 39;
+
+        when(repositoryJpa.findById(idUtilisateur)).thenReturn(Optional.of(this.utilisateur));
+
+        // Act
+        Utilisateur utilisateurRecupere = repository.trouverParId(idUtilisateur);
+
+        // Assert
+        assertEquals(this.utilisateur, utilisateurRecupere);
+        assertNotNull(utilisateurRecupere);
+        verify(repositoryJpa, times(1)).findById(idUtilisateur);
+    }
+
+    @Test
+    public void doitLancerUneExceptionCarPasDUtilisateurAssocieAId()
+    {
+        // Arrange
+        int idUtilisateur = 10;
+
+        when(repositoryJpa.findById(idUtilisateur)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ExceptionUtilisateurInexistant.class, () -> repository.trouverParId(idUtilisateur));
+        verify(repositoryJpa, times(1)).findById(idUtilisateur);
+    }
 }

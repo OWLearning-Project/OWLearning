@@ -12,25 +12,25 @@ public interface IServiceToken
      * @param utilisateur
      * @return le token généré
      */
-    String genererToken(Utilisateur utilisateur);
+    public abstract String genererToken(Utilisateur utilisateur);
 
     /**
      * Méthode qui permet de valider un Token
      * @param token
      * @return true si le token est valider false sinon
      */
-    boolean validerToken(String token);
+    public abstract boolean validerToken(String token);
 
     /**
      * Méthode qui permet d'invalider un token
      * @param token
      */
-    void invaliderToken(String token);
+    public abstract void invaliderToken(String token);
 
     /**
      * Méthode qui permet d'extraire l'ID du token généré
      * @param token
      * @return l'ID extrait
      */
-    int extraireID(String token);
+    public abstract int extraireID(String token);
 }

@@ -3,10 +3,14 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
+import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 /**
- * Classe UtilisateurRepository qui permet d'intéragir avec la base de données
+ * Classe UtilisateurRepository qui permet de récupérer les utilisateurs
  */
 @Component
 public class UtilisateurRepository implements IUtilisateurRepository
@@ -42,5 +46,16 @@ public class UtilisateurRepository implements IUtilisateurRepository
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
         return jpaRepository.save(utilisateur);
+    }
+
+    /**
+     * Cette méthode permet de trouver un utilisateur via son identifiant
+     * @param id identifiant de l'utilisateur
+     * @return l'utilisateur trouvé
+     */
+    @Override
+    public Utilisateur trouverParId(int id)
+    {
+        return jpaRepository.findById(id).orElse(null);
     }
 }

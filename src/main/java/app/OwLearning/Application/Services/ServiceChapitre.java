@@ -9,15 +9,27 @@ import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvableDansChap;
 import org.springframework.stereotype.Service;
 
+/**
+ * Classe ServiceChapitre, permet de gérer les traitements liés aux chapitres
+ */
 @Service
 public class ServiceChapitre implements IServiceChapitre {
 
     private final IChapitreRepository repository;
 
+    /**
+     * Constructeur de ServiceChapitre
+     * @param repository
+     */
     public ServiceChapitre(IChapitreRepository repository) {
         this.repository = repository;
     }
 
+    /**
+     * Méthode pour récupérer le contenu d'un chapitre via son id
+     * @param id id du chapitre
+     * @return l'objet Chapitre associé
+     */
     @Override
     public Chapitre getContenuChapitre(int id) {
         Chapitre chapitre = this.repository.trouverParId(id);
@@ -29,9 +41,8 @@ public class ServiceChapitre implements IServiceChapitre {
     }
 
     /**
-     * Ajout une ressource au chapitre selectionné
-     *
-     * @param id        du chapitre
+     * Ajouter une ressource au chapitre sélectionné
+     * @param id du chapitre
      * @param ressource
      */
     @Override
@@ -50,7 +61,7 @@ public class ServiceChapitre implements IServiceChapitre {
     /**
      * Permet de changer de titre ou de description pour un chapitre
      *
-     * @return 1 si le chapitre est trouvé et changé. sinon 0 si il n'existe pas
+     * @return 1 si le chapitre est trouvé et changé. Sinon 0 s'il n'existe pas
      */
     public void modifier(int id, String titre, String description) {
         Chapitre chapitre = this.repository.trouverParId(id);

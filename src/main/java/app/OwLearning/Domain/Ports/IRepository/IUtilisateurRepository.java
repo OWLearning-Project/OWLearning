@@ -2,8 +2,10 @@ package app.OwLearning.Domain.Ports.IRepository;
 
 import app.OwLearning.Domain.Models.Utilisateur;
 
+import java.util.ArrayList;
+
 /**
- * Interface de UtilisateurRepository qui permet de trouver un Utilisateur grâce à son email et de sauvegarder un Utilisateur
+ * Interface IUtilisateurRepository définissant le contrat pour la récupération des utilisateurs
  */
 public interface IUtilisateurRepository
 {
@@ -12,12 +14,20 @@ public interface IUtilisateurRepository
      * @param email
      * @return l'Utilisateur trouvé
      */
-    public Utilisateur trouverParEmail(String email);
+    public abstract Utilisateur trouverParEmail(String email);
 
     /**
-     * Méthode qui permet de sauvegarder un Utilisateur
+     * Méthode qui permet de sauvegarder un utilisateur
      * @param utilisateur
      * @return l'utilisateur sauvegardé
      */
-    public Utilisateur sauvegarder(Utilisateur utilisateur);
+    public abstract Utilisateur sauvegarder(Utilisateur utilisateur);
+
+    /**
+     * Cette méthode permet de trouver un utilisateur via son identifiant
+     * @param id identifiant de l'utilisateur
+     * @return l'utilisateur trouvé
+     */
+    public abstract Utilisateur trouverParId(int id);
+
 }

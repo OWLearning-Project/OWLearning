@@ -1,7 +1,7 @@
 package app.OwLearning.Domain.Ports.IServices;
 
 /**
- * Interface de Hach qui permet de hacher un mot de passe et de vérifier si le mot de passe correspond bien à son hach
+ * Interface IHach qui permet de hacher un mot de passe et de vérifier si le mot de passe correspond bien à son hach
  */
 public interface IHach
 {
@@ -10,7 +10,7 @@ public interface IHach
      * @param motDePasse
      * @return le mot de passe haché
      */
-    public String hacher(String motDePasse);
+    public abstract String hacher(String motDePasse);
 
     /**
      * Méthode qui permet de vérfier la correspondance entre un mot de passe et son hach
@@ -18,5 +18,5 @@ public interface IHach
      * @param motDePasseHache
      * @return true si correspondant false sinon
      */
-    public boolean valider(String motDePasse, String motDePasseHache);
+    public abstract boolean valider(String motDePasse, String motDePasseHache);
 }
