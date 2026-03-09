@@ -130,6 +130,7 @@ public class Utilisateur
             return false;
         return true;
     }
+
     public String toString()
     {
         return "Nom : " + this.getNom() + ", Prenom : " + this.getPrenom() + ", Email : " + this.getEmail() + ", Inscrit le : " + this.dateInscription ;

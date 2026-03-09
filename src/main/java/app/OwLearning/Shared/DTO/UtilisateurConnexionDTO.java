@@ -1,5 +1,8 @@
 package app.OwLearning.Shared.DTO;
 
+/**
+ * DTO pour la connexion d'un utilisateur
+ */
 public class UtilisateurConnexionDTO
 {
     private String email;
