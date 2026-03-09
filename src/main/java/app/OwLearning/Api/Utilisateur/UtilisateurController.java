@@ -2,9 +2,11 @@ package app.OwLearning.Api.Utilisateur;
 
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
+import app.OwLearning.Infrastructure.Config.UtilisateurAuthentifie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,11 +30,11 @@ public class UtilisateurController {
         return ResponseEntity.ok(utilisateur);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> modifierProfil(@PathVariable int id, @RequestParam String pseudo, @RequestParam String email,
+    @PutMapping("/edit_profil")
+    public ResponseEntity<?> modifierProfil(@AuthenticationPrincipal UtilisateurAuthentifie utilisateurAuthentifie, @RequestParam String pseudo, @RequestParam String email,
                                             @RequestParam(required = false) Integer age, @RequestParam(required = false) String niveauEtude)
     {
-        Utilisateur utilisateur = serviceUtilisateur.modifierProfil(id, pseudo, email, age, niveauEtude);
+        Utilisateur utilisateur = serviceUtilisateur.modifierProfil(utilisateurAuthentifie.getId(), pseudo, email, age, niveauEtude);
         return ResponseEntity.ok(utilisateur);
     }
 }
