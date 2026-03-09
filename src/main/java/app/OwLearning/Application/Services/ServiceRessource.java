@@ -23,7 +23,7 @@ public class ServiceRessource implements IServiceRessource {
         Ressource ressource = this.repository.trouverParId(id);
 
         if (ressource == null) {
-            throw new ExceptionRessourceIntrouvable(id);
+            throw new ExceptionRessourceIntrouvable("La ressource est introuvable",id);
         }
         return ressource;
     }
@@ -41,7 +41,7 @@ public class ServiceRessource implements IServiceRessource {
     public Ressource supprimerRessource(int id) {
         Ressource ressource = this.repository.trouverParId(id);
 
-        if (ressource == null) throw new ExceptionRessourceIntrouvable(id);
+        if (ressource == null) throw new ExceptionRessourceIntrouvable("La ressource est introuvable",id);
 
         this.repository.supprimer(id);
         return ressource;
@@ -51,7 +51,7 @@ public class ServiceRessource implements IServiceRessource {
     public void modifier(int id, String nom, String url, TypeRessource type) {
         Ressource ressource = this.repository.trouverParId(id);
 
-        if (ressource == null) throw new ExceptionRessourceIntrouvable(id);
+        if (ressource == null) throw new ExceptionRessourceIntrouvable("La ressource est introuvable",id);
 
         if (nom != null && !nom.isBlank()) ressource.setNom(nom);
 

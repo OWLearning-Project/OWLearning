@@ -1,5 +1,7 @@
 package app.OwLearning.Infrastructure.Services;
 
+import app.OwLearning.Domain.Models.Createur;
+import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IServices.IServiceToken;
 import io.jsonwebtoken.Claims;
@@ -43,17 +45,25 @@ public class ServiceTokenJWT implements IServiceToken
     /**
      * Méthode qui permet de générer un token avec dedans l'email, l'id, le pseudo, la date de création du token, la date de fin du token
      * @param utilisateur
-     * @return le token générer
+     * @return le token généré
      */
     @Override
     public String genererToken(Utilisateur utilisateur)
     {
         long now = System.currentTimeMillis();
 
+        String role = "utilisateur";
+
+        if (utilisateur instanceof Eleve)
+            role = "eleve";
+        else if (utilisateur instanceof Createur)
+            role = "createur";
+
         return Jwts.builder()
                 .setSubject(utilisateur.getEmail()) // On stocke l'email comme identifiant
                 .claim("id", utilisateur.getId())   // On ajoute l'ID dans le token
                 .claim("pseudo", utilisateur.getPseudo())
+                .claim("role", role)
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + expirationTime))
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -90,6 +100,29 @@ public class ServiceTokenJWT implements IServiceToken
         // On récupère le claim "id" qu'on a mis dans genererToken
         return claims.get("id", Integer.class);
     }
+
+    public String extraireEmail(String token)
+    {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getSubject();
+    }
+    public String extraireRole(String token)
+    {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("role", String.class);
+    }
+
+
 
     /**
      * Méthode qui permet de valider le token

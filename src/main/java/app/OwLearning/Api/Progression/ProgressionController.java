@@ -3,6 +3,7 @@ package app.OwLearning.Api.Progression;
 import app.OwLearning.Application.Services.ServiceProgression;
 import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("api/progression")
+@PreAuthorize("isAuthenticated()")
 public class ProgressionController {
     private final IServiceProgression serviceProgression;
 
@@ -22,6 +24,7 @@ public class ProgressionController {
         this.serviceProgression = unServiceProgression;
     }
 
+    @PreAuthorize("hasAuthority('ELEVE')")
     @GetMapping("/{idCours}/{idEleve}")
     public ResponseEntity<?> getTauxProgression(@PathVariable("idCours") int coursId, @PathVariable("idEleve") int eleveId){
         if (coursId <= 0 || eleveId <= 0) {

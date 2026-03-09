@@ -9,12 +9,14 @@ import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@PreAuthorize("isAuthenticated()")
 public class MessagerieWebSocketController
 {
     private final ServiceDiscussion serviceDiscussion;

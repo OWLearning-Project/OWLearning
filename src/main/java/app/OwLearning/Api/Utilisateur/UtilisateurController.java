@@ -4,14 +4,17 @@ import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
  * Controller permettant de gérer les utilisateurs
  */
+
 @RestController
 @RequestMapping("/api/utilisateurs")
+@PreAuthorize("isAuthenticated()")
 public class UtilisateurController {
     private final IServiceUtilisateur serviceUtilisateur;
 

@@ -8,12 +8,14 @@ import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/messagerie")
+@PreAuthorize("isAuthenticated()")
 public class MessagerieRestController
 {
     private final ServiceDiscussion serviceDiscussion;

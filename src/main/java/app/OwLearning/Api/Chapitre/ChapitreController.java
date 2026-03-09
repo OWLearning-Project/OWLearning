@@ -8,6 +8,7 @@ import app.OwLearning.Shared.DTO.AjoutRessourceDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ import java.util.ArrayList;
  * Controller ChapitreController permettant d'accéder aux données liées aux chapitres
  */
 @RestController
-@RequestMapping("api/chapitre")
+@RequestMapping("/api/chapitre")
+@PreAuthorize("isAuthenticated()")
 public class ChapitreController {
     private final IServiceChapitre serviceChapitre;
 
