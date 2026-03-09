@@ -4,10 +4,12 @@ import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaDiscussionRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionDiscussionInexistante;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 /**
  * Classe DiscussionRepository pour récupérer les discussions
  */
@@ -33,6 +35,7 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public List<Discussion> trouverDiscussionsParUtilisateurId(int utilisateurId)
     {
+        log.debug("Recherche en BD les discussion de l'utilisateurs {}", utilisateurId);
         return repositoryJpa.findByParticipantsIdUtilisateur(utilisateurId);
     }
 
@@ -44,6 +47,7 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public Discussion sauvegarder(Discussion discussion)
     {
+        log.debug("Mise à jour de la discussion dans la BD");
         return repositoryJpa.save(discussion);
     }
 
@@ -55,6 +59,7 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public Discussion trouverDiscussionParId(int discussionId)
     {
+        log.debug("Recherche en BD la discussion {}", discussionId);
         return repositoryJpa.findById(discussionId).orElseThrow(() -> new ExceptionDiscussionInexistante("La discussion n'existe pas", discussionId));
     }
 }
