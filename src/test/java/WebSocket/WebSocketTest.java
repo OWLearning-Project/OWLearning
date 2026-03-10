@@ -142,7 +142,7 @@ public class WebSocketTest
                 ),
                 "Une ExceptionUtilisateurNonAutorise doit être levée"
         );
-        long nombreMessagesApres = messageRepository.trouverParDiscussion(1).size();
+        long nombreMessagesApres = messageRepository.trouverParDiscussion(idDiscussion).size();
         assertEquals(nombreMessagesAvant, nombreMessagesApres, "La base ne doit pas être modifié");
     }
 }
