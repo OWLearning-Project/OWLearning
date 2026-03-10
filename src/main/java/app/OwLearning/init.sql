@@ -8,10 +8,9 @@ CREATE TABLE Utilisateur(
    nom VARCHAR(50)  NOT NULL,
    prenom VARCHAR(50)  NOT NULL,
    email VARCHAR(100)  NOT NULL,
-   pseudo VARCHAR(50),
+   pseudo VARCHAR(100) NOT NULL,  mot_de_passe VARCHAR(100) NOT NULL,
    date_inscription TIMESTAMPTZ NOT NULL,
    derniere_activite TIMESTAMPTZ,
-   mot_de_passe VARCHAR(255) NOT NULL,
    PRIMARY KEY(id_utilisateur),
    UNIQUE(email)
 );
@@ -121,7 +120,6 @@ CREATE TABLE progression(
 CREATE TABLE inscription(
    id_cours INTEGER,
    id_eleve INTEGER,
-   etat VARCHAR(50) ,
    PRIMARY KEY(id_cours, id_eleve),
    FOREIGN KEY(id_cours) REFERENCES Cours(id_cours) ON DELETE CASCADE,
    FOREIGN KEY(id_eleve) REFERENCES Eleve(id_utilisateur) ON DELETE CASCADE

@@ -10,19 +10,25 @@ public class CoursCreationDTO {
     private String titre;
     private String description;
     private Difficulte difficulte;
-    private int createurId;
 
-    public CoursCreationDTO(){}
+    public CoursCreationDTO() {
+    }
 
-    public CoursCreationDTO(String titre, String description, Difficulte difficulte, int createurId)
-    {
+    public CoursCreationDTO(String titre, String description, Difficulte difficulte) {
         this.titre = titre;
         this.description = description;
         this.difficulte = difficulte;
-        this.createurId = createurId;
     }
 
-    public String getTitre() { return titre; }
-    public String getDescription() { return description; }
-    public Difficulte getDifficulte() { return difficulte; }
-    public int getCreateurId() { return createurId; }}
+    public String getTitre() {
+        return titre;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Difficulte getDifficulte() {
+        return difficulte;
+    }
+}
