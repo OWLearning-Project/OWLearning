@@ -5,10 +5,12 @@ import app.OwLearning.Domain.Ports.IServices.IServiceRessource;
 import app.OwLearning.Shared.DTO.RessourceDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/ressource")
+@RequestMapping("api/ressources")
+@PreAuthorize("isAuthenticated()")
 public class RessourceController {
     private final IServiceRessource serviceRessource;
 

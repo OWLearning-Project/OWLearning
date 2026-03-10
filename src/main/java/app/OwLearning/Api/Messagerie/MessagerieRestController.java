@@ -5,39 +5,32 @@ import app.OwLearning.Application.Services.ServiceMessage;
 import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
-import io.swagger.v3.oas.annotations.Parameter;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/messagerie")
+@RequestMapping("/api/messagerie")
+@PreAuthorize("isAuthenticated()")
 public class MessagerieRestController
 {
     private final ServiceDiscussion serviceDiscussion;
     private final ServiceMessage serviceMessage;
-    private final ServiceTokenJWT serviceTokenJWT;
 
-    public MessagerieRestController(ServiceDiscussion serviceDiscussion, ServiceMessage serviceMessage,  ServiceTokenJWT serviceTokenJWT)
+    public MessagerieRestController(ServiceDiscussion serviceDiscussion, ServiceMessage serviceMessage)
     {
         this.serviceDiscussion = serviceDiscussion;
         this.serviceMessage = serviceMessage;
-        this.serviceTokenJWT = serviceTokenJWT;
     }
 
     @GetMapping("/mes-discussions")
-    public ResponseEntity<List<Discussion>> trouverDiscussions(@Parameter(hidden = true) @RequestHeader("Authorization") String authHeader)
+    public ResponseEntity<List<Discussion>> trouverDiscussions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        String tokenPur = authHeader;
-        if (authHeader != null && authHeader.startsWith("Bearer "))
-        {
-            tokenPur = authHeader.substring(7);
-        }
-        int idUtilisateur = serviceTokenJWT.extraireID(tokenPur);
-
-        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(idUtilisateur);
+        List<Discussion> discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(utilisateurAuthentifieDTO.getId());
         return ResponseEntity.ok(discussions);
     }
 
@@ -48,14 +41,14 @@ public class MessagerieRestController
         return ResponseEntity.ok(messages);
     }
 
-    @PostMapping("/messages/{idMessage}/ressources/{idRessource}")
+    @PostMapping("/{idMessage}/ressources/{idRessource}")
     public ResponseEntity<String> lierRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
     {
         serviceMessage.ajouterRessource(idMessage, idRessource);
         return ResponseEntity.ok("Ressource ajoutée au message avec succès");
     }
 
-    @DeleteMapping("/messages/{idMessage}/ressources/{idRessource}")
+    @DeleteMapping("/{idMessage}/ressources/{idRessource}")
     public ResponseEntity<Ressource> retirerRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
     {
         Ressource ressourceSupprimee = serviceMessage.supprimerRessource(idMessage, idRessource);

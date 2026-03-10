@@ -5,6 +5,7 @@ import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.Cours;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
 import app.OwLearning.Shared.DTO.CoursCreationDTO;
 import app.OwLearning.Shared.DTO.CoursModificationDTO;
@@ -13,6 +14,8 @@ import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import static java.lang.Integer.parseInt;
  */
 @RestController
 @RequestMapping("/api/cours")
+@PreAuthorize("isAuthenticated()")
 public class CoursController {
     private final IServiceCours serviceCours;
 
@@ -46,25 +50,25 @@ public class CoursController {
     /**
      * Récupération des cours créés par un créateur via son id
      *
-     * @param idCreateur id du créateur
      * @return la liste des cours créés au format JSON
      */
-    @GetMapping("/utilisateurs/{idCreateur}/publications")
-    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@PathVariable("idCreateur") int idCreateur)
+    @PreAuthorize("hasAuthority('CREATEUR')")
+    @GetMapping("/utilisateurs/publications")
+    public ResponseEntity<ArrayList<Cours>> getCoursCrees(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        return ResponseEntity.ok(serviceCours.getCoursCrees(idCreateur));
+        return ResponseEntity.ok(serviceCours.getCoursCrees(utilisateurAuthentifieDTO.getId()));
     }
 
     /**
      * Récupération des cours où un élève est inscrit via son id
      *
-     * @param idEleve id de l'élève
      * @return la liste des cours inscrits au format JSON
      */
-    @GetMapping("/utilisateurs/{idEleve}/inscriptions")
-    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@PathVariable("idEleve") int idEleve)
+    @PreAuthorize("hasAuthority('ELEVE')")
+    @GetMapping("/utilisateurs/inscriptions")
+    public ResponseEntity<ArrayList<Cours>> getCoursInscriptions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        return ResponseEntity.ok(serviceCours.getCoursInscrits(idEleve));
+        return ResponseEntity.ok(serviceCours.getCoursInscrits(utilisateurAuthentifieDTO.getId()));
     }
 
     /**
@@ -83,26 +87,30 @@ public class CoursController {
         }
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping
-    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO)
+    public ResponseEntity<?> creerCours(@RequestBody CoursCreationDTO coursCreationDTO,@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
     {
-        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(),coursCreationDTO.getCreateurId());
+        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(), utilisateurAuthentifieDTO.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(cours);
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idCours}/publier")
     public ResponseEntity<?> publierCours(@PathVariable("idCours") int idCours)
     {
         serviceCours.publierCours(idCours);
         return ResponseEntity.ok().build();
     }
-    
+
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idCours}")
     public ResponseEntity<?> modifierInformationsCours(@PathVariable("idCours") int idCours, @RequestBody CoursModificationDTO dto){
         serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte(), dto.getEstPrive());
         return ResponseEntity.ok().build();
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idCours}")
     public ResponseEntity<?> supprimerCours(@PathVariable("idCours") int idCours)
     {
@@ -116,6 +124,7 @@ public class CoursController {
      * @param chapitreDto chapitre (titre et description)
      * @return
      */
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idCours}/chapitres")
     public ResponseEntity<?> ajouterChapitre(@PathVariable("idCours") int coursId, @RequestBody ChapitreDTO chapitreDto) {
 
@@ -130,6 +139,7 @@ public class CoursController {
      * @param chapitreId
      * @return
      */
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idCours}/chapitres/{idChapitre}")
     public ResponseEntity<?> retirerChapitre(@PathVariable("idCours") int coursId, @PathVariable("idChapitre") int chapitreId) throws ExceptionMauvaisIdChapitre {
         serviceCours.retirerChapitre(coursId, chapitreId);
@@ -142,6 +152,7 @@ public class CoursController {
      * @param uneCategorie
      * @return
      */
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idCours}/categories")
     public ResponseEntity<?> ajouterCategorie(@PathVariable("idCours") int coursId, @RequestBody Categorie uneCategorie) {
         serviceCours.ajouterCategorieCours(coursId, uneCategorie);
@@ -154,6 +165,7 @@ public class CoursController {
      * @param unNomCategorie
      * @return
      */
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idCours}/categories/{nomCategorie}")
     public ResponseEntity<?> supprimerCategorie(@PathVariable("idCours") int coursId, @PathVariable("nomCategorie") String unNomCategorie) throws ExceptionMauvaisLabelCategorie {
         Categorie laCategorie = Categorie.stringEnCategorie(unNomCategorie);

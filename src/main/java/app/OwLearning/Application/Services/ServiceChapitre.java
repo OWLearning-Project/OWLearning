@@ -107,7 +107,6 @@ public class ServiceChapitre implements IServiceChapitre {
             log.warn("Echec de la séparation ressource - chapitre. Chapitre {} est introuvable dans la base", idChapitre);
             throw new ExceptionChapitreIntrouvable(idChapitre);
         }
-        // TODO: Faire un lambda
         Ressource ressourceASupp = null;
         for (Ressource r : chapitre.getRessources()) {
             if (r.getId_ressource() == idRessource) {
