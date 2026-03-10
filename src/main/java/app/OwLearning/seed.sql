@@ -1,15 +1,15 @@
 BEGIN;
 
-INSERT INTO Categorie (categorie) VALUES ('Programmation algorithmique');
-INSERT INTO Categorie (categorie) VALUES ('Développement web');
-INSERT INTO Categorie (categorie) VALUES ('Base de données');
-INSERT INTO Categorie (categorie) VALUES ('Systèmes et réseaux');
-INSERT INTO Categorie (categorie) VALUES ('Intelligence artificielle et DataSciences');
-INSERT INTO Categorie (categorie) VALUES ('Développement mobile');
-INSERT INTO Categorie (categorie) VALUES ('Histoire de l''informatique');
-INSERT INTO Categorie (categorie) VALUES ('Management et gestion');
-INSERT INTO Categorie (categorie) VALUES ('Mathématiques');
-INSERT INTO Categorie (categorie) VALUES ('Architecture');
+INSERT INTO Categorie (categorie) VALUES ('PROGRAMMATION_ALGORITHMIQUE');
+INSERT INTO Categorie (categorie) VALUES ('DEVELOPPEMENT_WEB');
+INSERT INTO Categorie (categorie) VALUES ('BASE_DE_DONNEES');
+INSERT INTO Categorie (categorie) VALUES ('SYSTEMES_RESEAUX');
+INSERT INTO Categorie (categorie) VALUES ('IA_DATASCIENCES');
+INSERT INTO Categorie (categorie) VALUES ('DEVELOPPEMENT_MOBILE');
+INSERT INTO Categorie (categorie) VALUES ('HISTOIRE_INFORMATIQUE');
+INSERT INTO Categorie (categorie) VALUES ('MANAGEMENT_GESTION');
+INSERT INTO Categorie (categorie) VALUES ('MATHEMATIQUES');
+INSERT INTO Categorie (categorie) VALUES ('ARCHITECTURE');
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
 VALUES ('Akretche', 'Iraihane', 'test1@owlearning.com', 'test1', '$2a$10$tFuEYeZbsfKH8nLE4.fmwecFZ.0OexJ6dOWzdVwqq83npZkpf41NK', '2026-03-10 17:18:41.01+01', NULL);
@@ -74,7 +74,7 @@ SELECT
     '2026-03-01 09:00:00+01',
     false,
     true,
-    'Débutant',
+    'DEBUTANT',
     id_utilisateur
 FROM Utilisateur
 WHERE email = 'test6@owlearning.com';
@@ -86,7 +86,7 @@ SELECT
     '2026-03-02 10:00:00+01',
     false,
     true,
-    'Intermédiaire',
+    'INTERMEDIAIRE',
     id_utilisateur
 FROM Utilisateur
 WHERE email = 'test6@owlearning.com';
@@ -98,7 +98,7 @@ SELECT
     '2026-03-03 11:00:00+01',
     false,
     true,
-    'Débutant',
+    'DEBUTANT',
     id_utilisateur
 FROM Utilisateur
 WHERE email = 'test7@owlearning.com';
@@ -110,38 +110,38 @@ SELECT
     '2026-03-04 14:00:00+01',
     true,
     true,
-    'Débutant',
+    'DEBUTANT',
     id_utilisateur
 FROM Utilisateur
 WHERE email = 'test7@owlearning.com';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Base de données'
+SELECT id_cours, 'BASE_DE_DONNEES'
 FROM Cours
 WHERE titre = 'SQL pour débutants';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Développement web'
+SELECT id_cours, 'DEVELOPPEMENT_WEB'
 FROM Cours
 WHERE titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Base de données'
+SELECT id_cours, 'BASE_DE_DONNEES'
 FROM Cours
 WHERE titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Développement web'
+SELECT id_cours, 'DEVELOPPEMENT_WEB'
 FROM Cours
 WHERE titre = 'Fondamentaux du développement web';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Programmation algorithmique'
+SELECT id_cours, 'PROGRAMMATION_ALGORITHMIQUE'
 FROM Cours
 WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO categorie_cours (id_cours, categorie)
-SELECT id_cours, 'Mathématiques'
+SELECT id_cours, 'MATHEMATIQUES'
 FROM Cours
 WHERE titre = 'Algorithmique essentielle';
 
@@ -226,19 +226,19 @@ FROM Cours
 WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('MCD et schéma relationnel - PDF', 'https://owlearning.local/ressources/mcd-schema-relationnel.pdf', 'Fichier PDF');
+VALUES ('MCD et schéma relationnel - PDF', 'https://owlearning.local/ressources/mcd-schema-relationnel.pdf', 'FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Exercices SQL corrigés', 'https://owlearning.local/ressources/exercices-sql-corriges.pdf', 'Fichier PDF');
+VALUES ('Exercices SQL corrigés', 'https://owlearning.local/ressources/exercices-sql-corriges.pdf', 'FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Starter API Spring Boot', 'https://owlearning.local/ressources/starter-api-springboot.zip', 'Fichier Zip');
+VALUES ('Starter API Spring Boot', 'https://owlearning.local/ressources/starter-api-springboot.zip', 'FICHIER_ZIP');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Cheatsheet HTML CSS', 'https://owlearning.local/ressources/cheatsheet-html-css.pdf', 'Fichier PDF');
+VALUES ('Cheatsheet HTML CSS', 'https://owlearning.local/ressources/cheatsheet-html-css.pdf', 'FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Schéma boucles et fonctions', 'https://owlearning.local/ressources/schema-boucles-fonctions.png', 'Image');
+VALUES ('Schéma boucles et fonctions', 'https://owlearning.local/ressources/schema-boucles-fonctions.png', 'IMAGE');
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
@@ -561,7 +561,7 @@ msg1 AS (
     SELECT
         '2026-03-10 18:00:00+01',
         'Salut, vous avancez sur le cours SQL ?',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -574,7 +574,7 @@ msg2 AS (
     SELECT
         '2026-03-10 18:02:00+01',
         'Oui, j''ai terminé les deux premiers chapitres, les jointures demandent un peu de pratique.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -587,7 +587,7 @@ msg3 AS (
     SELECT
         '2026-03-10 18:05:00+01',
         'Je suis encore sur le premier chapitre, mais le PDF sur le modèle relationnel aide bien.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -617,7 +617,7 @@ msg1 AS (
     SELECT
         '2026-03-10 18:10:00+01',
         'Je propose de publier d''abord le cours SQL puis l''API Spring Boot.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -630,7 +630,7 @@ msg2 AS (
     SELECT
         '2026-03-10 18:12:00+01',
         'Bonne idée. Je finalise aussi les ressources du cours web pour ce soir.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -643,7 +643,7 @@ msg3 AS (
     SELECT
         '2026-03-10 18:14:00+01',
         'Parfait, je t''envoie aussi le starter ZIP pour le chapitre Spring Boot.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -673,7 +673,7 @@ msg1 AS (
     SELECT
         '2026-03-10 18:20:00+01',
         'Bonjour, j''ai une question sur le chapitre JavaScript du cours web.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -686,7 +686,7 @@ msg2 AS (
     SELECT
         '2026-03-10 18:22:00+01',
         'Bonjour Bryan, commence par bien relire la ressource HTML/CSS avant de passer aux événements JavaScript.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
@@ -699,7 +699,7 @@ msg3 AS (
     SELECT
         '2026-03-10 18:24:00+01',
         'Merci, je vais reprendre ça dans l''ordre et refaire les exercices.',
-        'Envoyé',
+        'ENVOYE',
         d.id_discussion,
         u.id_utilisateur
     FROM new_discussion d
