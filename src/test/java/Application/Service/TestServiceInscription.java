@@ -135,7 +135,7 @@ public class TestServiceInscription
         assertTrue(resultat.contains(mockEleve));
 
         verify(coursRepository, times(1)).trouverParId(idCours);
-        verify(mockCours, times(1)).getEleves();
+        verify(mockCours, times(2)).getEleves();
     }
 
     @Test
