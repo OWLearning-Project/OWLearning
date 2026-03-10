@@ -94,7 +94,6 @@ public class ServiceChapitre implements IServiceChapitre {
         if (chapitre == null) {
             throw new ExceptionChapitreIntrouvable(idChapitre);
         }
-        // TODO: Faire un lambda
         Ressource ressourceASupp = null;
         for (Ressource r : chapitre.getRessources()) {
             if (r.getId_ressource() == idRessource) {

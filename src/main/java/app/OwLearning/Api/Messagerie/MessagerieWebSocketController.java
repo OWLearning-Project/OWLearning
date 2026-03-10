@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@PreAuthorize("isAuthenticated()")
 public class MessagerieWebSocketController
 {
     private final ServiceDiscussion serviceDiscussion;

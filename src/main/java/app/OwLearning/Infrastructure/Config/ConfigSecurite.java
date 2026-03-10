@@ -54,6 +54,7 @@ public class ConfigSecurite
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/authentification/connexion","/api/authentification/inscription").permitAll()
+                        .requestMatchers("/ws-messagerie/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

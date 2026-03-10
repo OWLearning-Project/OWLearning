@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/messagerie")
+@RequestMapping("/api/messagerie")
 @PreAuthorize("isAuthenticated()")
 public class MessagerieRestController
 {
@@ -41,14 +41,14 @@ public class MessagerieRestController
         return ResponseEntity.ok(messages);
     }
 
-    @PostMapping("/messages/{idMessage}/ressources/{idRessource}")
+    @PostMapping("/{idMessage}/ressources/{idRessource}")
     public ResponseEntity<String> lierRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
     {
         serviceMessage.ajouterRessource(idMessage, idRessource);
         return ResponseEntity.ok("Ressource ajoutée au message avec succès");
     }
 
-    @DeleteMapping("/messages/{idMessage}/ressources/{idRessource}")
+    @DeleteMapping("/{idMessage}/ressources/{idRessource}")
     public ResponseEntity<Ressource> retirerRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
     {
         Ressource ressourceSupprimee = serviceMessage.supprimerRessource(idMessage, idRessource);
