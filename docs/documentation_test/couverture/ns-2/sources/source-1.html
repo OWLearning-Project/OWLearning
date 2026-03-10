@@ -1,0 +1,165 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ErrorController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Api</a>
+</div>
+
+<h1>Coverage Summary for Class: ErrorController (app.OwLearning.Api)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ErrorController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    12,5%
+  </span>
+  <span class="absValue">
+    (1/8)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Api;
+&nbsp;
+&nbsp;import app.OwLearning.Shared.Exceptions.*;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.ExceptionHandler;
+&nbsp;import org.springframework.web.bind.annotation.RestControllerAdvice;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller permettant de gérer le retour textuel des exceptions
+&nbsp; */
+&nbsp;@RestControllerAdvice
+<b class="fc">&nbsp;public class ErrorController</b>
+&nbsp;{
+&nbsp;    @ExceptionHandler({ExceptionMauvaisIdentifiants.class,
+&nbsp;            ExceptionTokenInvalide.class})
+&nbsp;    public ResponseEntity&lt;String&gt; unauthorized(RuntimeException ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.toString());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(ExceptionUtilisateurNonAutorise.class)
+&nbsp;    public ResponseEntity&lt;String&gt; forbidden(ExceptionUtilisateurNonAutorise ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.toString());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler({ExceptionEleveDejaPresent.class,
+&nbsp;            ExceptionCompteExistant.class,
+&nbsp;            ExceptionCategorieDejaPresente.class})
+&nbsp;    public ResponseEntity&lt;String&gt; conflict(RuntimeException ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.toString());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler({ExceptionMauvaisIdEleve.class,
+&nbsp;            ExceptionMauvaisIdChapitre.class,
+&nbsp;            ExceptionMauvaisLabelCategorie.class,
+&nbsp;            ExceptionUtilisateurInexistant.class,
+&nbsp;            ExceptionChapitreIntrouvable.class,
+&nbsp;            ExceptionDiscussionInexistante.class,
+&nbsp;            ExceptionMessageIntrouvable.class,
+&nbsp;            ExceptionCoursInexistant.class,
+&nbsp;            ExceptionCategorieInexistante.class})
+&nbsp;    public ResponseEntity&lt;String&gt; not_found(Exception ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.toString());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(IllegalArgumentException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; bad_request(IllegalArgumentException ex) {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(NullPointerException.class)
+&nbsp;    public ResponseEntity&lt;String&gt; exception(NullPointerException ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(404).body(&quot;Une erreur est survenue : &quot; + ex.getMessage());</b>
+&nbsp;    }
+&nbsp;    @ExceptionHandler(Exception.class)
+&nbsp;    public ResponseEntity&lt;String&gt; exception(Exception ex)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(&quot;Une erreur est survenue : &quot; + ex.getMessage());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

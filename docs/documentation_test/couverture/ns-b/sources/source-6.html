@@ -1,0 +1,221 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceInscription</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Application.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceInscription (app.OwLearning.Application.Services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceInscription</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (8/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,6%
+  </span>
+  <span class="absValue">
+    (31/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Application.Services;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Cours;
+&nbsp;import app.OwLearning.Domain.Models.Eleve;
+&nbsp;import app.OwLearning.Domain.Models.Utilisateur;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@Service
+&nbsp;public class ServiceInscription implements IServiceInscription
+&nbsp;{
+&nbsp;    private final ICoursRepository coursRepository;
+&nbsp;    private final app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository utilisateurRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur du ServiceInscription
+&nbsp;     *
+&nbsp;     * @param coursRepository repository des cours
+&nbsp;     * @param utilisateurRepository repository des utilisateurs
+&nbsp;     */
+&nbsp;    public ServiceInscription(ICoursRepository coursRepository, IUtilisateurRepository utilisateurRepository)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.coursRepository = coursRepository;</b>
+<b class="fc">&nbsp;        this.utilisateurRepository = utilisateurRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * cette méthode nous  permet d&#39;inscrire un étudiant (élève) à un cours
+&nbsp;     *
+&nbsp;     * @param idEtudiant id de l&#39;élève
+&nbsp;     * @param idCours id du cours
+&nbsp;     * @return un entier indiquant le résultat de l&#39;inscription
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int inscrireEtudiant(int idEtudiant, int idCours)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Inscription de l&#39;étudiant {} au cours {}&quot;, idEtudiant, idCours);</b>
+<b class="fc">&nbsp;        if (idEtudiant &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de l&#39;inscription. L&#39;identifiant étudiant{} n&#39;est pas valide.&quot;, idEtudiant);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant étudiant invalide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (idCours &lt;= 0){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de l&#39;inscription. L&#39;identifiant cours{} n&#39;est pas valide.&quot;, idCours);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant cours invalide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(idCours);</b>
+<b class="fc">&nbsp;        Eleve eleve = (Eleve) utilisateurRepository.trouverParId(idEtudiant);</b>
+<b class="fc">&nbsp;        cours.ajouterEleve(eleve);</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(cours);</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Inscription de l&#39;étudiant {} au cours {} a réussi.&quot;, idEtudiant, idCours);</b>
+<b class="fc">&nbsp;        return cours.getId();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Refuser l&#39;inscription d&#39;un élève à un cours
+&nbsp;     *
+&nbsp;     * @param idCours id du cours
+&nbsp;     * @param idEtudiant id de l&#39;élève
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void supprimerInscriptionCours(int idCours, int idEtudiant) throws ExceptionMauvaisIdEleve {
+<b class="fc">&nbsp;        log.debug(&quot;Demande de suppression de l&#39;inscription de l&#39;étudiant{} au cours {}&quot;, idEtudiant, idCours);</b>
+<b class="pc">&nbsp;        if (idCours &lt;= 0){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la suppression. L&#39;identifiant cours {} est invalide.&quot;,idCours);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant cours invalide&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (idEtudiant &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de la suppression. L&#39;identifiant étudiant {} est invalide.&quot;, idEtudiant);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant étudiant invalide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(idCours);</b>
+<b class="fc">&nbsp;        cours.supprimerEleve(idEtudiant);</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(cours);</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Suppression de l&#39;étudiant {} au cours {} réussie.&quot;, idEtudiant, idCours);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui récupére les élèves inscrits à un cours
+&nbsp;     * @param idCours id du cours
+&nbsp;     * @return la liste des utilisateurs inscrits
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;Utilisateur&gt; getEtudiantsInscrits(int idCours)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Récupération des étudiants inscrits au cours {}&quot;,  idCours);</b>
+<b class="fc">&nbsp;        if (idCours &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;La récupération des étudiants a échoué&quot;);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant cours invalide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(idCours);</b>
+<b class="fc">&nbsp;        log.info(&quot;Récupération de {} étudiants inscrits au cours {}&quot;, cours.getEleves().size(), idCours);</b>
+<b class="fc">&nbsp;        return new ArrayList&lt;&gt;(cours.getEleves());</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,117 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IChapitreRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Domain.Ports.IRepository</a>
+</div>
+
+<h1>Coverage Summary for Class: IChapitreRepository (app.OwLearning.Domain.Ports.IRepository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">IChapitreRepository$MockitoMock$epZ6Aq7J</td>
+  </tr>
+  <tr>
+    <td class="name">IChapitreRepository$MockitoMock$epZ6Aq7J$auxiliary$225DRxKR</td>
+  </tr>
+  <tr>
+    <td class="name">IChapitreRepository$MockitoMock$epZ6Aq7J$auxiliary$FqLXBp0T</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Domain.Ports.IRepository;
+&nbsp;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Chapitre;
+&nbsp;import app.OwLearning.Domain.Models.Ressource;
+&nbsp;
+&nbsp;/**
+&nbsp; * Interface IChapitreRepository définissant le contrat pour la récupération des chapitres
+&nbsp; */
+&nbsp;public interface IChapitreRepository {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Sauvegarde un chapitre dans la bd
+&nbsp;     * @param chapitre à sauvegarder
+&nbsp;     * @return ligne à laquelle le chapitre est inscrit dans la bd
+&nbsp;     */
+&nbsp;    public abstract int sauvegarder(Chapitre chapitre);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Recherche un chapitre par son id
+&nbsp;     * @param id du chapitre
+&nbsp;     * @return chapitre si trouvé. Sinon null si non trouvé.
+&nbsp;     */
+&nbsp;    public abstract Chapitre trouverParId(int id);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * supprime le chapitre
+&nbsp;     * @param id du chapitre
+&nbsp;     * @return le chapitre qui a été supprimé
+&nbsp;     */
+&nbsp;    public abstract Chapitre supprimerParId(int id);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Vérification de l&#39;existence du chapitre
+&nbsp;     * @param i id du chapitre
+&nbsp;     * @return True si le chapitre existe, sinon false s&#39;il n&#39;existe pas
+&nbsp;     */
+&nbsp;    public abstract boolean existe(int i);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

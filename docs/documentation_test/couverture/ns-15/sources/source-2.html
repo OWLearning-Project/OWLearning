@@ -1,0 +1,113 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IServiceToken</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Domain.Ports.IServices</a>
+</div>
+
+<h1>Coverage Summary for Class: IServiceToken (app.OwLearning.Domain.Ports.IServices)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">IServiceToken$MockitoMock$ALKg7hWg</td>
+  </tr>
+  <tr>
+    <td class="name">IServiceToken$MockitoMock$ALKg7hWg$auxiliary$oNtrPRlu</td>
+  </tr>
+  <tr>
+    <td class="name">IServiceToken$MockitoMock$ALKg7hWg$auxiliary$Y5a8Wzcx</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Domain.Ports.IServices;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Utilisateur;
+&nbsp;
+&nbsp;/**
+&nbsp; * Interface de ServiceToken qui permet de générer un token, le valider, l&#39;invalider et extraire l&#39;ID du token
+&nbsp; */
+&nbsp;public interface IServiceToken
+&nbsp;{
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de générer un token
+&nbsp;     * @param utilisateur
+&nbsp;     * @return le token généré
+&nbsp;     */
+&nbsp;    public abstract String genererToken(Utilisateur utilisateur);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de valider un Token
+&nbsp;     * @param token
+&nbsp;     * @return true si le token est valider false sinon
+&nbsp;     */
+&nbsp;    public abstract boolean validerToken(String token);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet d&#39;invalider un token
+&nbsp;     * @param token
+&nbsp;     */
+&nbsp;    public abstract void invaliderToken(String token);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet d&#39;extraire l&#39;ID du token généré
+&nbsp;     * @param token
+&nbsp;     * @return l&#39;ID extrait
+&nbsp;     */
+&nbsp;    public abstract int extraireID(String token);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

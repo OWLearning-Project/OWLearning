@@ -1,0 +1,228 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceUtilisateur</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Application.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceUtilisateur (app.OwLearning.Application.Services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceUtilisateur</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (24/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,3%
+  </span>
+  <span class="absValue">
+    (42/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Application.Services;
+&nbsp;import app.OwLearning.Domain.Models.Eleve;
+&nbsp;import app.OwLearning.Domain.Models.Utilisateur;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;/**
+&nbsp; * Le Service Utilisateur permet de gérer le traitement des utilisateurs
+&nbsp; */
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@Service
+&nbsp;public class ServiceUtilisateur implements IServiceUtilisateur {
+&nbsp;
+&nbsp;
+&nbsp;    private final IUtilisateurRepository utilisateurRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur
+&nbsp;     * @param utilisateurRepository
+&nbsp;     */
+<b class="fc">&nbsp;    public ServiceUtilisateur(IUtilisateurRepository utilisateurRepository) {</b>
+<b class="fc">&nbsp;        this.utilisateurRepository = utilisateurRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Cette méthode permet de récupérer le profil d&#39;un utilisateur via son identifiant
+&nbsp;     * @param id identifiant de l&#39;utilisateur
+&nbsp;     * @return l&#39;utilisateur correspondant
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Utilisateur getProfil(int id) {
+<b class="fc">&nbsp;        log.debug(&quot;Demande de récupération du profil utilisateur {}&quot;, id);</b>
+<b class="fc">&nbsp;        if (id &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;La récupération du profil a échoué. L&#39;identifiant {} n&#39;est pas valide. &quot;, id);</b>
+<b class="fc">&nbsp;            {throw new IllegalArgumentException(&quot;L&#39;identifiant n&#39;est pas valide&quot;);}</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Utilisateur utilisateur = utilisateurRepository.trouverParId(id);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (utilisateur == null) {</b>
+<b class="fc">&nbsp;            log.warn(&quot;La récupération du profil a échoué. L&#39;utilisateur {} est introuvable.&quot;, id);</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;Utilisateur introuvable&quot;);}</b>
+&nbsp;
+<b class="fc">&nbsp;        log.debug(&quot;Profil utilisateur {} récupéré: {}&quot;, id, utilisateur);</b>
+<b class="fc">&nbsp;        return utilisateur;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Cette methode permet de modifier les informations de l&#39;utilisateur
+&nbsp;     * @param id identifiant de l&#39;utilisateur
+&nbsp;     * @param pseudo on met le nouveau pseudo
+&nbsp;     * @param email le nouveau email
+&nbsp;     * @param age l&#39;age
+&nbsp;     * @param niveauEtude le niveau d&#39;étude
+&nbsp;     * @return l&#39;utilisateur modifié
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Utilisateur modifierProfil(int id, String pseudo, String email, Integer age, String niveauEtude) {
+<b class="fc">&nbsp;        log.debug(&quot;Modification du profil utilisateur {}&quot;, id);</b>
+<b class="fc">&nbsp;        if (id &lt;= 0) {</b>
+<b class="fc">&nbsp;            log.warn(&quot;La modification a échoué. L&#39;identifiant {} n&#39;est pas valide. &quot;, id);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;l&#39;identifiant n&#39;est pas valide&quot;);}</b>
+&nbsp;
+<b class="fc">&nbsp;        Utilisateur utilisateur = utilisateurRepository.trouverParId(id);</b>
+<b class="fc">&nbsp;        if (utilisateur == null) {</b>
+<b class="fc">&nbsp;            log.warn(&quot;La modification a échoué. L&#39;utilisateur {} est introuvable.&quot;, id);</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;Utilisateur introuvable&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="pc">&nbsp;        if (pseudo == null || pseudo.isBlank()) {</b>
+<b class="nc">&nbsp;            log.warn(&quot;La modification du profil {} a échoué. Le pseudo n&#39;est pas valide.&quot;, pseudo);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;le pseudo n&#39;est pas valide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        utilisateur.setPseudo(pseudo);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (email == null || email.isBlank()) {</b>
+<b class="nc">&nbsp;            log.warn(&quot;La modification du profil {} a échoué. Le email n&#39;est pas valide.&quot;, email);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;l&#39;email n&#39;est pas valide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Utilisateur autre = utilisateurRepository.trouverParEmail(email);</b>
+<b class="pc">&nbsp;        if (autre != null &amp;&amp; autre.getId() != id) {</b>
+<b class="fc">&nbsp;            log.warn(&quot;La modification du profil {} a échoué. L&#39;email {} est déjà utilisé.&quot;, email, autre);</b>
+<b class="fc">&nbsp;            throw new IllegalStateException(&quot;Email déjà Utilisé&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        utilisateur.setEmail(email);</b>
+&nbsp;
+<b class="fc">&nbsp;        if (utilisateur instanceof Eleve)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            Eleve eleve = (Eleve)utilisateur;</b>
+&nbsp;
+<b class="fc">&nbsp;            if (age == null || age &lt; 0)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                log.warn(&quot;Echec de la modification du profil {}. L&#39;age n&#39;est pas renseigné.&quot;, id);</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(&quot;l&#39;age n&#39;est pas valide&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            eleve.setAge(age);</b>
+<b class="pc">&nbsp;            if (niveauEtude == null || niveauEtude.isBlank())</b>
+&nbsp;            {
+<b class="fc">&nbsp;                log.warn(&quot;Echec de la modification du profil {}. Le niveau d&#39;étude n&#39;est pas renseigné.&quot;, id);</b>
+<b class="fc">&nbsp;                throw new IllegalArgumentException(&quot;le niveau d&#39;étude n&#39;est pas valide&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            eleve.setNiveauEtude(niveauEtude);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Utilisateur utilisateurModifie = utilisateurRepository.sauvegarder(utilisateur);</b>
+<b class="fc">&nbsp;        log.info(&quot;Profil utilisateur {} modifié avec succès&quot;, id);</b>
+<b class="fc">&nbsp;        return utilisateurModifie;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

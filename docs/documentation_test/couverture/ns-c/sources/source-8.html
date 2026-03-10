@@ -1,0 +1,317 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Message</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Domain.Models</a>
+</div>
+
+<h1>Coverage Summary for Class: Message (app.OwLearning.Domain.Models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Message</td>
+<td class="coverageStat">
+  <span class="percent">
+    84,2%
+  </span>
+  <span class="absValue">
+    (16/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (6/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75,7%
+  </span>
+  <span class="absValue">
+    (28/37)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Message$HibernateInstantiator</td>
+  </tr>
+  <tr>
+    <td class="name">Message$HibernateProxy</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    84,2%
+  </span>
+  <span class="absValue">
+    (16/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (6/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75,7%
+  </span>
+  <span class="absValue">
+    (28/37)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Domain.Models;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;import java.sql.Timestamp;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe Message qui permet de créer un message avec son contenu l&#39;assigner à sa discussion et à l&#39;Utilisateur qui l&#39;a envoyé
+&nbsp; */
+&nbsp;@Entity
+&nbsp;public class Message {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column(name = &quot;id_message&quot;)
+&nbsp;    private int id_message;
+&nbsp;
+&nbsp;    @Column(name = &quot;date_creation&quot;)
+&nbsp;    private Timestamp dateCreation;
+&nbsp;    private String contenu;
+&nbsp;
+&nbsp;    @Enumerated(EnumType.STRING)
+&nbsp;    @Column(name = &quot;statut&quot;)
+&nbsp;    private StatutMessage statutMessage;
+&nbsp;
+&nbsp;    @ManyToOne
+&nbsp;    @JoinColumn(name = &quot;id_discussion&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private Discussion discussion;
+&nbsp;
+&nbsp;    @ManyToOne
+&nbsp;    @JoinColumn(name = &quot;id_utilisateur&quot;)
+&nbsp;    @JsonIgnore
+&nbsp;    private Utilisateur utilisateur;
+&nbsp;
+<b class="fc">&nbsp;    @ManyToMany( fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}) // Chargement des PJ avec le message &amp; permet de sauver la liaison sans requete manuelle</b>
+&nbsp;    @JoinTable(name = &quot;piece_jointe&quot;,
+&nbsp;            joinColumns = @JoinColumn(name = &quot;id_message&quot;),
+&nbsp;            inverseJoinColumns = @JoinColumn(name = &quot;id_ressource&quot;))
+&nbsp;    private List&lt;Ressource&gt; ressources = new ArrayList&lt;&gt;();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur vide de Message
+&nbsp;     */
+&nbsp;    public Message()
+<b class="fc">&nbsp;    {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur de Message
+&nbsp;     * @param unContenu
+&nbsp;     * @param unAuteur
+&nbsp;     */
+&nbsp;    public Message(String unContenu, Utilisateur unAuteur)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.utilisateur = unAuteur;</b>
+<b class="fc">&nbsp;        this.discussion = null;</b>
+<b class="fc">&nbsp;        this.contenu = unContenu;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getId_message()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.id_message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Timestamp getDateCreation()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.dateCreation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getContenu()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.contenu;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Ressource&gt; getRessources()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.ressources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Discussion getDiscussion()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.discussion;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Utilisateur getUtilisateur()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.utilisateur;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public StatutMessage getStatutMessage()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.statutMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDateCreation(Timestamp dateCreation)
+&nbsp;    {
+<b class="fc">&nbsp;        this.dateCreation = dateCreation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setContenu(String contenu)
+&nbsp;    {
+<b class="fc">&nbsp;        this.contenu = contenu;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setRessources(List&lt;Ressource&gt; desRessources)
+&nbsp;    {
+<b class="fc">&nbsp;        this.ressources = desRessources;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setStatutMessage(StatutMessage statutMessage)
+&nbsp;    {
+<b class="fc">&nbsp;        this.statutMessage = statutMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDiscussion(Discussion uneDiscussion)
+&nbsp;    {
+<b class="fc">&nbsp;        this.discussion = uneDiscussion;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setUtilisateur(Utilisateur unUtilisateur)
+&nbsp;    {
+<b class="nc">&nbsp;        this.utilisateur = unUtilisateur;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet d&#39;ajoute une ressource au message (PJ)
+&nbsp;     * @param uneRessource
+&nbsp;     * @throws IllegalArgumentException
+&nbsp;     */
+&nbsp;    public void ajouterRessource(Ressource uneRessource) throws IllegalArgumentException
+&nbsp;    {
+<b class="fc">&nbsp;        if (uneRessource == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Une ressource null ne peut être ajouter&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.ressources.add(uneRessource);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de retirer une ressource au message
+&nbsp;     * @param uneRessourceId
+&nbsp;     * @return la ressource retiré
+&nbsp;     */
+&nbsp;    public Ressource retirerRessource(int uneRessourceId)
+&nbsp;    {
+&nbsp;
+<b class="fc">&nbsp;        for(int i = 0; i &lt; ressources.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            Ressource ressourceARetirer = ressources.get(i);</b>
+&nbsp;
+<b class="pc">&nbsp;            if(ressourceARetirer.getId_ressource() == uneRessourceId)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                this.ressources.remove(i);</b>
+<b class="fc">&nbsp;                return ressourceARetirer;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        throw new NoSuchElementException(&quot;Aucune ressource trouvée avec l&#39;ID &quot; + uneRessourceId);</b>
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o)
+&nbsp;    {
+<b class="pc">&nbsp;        if (this == o)</b>
+<b class="fc">&nbsp;            return true;</b>
+<b class="nc">&nbsp;        if (o == null || getClass() != o.getClass())</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        Message message = (Message) o;</b>
+<b class="nc">&nbsp;        if (this.id_message == 0 || message.id_message == 0)</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        return id_message == message.id_message;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        return &quot;Auteur : &quot; + &quot;(&quot; + this.getUtilisateur() + &quot;), Contenu : &quot; + this.getContenu() ;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

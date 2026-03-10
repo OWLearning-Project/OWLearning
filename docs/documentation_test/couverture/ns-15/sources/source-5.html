@@ -1,0 +1,108 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > IServiceChapitre</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Domain.Ports.IServices</a>
+</div>
+
+<h1>Coverage Summary for Class: IServiceChapitre (app.OwLearning.Domain.Ports.IServices)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">IServiceChapitre</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Domain.Ports.IServices;
+&nbsp;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Chapitre;
+&nbsp;import app.OwLearning.Domain.Models.Ressource;
+&nbsp;
+&nbsp;/**
+&nbsp; * Interface IServiceChapitre définissant le contrat pour le traitement des chapitres
+&nbsp; */
+&nbsp;public interface IServiceChapitre {
+&nbsp;    /**
+&nbsp;     * Méthode pour récupérer le contenu d&#39;un chapitre via son id
+&nbsp;     * @param id id du chapitre
+&nbsp;     * @return l&#39;objet Chapitre associé
+&nbsp;     */
+&nbsp;    public abstract Chapitre getContenuChapitre(int id);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ajouter une ressource au chapitre sélectionné
+&nbsp;     * @param id du chapitre
+&nbsp;     * @param ressource
+&nbsp;     */
+&nbsp;    public abstract void ajouterRessource(int id, Ressource ressource);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Permet de changer de titre ou de description pour un chapitre
+&nbsp;     *
+&nbsp;     * @return 1 si le chapitre est trouvé et changé. Sinon 0 s&#39;il n&#39;existe pas
+&nbsp;     */
+&nbsp;    public abstract void modifier(int id, String titre, String description);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Détache la ressource du chapitre
+&nbsp;     *
+&nbsp;     * @param idChapitre
+&nbsp;     * @param idRessource
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public abstract Ressource retirerRessource(int idChapitre, int idRessource);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

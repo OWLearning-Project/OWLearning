@@ -1,0 +1,417 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceCours</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Application.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceCours (app.OwLearning.Application.Services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceCours</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    69,2%
+  </span>
+  <span class="absValue">
+    (36/52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    80,3%
+  </span>
+  <span class="absValue">
+    (98/122)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Application.Services;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceCours;
+&nbsp;import app.OwLearning.Domain.Models.*;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe ServiceCours, permet de gérer le traitement des cours
+&nbsp; */
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;@Service
+&nbsp;public class ServiceCours implements IServiceCours
+&nbsp;{
+&nbsp;    private final ICoursRepository coursRepository;
+&nbsp;    /**
+&nbsp;     * Constructeur du ServiceCours
+&nbsp;     */
+&nbsp;    public ServiceCours (ICoursRepository coursRepository)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.coursRepository = coursRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode permettant de récupérer un cours avec son id
+&nbsp;     * @param id id du cours
+&nbsp;     * @return l&#39;objet Cours associé
+&nbsp;     */
+&nbsp;    public Cours getCoursParId(int id)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Récupération du cours avec l&#39;id {}&quot;, id);</b>
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(id);</b>
+<b class="pc">&nbsp;        if (cours == null){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec. Id introuvable &quot;);</b>
+&nbsp;        } else{
+<b class="fc">&nbsp;            log.debug(&quot;Cours {} récupéré: {}&quot;, id, cours);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return cours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de récupérer les cours créés par un créateur avec son id
+&nbsp;     * @param idCreateur id du créateur
+&nbsp;     * @return l&#39;ArrayList des Cours créés
+&nbsp;     */
+&nbsp;    public ArrayList&lt;Cours&gt; getCoursCrees(int idCreateur)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Demande de récupération des cours créés par un createur {}&quot;, idCreateur);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Cours&gt; cours = coursRepository.trouverParIdCreateur(idCreateur);</b>
+<b class="fc">&nbsp;        log.info(&quot;Récupération de {} cours du createur&quot;, idCreateur);</b>
+<b class="fc">&nbsp;        return cours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode permettant de récupérer les Cours où un élève est inscrit avec son id
+&nbsp;     * @param idEleve id de l&#39;élève
+&nbsp;     * @return l&#39;ArrayList des Cours inscrits
+&nbsp;     */
+&nbsp;    public ArrayList&lt;Cours&gt; getCoursInscrits(int idEleve)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Demande de récupération des cours inscrit pour l&#39;élève {}&quot;, idEleve);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Cours&gt; cours = coursRepository.trouverParIdEleve(idEleve);</b>
+<b class="fc">&nbsp;        log.info(&quot;Récupération de {} cours&quot;, idEleve);</b>
+<b class="fc">&nbsp;        return cours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode permettant de récupérer l&#39;entièreté des Cours publiés
+&nbsp;     * Filtrage possible avec les paramètres
+&nbsp;     * @return l&#39;ArrayList des Cours publiés
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public ArrayList&lt;Cours&gt; getCoursPublies()
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Demande de récupération des cours publiés&quot;);</b>
+<b class="fc">&nbsp;        ArrayList&lt;Cours&gt; coursPublies = coursRepository.trouverCoursPublies();</b>
+<b class="fc">&nbsp;        log.info(&quot;Récupération de {} cours publiées&quot; , coursPublies.size());</b>
+<b class="fc">&nbsp;        return coursPublies;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Cette méthode crée un nouveau cours après vérification des données
+&nbsp;     * @param titre titre du cours
+&nbsp;     * @param description description du cours
+&nbsp;     * @param difficulte catégorie du cours
+&nbsp;     * @param createurId identifiant du créateur
+&nbsp;     * @return le cours créé
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Cours creerCours(String titre, String description, Difficulte difficulte , int createurId)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Création d&#39;un cours avec le titre &#39;{}&#39; pour le créateur {}&quot;, titre, createurId);</b>
+<b class="pc">&nbsp;        if (titre == null || titre.isBlank()){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec. Le titre est invalde&quot;);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Le titre n&#39;est pas valide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (description == null || description.isBlank()){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec. Le description est invalde&quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;La description n&#39;est pas valide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (difficulte == null){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec. Le difficulte est invalde&quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Difficulté non valide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (createurId &lt;= 0){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec. L&#39;identifiant du createur n&#39;est pas valide&quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant du créateur invalide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours cours = coursRepository.creerCours(titre, description, difficulte, createurId);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (cours == null) {</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de création du cours &#39;{}&#39; pour le createur {}&quot;, titre, createurId);</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;La création du cours a échoué&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        log.info(&quot;Cours créé avec succès&quot;);</b>
+<b class="fc">&nbsp;        return cours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Publier un cours via son identifiant
+&nbsp;     * @param coursId identifiant du cours
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void publierCours(int coursId)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Publication de cours{} &quot;, coursId);</b>
+<b class="fc">&nbsp;        if (coursId &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de la publication. Votre identifiant cours {} n&#39;est pas valide.&quot;, coursId);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant du cours invalide&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!coursRepository.coursExiste(coursId)){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de la publication. Le cours {} est introuvable dans la base.&quot;, coursId);</b>
+<b class="fc">&nbsp;            throw new ExceptionCoursInexistant(&quot;Le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(coursId);</b>
+<b class="fc">&nbsp;        cours.publier();</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(cours);</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Cours {} publié avec succès&quot;, coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Modifie le titre, la description, la difficulté et la visibilité d&#39;un cours
+&nbsp;     * @param coursId identifiant du cours
+&nbsp;     * @param titre nouveau titre
+&nbsp;     * @param description nouvelle description
+&nbsp;     * @param estPrive visibilité du cours
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Modification des informations du cours {}&quot;, coursId);</b>
+<b class="pc">&nbsp;        if (coursId &lt;= 0){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la modification. l&#39;id n&#39;est pas valide. &quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;L&#39;Id du cours n&#39;est pas valide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (titre == null || titre.isBlank()){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la modification. Le titre est invalde&quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Titre non valide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (description == null || description.isBlank()){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de la modification. La description est invalde&quot;);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Description est vide&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (difficulte == null){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la modification. La difficulté n&#39;est pas renseigné&quot;);</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;La difficulté du cours n&#39;est pas renseignée&quot;);</b>
+&nbsp;        }
+<b class="pc">&nbsp;        if (!coursRepository.coursExiste(coursId)){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la modification. Le cours n&#39;existe pas dans la base&quot;);</b>
+<b class="nc">&nbsp;            throw new ExceptionCoursInexistant(&quot;Le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours leCours = coursRepository.trouverParId(coursId);</b>
+&nbsp;
+<b class="fc">&nbsp;        leCours.setTitre(titre);</b>
+<b class="fc">&nbsp;        leCours.setDescription(description);</b>
+<b class="fc">&nbsp;        leCours.setDifficulte(difficulte);</b>
+<b class="fc">&nbsp;        leCours.visibilite(estPrive);</b>
+&nbsp;
+<b class="fc">&nbsp;        coursRepository.sauvegarder(leCours);</b>
+<b class="fc">&nbsp;        log.info(&quot;Cours {} modifié avec succès&quot;, coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Methode permettant de supprimer un cours
+&nbsp;     * @param coursId identifiant du cours
+&nbsp;     * @return le cours supprimé
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Cours supprimerCours(int coursId)
+&nbsp;    {
+<b class="fc">&nbsp;        log.debug(&quot;Suppression du cours {}&quot;, coursId);</b>
+<b class="fc">&nbsp;        if (coursId &lt;= 0){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de la suppression. l&#39;id {} n&#39;est pas valide. &quot;, coursId);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Identifiant du cours invalide&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        Cours coursSupprime = coursRepository.supprimerCours(coursId);</b>
+&nbsp;
+<b class="pc">&nbsp;        if (coursSupprime == null){</b>
+<b class="nc">&nbsp;            log.warn(&quot;Echec de la suppression du cours {}. Aucun cours supprimé&quot;, coursId);</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(&quot;Impossible de suppression le cours&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        log.info(&quot;Cours {} supprimé!&quot;, coursId);</b>
+<b class="fc">&nbsp;        return coursSupprime;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Methode qui ajoute un chapitre à un cours
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @param chapitre chapitre à ajouter
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void ajouterChapitre(int coursId, Chapitre chapitre) {
+<b class="fc">&nbsp;        log.debug(&quot;Ajout d&#39;un chapitre {}&quot;, coursId);</b>
+<b class="fc">&nbsp;        if(chapitre == null){</b>
+<b class="fc">&nbsp;            log.warn(&quot;L&#39;ajout du chapitre a échoué&quot;);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Un chapitre à ajouter ne peut pas être null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!coursRepository.coursExiste(coursId)){</b>
+<b class="fc">&nbsp;            log.warn(&quot;L&#39;ajout du chapitre a échoué. Le cours {} est introuvable dans la base&quot;, coursId);</b>
+<b class="fc">&nbsp;            throw new ExceptionCoursInexistant(&quot;Le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Cours leCours = coursRepository.trouverParId(coursId);</b>
+<b class="fc">&nbsp;        leCours.ajouterChapitre(chapitre);</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(leCours);</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Chapitre ajouté avec succès au cours {}&quot;,  coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Methode permettant de retirer un chapitre à un cours grâce à leurs id
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @param chapitreId id du chapitre
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void retirerChapitre(int coursId, int chapitreId) throws ExceptionMauvaisIdChapitre {
+<b class="fc">&nbsp;        log.debug(&quot;Suppression du chapitre {}&quot;, coursId);</b>
+<b class="fc">&nbsp;        if(coursId &lt;= 0 || chapitreId &lt;= 0) {</b>
+<b class="fc">&nbsp;            log.warn(&quot;La suppression du chapitre a échoué. L&#39;identifiant du cours{} ou du chapitre{} n&#39;est pas valide!&quot;,  coursId, chapitreId);</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;l&#39;id du cours ou l&#39;id du chapitre est invalide&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (!coursRepository.coursExiste(coursId)){</b>
+<b class="fc">&nbsp;            log.warn(&quot;La suppression du chapitre a échoué. Le cours {} est introuvable&quot;,  coursId);</b>
+<b class="fc">&nbsp;            throw new ExceptionCoursInexistant(&quot;Le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Cours leCours = coursRepository.trouverParId(coursId);</b>
+<b class="fc">&nbsp;        leCours.retirerChapitre(chapitreId);</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(leCours);</b>
+&nbsp;
+<b class="fc">&nbsp;        log.info(&quot;Chapitre {} supprimé du cours {} avec succès.&quot;,chapitreId, coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Methode qui permet d&#39;ajouter une categorie à un cours s&#39;il existe et lève une exception si le cours n&#39;existe pas
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @param categorieAjouter catégorie à ajouter au cours
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void ajouterCategorieCours(int coursId, Categorie categorieAjouter) {
+<b class="fc">&nbsp;        log.debug(&quot;Ajout de la categorie {} du cours {}&quot;,categorieAjouter, coursId);</b>
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(coursId);</b>
+<b class="pc">&nbsp;        if (cours == null){</b>
+<b class="fc">&nbsp;            log.warn(&quot;Echec de l&#39;ajout de la catégorie. Le cours {} est introuvable.&quot;, coursId);</b>
+<b class="fc">&nbsp;            throw new ExceptionCoursInexistant(&quot;le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        cours.ajouterCategorie(categorieAjouter);</b>
+<b class="nc">&nbsp;        coursRepository.sauvegarder(cours);</b>
+<b class="nc">&nbsp;        log.info(&quot;Catégorie {} ajoutée au cours {} avec succès&quot;, categorieAjouter, coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Methode qui permet de supprimer une categorie d&#39;un cours et lève une exception si le cours n&#39;existe pas
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @param categorieASupprimer catégorie a supprimer
+&nbsp;     * @throws ExceptionMauvaisLabelCategorie
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public void supprimerCategorieCours(int coursId, Categorie categorieASupprimer) throws ExceptionMauvaisLabelCategorie {
+<b class="fc">&nbsp;        log.debug(&quot;Suppression de la catégorie {} du cours {}&quot;,categorieASupprimer,coursId);</b>
+<b class="fc">&nbsp;        Cours cours = coursRepository.trouverParId(coursId);</b>
+<b class="pc">&nbsp;        if (cours == null){</b>
+<b class="nc">&nbsp;            log.warn(&quot;La suppresion de la catégorie a échoué. Le cours {} est introuvable dans la base.&quot;, coursId);</b>
+<b class="nc">&nbsp;            throw new ExceptionCoursInexistant(&quot;le cours n&#39;existe pas&quot;, coursId);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        cours.supprimerCategorie(categorieASupprimer.getLabel());</b>
+<b class="fc">&nbsp;        coursRepository.sauvegarder(cours);</b>
+<b class="fc">&nbsp;        log.info(&quot;Catégorie {} supprimée du cours {} avec succès.&quot;, categorieASupprimer,coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Ajouter accepterEleve et refuserEleve apres les merge.
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

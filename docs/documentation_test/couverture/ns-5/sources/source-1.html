@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > CoursController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Api.Cours</a>
+</div>
+
+<h1>Coverage Summary for Class: CoursController (app.OwLearning.Api.Cours)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CoursController</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (2/26)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CoursController$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (1/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    7,7%
+  </span>
+  <span class="absValue">
+    (2/26)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Api.Cours;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Categorie;
+&nbsp;import app.OwLearning.Domain.Models.Chapitre;
+&nbsp;import app.OwLearning.Domain.Models.Ressource;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceCours;
+&nbsp;import app.OwLearning.Domain.Models.Cours;
+&nbsp;import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
+&nbsp;import app.OwLearning.Shared.DTO.ChapitreDTO;
+&nbsp;import app.OwLearning.Shared.DTO.CoursCreationDTO;
+&nbsp;import app.OwLearning.Shared.DTO.CoursModificationDTO;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.access.prepost.PreAuthorize;
+&nbsp;import org.springframework.security.core.annotation.AuthenticationPrincipal;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;import static java.lang.Integer.parseInt;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller CoursController permettant d&#39;accéder aux données liées aux cours
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/cours&quot;)
+&nbsp;@PreAuthorize(&quot;isAuthenticated()&quot;)
+&nbsp;public class CoursController {
+&nbsp;    private final IServiceCours serviceCours;
+&nbsp;
+&nbsp;    public CoursController(IServiceCours serviceCours)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.serviceCours = serviceCours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupération des cours publiés avec une méthode GET
+&nbsp;     *
+&nbsp;     * @return la liste des cours au format JSON
+&nbsp;     */
+&nbsp;    @GetMapping
+&nbsp;    public ResponseEntity&lt;ArrayList&lt;Cours&gt;&gt; getCoursPublies()
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.ok(serviceCours.getCoursPublies());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupération des cours créés par un créateur via son id
+&nbsp;     *
+&nbsp;     * @return la liste des cours créés au format JSON
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @GetMapping(&quot;/utilisateurs/publications&quot;)
+&nbsp;    public ResponseEntity&lt;ArrayList&lt;Cours&gt;&gt; getCoursCrees(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.ok(serviceCours.getCoursCrees(utilisateurAuthentifieDTO.getId()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupération des cours où un élève est inscrit via son id
+&nbsp;     *
+&nbsp;     * @return la liste des cours inscrits au format JSON
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;ELEVE&#39;)&quot;)
+&nbsp;    @GetMapping(&quot;/utilisateurs/inscriptions&quot;)
+&nbsp;    public ResponseEntity&lt;ArrayList&lt;Cours&gt;&gt; getCoursInscriptions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
+&nbsp;    {
+<b class="nc">&nbsp;        return ResponseEntity.ok(serviceCours.getCoursInscrits(utilisateurAuthentifieDTO.getId()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Récupération d&#39;un cours par son id
+&nbsp;     *
+&nbsp;     * @param idCours du cours
+&nbsp;     * @return le cours, une erreur http Not_found si le cours n&#39;existe pas, une erreur http Bad_request sinon
+&nbsp;     */
+&nbsp;    @GetMapping(&quot;/{idCours}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; getCoursParId(@PathVariable(&quot;idCours&quot;) int idCours) {
+&nbsp;        try {
+<b class="nc">&nbsp;            Cours cours = serviceCours.getCoursParId(idCours);</b>
+<b class="nc">&nbsp;            return ResponseEntity.ok(cours);</b>
+&nbsp;        } catch (ExceptionCoursInexistant e) {
+<b class="nc">&nbsp;            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @PostMapping
+&nbsp;    public ResponseEntity&lt;?&gt; creerCours(@RequestBody CoursCreationDTO coursCreationDTO,@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
+&nbsp;    {
+<b class="nc">&nbsp;        Cours cours = serviceCours.creerCours(coursCreationDTO.getTitre(), coursCreationDTO.getDescription(), coursCreationDTO.getDifficulte(), utilisateurAuthentifieDTO.getId());</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).body(cours);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @PostMapping(&quot;/{idCours}/publier&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; publierCours(@PathVariable(&quot;idCours&quot;) int idCours)
+&nbsp;    {
+<b class="nc">&nbsp;        serviceCours.publierCours(idCours);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @PutMapping(&quot;/{idCours}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; modifierInformationsCours(@PathVariable(&quot;idCours&quot;) int idCours, @RequestBody CoursModificationDTO dto){
+<b class="nc">&nbsp;        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte(), dto.getEstPrive());</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @DeleteMapping(&quot;/{idCours}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; supprimerCours(@PathVariable(&quot;idCours&quot;) int idCours)
+&nbsp;    {
+<b class="nc">&nbsp;        Cours coursSupprime = serviceCours.supprimerCours(idCours);</b>
+<b class="nc">&nbsp;        return ResponseEntity.accepted().body(&quot;le cours a été supprimé&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ajout d&#39;un chapitre dans un cours
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @param chapitreDto chapitre (titre et description)
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @PostMapping(&quot;/{idCours}/chapitres&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; ajouterChapitre(@PathVariable(&quot;idCours&quot;) int coursId, @RequestBody ChapitreDTO chapitreDto) {
+&nbsp;
+<b class="nc">&nbsp;        Chapitre nouveauChapitre = new Chapitre(chapitreDto.getTitre(), chapitreDto.getDescription(), new ArrayList&lt;Ressource&gt;());</b>
+<b class="nc">&nbsp;        serviceCours.ajouterChapitre(coursId, nouveauChapitre);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).body(&quot;Le chapitre a été crée&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Supprimer un chapitre associé à un cours
+&nbsp;     * @param coursId
+&nbsp;     * @param chapitreId
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @DeleteMapping(&quot;/{idCours}/chapitres/{idChapitre}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; retirerChapitre(@PathVariable(&quot;idCours&quot;) int coursId, @PathVariable(&quot;idChapitre&quot;) int chapitreId) throws ExceptionMauvaisIdChapitre {
+<b class="nc">&nbsp;        serviceCours.retirerChapitre(coursId, chapitreId);</b>
+<b class="nc">&nbsp;        return ResponseEntity.accepted().body(&quot;le chapitre a été retiré&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Ajouter une catégorie à un cours
+&nbsp;     * @param coursId
+&nbsp;     * @param uneCategorie
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @PostMapping(&quot;/{idCours}/categories&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; ajouterCategorie(@PathVariable(&quot;idCours&quot;) int coursId, @RequestBody Categorie uneCategorie) {
+<b class="nc">&nbsp;        serviceCours.ajouterCategorieCours(coursId, uneCategorie);</b>
+<b class="nc">&nbsp;        return ResponseEntity.accepted().body(&quot;La catégorie a été ajoutée au cours : &quot; + coursId);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Enlever une catégorie à un cours
+&nbsp;     * @param coursId
+&nbsp;     * @param unNomCategorie
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    @PreAuthorize(&quot;hasAuthority(&#39;CREATEUR&#39;)&quot;)
+&nbsp;    @DeleteMapping(&quot;/{idCours}/categories/{nomCategorie}&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; supprimerCategorie(@PathVariable(&quot;idCours&quot;) int coursId, @PathVariable(&quot;nomCategorie&quot;) String unNomCategorie) throws ExceptionMauvaisLabelCategorie {
+<b class="nc">&nbsp;        Categorie laCategorie = Categorie.stringEnCategorie(unNomCategorie);</b>
+<b class="nc">&nbsp;        serviceCours.supprimerCategorieCours(coursId, laCategorie);</b>
+<b class="nc">&nbsp;        return ResponseEntity.accepted().build();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MessagerieRestController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Api.Messagerie</a>
+</div>
+
+<h1>Coverage Summary for Class: MessagerieRestController (app.OwLearning.Api.Messagerie)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MessagerieRestController</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27,3%
+  </span>
+  <span class="absValue">
+    (3/11)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">MessagerieRestController$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    27,3%
+  </span>
+  <span class="absValue">
+    (3/11)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Api.Messagerie;
+&nbsp;
+&nbsp;import app.OwLearning.Application.Services.ServiceDiscussion;
+&nbsp;import app.OwLearning.Application.Services.ServiceMessage;
+&nbsp;import app.OwLearning.Domain.Models.Discussion;
+&nbsp;import app.OwLearning.Domain.Models.Message;
+&nbsp;import app.OwLearning.Domain.Models.Ressource;
+&nbsp;import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.access.prepost.PreAuthorize;
+&nbsp;import org.springframework.security.core.annotation.AuthenticationPrincipal;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/messagerie&quot;)
+&nbsp;@PreAuthorize(&quot;isAuthenticated()&quot;)
+&nbsp;public class MessagerieRestController
+&nbsp;{
+&nbsp;    private final ServiceDiscussion serviceDiscussion;
+&nbsp;    private final ServiceMessage serviceMessage;
+&nbsp;
+&nbsp;    public MessagerieRestController(ServiceDiscussion serviceDiscussion, ServiceMessage serviceMessage)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.serviceDiscussion = serviceDiscussion;</b>
+<b class="fc">&nbsp;        this.serviceMessage = serviceMessage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/mes-discussions&quot;)
+&nbsp;    public ResponseEntity&lt;List&lt;Discussion&gt;&gt; trouverDiscussions(@AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Discussion&gt; discussions = serviceDiscussion.getDiscussionsParIdUtilisateur(utilisateurAuthentifieDTO.getId());</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(discussions);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{idDiscussion}/messages&quot;)
+&nbsp;    public ResponseEntity&lt;List&lt;Message&gt;&gt; trouverMessagesDiscussion(@PathVariable int idDiscussion)
+&nbsp;    {
+<b class="nc">&nbsp;        List&lt;Message&gt; messages = serviceMessage.trouverMessageParDiscussion(idDiscussion);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(messages);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/{idMessage}/ressources/{idRessource}&quot;)
+&nbsp;    public ResponseEntity&lt;String&gt; lierRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
+&nbsp;    {
+<b class="nc">&nbsp;        serviceMessage.ajouterRessource(idMessage, idRessource);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(&quot;Ressource ajoutée au message avec succès&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{idMessage}/ressources/{idRessource}&quot;)
+&nbsp;    public ResponseEntity&lt;Ressource&gt; retirerRessourceMessage(@PathVariable int idMessage, @PathVariable int idRessource)
+&nbsp;    {
+<b class="nc">&nbsp;        Ressource ressourceSupprimee = serviceMessage.supprimerRessource(idMessage, idRessource);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(ressourceSupprimee);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

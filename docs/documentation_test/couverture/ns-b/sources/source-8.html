@@ -1,0 +1,144 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceProgression</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Application.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceProgression (app.OwLearning.Application.Services)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceProgression</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Application.Services;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Progression;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe ServiceProgression, permet de gérer les traitements liés à la progression
+&nbsp; */
+&nbsp;@Service
+&nbsp;public class ServiceProgression implements IServiceProgression {
+&nbsp;
+&nbsp;    private final IProgressionRepository progressionRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur de ServiceProgression
+&nbsp;     * @param progressionRepository
+&nbsp;     */
+<b class="fc">&nbsp;    public ServiceProgression(IProgressionRepository progressionRepository) {</b>
+<b class="fc">&nbsp;        this.progressionRepository = progressionRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de récupérer le taux de progression d&#39;un élève sur un cours
+&nbsp;     * @param eleveId id de l&#39;élève
+&nbsp;     * @param coursId id du cours
+&nbsp;     * @return un float qui correspond au taux de progression
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public float getProgressionEleve(int eleveId, int coursId) {
+<b class="fc">&nbsp;        log.info(&quot;Récupération de la progression pour l&#39;élève {} sur le cours {}&quot;, eleveId, coursId);</b>
+<b class="fc">&nbsp;        Progression progression = progressionRepository.trouverParId(eleveId, coursId);</b>
+<b class="fc">&nbsp;        log.info(&quot;taux de progression renvoyé {}&quot;, progression);</b>
+<b class="fc">&nbsp;        return progression.getTauxProgression();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

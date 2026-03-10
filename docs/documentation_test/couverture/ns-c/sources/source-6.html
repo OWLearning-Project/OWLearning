@@ -1,0 +1,284 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Discussion</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Domain.Models</a>
+</div>
+
+<h1>Coverage Summary for Class: Discussion (app.OwLearning.Domain.Models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Discussion</td>
+<td class="coverageStat">
+  <span class="percent">
+    76,9%
+  </span>
+  <span class="absValue">
+    (10/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37,5%
+  </span>
+  <span class="absValue">
+    (9/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (25/40)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Discussion$HibernateInstantiator</td>
+  </tr>
+  <tr>
+    <td class="name">Discussion$HibernateProxy</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    76,9%
+  </span>
+  <span class="absValue">
+    (10/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    37,5%
+  </span>
+  <span class="absValue">
+    (9/24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    62,5%
+  </span>
+  <span class="absValue">
+    (25/40)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Domain.Models;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+&nbsp;import jakarta.persistence.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe Discussion qui permet de créer une discussion en gérant ses participants et les messages de la discussion
+&nbsp; */
+&nbsp;@Entity
+&nbsp;public class Discussion 
+&nbsp;{
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY)
+&nbsp;    @Column(name=&quot;id_discussion&quot;)
+&nbsp;    private int idDiscussion;
+&nbsp;    @ManyToMany
+&nbsp;    @JoinTable(
+&nbsp;            name = &quot;participation_discussion&quot;,
+&nbsp;            joinColumns = @JoinColumn(name = &quot;id_discussion&quot;),
+&nbsp;            inverseJoinColumns = @JoinColumn(name = &quot;id_utilisateur&quot;)
+&nbsp;    )
+&nbsp;    private List&lt;Utilisateur&gt; participants;
+&nbsp;    @OneToMany(mappedBy = &quot;discussion&quot;, cascade = CascadeType.ALL, orphanRemoval = true)
+&nbsp;    private List&lt;Message&gt; messages;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur par défaut
+&nbsp;     */
+<b class="fc">&nbsp;    public Discussion(){}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur de Discussion
+&nbsp;     * @param utilisateur1
+&nbsp;     * @param utilisateur2
+&nbsp;     */
+&nbsp;    public Discussion(Utilisateur utilisateur1, Utilisateur utilisateur2)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.participants = new ArrayList&lt;Utilisateur&gt;();</b>
+<b class="fc">&nbsp;        this.participants.add(utilisateur1);</b>
+<b class="fc">&nbsp;        this.participants.add(utilisateur2);</b>
+<b class="fc">&nbsp;        this.messages = new ArrayList&lt;Message&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui ajoute un message à la discussion
+&nbsp;     * @param message
+&nbsp;     * @throws ExceptionUtilisateurNonAutorise
+&nbsp;     */
+&nbsp;    public void ajouterMessage(Message message) throws ExceptionUtilisateurNonAutorise
+&nbsp;    {
+<b class="fc">&nbsp;        if(message == null)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Le message ne peut pas être null&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Utilisateur Auteur = message.getUtilisateur();</b>
+<b class="fc">&nbsp;        if (!utilisateurFaitParti(Auteur.getId()))</b>
+&nbsp;        {
+<b class="fc">&nbsp;            throw new ExceptionUtilisateurNonAutorise(&quot;Accès refusé&quot;,Auteur.getId(),this.getId());</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        this.messages.add(message);</b>
+<b class="fc">&nbsp;        message.setDiscussion(this);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui vérifie si un utilisateur fais parti de la discussion
+&nbsp;     * @param id
+&nbsp;     * @return true si l&#39;utilisateur fais parti, false sinon
+&nbsp;     */
+&nbsp;    public boolean utilisateurFaitParti(int id)
+&nbsp;    {
+<b class="fc">&nbsp;        boolean faitParti = false;</b>
+<b class="fc">&nbsp;        for (int i = 0; i&lt;this.participants.size(); i++)</b>
+&nbsp;        {
+<b class="fc">&nbsp;            if(this.participants.get(i).getId() == id)</b>
+&nbsp;            {
+<b class="fc">&nbsp;                faitParti = true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return faitParti;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getId()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.idDiscussion;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Utilisateur&gt; getParticipants()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.participants;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setParticipants(ArrayList&lt;Utilisateur&gt; desParticipants) 
+&nbsp;    {
+<b class="fc">&nbsp;        this.participants = desParticipants;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Message&gt; getMessages()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.messages;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public void setMessages(ArrayList&lt;Message&gt; desMessages) 
+&nbsp;    {
+<b class="fc">&nbsp;        this.messages = desMessages;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o)
+&nbsp;    {
+<b class="pc">&nbsp;        if (this == o)</b>
+<b class="fc">&nbsp;            return true;</b>
+<b class="nc">&nbsp;        if (o == null || getClass() != o.getClass())</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        Discussion that = (Discussion) o;</b>
+<b class="nc">&nbsp;        if (this.idDiscussion == 0 || that.idDiscussion == 0)</b>
+<b class="nc">&nbsp;            return false;</b>
+<b class="nc">&nbsp;        return idDiscussion == that.idDiscussion;</b>
+&nbsp;    }
+&nbsp;    private String toStringParticipants()
+&nbsp;    {
+<b class="nc">&nbsp;        String s=&quot;&quot;;</b>
+<b class="nc">&nbsp;        for (int i = 0; i&lt;this.participants.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            s += &quot; &quot; + this.participants.get(i).toString()+&quot;\n&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return &quot;Participants : \n[\n&quot; + s + &quot;]\n&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private String  toStringMessages()
+&nbsp;    {
+<b class="nc">&nbsp;        String s=&quot;&quot;;</b>
+<b class="nc">&nbsp;        for (int i = 0; i&lt;this.messages.size(); i++)</b>
+&nbsp;        {
+<b class="nc">&nbsp;            s += &quot; &quot; + this.messages.get(i).toString()+&quot;\n&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return &quot;Messages : \n[\n&quot; + s + &quot;]\n&quot;;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String toString()
+&nbsp;    {
+<b class="nc">&nbsp;        return this.toStringParticipants() + &quot;\n&quot; + this.toStringMessages();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

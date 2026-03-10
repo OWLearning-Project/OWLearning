@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > MessageEnvoiDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Shared.DTO</a>
+</div>
+
+<h1>Coverage Summary for Class: MessageEnvoiDTO (app.OwLearning.Shared.DTO)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MessageEnvoiDTO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    57,1%
+  </span>
+  <span class="absValue">
+    (4/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    70%
+  </span>
+  <span class="absValue">
+    (7/10)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Shared.DTO;
+&nbsp;
+&nbsp;public class MessageEnvoiDTO
+&nbsp;{
+&nbsp;    private int auteurId;
+&nbsp;    private String contenu;
+&nbsp;    private Integer ressourceId;
+&nbsp;
+&nbsp;    public MessageEnvoiDTO()
+<b class="nc">&nbsp;    {}</b>
+&nbsp;
+&nbsp;    public MessageEnvoiDTO(int auteurId, String contenu,  Integer ressourceId)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.auteurId = auteurId;</b>
+<b class="fc">&nbsp;        this.contenu = contenu;</b>
+<b class="fc">&nbsp;        this.ressourceId = ressourceId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getAuteurId()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.auteurId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getContenu()
+&nbsp;    {
+<b class="fc">&nbsp;        return this.contenu;</b>
+&nbsp;    }
+&nbsp;    public Integer getRessourceId()
+&nbsp;    {
+<b class="fc">&nbsp;        return ressourceId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setContenu(String contenu)
+&nbsp;    {
+<b class="nc">&nbsp;        this.contenu = contenu;</b>
+&nbsp;    }
+&nbsp;    public void setRessourceId(Integer ressourceId)
+&nbsp;    {
+<b class="nc">&nbsp;        this.ressourceId = ressourceId;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

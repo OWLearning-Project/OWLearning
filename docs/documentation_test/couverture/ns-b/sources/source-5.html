@@ -1,0 +1,183 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ServiceDiscussion</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Application.Services</a>
+</div>
+
+<h1>Coverage Summary for Class: ServiceDiscussion (app.OwLearning.Application.Services)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServiceDiscussion</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServiceDiscussion$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Application.Services;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Discussion;
+&nbsp;import app.OwLearning.Domain.Models.Message;
+&nbsp;import app.OwLearning.Domain.Models.Utilisateur;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
+&nbsp;import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+&nbsp;import lombok.extern.slf4j.Slf4j;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.transaction.annotation.Transactional;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+<b class="fc">&nbsp;@Slf4j</b>
+&nbsp;/**
+&nbsp; * Classe ServiceDiscussion, permet de gérer les traitements de discussions
+&nbsp; */
+&nbsp;@Service
+&nbsp;public class ServiceDiscussion implements IServiceDiscussion
+&nbsp;{
+&nbsp;    private final IDiscussionRepository repositoryDiscussion;
+&nbsp;    private final IUtilisateurRepository repositoryUtilisateur;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructeur de ServiceDiscussion
+&nbsp;     * @param repositoryDiscussion
+&nbsp;     * @param repositoryUtilisateur
+&nbsp;     */
+&nbsp;    public ServiceDiscussion(IDiscussionRepository repositoryDiscussion, IUtilisateurRepository repositoryUtilisateur)
+<b class="fc">&nbsp;    {</b>
+<b class="fc">&nbsp;        this.repositoryDiscussion = repositoryDiscussion;</b>
+<b class="fc">&nbsp;        this.repositoryUtilisateur = repositoryUtilisateur;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet de récupérer les discussions d&#39;un utilisateur
+&nbsp;     * @param idUtilisateur id de l&#39;utilisateur
+&nbsp;     * @return la liste des discussions
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;Discussion&gt; getDiscussionsParIdUtilisateur(int idUtilisateur)
+&nbsp;    {
+<b class="fc">&nbsp;        log.info(&quot;Récupération des discussions de l&#39;utilisateur {}&quot;, idUtilisateur);</b>
+<b class="fc">&nbsp;        return this.repositoryDiscussion.trouverDiscussionsParUtilisateurId(idUtilisateur);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Méthode qui permet d&#39;envoyer un message d&#39;un utilisateur
+&nbsp;     * @param discussionId id de la discussion
+&nbsp;     * @param auteurId id de l&#39;utilisateur auteur
+&nbsp;     * @param contenu contenu du message
+&nbsp;     * @return la discussion avec le nouveau message envoyé
+&nbsp;     * @throws ExceptionUtilisateurNonAutorise
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    @Transactional
+&nbsp;    public Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise
+&nbsp;    {
+<b class="fc">&nbsp;        Discussion discussion = this.repositoryDiscussion.trouverDiscussionParId(discussionId);</b>
+<b class="fc">&nbsp;        Utilisateur auteur = this.repositoryUtilisateur.trouverParId(auteurId);</b>
+<b class="fc">&nbsp;        Message message = new Message(contenu, auteur);</b>
+<b class="fc">&nbsp;        discussion.ajouterMessage(message);</b>
+<b class="fc">&nbsp;        discussion.getMessages().size();</b>
+<b class="fc">&nbsp;        log.info(&quot;Message envoyé avec succès par l&#39;utilisateur {} dans la discussion {}&quot;, auteurId, discussionId);</b>
+<b class="fc">&nbsp;        return this.repositoryDiscussion.sauvegarder(discussion);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>

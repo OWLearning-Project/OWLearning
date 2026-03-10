@@ -1,0 +1,177 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ChapitreController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">app.OwLearning.Api.Chapitre</a>
+</div>
+
+<h1>Coverage Summary for Class: ChapitreController (app.OwLearning.Api.Chapitre)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChapitreController</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (2/14)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ChapitreController$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (2/14)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package app.OwLearning.Api.Chapitre;
+&nbsp;
+&nbsp;
+&nbsp;import app.OwLearning.Domain.Models.Chapitre;
+&nbsp;import app.OwLearning.Domain.Models.Ressource;
+&nbsp;import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
+&nbsp;import app.OwLearning.Shared.DTO.AjoutRessourceDTO;
+&nbsp;import app.OwLearning.Shared.DTO.ChapitreDTO;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.access.prepost.PreAuthorize;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;
+&nbsp;import java.util.ArrayList;
+&nbsp;
+&nbsp;/**
+&nbsp; * Controller ChapitreController permettant d&#39;accéder aux données liées aux chapitres
+&nbsp; */
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/chapitres&quot;)
+&nbsp;@PreAuthorize(&quot;isAuthenticated()&quot;)
+&nbsp;public class ChapitreController {
+&nbsp;    private final IServiceChapitre serviceChapitre;
+&nbsp;
+<b class="fc">&nbsp;    public ChapitreController(IServiceChapitre serviceChapitre){</b>
+<b class="fc">&nbsp;        this.serviceChapitre = serviceChapitre;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(&quot;/{idChapitre}&quot;)
+&nbsp;    public ResponseEntity&lt;ChapitreDTO&gt; getChapitre(@PathVariable(&quot;idChapitre&quot;)int idChapitre)
+&nbsp;    {
+<b class="nc">&nbsp;        Chapitre chapitre = this.serviceChapitre.getContenuChapitre(idChapitre);</b>
+<b class="nc">&nbsp;        ChapitreDTO chapitreDTO = new ChapitreDTO();</b>
+<b class="nc">&nbsp;        chapitreDTO.setTitre(chapitre.getTitre());</b>
+<b class="nc">&nbsp;        chapitreDTO.setDescription(chapitre.getDescription());</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(chapitreDTO);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(&quot;/{idChapitre}&quot;)
+&nbsp;    public ResponseEntity&lt;Void&gt; modifierChapitre(@PathVariable(&quot;idChapitre&quot;) int idChapitre, @RequestBody ChapitreDTO chapitreDTO){
+<b class="nc">&nbsp;        this.serviceChapitre.modifier(idChapitre, chapitreDTO.getTitre(), chapitreDTO.getDescription());</b>
+<b class="nc">&nbsp;        return ResponseEntity.noContent().build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/{idChapitre}/ressources&quot;)
+&nbsp;    public ResponseEntity&lt;Ressource&gt; ajouterRessource(
+&nbsp;            @PathVariable(&quot;idChapitre&quot;) int idChapitre,
+&nbsp;            @RequestBody AjoutRessourceDTO dto) {
+&nbsp;
+<b class="nc">&nbsp;        Ressource nouvelleRessource = new Ressource(dto.getNom(), dto.getType(), dto.getUrl());</b>
+<b class="nc">&nbsp;        this.serviceChapitre.ajouterRessource(idChapitre, nouvelleRessource);</b>
+<b class="nc">&nbsp;        return ResponseEntity.status(HttpStatus.CREATED).build();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(&quot;/{idChapitre}/ressources/{idRessource}&quot;)
+&nbsp;    public ResponseEntity&lt;Ressource&gt; retirerRessource(
+&nbsp;            @PathVariable(&quot;idChapitre&quot;) int idChapitre,
+&nbsp;            @PathVariable(&quot;idRessource&quot;) int idRessource) {
+&nbsp;
+<b class="nc">&nbsp;        Ressource ressource = this.serviceChapitre.retirerRessource(idChapitre, idRessource);</b>
+<b class="nc">&nbsp;        return ResponseEntity.ok(ressource);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-03-10 18:56</div>
+</div>
+</body>
+</html>
