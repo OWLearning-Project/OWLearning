@@ -1,9 +1,11 @@
 package app.OwLearning.Application.Services;
 
 import app.OwLearning.Domain.Ports.IServices.IHach;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 /**
  * Classe hach qui permet de hacher un mot de passe et de valider si un mot de passe entré par l'utilisateur correspond à son hach.
  */
@@ -28,6 +30,7 @@ public class Hach implements IHach
      */
     public String hacher(String motDePasse)
     {
+        log.info("Hachage du mot de passe");
         return mdpEncoder.encode(motDePasse);
     }
 
@@ -39,6 +42,7 @@ public class Hach implements IHach
      */
     public boolean valider(String motDePasse, String motDePasseHache)
     {
+        log.info("Vérification du mot de passe hacher");
         return mdpEncoder.matches(motDePasse, motDePasseHache);
     }
 }

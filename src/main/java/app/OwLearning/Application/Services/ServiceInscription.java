@@ -7,10 +7,11 @@ import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
+@Slf4j
 @Service
 public class ServiceInscription implements IServiceInscription
 {
@@ -39,14 +40,22 @@ public class ServiceInscription implements IServiceInscription
     @Override
     public int inscrireEtudiant(int idEtudiant, int idCours)
     {
-        if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
-        if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
+        log.debug("Inscription de l'étudiant {} au cours {}", idEtudiant, idCours);
+        if (idEtudiant <= 0){
+            log.warn("Echec de l'inscription. L'identifiant étudiant{} n'est pas valide.", idEtudiant);
+            throw new IllegalArgumentException("Identifiant étudiant invalide");
+        }
+        if (idCours <= 0){
+            log.warn("Echec de l'inscription. L'identifiant cours{} n'est pas valide.", idCours);
+            throw new IllegalArgumentException("Identifiant cours invalide");
+        }
 
         Cours cours = coursRepository.trouverParId(idCours);
         Eleve eleve = (Eleve) utilisateurRepository.trouverParId(idEtudiant);
         cours.ajouterEleve(eleve);
         coursRepository.sauvegarder(cours);
 
+        log.info("Inscription de l'étudiant {} au cours {} a réussi.", idEtudiant, idCours);
         return cours.getId();
     }
 
@@ -58,12 +67,21 @@ public class ServiceInscription implements IServiceInscription
      */
     @Override
     public void supprimerInscriptionCours(int idCours, int idEtudiant) throws ExceptionMauvaisIdEleve {
-        if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
-        if (idEtudiant <= 0) throw new IllegalArgumentException("Identifiant étudiant invalide");
+        log.debug("Demande de suppression de l'inscription de l'étudiant{} au cours {}", idEtudiant, idCours);
+        if (idCours <= 0){
+            log.warn("Echec de la suppression. L'identifiant cours {} est invalide.",idCours);
+            throw new IllegalArgumentException("Identifiant cours invalide");
+        }
+        if (idEtudiant <= 0){
+            log.warn("Echec de la suppression. L'identifiant étudiant {} est invalide.", idEtudiant);
+            throw new IllegalArgumentException("Identifiant étudiant invalide");
+        }
 
         Cours cours = coursRepository.trouverParId(idCours);
         cours.supprimerEleve(idEtudiant);
         coursRepository.sauvegarder(cours);
+
+        log.info("Suppression de l'étudiant {} au cours {} réussie.", idEtudiant, idCours);
     }
 
     /**
@@ -74,9 +92,14 @@ public class ServiceInscription implements IServiceInscription
     @Override
     public ArrayList<Utilisateur> getEtudiantsInscrits(int idCours)
     {
-        if (idCours <= 0) throw new IllegalArgumentException("Identifiant cours invalide");
+        log.debug("Récupération des étudiants inscrits au cours {}",  idCours);
+        if (idCours <= 0){
+            log.warn("La récupération des étudiants a échoué");
+            throw new IllegalArgumentException("Identifiant cours invalide");
+        }
 
         Cours cours = coursRepository.trouverParId(idCours);
+        log.info("Récupération de {} étudiants inscrits au cours {}", cours.getEleves().size(), idCours);
         return new ArrayList<>(cours.getEleves());
     }
 }

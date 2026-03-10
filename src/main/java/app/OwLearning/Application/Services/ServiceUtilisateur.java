@@ -3,11 +3,13 @@ import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
  * Le Service Utilisateur permet de gérer le traitement des utilisateurs
  */
+@Slf4j
 @Service
 public class ServiceUtilisateur implements IServiceUtilisateur {
 
@@ -29,12 +31,19 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
      */
     @Override
     public Utilisateur getProfil(int id) {
-        if (id <= 0) {throw new IllegalArgumentException("L'identifiant n'est pas valide");}
+        log.debug("Demande de récupération du profil utilisateur {}", id);
+        if (id <= 0){
+            log.warn("La récupération du profil a échoué. L'identifiant {} n'est pas valide. ", id);
+            {throw new IllegalArgumentException("L'identifiant n'est pas valide");}
+        }
 
         Utilisateur utilisateur = utilisateurRepository.trouverParId(id);
 
-        if (utilisateur == null) {throw new IllegalStateException("Utilisateur introuvable");}
+        if (utilisateur == null) {
+            log.warn("La récupération du profil a échoué. L'utilisateur {} est introuvable.", id);
+            throw new IllegalStateException("Utilisateur introuvable");}
 
+        log.debug("Profil utilisateur {} récupéré: {}", id, utilisateur);
         return utilisateur;
     }
 
@@ -49,25 +58,32 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
      */
     @Override
     public Utilisateur modifierProfil(int id, String pseudo, String email, Integer age, String niveauEtude) {
-        if (id <= 0) {throw new IllegalArgumentException("l'identifiant n'est pas valide");}
+        log.debug("Modification du profil utilisateur {}", id);
+        if (id <= 0) {
+            log.warn("La modification a échoué. L'identifiant {} n'est pas valide. ", id);
+            throw new IllegalArgumentException("l'identifiant n'est pas valide");}
 
         Utilisateur utilisateur = utilisateurRepository.trouverParId(id);
         if (utilisateur == null) {
+            log.warn("La modification a échoué. L'utilisateur {} est introuvable.", id);
             throw new IllegalStateException("Utilisateur introuvable");
         }
 
         if (pseudo == null || pseudo.isBlank()) {
+            log.warn("La modification du profil {} a échoué. Le pseudo n'est pas valide.", pseudo);
             throw new IllegalArgumentException("le pseudo n'est pas valide");
         }
 
         utilisateur.setPseudo(pseudo);
 
         if (email == null || email.isBlank()) {
+            log.warn("La modification du profil {} a échoué. Le email n'est pas valide.", email);
             throw new IllegalArgumentException("l'email n'est pas valide");
         }
 
         Utilisateur autre = utilisateurRepository.trouverParEmail(email);
         if (autre != null && autre.getId() != id) {
+            log.warn("La modification du profil {} a échoué. L'email {} est déjà utilisé.", email, autre);
             throw new IllegalStateException("Email déjà Utilisé");
         }
         utilisateur.setEmail(email);
@@ -78,16 +94,19 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
 
             if (age == null || age < 0)
             {
+                log.warn("Echec de la modification du profil {}. L'age n'est pas renseigné.", id);
                 throw new IllegalArgumentException("l'age n'est pas valide");
             }
             eleve.setAge(age);
             if (niveauEtude == null || niveauEtude.isBlank())
             {
+                log.warn("Echec de la modification du profil {}. Le niveau d'étude n'est pas renseigné.", id);
                 throw new IllegalArgumentException("le niveau d'étude n'est pas valide");
             }
             eleve.setNiveauEtude(niveauEtude);
         }
-
-        return utilisateurRepository.sauvegarder(utilisateur);
+        Utilisateur utilisateurModifie = utilisateurRepository.sauvegarder(utilisateur);
+        log.info("Profil utilisateur {} modifié avec succès", id);
+        return utilisateurModifie;
     }
 }

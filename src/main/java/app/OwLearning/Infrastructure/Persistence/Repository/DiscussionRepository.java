@@ -4,10 +4,12 @@ import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaDiscussionRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionDiscussionInexistante;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 /**
  * Classe DiscussionRepository pour récupérer les discussions
  */

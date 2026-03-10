@@ -5,11 +5,13 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaMessageRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class MessageRepository implements IMessageRepository
 {
