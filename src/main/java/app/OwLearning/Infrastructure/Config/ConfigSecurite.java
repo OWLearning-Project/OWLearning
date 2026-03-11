@@ -54,6 +54,7 @@ public class ConfigSecurite
                                 "/swagger-ui/**",
                                 "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/authentification/connexion","/api/authentification/inscription").permitAll()
+                        //Faille de sécurité connu à corriger avec le front
                         .requestMatchers("/ws-messagerie/**").permitAll()
                         .anyRequest().authenticated()
                 )
