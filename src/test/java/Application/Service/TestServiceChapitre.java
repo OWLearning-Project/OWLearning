@@ -2,6 +2,7 @@ package Application.Service;
 
 import app.OwLearning.Application.Services.ServiceChapitre;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
+import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
 import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvableDansChap;
@@ -24,6 +25,8 @@ import static org.mockito.Mockito.*;
 public class TestServiceChapitre {
     @Mock
     private IChapitreRepository repository;
+    @Mock
+    private IChapitreTermineRepository chapitreTermineRepository;
 
     @InjectMocks
     private ServiceChapitre serviceChapitre;
@@ -176,6 +179,46 @@ public class TestServiceChapitre {
         // Assert
         assertTrue(chapitre.getRessources().isEmpty(), "La liste devrait etre vide apres suppression");
         verify(repository).sauvegarder(chapitre);
+    }
+    @Test
+    void EnregistreChapitreTermine() {
+        // Arrange
+        int idChapitre = 1;
+        int idEleve = 42;
+        when(repository.trouverParId(idChapitre)).thenReturn(chapitre);
+        when(chapitreTermineRepository.existe(idChapitre, idEleve)).thenReturn(false);
+
+        // Act
+        serviceChapitre.terminerChapitre(idChapitre, idEleve);
+
+        // Assert
+        verify(chapitreTermineRepository, times(1)).sauvegarder(any(ChapitreTermine.class));
+    }
+
+    @Test
+    void ChapitreTermineDejaEnregistrerNeFaisRien() {
+        // Arrange
+        int idChapitre = 1;
+        int idEleve = 42;
+        when(repository.trouverParId(idChapitre)).thenReturn(chapitre);
+        when(chapitreTermineRepository.existe(idChapitre, idEleve)).thenReturn(true);
+
+        // Act
+        serviceChapitre.terminerChapitre(idChapitre, idEleve);
+
+        // Assert
+        verify(chapitreTermineRepository, never()).sauvegarder(any());
+    }
+
+    @Test
+    void ChapitreTermineIntrouvable() {
+        // Arrange
+        when(repository.trouverParId(anyInt())).thenReturn(null);
+
+        // Act & Assert
+        assertThrows(ExceptionChapitreIntrouvable.class,
+                () -> serviceChapitre.terminerChapitre(99, 42));
+        verify(chapitreTermineRepository, never()).sauvegarder(any());
     }
 
 }

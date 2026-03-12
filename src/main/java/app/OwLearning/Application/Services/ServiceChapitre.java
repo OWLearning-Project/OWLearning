@@ -2,8 +2,10 @@ package app.OwLearning.Application.Services;
 
 
 import app.OwLearning.Domain.Models.Chapitre;
+import app.OwLearning.Domain.Models.ChapitreTermine;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
+import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
 import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
 import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
@@ -18,13 +20,16 @@ import org.springframework.stereotype.Service;
 public class ServiceChapitre implements IServiceChapitre {
 
     private final IChapitreRepository repository;
+    private final IChapitreTermineRepository chapitreTermineRepository;
 
     /**
      * Constructeur de ServiceChapitre
      * @param repository
      */
-    public ServiceChapitre(IChapitreRepository repository) {
+    public ServiceChapitre(IChapitreRepository repository,  IChapitreTermineRepository chapitreTermineRepository)
+    {
         this.repository = repository;
+        this.chapitreTermineRepository = chapitreTermineRepository;
     }
 
     /**
@@ -124,6 +129,33 @@ public class ServiceChapitre implements IServiceChapitre {
             log.warn("Echec de la séparation ressource - chapitre. Ressource {} est introuvable dans la base ou dans le chapitre {}", idRessource, idChapitre);
             throw new ExceptionRessourceIntrouvable("La ressource est introuvable",idRessource);
         }
+    }
+
+    /**
+     * Méthode qui marque un chapitre comme terminé pour un élève
+     * @param idChapitre
+     * @param idEleve
+     */
+    @Override
+    public void terminerChapitre(int idChapitre, int idEleve)
+    {
+        log.debug("Demande de terminer le chapitre {} par l'élève {}", idChapitre, idEleve);
+        Chapitre chapitre = this.repository.trouverParId(idChapitre);
+        if (chapitre == null)
+        {
+            log.warn("Echec : le chapitre {} est introuvable dans la base", idChapitre);
+            throw new ExceptionChapitreIntrouvable(idChapitre);
+        }
+
+        if (this.chapitreTermineRepository.existe(idChapitre,idEleve))
+        {
+            log.info("Le chapitre {} est déjà terminé par l'élève {}", idChapitre, idEleve);
+            return;
+        }
+
+        ChapitreTermine chapitreTermine = new ChapitreTermine(chapitre,idEleve);
+        this.chapitreTermineRepository.sauvegarder(chapitreTermine);
+        log.info("Chapitre {] marqué comme terminé par l'élève {}", idChapitre);
     }
 }
 

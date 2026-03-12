@@ -37,4 +37,12 @@ public interface IServiceChapitre {
      * @return
      */
     public abstract Ressource retirerRessource(int idChapitre, int idRessource);
+
+    /**
+     * Méthode qui marque un chapitre comme terminé par un élève
+     * Si le chapitre est déjà terminé, la méthode ne fait rien
+     * @param idChapitre
+     * @param idRessource
+     */
+    public abstract void terminerChapitre(int idChapitre, int idRessource);
 }

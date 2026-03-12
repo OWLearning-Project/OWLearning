@@ -6,9 +6,11 @@ import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
 import app.OwLearning.Shared.DTO.AjoutRessourceDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;
+import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -59,5 +61,16 @@ public class ChapitreController {
 
         Ressource ressource = this.serviceChapitre.retirerRessource(idChapitre, idRessource);
         return ResponseEntity.ok(ressource);
+    }
+
+    @PostMapping("/{idChapitre}/terminer")
+    @PreAuthorize("hasAuthority('ELEVE')")
+    public ResponseEntity<Void> terminerChapitre(
+            @PathVariable("idChapitre") int idChapitre,
+            @AuthenticationPrincipal UtilisateurAuthentifieDTO utilisateurAuthentifieDTO)
+    {
+        int idEleve = utilisateurAuthentifieDTO.getId();
+        this.serviceChapitre.terminerChapitre(idChapitre, idEleve);
+        return ResponseEntity.noContent().build();
     }
 }
