@@ -1,25 +1,20 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.*;
-
-import java.lang.reflect.Type;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Classe Ressource qui représente les pièces jointes
  */
-@Entity
+@Getter
+@Setter
 public class Ressource {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ressource")
     private int id_ressource;
 
     private String nom;
     private String url;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type_ressource")
     private TypeRessource type;
 
     /**
@@ -40,35 +35,6 @@ public class Ressource {
         this.type = unType;
         this.url = unUrl;
     }
-
-    public int getId_ressource()
-    {
-        return this.id_ressource;
-    }
-
-    public String getNom()
-    {
-        return this.nom;
-    }
-
-    public String getUrl()
-    {
-        return this.url;
-    }
-
-    public TypeRessource getType(){return this.type;}
-
-    public void setNom(String nom)
-    {
-        this.nom = nom;
-    }
-
-    public void setUrl(String url)
-    {
-        this.url = url;
-    }
-
-    public void setType(TypeRessource type){this.type = type;}
 
     public String toString()
     {

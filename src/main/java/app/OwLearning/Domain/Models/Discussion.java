@@ -3,26 +3,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Classe Discussion qui permet de créer une discussion en gérant ses participants et les messages de la discussion
  */
-@Entity
+@Getter
+@Setter
 public class Discussion 
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_discussion")
     private int idDiscussion;
-    @ManyToMany
-    @JoinTable(
-            name = "participation_discussion",
-            joinColumns = @JoinColumn(name = "id_discussion"),
-            inverseJoinColumns = @JoinColumn(name = "id_utilisateur")
-    )
     private List<Utilisateur> participants;
-    @OneToMany(mappedBy = "discussion", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages;
 
     /**
@@ -55,9 +47,9 @@ public class Discussion
             throw new IllegalArgumentException("Le message ne peut pas être null");
         }
         Utilisateur Auteur = message.getUtilisateur();
-        if (!utilisateurFaitParti(Auteur.getId()))
+        if (!utilisateurFaitParti(Auteur.getIdUtilisateur()))
         {
-            throw new ExceptionUtilisateurNonAutorise("Accès refusé",Auteur.getId(),this.getId());
+            throw new ExceptionUtilisateurNonAutorise("Accès refusé",Auteur.getIdUtilisateur(),this.getIdDiscussion());
         }
 
         this.messages.add(message);
@@ -74,37 +66,12 @@ public class Discussion
         boolean faitParti = false;
         for (int i = 0; i<this.participants.size(); i++)
         {
-            if(this.participants.get(i).getId() == id)
+            if(this.participants.get(i).getIdUtilisateur() == id)
             {
                 faitParti = true;
             }
         }
         return faitParti;
-    }
-
-    public int getId()
-    {
-        return this.idDiscussion;
-    }
-
-    public List<Utilisateur> getParticipants()
-    {
-        return this.participants;
-    }
-
-    public void setParticipants(ArrayList<Utilisateur> desParticipants) 
-    {
-        this.participants = desParticipants;
-    }
-
-    public List<Message> getMessages()
-    {
-        return this.messages;
-    }
-    
-    public void setMessages(ArrayList<Message> desMessages) 
-    {
-        this.messages = desMessages;
     }
 
     @Override

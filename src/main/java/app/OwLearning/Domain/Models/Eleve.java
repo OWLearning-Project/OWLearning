@@ -1,18 +1,17 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * classe Eleve qui représente un étudiant
  */
-@Entity
-@Table(name = "eleve")
-@PrimaryKeyJoinColumn(name = "id_utilisateur")
+@Getter
+@Setter
 public class Eleve extends Utilisateur {
 
     private int age;
 
-    @Column(name = "niveau_etude")
     private String niveauEtude;
 
     /**
@@ -32,22 +31,6 @@ public class Eleve extends Utilisateur {
     public Eleve(String nom, String prenom, String email, String motDePasseHash)
     {
         super(nom, prenom, email, motDePasseHash);
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int unAge) {
-        this.age = unAge;
-    }
-
-    public String getNiveauEtude() {
-        return niveauEtude;
-    }
-
-    public void setNiveauEtude(String unNiveauEtude) {
-        this.niveauEtude = unNiveauEtude;
     }
 
     public String toString()

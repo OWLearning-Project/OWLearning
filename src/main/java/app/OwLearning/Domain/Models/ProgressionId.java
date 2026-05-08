@@ -1,13 +1,14 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.Embeddable;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.io.Serializable;
 import java.util.Objects;
 /**
  * Classe ProgressionId qui représente la clé primaire de progression qui est la composition de la la clé primaire de Eleve et de Cours
  */
-@Embeddable
+@Getter
+@Setter
 public class ProgressionId implements Serializable
 {
     private int idCours;

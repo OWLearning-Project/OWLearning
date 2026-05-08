@@ -1,11 +1,5 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.*;
-
-
-@Entity
-@Table(name = "createur")
-@PrimaryKeyJoinColumn(name = "id_utilisateur")
 public class Createur extends Utilisateur
 {
     /**

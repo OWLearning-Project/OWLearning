@@ -2,47 +2,26 @@ package app.OwLearning.Domain.Models;
 import java.sql.Timestamp;
 import java.util.*;
 import app.OwLearning.Shared.Exceptions.*;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Classe Cours qui permet de construire un cours en lui assignant ses chaptires, sa catégorie, sa difficulté, les éléves qui participent, son créateur, sa visiblité et en le publiant.
  */
-@Entity
+@Getter
+@Setter
 public class Cours
 {
-    @Id
-    @Column(name="id_cours")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String titre;
     private String description;
-    @Column(name="date_creation")
     private Timestamp dateCreation;
-    @Column(name="est_prive")
     private boolean estPrive;
-    @Column(name="est_publie")
     private boolean estPublie;
-    @ManyToOne
-    @JoinColumn(name="id_createur")
     private Createur createur;
-    @ManyToMany
-    @JoinTable( name="inscription",
-                joinColumns=@JoinColumn(name="id_cours"),
-                inverseJoinColumns=@JoinColumn(name="id_eleve")
-    )
     private List<Eleve> eleves;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "difficulte")
     private Difficulte difficulte;
-    @OneToMany(mappedBy = "cours", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Chapitre> chapitres;
-    @ElementCollection(targetClass = Categorie.class)
-    @CollectionTable(
-            name = "categorie_cours",
-            joinColumns = @JoinColumn(name = "id_cours")
-    )
-    @Enumerated(EnumType.STRING)
-    @Column(name = "categorie")
     private List<Categorie> categories;
 
     /**
@@ -70,81 +49,6 @@ public class Cours
         this.eleves = new ArrayList<Eleve>();
         this.chapitres = new ArrayList<Chapitre>();
         this.dateCreation = new Timestamp(System.currentTimeMillis());
-    }
-
-    public int getId()
-    {
-        return this.id;
-    }
-
-    public String getTitre()
-    {
-        return this.titre;
-    }
-
-    public void setTitre(String titre)
-    {
-        this.titre = titre;
-    }
-
-    public String getDescription()
-    {
-        return this.description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    public Timestamp getDateCreation()
-    {
-        return this.dateCreation;
-    }
-
-    public boolean getEstPrive()
-    {
-        return this.estPrive;
-    }
-
-    public void setEstPrive(boolean estPrive)
-    {
-        this.estPrive = estPrive;
-    }
-
-    public boolean getEstPublie()
-    {
-        return this.estPublie;
-    }
-
-    public Createur getCreateur()
-    {
-        return this.createur;
-    }
-
-    public List<Eleve> getEleves()
-    {
-        return this.eleves;
-    }
-
-    public Difficulte getDifficulte()
-    {
-        return this.difficulte;
-    }
-
-    public void setDifficulte(Difficulte difficulte)
-    {
-        this.difficulte = difficulte;
-    }
-
-    public List<Chapitre> getChapitres()
-    {
-        return this.chapitres;
-    }
-
-    public List<Categorie> getCategories()
-    {
-        return this.categories;
     }
 
     /**
@@ -248,8 +152,8 @@ public class Cours
         {
             for(Eleve unEleve : this.getEleves())
             {
-                if(unEleve.getId() == eleve.getId())
-                    throw new ExceptionEleveDejaPresent("Elève déjà inscrit", eleve.getId(), this.getId());
+                if(unEleve.getIdUtilisateur() == eleve.getIdUtilisateur())
+                    throw new ExceptionEleveDejaPresent("Elève déjà inscrit", eleve.getIdUtilisateur(), this.getId());
             }
         }
         this.eleves.add(eleve);
@@ -266,7 +170,7 @@ public class Cours
         if (eleveId < 0)
             throw new ExceptionMauvaisIdEleve("Id impossible", eleveId, this.getId());
         int i = 0;
-        while (i < this.eleves.size() && this.eleves.get(i).getId() != eleveId)
+        while (i < this.eleves.size() && this.eleves.get(i).getIdUtilisateur() != eleveId)
             i++;
         if (i == this.eleves.size())
             throw new ExceptionMauvaisIdEleve("Eleve non inscrit", eleveId, this.getId());

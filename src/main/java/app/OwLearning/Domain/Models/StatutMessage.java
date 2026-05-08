@@ -1,5 +1,7 @@
 package app.OwLearning.Domain.Models;
 
+import lombok.Getter;
+
 /**
  * Enum StatutMessage qui répértorie les différents status que peut avoir un message
  */
@@ -8,6 +10,7 @@ public enum StatutMessage
     ENVOI("Envoi"),
     ENVOYE("Envoyé");
 
+    @Getter
     private final String label;
 
     /**
@@ -19,8 +22,4 @@ public enum StatutMessage
         this.label = label;
     }
 
-    public String getLabel()
-    {
-        return label;
-    }
 }

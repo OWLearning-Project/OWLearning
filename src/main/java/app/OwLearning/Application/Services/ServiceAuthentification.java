@@ -94,7 +94,7 @@ public class ServiceAuthentification
             log.warn("Echec de la connexion: l'email '{}' est introuvable", email);
             throw new ExceptionMauvaisIdentifiants("Identifiants incorrects", email);
         }
-        if (!hach.valider(mdp, utilisateur.getMotDePasse()))
+        if (!hach.valider(mdp, utilisateur.getMotDePasseHash()))
         {
             log.warn("Echec de la connexion: mot de passe incorrect pour l'email '{}'", email);
             throw new ExceptionMauvaisIdentifiants("Identifiants incorrecte", email);

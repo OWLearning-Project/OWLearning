@@ -61,7 +61,7 @@ public class ServiceTokenJWT implements IServiceToken
 
         return Jwts.builder()
                 .setSubject(utilisateur.getEmail()) // On stocke l'email comme identifiant
-                .claim("id", utilisateur.getId())   // On ajoute l'ID dans le token
+                .claim("id", utilisateur.getIdUtilisateur())   // On ajoute l'ID dans le token
                 .claim("pseudo", utilisateur.getPseudo())
                 .claim("role", role)
                 .setIssuedAt(new Date(now))

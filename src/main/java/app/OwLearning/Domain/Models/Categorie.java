@@ -1,6 +1,7 @@
 package app.OwLearning.Domain.Models;
 
 import app.OwLearning.Shared.Exceptions.ExceptionCategorieInexistante;
+import lombok.Getter;
 
 /**
  * Enum Categorie qui répértorie les différents types de cours
@@ -19,6 +20,7 @@ public enum Categorie
     MATHEMATIQUES("Mathématiques"),
     ARCHITECTURE("Architecture");
 
+    @Getter
     private final String label;
 
     /**
@@ -28,11 +30,6 @@ public enum Categorie
     private Categorie(String label)
     {
         this.label = label;
-    }
-
-    public String getLabel()
-    {
-        return label;
     }
 
     /**

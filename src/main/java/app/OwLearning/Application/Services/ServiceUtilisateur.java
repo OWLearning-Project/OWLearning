@@ -82,7 +82,7 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
         }
 
         Utilisateur autre = utilisateurRepository.trouverParEmail(email);
-        if (autre != null && autre.getId() != id) {
+        if (autre != null && autre.getIdUtilisateur() != id) {
             log.warn("La modification du profil {} a échoué. L'email {} est déjà utilisé.", email, autre);
             throw new IllegalStateException("Email déjà Utilisé");
         }

@@ -1,7 +1,7 @@
 package app.OwLearning.Domain.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -11,35 +11,20 @@ import java.util.NoSuchElementException;
 /**
  * Classe Message qui permet de créer un message avec son contenu l'assigner à sa discussion et à l'Utilisateur qui l'a envoyé
  */
-@Entity
+@Getter
+@Setter
 public class Message {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_message")
     private int id_message;
 
-    @Column(name = "date_creation")
     private Timestamp dateCreation;
     private String contenu;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "statut")
     private StatutMessage statutMessage;
 
-    @ManyToOne
-    @JoinColumn(name = "id_discussion")
-    @JsonIgnore
     private Discussion discussion;
 
-    @ManyToOne
-    @JoinColumn(name = "id_utilisateur")
-    @JsonIgnore
     private Utilisateur utilisateur;
 
-    @ManyToMany( fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE}) // Chargement des PJ avec le message & permet de sauver la liaison sans requete manuelle
-    @JoinTable(name = "piece_jointe",
-            joinColumns = @JoinColumn(name = "id_message"),
-            inverseJoinColumns = @JoinColumn(name = "id_ressource"))
     private List<Ressource> ressources = new ArrayList<>();
 
     /**
@@ -59,71 +44,6 @@ public class Message {
         this.utilisateur = unAuteur;
         this.discussion = null;
         this.contenu = unContenu;
-    }
-
-    public int getId_message()
-    {
-        return this.id_message;
-    }
-
-    public Timestamp getDateCreation()
-    {
-        return this.dateCreation;
-    }
-
-    public String getContenu()
-    {
-        return this.contenu;
-    }
-
-    public List<Ressource> getRessources()
-    {
-        return this.ressources;
-    }
-
-    public Discussion getDiscussion()
-    {
-        return this.discussion;
-    }
-
-    public Utilisateur getUtilisateur()
-    {
-        return this.utilisateur;
-    }
-
-    public StatutMessage getStatutMessage()
-    {
-        return this.statutMessage;
-    }
-
-    public void setDateCreation(Timestamp dateCreation)
-    {
-        this.dateCreation = dateCreation;
-    }
-
-    public void setContenu(String contenu)
-    {
-        this.contenu = contenu;
-    }
-
-    public void setRessources(List<Ressource> desRessources)
-    {
-        this.ressources = desRessources;
-    }
-
-    public void setStatutMessage(StatutMessage statutMessage)
-    {
-        this.statutMessage = statutMessage;
-    }
-
-    public void setDiscussion(Discussion uneDiscussion)
-    {
-        this.discussion = uneDiscussion;
-    }
-
-    public void setUtilisateur(Utilisateur unUtilisateur)
-    {
-        this.utilisateur = unUtilisateur;
     }
 
     /**
