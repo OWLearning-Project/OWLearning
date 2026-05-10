@@ -3,16 +3,19 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.ChapitreTermine;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaChapitreTermineRepository;
+import app.OwLearning.Infrastructure.Persistence.Mapper.ChapitreTermineMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ChapitreTermineRepository implements IChapitreTermineRepository
 {
     private final JpaChapitreTermineRepository jpaRepository;
+    private final ChapitreTermineMapper chapitreTermineMapper;
 
-    public ChapitreTermineRepository(JpaChapitreTermineRepository jpaRepository)
+    public ChapitreTermineRepository(JpaChapitreTermineRepository jpaRepository, ChapitreTermineMapper chapitreTermineMapper)
     {
         this.jpaRepository = jpaRepository;
+        this.chapitreTermineMapper = chapitreTermineMapper;
     }
 
     /**
@@ -22,7 +25,7 @@ public class ChapitreTermineRepository implements IChapitreTermineRepository
     @Override
     public void sauvegarder(ChapitreTermine chapitreTermine)
     {
-        this.jpaRepository.save(chapitreTermine);
+        this.jpaRepository.save(chapitreTermineMapper.toEntity(chapitreTermine));
     }
 
     /**

@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RessourceMapper
 {
-    @Mapping(source = "idRessource", target = "id_ressourcee")
+    @Mapping(source = "idRessource", target = "id_ressource")
     Ressource toDomain(RessourceEntity entity);
 
     List<Ressource> toDomain(List<RessourceEntity> entities);

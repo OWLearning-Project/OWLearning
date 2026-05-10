@@ -2,12 +2,10 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Infrastructure.Persistence.Entity.UtilisateurEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaUtilisateurRepository;
-import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Infrastructure.Persistence.Mapper.UtilisateurMapper;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 
 /**
  * Classe UtilisateurRepository qui permet de récupérer les utilisateurs
@@ -16,14 +14,16 @@ import java.util.ArrayList;
 public class UtilisateurRepository implements IUtilisateurRepository
 {
     private final JpaUtilisateurRepository jpaRepository;
+    private final UtilisateurMapper utilisateurMapper;
 
     /**
      * Constructeur de UtilisateurRepository
      * @param jpaRepository
      */
-    public UtilisateurRepository (JpaUtilisateurRepository jpaRepository)
+    public UtilisateurRepository (JpaUtilisateurRepository jpaRepository, UtilisateurMapper utilisateurMapper)
     {
         this.jpaRepository = jpaRepository;
+        this.utilisateurMapper = utilisateurMapper;
     }
 
     /**
@@ -34,7 +34,8 @@ public class UtilisateurRepository implements IUtilisateurRepository
     @Override
     public Utilisateur trouverParEmail(String email)
     {
-        return jpaRepository.findByEmail(email);
+        UtilisateurEntity entity = jpaRepository.findByEmail(email);
+        return entity != null ? utilisateurMapper.toDomain(entity) : null;
     }
 
     /**
@@ -45,7 +46,9 @@ public class UtilisateurRepository implements IUtilisateurRepository
     @Override
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
-        return jpaRepository.save(utilisateur);
+        UtilisateurEntity entity = utilisateurMapper.toEntity(utilisateur);
+        UtilisateurEntity saved = jpaRepository.save(entity);
+        return utilisateurMapper.toDomain(saved);
     }
 
     /**
@@ -56,6 +59,6 @@ public class UtilisateurRepository implements IUtilisateurRepository
     @Override
     public Utilisateur trouverParId(int id)
     {
-        return jpaRepository.findById(id).orElse(null);
+        return jpaRepository.findById(id).map(utilisateurMapper::toDomain).orElse(null);
     }
 }

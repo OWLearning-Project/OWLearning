@@ -1,112 +1,100 @@
 package Domain.TestModel;
 
-
 import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
-import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
-public class TestDiscussion
-{
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class TestDiscussion {
+
     @Test
     public void testLeMessageEstAjoute() throws ExceptionUtilisateurNonAutorise {
-        //Arrange
         Utilisateur fauxUtilisateur1 = new Utilisateur();
         Utilisateur fauxUtilisateur2 = new Utilisateur();
         Discussion fausseDiscussion = new Discussion(fauxUtilisateur1, fauxUtilisateur2);
         Message fauxMessage = new Message("Faux contenu", fauxUtilisateur1);
 
-        //Act
         fausseDiscussion.ajouterMessage(fauxMessage);
 
-        //Assert
         assertTrue(fausseDiscussion.getMessages().contains(fauxMessage));
     }
 
     @Test
-    public void testAjouteMessageNull()
-    {
-
+    public void testAjouteMessageNull() {
         Utilisateur fauxUtilisateur1 = new Utilisateur();
         Utilisateur fauxUtilisateur2 = new Utilisateur();
         Discussion fausseDiscussion = new Discussion(fauxUtilisateur1, fauxUtilisateur2);
 
-        assertThrows(IllegalArgumentException.class, ()->fausseDiscussion.ajouterMessage(null));
+        assertThrows(IllegalArgumentException.class, () -> fausseDiscussion.ajouterMessage(null));
     }
 
     @Test
-    public void testUtilisateurNeFaitPasPartiDiscussion()
-    {
+    public void testUtilisateurNeFaitPasPartiDiscussion() {
         Utilisateur destinataire = mock(Utilisateur.class);
         Utilisateur expediteur = mock(Utilisateur.class);
-        Utilisateur intrus =  mock(Utilisateur.class);
+        Utilisateur intrus = mock(Utilisateur.class);
 
-        when(destinataire.getId()).thenReturn(0);
-        when(expediteur.getId()).thenReturn(1);
-        when(intrus.getId()).thenReturn(2);
+        when(destinataire.getIdUtilisateur()).thenReturn(0);
+        when(expediteur.getIdUtilisateur()).thenReturn(1);
+        when(intrus.getIdUtilisateur()).thenReturn(2);
 
         Discussion discussion = new Discussion(expediteur, destinataire);
-        assertFalse(discussion.utilisateurFaitParti(intrus.getId()));
+        assertFalse(discussion.utilisateurFaitParti(intrus.getIdUtilisateur()));
     }
 
     @Test
-    public void testUtilisateurFaitPartiDiscussion()
-    {
+    public void testUtilisateurFaitPartiDiscussion() {
         Utilisateur destinataire = mock(Utilisateur.class);
         Utilisateur expediteur = mock(Utilisateur.class);
 
-        when(destinataire.getId()).thenReturn(0);
-        when(expediteur.getId()).thenReturn(1);
+        when(destinataire.getIdUtilisateur()).thenReturn(0);
+        when(expediteur.getIdUtilisateur()).thenReturn(1);
 
         Discussion discussion = new Discussion(destinataire, expediteur);
-        assertTrue(discussion.utilisateurFaitParti(destinataire.getId()));
-        assertTrue(discussion.utilisateurFaitParti(expediteur.getId()));
+        assertTrue(discussion.utilisateurFaitParti(destinataire.getIdUtilisateur()));
+        assertTrue(discussion.utilisateurFaitParti(expediteur.getIdUtilisateur()));
     }
 
     @Test
     public void testAjouterMessageEtUtilisateurFaisParti() throws ExceptionUtilisateurNonAutorise {
-        //Arrange
         Utilisateur destinataire = mock(Utilisateur.class);
         Utilisateur expediteur = mock(Utilisateur.class);
 
-        when(destinataire.getId()).thenReturn(0);
-        when(expediteur.getId()).thenReturn(1);
+        when(destinataire.getIdUtilisateur()).thenReturn(0);
+        when(expediteur.getIdUtilisateur()).thenReturn(1);
 
         Discussion discussion = new Discussion(expediteur, destinataire);
 
         Message fauxMessage = mock(Message.class);
         when(fauxMessage.getUtilisateur()).thenReturn(expediteur);
 
-        //Act
         discussion.ajouterMessage(fauxMessage);
 
-        //Assert
         assertTrue(discussion.getMessages().contains(fauxMessage));
     }
 
     @Test
-    public void testAjouterMessageEtUtilisateurFaitPasParti()
-    {
-        //Arrange
+    public void testAjouterMessageEtUtilisateurFaitPasParti() {
         Utilisateur destinataire = mock(Utilisateur.class);
         Utilisateur expediteur = mock(Utilisateur.class);
         Utilisateur intrus = mock(Utilisateur.class);
 
-        when(destinataire.getId()).thenReturn(0);
-        when(expediteur.getId()).thenReturn(1);
-        when(intrus.getId()).thenReturn(2);
+        when(destinataire.getIdUtilisateur()).thenReturn(0);
+        when(expediteur.getIdUtilisateur()).thenReturn(1);
+        when(intrus.getIdUtilisateur()).thenReturn(2);
 
         Discussion discussion = new Discussion(destinataire, expediteur);
 
         Message fauxMessage = mock(Message.class);
         when(fauxMessage.getUtilisateur()).thenReturn(intrus);
 
-        //Assert
-        assertThrows(ExceptionUtilisateurNonAutorise.class, ()->discussion.ajouterMessage(fauxMessage));
+        assertThrows(ExceptionUtilisateurNonAutorise.class, () -> discussion.ajouterMessage(fauxMessage));
     }
 }

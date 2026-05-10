@@ -8,21 +8,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class TestServiceTokenJWT
-{
+class TestServiceTokenJWT {
 
     private ServiceTokenJWT serviceToken;
+
     @Mock
     private Utilisateur utilisateurMock;
 
     @BeforeEach
-    void setUp()
-    {
-        // ARRANGE
+    void setUp() {
         String cleTest = "MaCleDeTestTresLonguePourEtreValide123456";
         long expirationTest = 3600000L;
 
@@ -30,8 +32,7 @@ class TestServiceTokenJWT
     }
 
     @Test
-    void genererTokenDoitRetournerUneChaineNonVide()
-    {
+    void genererTokenDoitRetournerUneChaineNonVide() {
         String token = serviceToken.genererToken(utilisateurMock);
 
         assertNotNull(token);
@@ -40,53 +41,42 @@ class TestServiceTokenJWT
     }
 
     @Test
-    void extraireIdDoitRetournerLeBonId()
-    {
-        // ARRANGE
-        when(utilisateurMock.getId()).thenReturn(99);
+    void extraireIdDoitRetournerLeBonId() {
+        when(utilisateurMock.getIdUtilisateur()).thenReturn(99);
         String token = serviceToken.genererToken(utilisateurMock);
 
-        // ACT
         int idExtrait = serviceToken.extraireID(token);
 
-        // ASSERT
         assertEquals(99, idExtrait);
     }
 
     @Test
-    void validerTokenDoitRetournerVraiPourTokenValide()
-    {
+    void validerTokenDoitRetournerVraiPourTokenValide() {
         String token = serviceToken.genererToken(utilisateurMock);
+
         assertTrue(serviceToken.validerToken(token));
     }
 
     @Test
-    void validerTokenDoitRetournerFauxSiTokenModifie()
-    {
+    void validerTokenDoitRetournerFauxSiTokenModifie() {
         String token = serviceToken.genererToken(utilisateurMock);
-
         String tokenFaux = token + "a";
 
         assertFalse(serviceToken.validerToken(tokenFaux));
     }
 
     @Test
-    void invaliderTokenDoitRendreLeTokenInvalide()
-    {
-        // ARRANGE
+    void invaliderTokenDoitRendreLeTokenInvalide() {
         String token = serviceToken.genererToken(utilisateurMock);
         assertTrue(serviceToken.validerToken(token), "Le token doit être valide au début");
 
-        // ACT
         serviceToken.invaliderToken(token);
 
-        // ASSERT
         assertFalse(serviceToken.validerToken(token), "Le token ne doit plus être valide après invalidation");
     }
 
     @Test
-    void invaliderTokenNeDoitPasPlanterSiTokenNull()
-    {
+    void invaliderTokenNeDoitPasPlanterSiTokenNull() {
         assertDoesNotThrow(() -> serviceToken.invaliderToken(null));
         assertDoesNotThrow(() -> serviceToken.invaliderToken(""));
     }

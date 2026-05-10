@@ -2,9 +2,11 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 
 
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
+import app.OwLearning.Infrastructure.Persistence.Entity.ChapitreEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaChapitreRepository;
 import app.OwLearning.Domain.Models.Chapitre;
-import app.OwLearning.Domain.Models.Ressource;
+import app.OwLearning.Infrastructure.Persistence.Mapper.ChapitreMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,13 +16,16 @@ import org.springframework.stereotype.Component;
 public class ChapitreRepository implements IChapitreRepository {
 
     private final JpaChapitreRepository jpaRepository;
+    private final ChapitreMapper chapitreMapper;
 
     /**
      * Constructeur de ChapitreRepository
      * @param jpaRepository
      */
-    public ChapitreRepository(JpaChapitreRepository jpaRepository){
+    public ChapitreRepository(JpaChapitreRepository jpaRepository, ChapitreMapper chapitreMapper)
+    {
         this.jpaRepository = jpaRepository;
+        this.chapitreMapper = chapitreMapper;
     }
 
     /**
@@ -28,9 +33,11 @@ public class ChapitreRepository implements IChapitreRepository {
      * @param chapitre à sauvegarder
      * @return l'id crée auquel le chapitre est inscrit dans la bd
      */
-    public int sauvegarder(Chapitre chapitre){
-        Chapitre chapitreSave = this.jpaRepository.save(chapitre);
-        return chapitreSave.getId();
+    public int sauvegarder(Chapitre chapitre)
+    {
+        ChapitreEntity chapitreEntity = chapitreMapper.toEntity(chapitre);
+        ChapitreEntity savedChapitreEntity = jpaRepository.save(chapitreEntity);
+        return savedChapitreEntity.getId();
     }
 
     /**
@@ -38,8 +45,9 @@ public class ChapitreRepository implements IChapitreRepository {
      * @param id du chapitre
      * @return chapitre si trouvé. Sinon null si non trouvé.
      */
-    public Chapitre trouverParId(int id){
-        return this.jpaRepository.findById(id).orElse(null);
+    public Chapitre trouverParId(int id)
+    {
+        return this.jpaRepository.findById(id).map(chapitreMapper::toDomain).orElse(null);
     }
 
     /**
@@ -47,11 +55,15 @@ public class ChapitreRepository implements IChapitreRepository {
      * @param id du chapitre
      * @return le chapitre qui a été supprimé
      */
-    public Chapitre supprimerParId(int id){
-        Chapitre chapitreSupr = this.jpaRepository.findById(id).orElse(null);
-        if(chapitreSupr!=null)
-            this.jpaRepository.delete(chapitreSupr);
-        return chapitreSupr;
+    public Chapitre supprimerParId(int id)
+    {
+        ChapitreEntity entity = jpaRepository.findById(id).orElse(null);
+        if(entity!=null)
+        {
+            this.jpaRepository.delete(entity);
+            return chapitreMapper.toDomain(entity);
+        }
+        return null;
     }
 
     /**
