@@ -1,30 +1,22 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Objects;
 
 /**
  * Classe de Progression qui permet de créer une Progression en calculant le taux de progression d'un cours.
  */
-@Entity
-@Table(name = "progression")
+@Getter
+@Setter
 public class Progression
 {
-    @EmbeddedId
     private ProgressionId id;
 
-    @ManyToOne
-    @MapsId("idCours")
-    @JoinColumn(name="id_cours")
     private Cours cours;
 
-    @ManyToOne
-    @MapsId("idEleve")
-    @JoinColumn(name="id_eleve")
     private Eleve eleve;
 
-    @Column(name="taux_progression", nullable = false)
     private float tauxProgression = 0;
 
     /**
@@ -41,28 +33,9 @@ public class Progression
      */
     public Progression(Cours cours, Eleve eleve)
     {
-        this.id = new ProgressionId(cours.getId(), eleve.getId());
+        this.id = new ProgressionId(cours.getId(), eleve.getIdUtilisateur());
         this.cours = cours;
         this.eleve = eleve;
-    }
-
-    public float getTauxProgression()
-    {
-        return this.tauxProgression;
-    }
-
-    public Cours getCours()
-    {
-        return cours;
-    }
-    public Eleve getEleve()
-    {
-        return eleve;
-    }
-
-    public void setTauxProgression(float unTauxProgression)
-    {
-        this.tauxProgression = unTauxProgression;
     }
 
     public boolean estCoursTermine() {

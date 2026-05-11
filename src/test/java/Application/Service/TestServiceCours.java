@@ -200,7 +200,7 @@ public class TestServiceCours
         serviceCours.publierCours(coursId);
 
         // Assert
-        assertTrue(cours.getEstPublie());
+        assertTrue(cours.isEstPublie());
         verify(coursRepository).coursExiste(coursId);
         verify(coursRepository).trouverParId(coursId);
         verify(coursRepository).sauvegarder(any(Cours.class));
@@ -254,7 +254,7 @@ public class TestServiceCours
         assertEquals(titre, cours.getTitre());
         assertEquals(description, cours.getDescription());
         assertEquals(difficulte, cours.getDifficulte());
-        assertEquals(estPrive, cours.getEstPrive());
+        assertEquals(estPrive, cours.isEstPrive());
 
         verify(coursRepository).trouverParId(coursId);
         verify(coursRepository).sauvegarder(cours);

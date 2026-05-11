@@ -1,20 +1,14 @@
 package app.OwLearning.Infrastructure.Persistence.Interface;
 
 
-import app.OwLearning.Domain.Models.Chapitre;
-import jakarta.transaction.Transactional;
+import app.OwLearning.Infrastructure.Persistence.Entity.ChapitreEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Interface JpaChapitreRepository permettant de récupérer les chapitres dans la bd
  */
 @Repository
-public interface JpaChapitreRepository extends JpaRepository<Chapitre,Integer> {
+public interface JpaChapitreRepository extends JpaRepository<ChapitreEntity,Integer> {
 
 }

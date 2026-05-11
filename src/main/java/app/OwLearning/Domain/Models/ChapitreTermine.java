@@ -1,20 +1,16 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-@Entity
-@Table(name="chapitres_termines")
+@Getter
+@Setter
 public class ChapitreTermine
 {
-    @EmbeddedId
     private ChapitreTermineId chapitreTermineId ;
 
-    @ManyToOne
-    @MapsId("idChapitre")
-    @JoinColumn(name = "id_chapitre")
     private Chapitre chapitre;
 
-    @Column(name ="id_eleve",insertable = false,updatable = false)
     private int idEleve;
 
     public  ChapitreTermine()
@@ -26,16 +22,4 @@ public class ChapitreTermine
         this.chapitreTermineId = new ChapitreTermineId(chapitre.getId(), idEleve);
     }
 
-    public ChapitreTermineId getChapitreTermineId()
-    {
-        return this.chapitreTermineId;
-    }
-    public Chapitre getChapitre()
-    {
-        return this.chapitre;
-    }
-    public int getIdEleve()
-    {
-        return this.idEleve;
-    }
 }

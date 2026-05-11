@@ -3,11 +3,15 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
+import app.OwLearning.Infrastructure.Persistence.Entity.CoursEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
+import app.OwLearning.Infrastructure.Persistence.Mapper.CoursMapper;
+import app.OwLearning.Infrastructure.Persistence.RelationReconstructor;
 import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe CoursRepository pour récupérer les cours
@@ -17,16 +21,20 @@ public class CoursRepository implements ICoursRepository
 {
     private final JpaCoursRepository jpaRepository;
     private final IUtilisateurRepository utilisateurRepository;
+    private final CoursMapper coursMapper;
+    private final RelationReconstructor relationReconstructor;
 
     /**
      * Constructeur de CoursRepository
      * @param jpaRepository
      * @param utilisateurRepository
      */
-    public CoursRepository(JpaCoursRepository jpaRepository, IUtilisateurRepository utilisateurRepository)
+    public CoursRepository(JpaCoursRepository jpaRepository, IUtilisateurRepository utilisateurRepository, CoursMapper coursMapper, RelationReconstructor relationReconstructor)
     {
         this.jpaRepository = jpaRepository;
         this.utilisateurRepository = utilisateurRepository;
+        this.coursMapper = coursMapper;
+        this.relationReconstructor = relationReconstructor;
     }
 
     /**
@@ -37,7 +45,15 @@ public class CoursRepository implements ICoursRepository
     @Override
     public Cours trouverParId(int id)
     {
-        return jpaRepository.findById(id).orElseThrow(() -> new ExceptionCoursInexistant("Le cours n'existe pas", id));
+        CoursEntity entity = jpaRepository.findById(id).orElse(null);
+        if (entity == null)
+        {
+            throw new ExceptionCoursInexistant("Le cours n'existe pas", id);
+        }
+        Cours cours = coursMapper.toDomain(entity);
+
+        relationReconstructor.reconstructCoursChapitres(cours);
+        return cours;
     }
 
     /**
@@ -48,7 +64,8 @@ public class CoursRepository implements ICoursRepository
     @Override
     public ArrayList<Cours> trouverParIdCreateur(int idCreateur)
     {
-        return new ArrayList<>(jpaRepository.findByCreateurIdUtilisateur(idCreateur));
+        List<CoursEntity> entities = jpaRepository.findByCreateurIdUtilisateur(idCreateur);
+        return toDomainCoursAvecRelations(entities);
     }
 
     /**
@@ -59,7 +76,8 @@ public class CoursRepository implements ICoursRepository
     @Override
     public ArrayList<Cours> trouverParIdEleve(int idEleve)
     {
-        return new ArrayList<>(jpaRepository.findByElevesIdUtilisateur(idEleve));
+        List<CoursEntity> entities = jpaRepository.findByElevesIdUtilisateur(idEleve);
+        return toDomainCoursAvecRelations(entities);
     }
 
     /**
@@ -79,7 +97,13 @@ public class CoursRepository implements ICoursRepository
 
         // Création du cours
         Cours cours = new Cours(titre, description, false, categories, difficulte, createur);
-        return jpaRepository.save(cours);
+        CoursEntity entity = coursMapper.toEntity(cours);
+        CoursEntity saved = jpaRepository.save(entity);
+        Cours savedCours = coursMapper.toDomain(saved);
+
+        relationReconstructor.reconstructCoursChapitres(savedCours);
+
+        return savedCours;
     }
 
     /**
@@ -89,11 +113,16 @@ public class CoursRepository implements ICoursRepository
      */
     @Override
     public Cours supprimerCours(int coursId){
-        Cours cours = jpaRepository.findById(coursId).orElse(null);
+        CoursEntity entity = jpaRepository.findById(coursId).orElse(null);
 
-        if(cours == null)
+        if(entity == null)
             return null;
-        jpaRepository.delete(cours);
+        jpaRepository.delete(entity);
+
+        Cours cours = coursMapper.toDomain(entity);
+
+        relationReconstructor.reconstructCoursChapitres(cours);
+
         return cours;
     }
     /**
@@ -103,7 +132,8 @@ public class CoursRepository implements ICoursRepository
     @Override
     public ArrayList<Cours> trouverCoursPublies()
     {
-        return new ArrayList<>(jpaRepository.findByEstPublieTrue());
+        List<CoursEntity> entities = jpaRepository.findByEstPublieTrue();
+        return toDomainCoursAvecRelations(entities);
     }
 
     /**
@@ -123,6 +153,29 @@ public class CoursRepository implements ICoursRepository
     @Override
     public void sauvegarder(Cours cours)
     {
-        this.jpaRepository.save(cours);
+        CoursEntity entity = coursMapper.toEntity(cours);
+
+        if (entity.getChapitres() != null)
+        {
+            for(int i = 0; i < cours.getChapitres().size(); i++)
+            {
+                Chapitre chapitre = cours.getChapitres().get(i);
+                chapitre.setCours(cours);
+            }
+        }
+        this.jpaRepository.save(entity);
+    }
+
+    private ArrayList<Cours> toDomainCoursAvecRelations(List<CoursEntity> entities)
+    {
+        ArrayList<Cours> coursList = new ArrayList<>();
+
+        for (int i = 0; i < entities.size(); i++)
+        {
+            Cours cours = coursMapper.toDomain(entities.get(i));
+            coursList.add(cours);
+        }
+        relationReconstructor.reconstructCoursChapitres(coursList);
+        return coursList;
     }
 }

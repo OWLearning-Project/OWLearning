@@ -1,5 +1,7 @@
 package app.OwLearning.Domain.Models;
 
+import lombok.Getter;
+
 /**
  * Enum Difficulté qui répértorie les différent niveaux de difficultés d'un cours
  */
@@ -9,6 +11,7 @@ public enum Difficulte
     INTERMEDIAIRE("Intermédiaire"),
     AVANCE("Avancé");
 
+    @Getter
     private final String label;
 
     /**
@@ -20,8 +23,4 @@ public enum Difficulte
         this.label = label;
     }
 
-    public String getLabel()
-    {
-        return label;
-    }
 }

@@ -1,16 +1,16 @@
 package app.OwLearning.Domain.Models;
 
-import jakarta.persistence.Column;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class ChapitreTermineId
 {
 
-    @Column(name = "id_chapitre")
     private int idChapitre;
 
-    @Column(name = "id_eleve")
     private int idEleve;
 
     public ChapitreTermineId() {}

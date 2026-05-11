@@ -1,8 +1,13 @@
 package app.OwLearning.Infrastructure.Persistence.Repository;
 
 import app.OwLearning.Domain.Models.Discussion;
+import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
+import app.OwLearning.Infrastructure.Persistence.Entity.DiscussionEntity;
+import app.OwLearning.Infrastructure.Persistence.Entity.MessageEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaDiscussionRepository;
+import app.OwLearning.Infrastructure.Persistence.Mapper.DiscussionMapper;
+import app.OwLearning.Infrastructure.Persistence.RelationReconstructor;
 import app.OwLearning.Shared.Exceptions.ExceptionDiscussionInexistante;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,14 +22,18 @@ import java.util.List;
 public class DiscussionRepository implements IDiscussionRepository
 {
     private final JpaDiscussionRepository repositoryJpa;
+    private final DiscussionMapper discussionMapper;
+    private final RelationReconstructor relationReconstructor;
 
     /**
      * Constructeur de DiscussionRepository
      * @param repositoryJpa
      */
-    public DiscussionRepository(JpaDiscussionRepository repositoryJpa)
+    public DiscussionRepository(JpaDiscussionRepository repositoryJpa, DiscussionMapper discussionMapper, RelationReconstructor relationReconstructor)
     {
         this.repositoryJpa = repositoryJpa;
+        this.discussionMapper = discussionMapper;
+        this.relationReconstructor = relationReconstructor;
     }
 
     /**
@@ -35,7 +44,10 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public List<Discussion> trouverDiscussionsParUtilisateurId(int utilisateurId)
     {
-        return repositoryJpa.findByParticipantsIdUtilisateur(utilisateurId);
+        return repositoryJpa.findByParticipantsIdUtilisateur(utilisateurId)
+                .stream()
+                .map(this::toDomainAvecRelations)
+                .toList();
     }
 
     /**
@@ -46,7 +58,18 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public Discussion sauvegarder(Discussion discussion)
     {
-        return repositoryJpa.save(discussion);
+        DiscussionEntity entity = discussionMapper.toEntity(discussion);
+        if (entity.getMessages() != null)
+        {
+            for (int i=0; i<entity.getMessages().size(); i++)
+            {
+                MessageEntity message = entity.getMessages().get(i);
+                message.setDiscussion(entity);
+            }
+        }
+        DiscussionEntity saved = repositoryJpa.save(entity);
+
+        return toDomainAvecRelations(saved);
     }
 
     /**
@@ -57,6 +80,17 @@ public class DiscussionRepository implements IDiscussionRepository
     @Override
     public Discussion trouverDiscussionParId(int discussionId)
     {
-        return repositoryJpa.findById(discussionId).orElseThrow(() -> new ExceptionDiscussionInexistante("La discussion n'existe pas", discussionId));
+        DiscussionEntity entity = repositoryJpa.findById(discussionId)
+                .orElseThrow((() -> new ExceptionDiscussionInexistante("La discussion n'existe pas", discussionId)));
+
+        return toDomainAvecRelations(entity);
+    }
+
+    private Discussion toDomainAvecRelations(DiscussionEntity entity)
+    {
+        Discussion discussion = discussionMapper.toDomain(entity);
+
+        relationReconstructor.reconstructDiscussionMessages(discussion);
+        return discussion;
     }
 }

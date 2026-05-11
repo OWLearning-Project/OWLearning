@@ -1,30 +1,23 @@
 package app.OwLearning.Domain.Models;
 import java.sql.Timestamp;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Classe d'Utilisateur qui permet de créer un utilisateur
  */
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
 public class Utilisateur 
 {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_utilisateur")
     private int idUtilisateur; 
     private String nom;
     private String prenom;
     private String pseudo;
-    @Column(unique = true)
     private String email;
-    @Column(name = "mot_de_passe", nullable = false)
     private String motDePasseHash;
-    @Column(name="date_inscription")
     private Timestamp dateInscription;
-    @Column(name="derniere_activite")
     private Timestamp derniereActivite;
 
     /**
@@ -49,79 +42,6 @@ public class Utilisateur
         this.dateInscription = new Timestamp(System.currentTimeMillis());
     }
 
-    public int getId()
-    {
-        return this.idUtilisateur;
-    }
-
-    public String getNom()
-    {
-        return this.nom;
-    }
-
-    public void setNom(String unNom) 
-    {
-        this.nom = unNom;
-    }
-
-    public String getPrenom()
-    {
-        return this.prenom;
-    }
-    public void setPrenom(String unPrenom)
-    {
-        this.prenom = unPrenom;
-    }
-
-    public String getPseudo()
-    {
-        return this.pseudo;
-    }
-    public void setPseudo(String unPseudo)
-    {
-        this.pseudo = unPseudo;
-    }
-
-    public String getEmail()
-    {
-        return this.email;
-    }
-
-    public void setEmail(String unEmail)
-    {
-        this.email = unEmail;
-    }
-
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    public String getMotDePasse()
-    {
-        return this.motDePasseHash;
-    }
-    public void setMotDePasse(String unMotDePasse)
-    {
-        this.motDePasseHash = unMotDePasse;
-    }
-
-    public Timestamp getDateInscription()
-    {
-        return this.dateInscription;
-    }
-
-    public void setDateInscription(Timestamp uneDateInscription)
-    {
-        this.dateInscription = uneDateInscription;
-    }
-
-    public Timestamp getDerniereActivite()
-    {
-        return this.derniereActivite;
-    }
-
-    public void setDerniereActivite(Timestamp uneDerniereActivite)
-    {
-        this.derniereActivite = uneDerniereActivite;
-    }
-
     @Override
     public boolean equals(Object o)
     {
@@ -130,13 +50,13 @@ public class Utilisateur
         if (!(o instanceof Utilisateur))
             return false;
         Utilisateur that = (Utilisateur) o;
-        if (getEmail() != null ? !getEmail().equals(that.getEmail()) : that.getEmail() != null)
+        if (this.email != null ? !this.email.equals(that.email) : that.email != null)
             return false;
         return true;
     }
 
     public String toString()
     {
-        return "Nom : " + this.getNom() + ", Prenom : " + this.getPrenom() + ", Email : " + this.getEmail() + ", Inscrit le : " + this.dateInscription ;
+        return "Nom : " + this.nom + ", Prenom : " + this.prenom + ", Email : " + this.email + ", Inscrit le : " + this.dateInscription ;
     }
 }

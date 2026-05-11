@@ -1,7 +1,7 @@
 package app.OwLearning.Domain.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,25 +9,15 @@ import java.util.List;
 /**
  * Classe Chaptire qui permet de construire un chapitre en lui ajoutant/retirant des ressources et de l'attribuer à un cours
  */
-@Entity
+@Getter
+@Setter
 public class Chapitre
 {
-    @Id
-    @Column(name="id_chapitre")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String description;
     private String titre;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_cours")
     private Cours cours;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name="ressource_chapitre",
-                joinColumns = @JoinColumn(name="id_chapitre"),
-                inverseJoinColumns = @JoinColumn(name="id_ressource")
-    )
     private List<Ressource> ressources;
     public Chapitre(){}
 
@@ -41,42 +31,6 @@ public class Chapitre
     {
         this.titre = titre;
         this.description = description;
-        this.ressources = ressources;
-    }
-
-    public int getId()
-    {
-        return this.id;
-    }
-    public String getDescription() {
-        return this.description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTitre() {
-        return this.titre;
-    }
-
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
-
-    public Cours getCours() {
-        return this.cours;
-    }
-
-    public void setCours(Cours cours) {
-        this.cours = cours;
-    }
-
-    public List<Ressource> getRessources() {
-        return ressources;
-    }
-
-    public void setRessources(List<Ressource> ressources) {
         this.ressources = ressources;
     }
 

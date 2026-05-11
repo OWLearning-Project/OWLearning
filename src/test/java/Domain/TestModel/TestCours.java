@@ -23,7 +23,7 @@ public class TestCours
         cours.publier();
 
         // Assert
-        assertTrue(cours.getEstPublie());
+        assertTrue(cours.isEstPublie());
     }
 
     @Test
@@ -145,7 +145,7 @@ public class TestCours
         cours.visibilite(true);
 
         // Assert
-        assertTrue(cours.getEstPrive());
+        assertTrue(cours.isEstPrive());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class TestCours
         cours.visibilite(false);
 
         // Assert
-        assertFalse(cours.getEstPrive());
+        assertFalse(cours.isEstPrive());
     }
 
     @Test
@@ -171,7 +171,7 @@ public class TestCours
         cours.visibilite(false);
 
         // Assert
-        assertFalse(cours.getEstPrive());
+        assertFalse(cours.isEstPrive());
     }
     @Test
     public void testLeCoursRestePrive()
@@ -183,7 +183,7 @@ public class TestCours
         cours.visibilite(true);
 
         // Assert
-        assertTrue(cours.getEstPrive());
+        assertTrue(cours.isEstPrive());
     }
 
     @Test
@@ -241,7 +241,7 @@ public class TestCours
         Eleve eleveTest = mock(Eleve.class);
 
         cours.ajouterEleve(eleveTest);
-        when(eleveTest.getId()).thenReturn(8);
+        when(eleveTest.getIdUtilisateur()).thenReturn(8);
         // Act
         Eleve eleveRetire = cours.supprimerEleve(8);
 
@@ -259,7 +259,7 @@ public class TestCours
         Eleve eleveTest = mock(Eleve.class);
 
         // Act & Assert
-        when(eleveTest.getId()).thenReturn(6);
+        when(eleveTest.getIdUtilisateur()).thenReturn(6);
 
         assertThrows(ExceptionMauvaisIdEleve.class, ()->cours.supprimerEleve(3));
         assertThrows(ExceptionMauvaisIdEleve.class, ()->cours.supprimerEleve(-1));
@@ -319,8 +319,8 @@ public class TestCours
         Eleve eleveTest = mock(Eleve.class);
         Eleve eleveTest2 = mock(Eleve.class);
 
-        when(eleveTest.getId()).thenReturn(9);
-        when(eleveTest2.getId()).thenReturn(9);
+        when(eleveTest.getIdUtilisateur()).thenReturn(9);
+        when(eleveTest2.getIdUtilisateur()).thenReturn(9);
 
         cours.ajouterEleve(eleveTest);
 

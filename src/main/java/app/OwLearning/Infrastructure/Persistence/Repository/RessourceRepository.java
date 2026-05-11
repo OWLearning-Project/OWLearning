@@ -3,7 +3,9 @@ package app.OwLearning.Infrastructure.Persistence.Repository;
 
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
+import app.OwLearning.Infrastructure.Persistence.Entity.RessourceEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaRessourceRepository;
+import app.OwLearning.Infrastructure.Persistence.Mapper.RessourceMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
@@ -11,21 +13,25 @@ import org.springframework.stereotype.Component;
 public class RessourceRepository implements IRessourceRepository
 {
     private final JpaRessourceRepository jpaRessourceRepository;
+    private final RessourceMapper ressourceMapper;
 
-    public RessourceRepository(JpaRessourceRepository jparessourceRepository)
+    public RessourceRepository(JpaRessourceRepository jparessourceRepository, RessourceMapper ressourceMapper)
     {
         this.jpaRessourceRepository = jparessourceRepository;
+        this.ressourceMapper = ressourceMapper;
     }
     @Override
     @Transactional
     public Ressource sauvegarder(Ressource ressource)
     {
-        return jpaRessourceRepository.save(ressource);
+        RessourceEntity entity = ressourceMapper.toEntity(ressource);
+        RessourceEntity saved = jpaRessourceRepository.save(entity);
+        return ressourceMapper.toDomain(saved);
     }
 
     public Ressource trouverParId(int id)
     {
-        return jpaRessourceRepository.findById(id).orElse(null);
+        return jpaRessourceRepository.findById(id).map(ressourceMapper::toDomain).orElse(null);
     }
     public void supprimer(int id)
     {
@@ -33,6 +39,7 @@ public class RessourceRepository implements IRessourceRepository
     }
     public Ressource findByUrl(String url)
     {
-        return jpaRessourceRepository.findByUrl(url);
+        RessourceEntity entity = jpaRessourceRepository.findByUrl(url);
+        return entity != null ? ressourceMapper.toDomain(entity) : null;
     }
 }
