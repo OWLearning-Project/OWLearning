@@ -6,7 +6,7 @@ import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
 import app.OwLearning.Domain.Exceptions.ExceptionDiscussionInexistante;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
 import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
