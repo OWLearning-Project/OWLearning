@@ -1,7 +1,7 @@
 package Domain.TestModel;
 
 import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Shared.Exceptions.*;
+import app.OwLearning.Domain.Exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

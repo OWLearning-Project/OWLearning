@@ -1,6 +1,10 @@
 package app.OwLearning.Api;
 
-import app.OwLearning.Shared.Exceptions.*;
+import app.OwLearning.Application.Exceptions.ExceptionChapitreIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionTokenInvalide;
+import app.OwLearning.Domain.Exceptions.*;
+import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

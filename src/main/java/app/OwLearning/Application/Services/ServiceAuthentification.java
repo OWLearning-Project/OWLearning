@@ -6,10 +6,10 @@ import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IHach;
 import app.OwLearning.Domain.Ports.IServices.IServiceToken;
-import app.OwLearning.Shared.Exceptions.ExceptionCompteExistant;
+import app.OwLearning.Domain.Exceptions.ExceptionCompteExistant;
 
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdentifiants;
-import app.OwLearning.Shared.Exceptions.ExceptionTokenInvalide;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdentifiants;
+import app.OwLearning.Application.Exceptions.ExceptionTokenInvalide;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,7 @@ import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
 import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceMessage;
-import app.OwLearning.Shared.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionMessageIntrouvable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

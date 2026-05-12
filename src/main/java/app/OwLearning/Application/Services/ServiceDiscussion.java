@@ -6,7 +6,7 @@ import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,7 +2,7 @@ package app.OwLearning.Domain.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import lombok.Getter;
 import lombok.Setter;
 

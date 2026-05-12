@@ -1,7 +1,7 @@
 package app.OwLearning.Domain.Ports.IServices;
 
-import app.OwLearning.Shared.Exceptions.ExceptionCompteExistant;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdentifiants;
+import app.OwLearning.Domain.Exceptions.ExceptionCompteExistant;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdentifiants;
 
 /**
  * Interface de ServiceAuthentification qui permet d'inscrire de connecter et de deconnecter un utilisateur.

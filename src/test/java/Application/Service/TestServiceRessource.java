@@ -4,7 +4,7 @@ import app.OwLearning.Application.Services.ServiceRessource;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Models.TypeRessource;
 import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
-import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

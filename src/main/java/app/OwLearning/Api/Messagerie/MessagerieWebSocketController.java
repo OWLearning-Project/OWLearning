@@ -5,7 +5,7 @@ import app.OwLearning.Application.Services.ServiceMessage;
 import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Shared.DTO.MessageEnvoiDTO;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;

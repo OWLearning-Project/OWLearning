@@ -2,7 +2,7 @@ package app.OwLearning.Domain.Ports.IServices;
 
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdEleve;
 
 import java.util.ArrayList;
 public interface IServiceInscription {

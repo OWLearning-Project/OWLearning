@@ -1,6 +1,6 @@
 package app.OwLearning.Domain.Models;
 
-import app.OwLearning.Shared.Exceptions.ExceptionCategorieInexistante;
+import app.OwLearning.Domain.Exceptions.ExceptionCategorieInexistante;
 import lombok.Getter;
 
 /**

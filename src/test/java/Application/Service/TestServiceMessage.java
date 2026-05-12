@@ -1,8 +1,8 @@
 package Application.Service;
 
 
-import app.OwLearning.Shared.Exceptions.ExceptionMessageIntrouvable;
-import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
 import app.OwLearning.Application.Services.ServiceMessage;
 import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Ressource;

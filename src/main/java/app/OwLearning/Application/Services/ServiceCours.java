@@ -3,9 +3,9 @@ package app.OwLearning.Application.Services;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdChapitre;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisLabelCategorie;
+import app.OwLearning.Domain.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
