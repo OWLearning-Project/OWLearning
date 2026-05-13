@@ -7,7 +7,7 @@ import app.OwLearning.Infrastructure.Persistence.Entity.CoursEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaCoursRepository;
 import app.OwLearning.Infrastructure.Persistence.Mapper.CoursMapper;
 import app.OwLearning.Infrastructure.Persistence.RelationReconstructor;
-import app.OwLearning.Shared.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Domain.Exceptions.ExceptionCoursInexistant;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

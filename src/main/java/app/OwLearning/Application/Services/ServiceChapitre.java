@@ -7,8 +7,8 @@ import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
-import app.OwLearning.Shared.Exceptions.ExceptionChapitreIntrouvable;
-import app.OwLearning.Shared.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionChapitreIntrouvable;
+import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

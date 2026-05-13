@@ -6,7 +6,8 @@ import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,10 +57,14 @@ public class ServiceDiscussion implements IServiceDiscussion
      */
     @Override
     @Transactional
-    public Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise
+    public Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise, ExceptionUtilisateurInexistant
     {
         Discussion discussion = this.repositoryDiscussion.trouverDiscussionParId(discussionId);
         Utilisateur auteur = this.repositoryUtilisateur.trouverParId(auteurId);
+        if (auteur == null) {
+            log.warn("Echec de l'envoie du message : l'utilisateur {} n'existe pas", auteurId);
+            throw new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", auteurId);
+        }
         Message message = new Message(contenu, auteur);
         discussion.ajouterMessage(message);
         discussion.getMessages().size();

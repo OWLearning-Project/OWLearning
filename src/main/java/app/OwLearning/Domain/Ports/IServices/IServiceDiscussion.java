@@ -1,7 +1,7 @@
 package app.OwLearning.Domain.Ports.IServices;
 
 import app.OwLearning.Domain.Models.Discussion;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 
 import java.util.List;
 

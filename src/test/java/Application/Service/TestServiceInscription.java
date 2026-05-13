@@ -6,7 +6,7 @@ import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Shared.Exceptions.ExceptionMauvaisIdEleve;
+import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdEleve;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

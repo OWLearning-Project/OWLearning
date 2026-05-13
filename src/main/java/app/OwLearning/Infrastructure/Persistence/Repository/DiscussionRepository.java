@@ -8,7 +8,7 @@ import app.OwLearning.Infrastructure.Persistence.Entity.MessageEntity;
 import app.OwLearning.Infrastructure.Persistence.Interface.JpaDiscussionRepository;
 import app.OwLearning.Infrastructure.Persistence.Mapper.DiscussionMapper;
 import app.OwLearning.Infrastructure.Persistence.RelationReconstructor;
-import app.OwLearning.Shared.Exceptions.ExceptionDiscussionInexistante;
+import app.OwLearning.Domain.Exceptions.ExceptionDiscussionInexistante;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

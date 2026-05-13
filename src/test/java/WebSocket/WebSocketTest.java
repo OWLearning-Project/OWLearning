@@ -5,7 +5,7 @@ import app.OwLearning.Domain.Models.Discussion;
 import app.OwLearning.Infrastructure.Persistence.Repository.MessageRepository;
 import app.OwLearning.Main;
 import app.OwLearning.Shared.DTO.MessageEnvoiDTO;
-import app.OwLearning.Shared.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
