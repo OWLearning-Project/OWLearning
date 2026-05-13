@@ -1,0 +1,45 @@
+package app.OwLearning.Api.DTO.request;
+
+import app.OwLearning.Domain.Models.TypeRessource;
+
+/**
+ * DTO de requête pour une ressource
+ */
+public class RessourceRequest
+{
+    private String nom;
+    private String url;
+    private TypeRessource type;
+
+    public RessourceRequest() {}
+
+    public String getNom()
+    {
+        return nom;
+    }
+
+    public void setNom(String nom)
+    {
+        this.nom = nom;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public void setUrl(String url)
+    {
+        this.url = url;
+    }
+
+    public TypeRessource getType()
+    {
+        return type;
+    }
+
+    public void setType(TypeRessource type)
+    {
+        this.type = type;
+    }
+}
