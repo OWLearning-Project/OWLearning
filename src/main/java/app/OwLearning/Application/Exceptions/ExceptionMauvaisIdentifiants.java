@@ -1,4 +1,4 @@
-package app.OwLearning.Domain.Exceptions;
+package app.OwLearning.Application.Exceptions;
 
 public class ExceptionMauvaisIdentifiants extends RuntimeException {
 

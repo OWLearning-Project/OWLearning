@@ -5,7 +5,7 @@ import app.OwLearning.Domain.Models.Message;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
+import app.OwLearning.Application.Ports.IServices.IServiceDiscussion;
 import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
 import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
 import lombok.extern.slf4j.Slf4j;

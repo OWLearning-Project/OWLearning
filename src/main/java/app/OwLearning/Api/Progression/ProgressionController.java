@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Progression;
 
 import app.OwLearning.Application.Services.ServiceProgression;
-import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
+import app.OwLearning.Application.Ports.IServices.IServiceProgression;
 import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

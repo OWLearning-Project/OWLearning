@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Utilisateur;
 
 import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
+import app.OwLearning.Application.Ports.IServices.IServiceUtilisateur;
 import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

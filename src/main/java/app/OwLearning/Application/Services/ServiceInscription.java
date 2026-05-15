@@ -4,7 +4,7 @@ import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Application.Ports.IServices.IServiceInscription;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
 import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdEleve;
 import lombok.extern.slf4j.Slf4j;

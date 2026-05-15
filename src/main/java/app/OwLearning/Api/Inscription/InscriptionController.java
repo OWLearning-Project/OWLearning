@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Inscription;
 
 import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IServices.IServiceInscription;
+import app.OwLearning.Application.Ports.IServices.IServiceInscription;
 import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdEleve;
 import org.springframework.http.HttpStatus;

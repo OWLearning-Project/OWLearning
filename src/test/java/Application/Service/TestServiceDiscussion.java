@@ -4,7 +4,7 @@ import app.OwLearning.Application.Services.ServiceDiscussion;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceDiscussion;
+import app.OwLearning.Application.Ports.IServices.IServiceDiscussion;
 import app.OwLearning.Domain.Exceptions.ExceptionDiscussionInexistante;
 import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
 import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;

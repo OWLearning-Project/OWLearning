@@ -2,7 +2,7 @@ package app.OwLearning.Application.Services;
 import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceUtilisateur;
+import app.OwLearning.Application.Ports.IServices.IServiceUtilisateur;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
