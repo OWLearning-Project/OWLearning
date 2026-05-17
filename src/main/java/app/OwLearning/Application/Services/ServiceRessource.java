@@ -3,7 +3,7 @@ package app.OwLearning.Application.Services;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Models.TypeRessource;
 import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceRessource;
+import app.OwLearning.Application.Ports.IServices.IServiceRessource;
 import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
 import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvableDansChap;
 import jakarta.annotation.Resource;

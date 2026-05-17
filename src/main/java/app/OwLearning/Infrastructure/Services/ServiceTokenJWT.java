@@ -3,7 +3,7 @@ package app.OwLearning.Infrastructure.Services;
 import app.OwLearning.Domain.Models.Createur;
 import app.OwLearning.Domain.Models.Eleve;
 import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IServices.IServiceToken;
+import app.OwLearning.Application.Ports.IServices.IServiceToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

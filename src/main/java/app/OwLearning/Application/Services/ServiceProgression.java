@@ -2,7 +2,7 @@ package app.OwLearning.Application.Services;
 
 import app.OwLearning.Domain.Models.Progression;
 import app.OwLearning.Domain.Ports.IRepository.IProgressionRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceProgression;
+import app.OwLearning.Application.Ports.IServices.IServiceProgression;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

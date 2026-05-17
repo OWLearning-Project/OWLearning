@@ -3,7 +3,7 @@ package app.OwLearning.Api.Cours;
 import app.OwLearning.Domain.Models.Categorie;
 import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Domain.Ports.IServices.IServiceCours;
+import app.OwLearning.Application.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.Cours;
 import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
 import app.OwLearning.Shared.DTO.ChapitreDTO;

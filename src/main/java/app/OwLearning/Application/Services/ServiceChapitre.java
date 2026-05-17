@@ -6,7 +6,7 @@ import app.OwLearning.Domain.Models.ChapitreTermine;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
 import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
+import app.OwLearning.Application.Ports.IServices.IServiceChapitre;
 import app.OwLearning.Application.Exceptions.ExceptionChapitreIntrouvable;
 import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
 import lombok.extern.slf4j.Slf4j;

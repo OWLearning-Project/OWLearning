@@ -1,4 +1,4 @@
-package app.OwLearning.Domain.Ports.IServices;
+package app.OwLearning.Application.Ports.IServices;
 
 import app.OwLearning.Application.Exceptions.ExceptionCompteExistant;
 import app.OwLearning.Application.Exceptions.ExceptionMauvaisIdentifiants;

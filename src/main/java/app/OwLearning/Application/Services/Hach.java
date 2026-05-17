@@ -1,6 +1,6 @@
 package app.OwLearning.Application.Services;
 
-import app.OwLearning.Domain.Ports.IServices.IHach;
+import app.OwLearning.Application.Ports.IServices.IHach;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Ressource;
 
 import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Domain.Ports.IServices.IServiceRessource;
+import app.OwLearning.Application.Ports.IServices.IServiceRessource;
 import app.OwLearning.Shared.DTO.RessourceDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

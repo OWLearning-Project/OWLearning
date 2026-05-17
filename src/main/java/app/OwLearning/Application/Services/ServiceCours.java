@@ -1,7 +1,7 @@
 package app.OwLearning.Application.Services;
 
 import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
-import app.OwLearning.Domain.Ports.IServices.IServiceCours;
+import app.OwLearning.Application.Ports.IServices.IServiceCours;
 import app.OwLearning.Domain.Models.*;
 import app.OwLearning.Domain.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdChapitre;
