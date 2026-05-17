@@ -1,6 +1,12 @@
 package app.OwLearning.Api.Chapitre;
 
 
+import app.OwLearning.Api.DTO.request.ChapitreRequest;
+import app.OwLearning.Api.DTO.request.RessourceRequest;
+import app.OwLearning.Api.DTO.response.ChapitreResponse;
+import app.OwLearning.Api.DTO.response.RessourceResponse;
+import app.OwLearning.Application.Mapper.ChapitreDTOMapper;
+import app.OwLearning.Application.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domain.Models.Chapitre;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Domain.Ports.IServices.IServiceChapitre;
@@ -13,8 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-
 /**
  * Controller ChapitreController permettant d'accéder aux données liées aux chapitres
  */
@@ -23,23 +27,24 @@ import java.util.ArrayList;
 @PreAuthorize("isAuthenticated()")
 public class ChapitreController {
     private final IServiceChapitre serviceChapitre;
+    private final ChapitreDTOMapper chapitreMapper;
+    private final RessourceDTOMapper resssourceMapper;
 
-    public ChapitreController(IServiceChapitre serviceChapitre){
+    public ChapitreController(IServiceChapitre serviceChapitre, ChapitreDTOMapper chapitreMapper, RessourceDTOMapper resssourceMapper){
         this.serviceChapitre = serviceChapitre;
+        this.chapitreMapper = chapitreMapper;
+        this.resssourceMapper = resssourceMapper;
     }
 
     @GetMapping("/{idChapitre}")
-    public ResponseEntity<ChapitreDTO> getChapitre(@PathVariable("idChapitre")int idChapitre)
+    public ResponseEntity<ChapitreResponse> getChapitre(@PathVariable("idChapitre")int idChapitre)
     {
         Chapitre chapitre = this.serviceChapitre.getContenuChapitre(idChapitre);
-        ChapitreDTO chapitreDTO = new ChapitreDTO();
-        chapitreDTO.setTitre(chapitre.getTitre());
-        chapitreDTO.setDescription(chapitre.getDescription());
-        return ResponseEntity.ok(chapitreDTO);
+        return ResponseEntity.ok(this.chapitreMapper.toResponse(chapitre));
     }
 
     @PutMapping("/{idChapitre}")
-    public ResponseEntity<Void> modifierChapitre(@PathVariable("idChapitre") int idChapitre, @RequestBody ChapitreDTO chapitreDTO){
+    public ResponseEntity<Void> modifierChapitre(@PathVariable("idChapitre") int idChapitre, @RequestBody ChapitreRequest chapitreDTO){
         this.serviceChapitre.modifier(idChapitre, chapitreDTO.getTitre(), chapitreDTO.getDescription());
         return ResponseEntity.noContent().build();
     }
@@ -47,20 +52,18 @@ public class ChapitreController {
     @PostMapping("/{idChapitre}/ressources")
     public ResponseEntity<Ressource> ajouterRessource(
             @PathVariable("idChapitre") int idChapitre,
-            @RequestBody AjoutRessourceDTO dto) {
-
-        Ressource nouvelleRessource = new Ressource(dto.getNom(), dto.getType(), dto.getUrl());
+            @RequestBody RessourceRequest dto) {
+        Ressource nouvelleRessource = this.resssourceMapper.toDomain(dto);
         this.serviceChapitre.ajouterRessource(idChapitre, nouvelleRessource);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{idChapitre}/ressources/{idRessource}")
-    public ResponseEntity<Ressource> retirerRessource(
+    public ResponseEntity<RessourceResponse> retirerRessource(
             @PathVariable("idChapitre") int idChapitre,
             @PathVariable("idRessource") int idRessource) {
-
         Ressource ressource = this.serviceChapitre.retirerRessource(idChapitre, idRessource);
-        return ResponseEntity.ok(ressource);
+        return ResponseEntity.ok(this.resssourceMapper.toResponse(ressource));
     }
 
     @PostMapping("/{idChapitre}/terminer")

@@ -25,15 +25,15 @@ public class RessourceController {
 
     @PostMapping
     public ResponseEntity<RessourceResponse> creerRessource(@RequestBody RessourceRequest ressourceDTO){
-        Ressource domain = this.mapper.toDomain(ressourceDTO);
-        Ressource ressource = this.serviceRessource.creeRessource(domain.getNom(), domain.getUrl(), domain.getType());
+        Ressource ressource = this.serviceRessource.creeRessource(ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
         RessourceResponse request = this.mapper.toResponse(ressource);
         return ResponseEntity.status(HttpStatus.CREATED).body(request);
     }
 
     @GetMapping("/{idRessource}")
-    public ResponseEntity<Ressource> getRessource(@PathVariable("idRessource") int idRessource){
-        return ResponseEntity.ok(this.serviceRessource.getContenuRessource(idRessource));
+    public ResponseEntity<RessourceResponse> getRessource(@PathVariable("idRessource") int idRessource){
+        Ressource ressource = this.serviceRessource.getContenuRessource(idRessource);
+        return ResponseEntity.ok(this.mapper.toResponse(ressource));
     }
 
     @PutMapping("/{idRessource}")
@@ -43,8 +43,8 @@ public class RessourceController {
     }
 
     @DeleteMapping("/{idRessource}")
-    public ResponseEntity<Ressource> supprimerRessource(@PathVariable("idRessource") int idRessource){
+    public ResponseEntity<RessourceResponse> supprimerRessource(@PathVariable("idRessource") int idRessource){
         Ressource ressource = this.serviceRessource.supprimerRessource(idRessource);
-        return  ResponseEntity.ok(ressource);
+        return  ResponseEntity.ok(this.mapper.toResponse(ressource));
     }
 }
