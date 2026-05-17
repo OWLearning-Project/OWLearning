@@ -50,12 +50,12 @@ public class ChapitreController {
     }
 
     @PostMapping("/{idChapitre}/ressources")
-    public ResponseEntity<Ressource> ajouterRessource(
+    public ResponseEntity<?> ajouterRessource(
             @PathVariable("idChapitre") int idChapitre,
             @RequestBody RessourceRequest dto) {
         Ressource nouvelleRessource = this.resssourceMapper.toDomain(dto);
         this.serviceChapitre.ajouterRessource(idChapitre, nouvelleRessource);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body("La ressource a été ajoutée");
     }
 
     @DeleteMapping("/{idChapitre}/ressources/{idRessource}")
