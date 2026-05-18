@@ -1,8 +1,13 @@
 package app.OwLearning.Api.DTO.response;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * DTO de réponse représentant un utilisateur authentifié
  */
+@Getter
+@Setter
 public class UtilisateurAuthentifieResponse
 {
     private final int id;
@@ -18,18 +23,5 @@ public class UtilisateurAuthentifieResponse
         this.role = role;
     }
 
-    public int getId()
-    {
-        return id;
-    }
 
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public String getRole()
-    {
-        return role;
-    }
 }

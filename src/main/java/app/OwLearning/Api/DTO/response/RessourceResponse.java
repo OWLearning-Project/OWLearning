@@ -1,21 +1,16 @@
-package app.OwLearning.Api.DTO.request;
+package app.OwLearning.Api.DTO.response;
 
 import app.OwLearning.Domain.Models.TypeRessource;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * DTO de requête pour l'ajout d'une ressource
- */
 @Getter
 @Setter
-public class AjoutRessourceRequest
-{
+public class RessourceResponse {
+    private int id;
     private String nom;
     private String url;
     private TypeRessource type;
 
-    public AjoutRessourceRequest() {}
-
-
+    public RessourceResponse() {}
 }

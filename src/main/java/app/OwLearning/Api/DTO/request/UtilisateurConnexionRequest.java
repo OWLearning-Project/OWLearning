@@ -1,8 +1,13 @@
 package app.OwLearning.Api.DTO.request;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * DTO de requête pour la connexion d'un utilisateur
  */
+@Getter
+@Setter
 public class UtilisateurConnexionRequest
 {
     private String email;
@@ -17,13 +22,4 @@ public class UtilisateurConnexionRequest
         this.motDePasse = motDePasse;
     }
 
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public String getMotDePasse()
-    {
-        return motDePasse;
-    }
 }

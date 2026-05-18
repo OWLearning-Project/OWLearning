@@ -1,10 +1,14 @@
 package app.OwLearning.Api.DTO.request;
 
 import app.OwLearning.Domain.Models.Difficulte;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * DTO de requête pour la création d'un cours
  */
+@Getter
+@Setter
 public class CoursCreationRequest
 {
     private String titre;
@@ -20,18 +24,4 @@ public class CoursCreationRequest
         this.difficulte = difficulte;
     }
 
-    public String getTitre()
-    {
-        return titre;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public Difficulte getDifficulte()
-    {
-        return difficulte;
-    }
 }

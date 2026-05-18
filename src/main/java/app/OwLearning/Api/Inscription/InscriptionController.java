@@ -1,5 +1,6 @@
 package app.OwLearning.Api.Inscription;
 
+import app.OwLearning.Application.Mapper.UtilisateurDTOMapper;
 import app.OwLearning.Domain.Models.Utilisateur;
 import app.OwLearning.Application.Ports.IServices.IServiceInscription;
 import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 @PreAuthorize("isAuthenticated()")
 public class InscriptionController {
     private final IServiceInscription serviceInscription;
-    public InscriptionController(IServiceInscription serviceInscription) {
+    private final UtilisateurDTOMapper mapper;
+    public InscriptionController(IServiceInscription serviceInscription, UtilisateurDTOMapper mapper) {
         this.serviceInscription = serviceInscription;
+        this.mapper = mapper;
     }
 
     @PostMapping("/etudiants/cours/{idCours}")
@@ -40,7 +43,7 @@ public class InscriptionController {
 
     @GetMapping("/cours/{idCours}/etudiants")
     public ResponseEntity<?> getEtudiantsInscrits(@PathVariable("idCours") int idCours){
-        ArrayList<Utilisateur> etudiant = serviceInscription.getEtudiantsInscrits(idCours);
-        return ResponseEntity.ok(etudiant);
+        ArrayList<Utilisateur> etudiants = serviceInscription.getEtudiantsInscrits(idCours);
+        return ResponseEntity.ok(this.mapper.toResponseList(etudiants));
     }
 }

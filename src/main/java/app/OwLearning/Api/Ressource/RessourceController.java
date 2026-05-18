@@ -1,5 +1,8 @@
 package app.OwLearning.Api.Ressource;
 
+import app.OwLearning.Api.DTO.request.RessourceRequest;
+import app.OwLearning.Api.DTO.response.RessourceResponse;
+import app.OwLearning.Application.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domain.Models.Ressource;
 import app.OwLearning.Application.Ports.IServices.IServiceRessource;
 import app.OwLearning.Shared.DTO.RessourceDTO;
@@ -13,20 +16,24 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("isAuthenticated()")
 public class RessourceController {
     private final IServiceRessource serviceRessource;
+    private final RessourceDTOMapper mapper;
 
-    public RessourceController(IServiceRessource serviceRessource){
+    public RessourceController(IServiceRessource serviceRessource, RessourceDTOMapper mapper){
         this.serviceRessource = serviceRessource;
+        this.mapper = mapper;
     }
 
     @PostMapping
-    public ResponseEntity<?> creerRessource(@RequestBody RessourceDTO ressourceDTO){
+    public ResponseEntity<RessourceResponse> creerRessource(@RequestBody RessourceRequest ressourceDTO){
         Ressource ressource = this.serviceRessource.creeRessource(ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
-        return ResponseEntity.status(HttpStatus.CREATED).body(ressource);
+        RessourceResponse request = this.mapper.toResponse(ressource);
+        return ResponseEntity.status(HttpStatus.CREATED).body(request);
     }
 
     @GetMapping("/{idRessource}")
-    public ResponseEntity<Ressource> getRessource(@PathVariable("idRessource") int idRessource){
-        return ResponseEntity.ok(this.serviceRessource.getContenuRessource(idRessource));
+    public ResponseEntity<RessourceResponse> getRessource(@PathVariable("idRessource") int idRessource){
+        Ressource ressource = this.serviceRessource.getContenuRessource(idRessource);
+        return ResponseEntity.ok(this.mapper.toResponse(ressource));
     }
 
     @PutMapping("/{idRessource}")
@@ -36,8 +43,8 @@ public class RessourceController {
     }
 
     @DeleteMapping("/{idRessource}")
-    public ResponseEntity<Ressource> supprimerRessource(@PathVariable("idRessource") int idRessource){
+    public ResponseEntity<RessourceResponse> supprimerRessource(@PathVariable("idRessource") int idRessource){
         Ressource ressource = this.serviceRessource.supprimerRessource(idRessource);
-        return  ResponseEntity.ok(ressource);
+        return  ResponseEntity.ok(this.mapper.toResponse(ressource));
     }
 }
