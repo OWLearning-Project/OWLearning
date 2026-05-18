@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface MessageDTOMapper {
     @Mapping(target = "id", source = "id_message")
-    @Mapping(target = "idDiscussion", source = "discussion.id_discussion")
+    @Mapping(target = "idDiscussion", source = "discussion.idDiscussion")
     @Mapping(target = "idUtilisateur", source = "utilisateur.idUtilisateur")
     MessageResponse toResponse(Message message);
 
