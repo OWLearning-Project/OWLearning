@@ -1,7 +1,8 @@
 package app.OwLearning.Infrastructure.Config;
 
-import app.OwLearning.Infrastructure.Services.ServiceTokenJWT;
-import app.OwLearning.Shared.DTO.UtilisateurAuthentifieDTO;
+import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
+import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Infrastructure.ServicesExternes.ServiceTokenJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter
                 String email = serviceTokenJWT.extraireEmail(token);
                 String role = serviceTokenJWT.extraireRole(token);
 
-                UtilisateurAuthentifieDTO utilisateurAuthentifieDTO = new UtilisateurAuthentifieDTO(id,email,role);
+                UtilisateurAuthentifieRequest utilisateurAuthentifieDTO = new UtilisateurAuthentifieRequest(id,email,role);
 
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.toUpperCase());
 

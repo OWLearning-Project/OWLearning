@@ -1,6 +1,6 @@
 package app.OwLearning.Api.DTO.request;
 
-import app.OwLearning.Domain.Models.TypeRessource;
+import app.OwLearning.Domaine.Enumérations.TypeRessource;
 import lombok.Getter;
 import lombok.Setter;
 

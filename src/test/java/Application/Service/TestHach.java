@@ -1,7 +1,7 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.Hach;
-import app.OwLearning.Application.Ports.IServices.IHach;
+import app.OwLearning.Services.Services.Hach;
+import app.OwLearning.Services.Interfaces.IHach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

@@ -1,9 +1,9 @@
 package Domain.TestModel;
 
-import app.OwLearning.Domain.Models.Discussion;
-import app.OwLearning.Domain.Models.Message;
-import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domaine.Entités.Discussion;
+import app.OwLearning.Domaine.Entités.Message;
+import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

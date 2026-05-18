@@ -1,15 +1,15 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceAuthentification;
-import app.OwLearning.Domain.Models.Createur;
-import app.OwLearning.Domain.Models.Eleve;
-import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Application.Ports.IServices.IHach;
-import app.OwLearning.Application.Ports.IServices.IServiceToken;
-import app.OwLearning.Application.Exceptions.ExceptionCompteExistant;
-import app.OwLearning.Application.Exceptions.ExceptionMauvaisIdentifiants;
-import app.OwLearning.Application.Exceptions.ExceptionTokenInvalide;
+import app.OwLearning.Services.Services.ServiceAuthentification;
+import app.OwLearning.Domaine.Entités.Createur;
+import app.OwLearning.Domaine.Entités.Eleve;
+import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
+import app.OwLearning.Services.Interfaces.IHach;
+import app.OwLearning.Services.Interfaces.IServiceToken;
+import app.OwLearning.Services.Exceptions.ExceptionCompteExistant;
+import app.OwLearning.Services.Exceptions.ExceptionMauvaisIdentifiants;
+import app.OwLearning.Services.Exceptions.ExceptionTokenInvalide;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

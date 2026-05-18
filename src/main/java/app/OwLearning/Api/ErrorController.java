@@ -1,8 +1,8 @@
 package app.OwLearning.Api;
 
-import app.OwLearning.Application.Exceptions.*;
-import app.OwLearning.Domain.Exceptions.*;
-import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Services.Exceptions.*;
+import app.OwLearning.Domaine.Exceptions.*;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurInexistant;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

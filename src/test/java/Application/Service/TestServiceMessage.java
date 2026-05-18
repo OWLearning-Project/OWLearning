@@ -1,15 +1,14 @@
 package Application.Service;
 
 
-import app.OwLearning.Application.Exceptions.ExceptionMessageIntrouvable;
-import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
-import app.OwLearning.Application.Services.ServiceMessage;
-import app.OwLearning.Domain.Models.Message;
-import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Domain.Models.TypeRessource;
-import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IRepository.IMessageRepository;
-import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
+import app.OwLearning.Services.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Services.Services.ServiceMessage;
+import app.OwLearning.Domaine.Entités.Message;
+import app.OwLearning.Domaine.Entités.Ressource;
+import app.OwLearning.Domaine.Enumérations.TypeRessource;
+import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Interfaces.IMessageRepository;
+import app.OwLearning.Domaine.Interfaces.IRessourceRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

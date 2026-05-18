@@ -1,6 +1,6 @@
 package Domain.TestModel;
 
-import app.OwLearning.Domain.Models.Progression;
+import app.OwLearning.Domaine.Entités.Progression;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

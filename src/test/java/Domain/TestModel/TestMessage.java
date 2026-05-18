@@ -1,9 +1,9 @@
 package Domain.TestModel;
 
-import app.OwLearning.Domain.Models.Message;
+import app.OwLearning.Domaine.Entités.Message;
 import org.junit.jupiter.api.Test;
-import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Domain.Models.TypeRessource;
+import app.OwLearning.Domaine.Entités.Ressource;
+import app.OwLearning.Domaine.Enumérations.TypeRessource;
 
 import java.util.NoSuchElementException;
 

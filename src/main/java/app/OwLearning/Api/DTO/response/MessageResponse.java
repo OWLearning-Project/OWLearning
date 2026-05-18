@@ -1,6 +1,6 @@
 package app.OwLearning.Api.DTO.response;
 
-import app.OwLearning.Domain.Models.StatutMessage;
+import app.OwLearning.Domaine.Enumérations.StatutMessage;
 import lombok.Getter;
 import lombok.Setter;
 
