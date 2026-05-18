@@ -1,8 +1,13 @@
 package app.OwLearning.Api.DTO.request;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * DTO de requête pour l'envoi d'un message
  */
+@Getter
+@Setter
 public class MessageEnvoiRequest
 {
     private int auteurId;
@@ -20,28 +25,4 @@ public class MessageEnvoiRequest
         this.ressourceId = ressourceId;
     }
 
-    public int getAuteurId()
-    {
-        return auteurId;
-    }
-
-    public String getContenu()
-    {
-        return contenu;
-    }
-
-    public Integer getRessourceId()
-    {
-        return ressourceId;
-    }
-
-    public void setContenu(String contenu)
-    {
-        this.contenu = contenu;
-    }
-
-    public void setRessourceId(Integer ressourceId)
-    {
-        this.ressourceId = ressourceId;
-    }
 }

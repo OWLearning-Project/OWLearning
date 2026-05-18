@@ -1,8 +1,13 @@
 package app.OwLearning.Api.DTO.request;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * DTO de requête pour l'inscription d'un utilisateur
  */
+@Getter
+@Setter
 public class UtilisateurInscriptionRequest
 {
     private String nom;
@@ -26,28 +31,5 @@ public class UtilisateurInscriptionRequest
         this.role = role;
     }
 
-    public String getNom()
-    {
-        return nom;
-    }
 
-    public String getPrenom()
-    {
-        return prenom;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public String getMotDePasse()
-    {
-        return motDePasse;
-    }
-
-    public String getRole()
-    {
-        return role;
-    }
 }
