@@ -1,18 +1,18 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceChapitre;
-import app.OwLearning.Domain.Ports.IRepository.IChapitreRepository;
-import app.OwLearning.Domain.Ports.IRepository.IChapitreTermineRepository;
-import app.OwLearning.Application.Exceptions.ExceptionChapitreIntrouvable;
-import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
-import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvableDansChap;
+import app.OwLearning.Domaine.Enumérations.TypeRessource;
+import app.OwLearning.Services.Services.ServiceChapitre;
+import app.OwLearning.Domaine.Interfaces.IChapitreRepository;
+import app.OwLearning.Domaine.Interfaces.IChapitreTermineRepository;
+import app.OwLearning.Services.Exceptions.ExceptionChapitreIntrouvable;
+import app.OwLearning.Services.Exceptions.ExceptionRessourceIntrouvable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import app.OwLearning.Domain.Models.*;
+import app.OwLearning.Domaine.Entités.*;
 import org.springframework.test.util.AssertionErrors;
 
 import java.util.ArrayList;

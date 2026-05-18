@@ -1,13 +1,12 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceDiscussion;
-import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Domain.Ports.IRepository.IDiscussionRepository;
-import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Application.Ports.IServices.IServiceDiscussion;
-import app.OwLearning.Domain.Exceptions.ExceptionDiscussionInexistante;
-import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurInexistant;
-import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Services.Services.ServiceDiscussion;
+import app.OwLearning.Domaine.Entités.*;
+import app.OwLearning.Domaine.Interfaces.IDiscussionRepository;
+import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
+import app.OwLearning.Domaine.Exceptions.ExceptionDiscussionInexistante;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

@@ -1,12 +1,13 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceCours;
-import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
-import app.OwLearning.Domain.Exceptions.ExceptionCoursInexistant;
-import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdChapitre;
-import app.OwLearning.Domain.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.apache.commons.lang3.builder.Diff;
+import app.OwLearning.Domaine.Enumérations.Categorie;
+import app.OwLearning.Domaine.Enumérations.Difficulte;
+import app.OwLearning.Services.Services.ServiceCours;
+import app.OwLearning.Domaine.Entités.*;
+import app.OwLearning.Domaine.Interfaces.ICoursRepository;
+import app.OwLearning.Domaine.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisLabelCategorie;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

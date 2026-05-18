@@ -1,11 +1,11 @@
 package WebSocket;
 
-import app.OwLearning.Application.Services.ServiceDiscussion;
-import app.OwLearning.Domain.Models.Discussion;
-import app.OwLearning.Infrastructure.Persistence.Repository.MessageRepository;
+import app.OwLearning.Api.DTO.request.MessageEnvoiRequest;
+import app.OwLearning.Services.Services.ServiceDiscussion;
+import app.OwLearning.Domaine.Entités.Discussion;
+import app.OwLearning.Infrastructure.Repositories.MessageRepository;
 import app.OwLearning.Main;
-import app.OwLearning.Shared.DTO.MessageEnvoiDTO;
-import app.OwLearning.Domain.Exceptions.ExceptionUtilisateurNonAutorise;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +115,7 @@ public class WebSocketTest
                 futureReponse.complete((Discussion) payload);
             }
         });
-        MessageEnvoiDTO nouveauMessage = new MessageEnvoiDTO(idParticipant, "Test d'integration WS", null);
+        MessageEnvoiRequest nouveauMessage = new MessageEnvoiRequest(idParticipant, "Test d'integration WS", null);
         session.send("/app/messagerie/" + idDiscussion + "/envoyer", nouveauMessage);
 
         Discussion discussionReception = futureReponse.get(3, TimeUnit.SECONDS);
@@ -131,7 +131,7 @@ public class WebSocketTest
     public void testEnvoiMessageUtilisateurNonAutorise_DoitEchouer() {
         long nombreMessagesAvant = messageRepository.trouverParDiscussion(idDiscussion).size();
 
-        MessageEnvoiDTO messagePirate = new MessageEnvoiDTO(idNonParticipant, "hack", null);
+        MessageEnvoiRequest messagePirate = new MessageEnvoiRequest(idNonParticipant, "hack", null);
 
         assertThrows(
                 ExceptionUtilisateurNonAutorise.class,

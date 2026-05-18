@@ -1,8 +1,8 @@
 package app.OwLearning.Api.DTO.response;
 
-import app.OwLearning.Domain.Models.Categorie;
-import app.OwLearning.Domain.Models.Difficulte;
-import app.OwLearning.Domain.Models.Eleve;
+import app.OwLearning.Domaine.Enumérations.Categorie;
+import app.OwLearning.Domaine.Enumérations.Difficulte;
+import app.OwLearning.Domaine.Entités.Eleve;
 import lombok.Getter;
 import lombok.Setter;
 

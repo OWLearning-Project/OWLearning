@@ -1,12 +1,12 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceInscription;
-import app.OwLearning.Domain.Models.Cours;
-import app.OwLearning.Domain.Models.Eleve;
-import app.OwLearning.Domain.Models.Utilisateur;
-import app.OwLearning.Domain.Ports.IRepository.ICoursRepository;
-import app.OwLearning.Domain.Ports.IRepository.IUtilisateurRepository;
-import app.OwLearning.Domain.Exceptions.ExceptionMauvaisIdEleve;
+import app.OwLearning.Services.Services.ServiceInscription;
+import app.OwLearning.Domaine.Entités.Cours;
+import app.OwLearning.Domaine.Entités.Eleve;
+import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Interfaces.ICoursRepository;
+import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdEleve;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 

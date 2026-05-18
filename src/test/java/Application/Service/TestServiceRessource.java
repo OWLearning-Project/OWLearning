@@ -1,10 +1,10 @@
 package Application.Service;
 
-import app.OwLearning.Application.Services.ServiceRessource;
-import app.OwLearning.Domain.Models.Ressource;
-import app.OwLearning.Domain.Models.TypeRessource;
-import app.OwLearning.Domain.Ports.IRepository.IRessourceRepository;
-import app.OwLearning.Application.Exceptions.ExceptionRessourceIntrouvable;
+import app.OwLearning.Services.Services.ServiceRessource;
+import app.OwLearning.Domaine.Entités.Ressource;
+import app.OwLearning.Domaine.Enumérations.TypeRessource;
+import app.OwLearning.Domaine.Interfaces.IRessourceRepository;
+import app.OwLearning.Services.Exceptions.ExceptionRessourceIntrouvable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

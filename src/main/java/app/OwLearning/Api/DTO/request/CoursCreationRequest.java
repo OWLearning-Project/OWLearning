@@ -1,6 +1,6 @@
 package app.OwLearning.Api.DTO.request;
 
-import app.OwLearning.Domain.Models.Difficulte;
+import app.OwLearning.Domaine.Enumérations.Difficulte;
 import lombok.Getter;
 import lombok.Setter;
 

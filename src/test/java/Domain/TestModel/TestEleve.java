@@ -1,6 +1,6 @@
 package Domain.TestModel;
 
-import app.OwLearning.Domain.Models.Eleve;
+import app.OwLearning.Domaine.Entités.Eleve;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

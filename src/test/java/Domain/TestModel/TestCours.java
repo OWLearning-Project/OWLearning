@@ -1,7 +1,9 @@
 package Domain.TestModel;
 
-import app.OwLearning.Domain.Models.*;
-import app.OwLearning.Domain.Exceptions.*;
+import app.OwLearning.Domaine.Enumérations.Categorie;
+import app.OwLearning.Domaine.Enumérations.Difficulte;
+import app.OwLearning.Domaine.Entités.*;
+import app.OwLearning.Domaine.Exceptions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
