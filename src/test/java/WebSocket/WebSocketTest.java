@@ -1,11 +1,13 @@
 package WebSocket;
 
 import app.OwLearning.Api.DTO.request.MessageEnvoiRequest;
+import app.OwLearning.Api.DTO.response.DiscussionResponse;
 import app.OwLearning.Services.Services.ServiceDiscussion;
-import app.OwLearning.Domaine.Entités.Discussion;
 import app.OwLearning.Infrastructure.Repositories.MessageRepository;
 import app.OwLearning.Main;
 import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +19,14 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.lang.reflect.Type;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -28,6 +35,7 @@ import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class WebSocketTest
 {
@@ -38,8 +46,10 @@ public class WebSocketTest
     private JdbcTemplate jdbcTemplate;
 
     private WebSocketStompClient stompClient;
+
     @Autowired
     private MessageRepository messageRepository;
+
     @Autowired
     private ServiceDiscussion serviceDiscussion;
 
@@ -56,36 +66,46 @@ public class WebSocketTest
         String emailParticipant = "ws_participant" + System.currentTimeMillis() + "@test.com";
         String emailNonParticipant = "ws_nonparticipant" + System.currentTimeMillis() + "@test.com";
 
-        idParticipant = jdbcTemplate.queryForObject(
-                "INSERT INTO Utilisateur (nom, prenom, email, pseudo, date_inscription, mot_de_passe) " +
-                        "VALUES ('Test', 'Participant', ?, 'participant', NOW(), 'motdepasse') " +
-                        "RETURNING id_utilisateur",
-                Integer.class,
-                emailParticipant
-        );
+        KeyHolder keyHolderParticipant = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO utilisateur (nom, prenom, email, pseudo, date_inscription, mot_de_passe) VALUES ('Test', 'Participant', ?, ?, CURRENT_TIMESTAMP, 'motdepasse')",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, emailParticipant);
+            ps.setString(2, "participant_" + System.currentTimeMillis());
+            return ps;
+        }, keyHolderParticipant);
+        idParticipant = keyHolderParticipant.getKey().intValue();
 
         jdbcTemplate.update(
-                "INSERT INTO Eleve (id_utilisateur, age) VALUES (?, 0)",
+                "INSERT INTO eleve (id_utilisateur, age) VALUES (?, 0)",
                 idParticipant
         );
 
-        idNonParticipant = jdbcTemplate.queryForObject(
-                "INSERT INTO Utilisateur (nom, prenom, email, pseudo, date_inscription, mot_de_passe) " +
-                        "VALUES ('Test', 'Pirate', ?, 'pirate', NOW(), 'motdepasse') " +
-                        "RETURNING id_utilisateur",
-                Integer.class,
-                emailNonParticipant
-        );
+        KeyHolder keyHolderPirate = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO utilisateur (nom, prenom, email, pseudo, date_inscription, mot_de_passe) VALUES ('Test', 'Pirate', ?, ?, CURRENT_TIMESTAMP, 'motdepasse')",
+                    Statement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, emailNonParticipant);
+            ps.setString(2, "pirate_" + System.currentTimeMillis());
+            return ps;
+        }, keyHolderPirate);
+        idNonParticipant = keyHolderPirate.getKey().intValue();
 
         jdbcTemplate.update(
-                "INSERT INTO Eleve (id_utilisateur, age) VALUES (?, 0)",
+                "INSERT INTO eleve (id_utilisateur, age) VALUES (?, 0)",
                 idNonParticipant
         );
 
-        idDiscussion = jdbcTemplate.queryForObject(
-                "INSERT INTO Discussion DEFAULT VALUES RETURNING id_discussion",
-                Integer.class
-        );
+        KeyHolder keyHolderDiscussion = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> connection.prepareStatement(
+                "INSERT INTO discussion DEFAULT VALUES",
+                Statement.RETURN_GENERATED_KEYS
+        ), keyHolderDiscussion);
+        idDiscussion = keyHolderDiscussion.getKey().intValue();
 
         jdbcTemplate.update(
                 "INSERT INTO participation_discussion (id_utilisateur, id_discussion) VALUES (?, ?)",
@@ -93,32 +113,44 @@ public class WebSocketTest
         );
     }
 
+    @AfterEach
+    public void tearDown()
+    {
+        jdbcTemplate.update("DELETE FROM message WHERE id_discussion = ?", idDiscussion);
+        jdbcTemplate.update("DELETE FROM participation_discussion WHERE id_discussion = ?", idDiscussion);
+        jdbcTemplate.update("DELETE FROM eleve WHERE id_utilisateur IN (?, ?)", idParticipant, idNonParticipant);
+
+        jdbcTemplate.update("DELETE FROM utilisateur WHERE id_utilisateur IN (?, ?)", idParticipant, idNonParticipant);
+        jdbcTemplate.update("DELETE FROM discussion WHERE id_discussion = ?", idDiscussion);
+    }
+
     @Test
     public void envoiEtRecoitUnMessage() throws ExecutionException, InterruptedException, TimeoutException
     {
         String url = "ws://localhost:" + port + "/ws-messagerie";
         StompSession session = stompClient.connectAsync(url, new StompSessionHandlerAdapter() {}).get(1, TimeUnit.SECONDS);
-        CompletableFuture<Discussion> futureReponse = new CompletableFuture<>();
 
-        // On s'abonne à la discussion créée dynamiquement
+        CompletableFuture<DiscussionResponse> futureReponse = new CompletableFuture<>();
+
         session.subscribe("/topic/discussion/" + idDiscussion, new StompFrameHandler()
         {
             @Override
             public Type getPayloadType(StompHeaders headers)
             {
-                return Discussion.class;
+                return DiscussionResponse.class;
             }
 
             @Override
             public void handleFrame(StompHeaders headers, Object payload)
             {
-                futureReponse.complete((Discussion) payload);
+                futureReponse.complete((DiscussionResponse) payload);
             }
         });
+
         MessageEnvoiRequest nouveauMessage = new MessageEnvoiRequest(idParticipant, "Test d'integration WS", null);
         session.send("/app/messagerie/" + idDiscussion + "/envoyer", nouveauMessage);
 
-        Discussion discussionReception = futureReponse.get(3, TimeUnit.SECONDS);
+        DiscussionResponse discussionReception = futureReponse.get(3, TimeUnit.SECONDS);
 
         assertNotNull(discussionReception, "La discussion reçue ne peut pas être nulle");
         int indexDernierMessage = discussionReception.getMessages().size() - 1;
@@ -143,6 +175,6 @@ public class WebSocketTest
                 "Une ExceptionUtilisateurNonAutorise doit être levée"
         );
         long nombreMessagesApres = messageRepository.trouverParDiscussion(idDiscussion).size();
-        assertEquals(nombreMessagesAvant, nombreMessagesApres, "La base ne doit pas être modifié");
+        assertEquals(nombreMessagesAvant, nombreMessagesApres, "La base ne doit pas être modifiée");
     }
 }
