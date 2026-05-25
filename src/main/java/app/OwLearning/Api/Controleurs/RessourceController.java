@@ -2,7 +2,7 @@ package app.OwLearning.Api.Controleurs;
 
 import app.OwLearning.Api.DTO.request.RessourceRequest;
 import app.OwLearning.Api.DTO.response.RessourceResponse;
-import app.OwLearning.Services.Mapper.RessourceDTOMapper;
+import app.OwLearning.Api.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Services.Interfaces.IServiceRessource;
 import org.springframework.http.HttpStatus;

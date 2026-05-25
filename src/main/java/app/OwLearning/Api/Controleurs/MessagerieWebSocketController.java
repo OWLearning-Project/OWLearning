@@ -2,7 +2,7 @@ package app.OwLearning.Api.Controleurs;
 
 import app.OwLearning.Api.DTO.request.MessageEnvoiRequest;
 import app.OwLearning.Api.DTO.response.DiscussionResponse;
-import app.OwLearning.Services.Mapper.DiscussionDTOMapper;
+import app.OwLearning.Api.Mapper.DiscussionDTOMapper;
 import app.OwLearning.Services.Services.ServiceDiscussion;
 import app.OwLearning.Services.Services.ServiceMessage;
 import app.OwLearning.Domaine.Entités.Discussion;

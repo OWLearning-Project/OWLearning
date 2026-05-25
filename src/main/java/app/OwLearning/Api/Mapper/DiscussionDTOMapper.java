@@ -1,4 +1,4 @@
-package app.OwLearning.Services.Mapper;
+package app.OwLearning.Api.Mapper;
 
 import app.OwLearning.Api.DTO.response.DiscussionResponse;
 import app.OwLearning.Domaine.Entités.Discussion;

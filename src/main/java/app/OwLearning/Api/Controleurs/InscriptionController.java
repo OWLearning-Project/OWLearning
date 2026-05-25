@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Controleurs;
 
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
-import app.OwLearning.Services.Mapper.UtilisateurDTOMapper;
+import app.OwLearning.Api.Mapper.UtilisateurDTOMapper;
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Services.Interfaces.IServiceInscription;
 import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdEleve;
