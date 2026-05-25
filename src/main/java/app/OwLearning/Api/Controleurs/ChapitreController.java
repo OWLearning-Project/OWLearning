@@ -66,12 +66,12 @@ public class ChapitreController {
 
     @PostMapping("/{idChapitre}/terminer")
     @PreAuthorize("hasAuthority('ELEVE')")
-    public ResponseEntity<Void> terminerChapitre(
+    public ResponseEntity<String> terminerChapitre(
             @PathVariable("idChapitre") int idChapitre,
             @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
     {
         int idEleve = utilisateurAuthentifieDTO.getId();
         this.serviceChapitre.terminerChapitre(idChapitre, idEleve);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body("Le chapitre a été noté comme terminé");
     }
 }
