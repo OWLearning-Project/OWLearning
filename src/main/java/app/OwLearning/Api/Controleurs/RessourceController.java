@@ -36,9 +36,9 @@ public class RessourceController {
     }
 
     @PutMapping("/{idRessource}")
-    public ResponseEntity<Void> modifierRessource(@PathVariable("idRessource") int idRessource, @RequestBody RessourceRequest ressourceDTO){
+    public ResponseEntity<String> modifierRessource(@PathVariable("idRessource") int idRessource, @RequestBody RessourceRequest ressourceDTO){
         this.serviceRessource.modifier(idRessource,ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
-        return  ResponseEntity.noContent().build();
+        return  ResponseEntity.ok().body("La ressource a été modifiée avec succès");
     }
 
     @DeleteMapping("/{idRessource}")
