@@ -1,4 +1,4 @@
-package Domain.TestModel;
+package Domaine.TestModel;
 
 import app.OwLearning.Domaine.Entités.Discussion;
 import app.OwLearning.Domaine.Entités.Message;

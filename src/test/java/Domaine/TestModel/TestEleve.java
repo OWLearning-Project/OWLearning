@@ -1,4 +1,4 @@
-package Domain.TestModel;
+package Domaine.TestModel;
 
 import app.OwLearning.Domaine.Entités.Eleve;
 import org.junit.jupiter.api.Test;

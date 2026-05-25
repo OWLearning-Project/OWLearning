@@ -1,4 +1,4 @@
-package Application.Service;
+package Services;
 
 import app.OwLearning.Services.Services.ServiceProgression;
 import app.OwLearning.Domaine.Entités.Cours;

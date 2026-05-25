@@ -1,4 +1,4 @@
-package Application.Service;
+package Services;
 
 import app.OwLearning.Services.Services.ServiceInscription;
 import app.OwLearning.Domaine.Entités.Cours;

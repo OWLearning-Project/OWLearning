@@ -1,4 +1,4 @@
-package Domain.TestModel;
+package Domaine.TestModel;
 
 import app.OwLearning.Domaine.Enumérations.Categorie;
 import app.OwLearning.Domaine.Enumérations.Difficulte;

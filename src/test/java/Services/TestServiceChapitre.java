@@ -1,4 +1,4 @@
-package Application.Service;
+package Services;
 
 import app.OwLearning.Domaine.Enumérations.TypeRessource;
 import app.OwLearning.Services.Services.ServiceChapitre;

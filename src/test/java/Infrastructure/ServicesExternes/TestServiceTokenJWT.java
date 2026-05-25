@@ -1,4 +1,4 @@
-package Infrastructure.Services;
+package Infrastructure.ServicesExternes;
 
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Infrastructure.ServicesExternes.ServiceTokenJWT;

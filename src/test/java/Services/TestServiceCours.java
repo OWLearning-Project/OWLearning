@@ -1,4 +1,4 @@
-package Application.Service;
+package Services;
 
 import app.OwLearning.Domaine.Enumérations.Categorie;
 import app.OwLearning.Domaine.Enumérations.Difficulte;
