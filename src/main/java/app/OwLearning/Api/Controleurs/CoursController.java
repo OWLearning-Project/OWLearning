@@ -50,7 +50,7 @@ public class CoursController {
     @GetMapping
     public ResponseEntity<List<CoursResponse>> getCoursPublies()
     {
-        return ResponseEntity.ok(this.mapper.toResponseList(serviceCours.getCoursPublies()));
+        return ResponseEntity.ok(this.mapper.toResponseListSansChapitres(serviceCours.getCoursPublies()));
     }
 
     /**

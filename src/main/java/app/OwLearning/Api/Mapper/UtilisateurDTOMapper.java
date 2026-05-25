@@ -1,6 +1,6 @@
 package app.OwLearning.Api.Mapper;
 
-import app.OwLearning.Api.DTO.response.UtilisateurAuthentifieResponse;
+import app.OwLearning.Api.DTO.response.UtilisateurResponse;
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,8 +12,8 @@ public interface UtilisateurDTOMapper {
 
     @Mapping(target = "id", source ="idUtilisateur")
     @Mapping(target = "role", expression = "java(utilisateur.getRole())")
-    UtilisateurAuthentifieResponse toResponse(Utilisateur utilisateur);
+    UtilisateurResponse toResponse(Utilisateur utilisateur);
 
-    List<UtilisateurAuthentifieResponse> toResponseList(List<Utilisateur> utilisateurs);
+    List<UtilisateurResponse> toResponseList(List<Utilisateur> utilisateurs);
 
 }

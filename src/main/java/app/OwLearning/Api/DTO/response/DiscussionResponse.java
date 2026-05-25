@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class DiscussionResponse {
     private int id;
-    private List<UtilisateurAuthentifieResponse> participants;
+    private List<UtilisateurResponse> participants;
     private List<MessageResponse> messages;
 
     public DiscussionResponse() {}

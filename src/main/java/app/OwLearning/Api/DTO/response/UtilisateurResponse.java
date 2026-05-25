@@ -8,15 +8,15 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class UtilisateurAuthentifieResponse
+public class UtilisateurResponse
 {
     private final int id;
     private final String email;
     private final String role;
 
-    public UtilisateurAuthentifieResponse(int id,
-                                          String email,
-                                          String role)
+    public UtilisateurResponse(int id,
+                               String email,
+                               String role)
     {
         this.id = id;
         this.email = email;

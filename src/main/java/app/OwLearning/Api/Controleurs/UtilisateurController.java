@@ -1,7 +1,7 @@
 package app.OwLearning.Api.Controleurs;
 
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
-import app.OwLearning.Api.DTO.response.UtilisateurAuthentifieResponse;
+import app.OwLearning.Api.DTO.response.UtilisateurResponse;
 import app.OwLearning.Api.Mapper.UtilisateurDTOMapper;
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Services.Interfaces.IServiceUtilisateur;
@@ -28,14 +28,14 @@ public class UtilisateurController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UtilisateurAuthentifieResponse> getProfil(@PathVariable int id) {
+    public ResponseEntity<UtilisateurResponse> getProfil(@PathVariable int id) {
         Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
         return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
     }
 
     @PutMapping("/edit_profil")
-    public ResponseEntity<UtilisateurAuthentifieResponse> modifierProfil(@AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO, @RequestParam String pseudo, @RequestParam String email,
-                                                                         @RequestParam(required = false) Integer age, @RequestParam(required = false) String niveauEtude)
+    public ResponseEntity<UtilisateurResponse> modifierProfil(@AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO, @RequestParam String pseudo, @RequestParam String email,
+                                                              @RequestParam(required = false) Integer age, @RequestParam(required = false) String niveauEtude)
     {
         Utilisateur utilisateur = serviceUtilisateur.modifierProfil(utilisateurAuthentifieDTO.getId(), pseudo, email, age, niveauEtude);
         return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
