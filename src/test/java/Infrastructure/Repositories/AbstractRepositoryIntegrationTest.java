@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-abstract class AbstractRepositoryIntegrationTest
+public abstract class AbstractRepositoryIntegrationTest
 {
     @Autowired
     protected JdbcTemplate jdbcTemplate;
