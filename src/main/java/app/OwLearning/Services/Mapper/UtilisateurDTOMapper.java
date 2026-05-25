@@ -11,7 +11,7 @@ import java.util.List;
 public interface UtilisateurDTOMapper {
 
     @Mapping(target = "id", source ="idUtilisateur")
-    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "role", expression = "java(utilisateur.getRole())")
     UtilisateurAuthentifieResponse toResponse(Utilisateur utilisateur);
 
     List<UtilisateurAuthentifieResponse> toResponseList(List<Utilisateur> utilisateurs);

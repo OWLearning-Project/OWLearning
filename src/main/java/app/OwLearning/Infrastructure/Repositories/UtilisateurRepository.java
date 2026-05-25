@@ -39,16 +39,28 @@ public class UtilisateurRepository implements IUtilisateurRepository
     }
 
     /**
-     * Méthode qui permet d'insérer un utilisateur en base
+     * Méthode qui permet d'insérer ou de mettre à jour un utilisateur en base
      * @param utilisateur
-     * @return l'utilisateur inséré
+     * @return l'utilisateur sauvegardé
      */
     @Override
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
-        UtilisateurEntity entity = utilisateurMapper.toEntity(utilisateur);
-        UtilisateurEntity saved = jpaRepository.save(entity);
-        return utilisateurMapper.toDomain(saved);
+        if (utilisateur.getIdUtilisateur() != 0)
+        {
+            UtilisateurEntity entiteEnBase = jpaRepository.findById(utilisateur.getIdUtilisateur())
+                    .orElseThrow(() -> new RuntimeException("Erreur: Utilisateur introuvable pour la mise à jour"));
+
+            utilisateurMapper.updateEntityFromDomain(utilisateur, entiteEnBase);
+            UtilisateurEntity sauvegarde = jpaRepository.save(entiteEnBase);
+            return utilisateurMapper.toDomain(sauvegarde);
+        }
+        else
+        {
+            UtilisateurEntity entity = utilisateurMapper.toEntity(utilisateur);
+            UtilisateurEntity saved = jpaRepository.save(entity);
+            return utilisateurMapper.toDomain(saved);
+        }
     }
 
     /**

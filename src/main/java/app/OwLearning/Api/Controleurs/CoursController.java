@@ -87,9 +87,9 @@ public class CoursController {
     public ResponseEntity<?> getCoursParId(@PathVariable("idCours") int idCours) {
         try {
             Cours cours = serviceCours.getCoursParId(idCours);
-            return ResponseEntity.ok(cours);
+            return ResponseEntity.ok(this.mapper.toResponse(cours));
         } catch (ExceptionCoursInexistant e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

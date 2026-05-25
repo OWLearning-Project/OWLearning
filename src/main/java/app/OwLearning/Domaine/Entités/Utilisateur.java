@@ -59,4 +59,13 @@ public class Utilisateur
     {
         return "Nom : " + this.nom + ", Prenom : " + this.prenom + ", Email : " + this.email + ", Inscrit le : " + this.dateInscription ;
     }
+
+    public String getRole() {
+        if (this instanceof Eleve) {
+            return "ELEVE";
+        } else if (this instanceof Createur) {
+            return "CREATEUR";
+        }
+        return "USER";
+    }
 }
