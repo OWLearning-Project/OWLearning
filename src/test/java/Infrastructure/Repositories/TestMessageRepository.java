@@ -33,6 +33,12 @@ public class TestMessageRepository extends AbstractRepositoryIntegrationTest
     }
 
     @Test
+    public void retourneNullQuandMessageIntrouvable()
+    {
+        assertThat(messageRepository.trouverParId(999)).isNull();
+    }
+
+    @Test
     public void trouveMessagesParDiscussion()
     {
         int auteurId = insererEleve("auteur-message-discussion");
@@ -45,6 +51,16 @@ public class TestMessageRepository extends AbstractRepositoryIntegrationTest
         assertThat(messages)
                 .extracting(Message::getId_message)
                 .containsExactly(premierMessageId, secondMessageId);
+    }
+
+    @Test
+    public void retourneListeVideQuandDiscussionSansMessage()
+    {
+        int discussionId = insererDiscussion();
+
+        List<Message> messages = messageRepository.trouverParDiscussion(discussionId);
+
+        assertThat(messages).isEmpty();
     }
 
     @Test

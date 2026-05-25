@@ -61,6 +61,16 @@ public class TestCoursRepository extends AbstractRepositoryIntegrationTest
     }
 
     @Test
+    public void retourneListeVideQuandCreateurSansCours()
+    {
+        int createurId = insererCreateur("createur-sans-cours");
+
+        List<Cours> coursDuCreateur = coursRepository.trouverParIdCreateur(createurId);
+
+        assertThat(coursDuCreateur).isEmpty();
+    }
+
+    @Test
     public void trouveCoursParIdEleve()
     {
         int createurId = insererCreateur("cours-eleve-createur");
@@ -75,6 +85,16 @@ public class TestCoursRepository extends AbstractRepositoryIntegrationTest
         assertThat(coursDeLEleve)
                 .extracting(Cours::getId)
                 .containsExactly(coursCibleId);
+    }
+
+    @Test
+    public void retourneListeVideQuandEleveSansInscription()
+    {
+        int eleveId = insererEleve("eleve-sans-inscription");
+
+        List<Cours> coursDeLEleve = coursRepository.trouverParIdEleve(eleveId);
+
+        assertThat(coursDeLEleve).isEmpty();
     }
 
     @Test
@@ -136,5 +156,13 @@ public class TestCoursRepository extends AbstractRepositoryIntegrationTest
         assertThat(coursRepository.coursExiste(coursId)).isFalse();
         assertThatThrownBy(() -> coursRepository.trouverParId(coursId))
                 .isInstanceOf(ExceptionCoursInexistant.class);
+    }
+
+    @Test
+    public void retourneNullQuandSuppressionCoursIntrouvable()
+    {
+        Cours coursSupprime = coursRepository.supprimerCours(999);
+
+        assertThat(coursSupprime).isNull();
     }
 }

@@ -41,6 +41,12 @@ public class TestChapitreRepository extends AbstractRepositoryIntegrationTest
     }
 
     @Test
+    public void retourneNullQuandChapitreIntrouvable()
+    {
+        assertThat(chapitreRepository.trouverParId(999)).isNull();
+    }
+
+    @Test
     public void creeChapitre()
     {
         Chapitre chapitre = new Chapitre("Chapitre TEST", "Description TEST", new ArrayList<>());
@@ -85,5 +91,19 @@ public class TestChapitreRepository extends AbstractRepositoryIntegrationTest
 
         assertThat(chapitreSupprime.getId()).isEqualTo(chapitreId);
         assertThat(chapitreRepository.existe(chapitreId)).isFalse();
+    }
+
+    @Test
+    public void retourneNullQuandSuppressionChapitreIntrouvable()
+    {
+        Chapitre chapitreSupprime = chapitreRepository.supprimerParId(999);
+
+        assertThat(chapitreSupprime).isNull();
+    }
+
+    @Test
+    public void retourneFalseQuandChapitreInexistant()
+    {
+        assertThat(chapitreRepository.existe(8)).isFalse();
     }
 }

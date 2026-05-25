@@ -27,6 +27,12 @@ public class TestRessourceRepository extends AbstractRepositoryIntegrationTest
     }
 
     @Test
+    public void retourneNullQuandRessourceIntrouvableParId()
+    {
+        assertThat(ressourceRepository.trouverParId(999)).isNull();
+    }
+
+    @Test
     public void trouveRessourceParUrl()
     {
         int ressourceId = insererRessource("Document infra", TypeRessource.FICHIER_PDF);
@@ -34,6 +40,12 @@ public class TestRessourceRepository extends AbstractRepositoryIntegrationTest
         Ressource parUrl = ressourceRepository.findByUrl("https://test.local/ressource-" + ressourceId);
 
         assertThat(parUrl.getId_ressource()).isEqualTo(ressourceId);
+    }
+
+    @Test
+    public void retourneNullQuandRessourceIntrouvableParUrl()
+    {
+        assertThat(ressourceRepository.findByUrl("https://test.local/introuvable")).isNull();
     }
 
     @Test

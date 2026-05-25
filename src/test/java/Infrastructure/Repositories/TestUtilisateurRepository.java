@@ -31,6 +31,12 @@ public class TestUtilisateurRepository extends AbstractRepositoryIntegrationTest
     }
 
     @Test
+    public void retourneNullQuandEmailIntrouvable()
+    {
+        assertThat(utilisateurRepository.trouverParEmail("introuvable@test.local")).isNull();
+    }
+
+    @Test
     public void sauvegardeUtilisateur()
     {
         String email = "test-utilisateur-" + System.nanoTime() + "@test.local";

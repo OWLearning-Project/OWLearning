@@ -3,6 +3,7 @@ package Infrastructure.Repositories;
 import app.OwLearning.Domaine.Entités.Discussion;
 import app.OwLearning.Domaine.Entités.Message;
 import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Exceptions.ExceptionDiscussionInexistante;
 import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import app.OwLearning.Infrastructure.Repositories.DiscussionRepository;
 import app.OwLearning.Infrastructure.Repositories.UtilisateurRepository;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TestDiscussionRepository extends AbstractRepositoryIntegrationTest
 {
@@ -48,6 +50,21 @@ public class TestDiscussionRepository extends AbstractRepositoryIntegrationTest
                 .extracting(Message::getContenu)
                 .containsExactly("Message discussion");
         assertThat(discussion.getMessages().get(0).getDiscussion()).isSameAs(discussion);
+    }
+
+    @Test
+    public void leveExceptionQuandDiscussionIntrouvable()
+    {
+        assertThatThrownBy(() -> discussionRepository.trouverDiscussionParId(999))
+                .isInstanceOf(ExceptionDiscussionInexistante.class);
+    }
+
+    @Test
+    public void retourneListeVideQuandUtilisateurSansDiscussion()
+    {
+        int utilisateurId = insererEleve("utilisateur-sans-discussion");
+
+        assertThat(discussionRepository.trouverDiscussionsParUtilisateurId(utilisateurId)).isEmpty();
     }
 
     @Test
