@@ -1,27 +1,25 @@
 package app.OwLearning.Api.DTO.response;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
 /**
- * DTO de réponse représentant un utilisateur authentifié
+ * DTO de réponse pour afficher le profil d'un utilisateur.
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class UtilisateurResponse
 {
-    private final int id;
-    private final String email;
-    private final String role;
-
-    public UtilisateurResponse(int id,
-                               String email,
-                               String role)
-    {
-        this.id = id;
-        this.email = email;
-        this.role = role;
-    }
-
-
+    private int id;
+    private String nom;
+    private String prenom;
+    private String pseudo;
+    private String email;
+    private String role;
+    private Timestamp dateInscription;
+    private Timestamp derniereActivite;
 }

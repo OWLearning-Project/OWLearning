@@ -34,7 +34,7 @@ public class UtilisateurController {
     }
 
     @PutMapping("/edit_profil")
-    public ResponseEntity<UtilisateurResponse> modifierProfil(@AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO, @RequestParam String pseudo, @RequestParam String email,
+    public ResponseEntity<UtilisateurResponse> modifierProfil(@AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO, @RequestParam(required = false) String pseudo, @RequestParam String email,
                                                               @RequestParam(required = false) Integer age, @RequestParam(required = false) String niveauEtude)
     {
         Utilisateur utilisateur = serviceUtilisateur.modifierProfil(utilisateurAuthentifieDTO.getId(), pseudo, email, age, niveauEtude);
