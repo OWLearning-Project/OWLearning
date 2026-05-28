@@ -22,6 +22,7 @@ public class RessourceController {
         this.mapper = mapper;
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping
     public ResponseEntity<RessourceResponse> creerRessource(@RequestBody RessourceRequest ressourceDTO){
         Ressource ressource = this.serviceRessource.creeRessource(ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
@@ -35,12 +36,14 @@ public class RessourceController {
         return ResponseEntity.ok(this.mapper.toResponse(ressource));
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idRessource}")
     public ResponseEntity<String> modifierRessource(@PathVariable("idRessource") int idRessource, @RequestBody RessourceRequest ressourceDTO){
         this.serviceRessource.modifier(idRessource,ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
         return  ResponseEntity.ok().body("La ressource a été modifiée avec succès");
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idRessource}")
     public ResponseEntity<RessourceResponse> supprimerRessource(@PathVariable("idRessource") int idRessource){
         Ressource ressource = this.serviceRessource.supprimerRessource(idRessource);

@@ -1,6 +1,6 @@
 package Api.Controleurs;
 
-import Infrastructure.Repositories.AbstractRepositoryIntegrationTest;
+import Integration.AbstractIntegrationTest;
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
 import app.OwLearning.Main;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class TestUtilisateurController extends AbstractRepositoryIntegrationTest
+public class TestUtilisateurController extends AbstractIntegrationTest
 {
     @Autowired
     private MockMvc mockMvc;
@@ -90,9 +90,12 @@ public class TestUtilisateurController extends AbstractRepositoryIntegrationTest
                 .andExpect(jsonPath("$.id").value(utilisateurId))
                 .andExpect(jsonPath("$.email").value("nouveau@email.com"));
 
+        synchroniserPersistenceContext();
 
         Map<String, Object> dataEnBase = jdbcTemplate.queryForMap(
-                "SELECT pseudo, email, age, niveau_etude FROM utilisateur WHERE id_utilisateur = ?",
+                "SELECT u.pseudo, u.email, e.age, e.niveau_etude " +
+                        "FROM utilisateur u JOIN eleve e ON e.id_utilisateur = u.id_utilisateur " +
+                        "WHERE u.id_utilisateur = ?",
                 utilisateurId
         );
 

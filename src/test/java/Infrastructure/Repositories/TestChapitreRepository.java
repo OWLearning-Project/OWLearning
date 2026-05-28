@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Chapitre;
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Domaine.Enumérations.TypeRessource;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestChapitreRepository extends AbstractRepositoryIntegrationTest
+public class TestChapitreRepository extends AbstractIntegrationTest
 {
     @Autowired
     private ChapitreRepository chapitreRepository;

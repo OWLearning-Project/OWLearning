@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Message;
 import app.OwLearning.Infrastructure.Repositories.MessageRepository;
 import app.OwLearning.Infrastructure.Repositories.UtilisateurRepository;
@@ -10,7 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestMessageRepository extends AbstractRepositoryIntegrationTest
+public class TestMessageRepository extends AbstractIntegrationTest
 {
     @Autowired
     private MessageRepository messageRepository;

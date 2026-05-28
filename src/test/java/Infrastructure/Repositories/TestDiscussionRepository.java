@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Discussion;
 import app.OwLearning.Domaine.Entités.Message;
 import app.OwLearning.Domaine.Entités.Utilisateur;
@@ -13,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TestDiscussionRepository extends AbstractRepositoryIntegrationTest
+public class TestDiscussionRepository extends AbstractIntegrationTest
 {
     @Autowired
     private DiscussionRepository discussionRepository;

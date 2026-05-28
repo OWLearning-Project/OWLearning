@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Chapitre;
 import app.OwLearning.Domaine.Entités.ChapitreTermine;
 import app.OwLearning.Infrastructure.Repositories.ChapitreRepository;
@@ -9,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestChapitreTermineRepository extends AbstractRepositoryIntegrationTest
+public class TestChapitreTermineRepository extends AbstractIntegrationTest
 {
     @Autowired
     private ChapitreTermineRepository chapitreTermineRepository;

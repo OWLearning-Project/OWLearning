@@ -5,6 +5,7 @@ import app.OwLearning.Domaine.Enumérations.Difficulte;
 import app.OwLearning.Domaine.Entités.*;
 import app.OwLearning.Domaine.Interfaces.ICoursRepository;
 import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
+import app.OwLearning.Infrastructure.Entités.ChapitreEntity;
 import app.OwLearning.Infrastructure.Entités.CoursEntity;
 import app.OwLearning.Infrastructure.Bdd.JpaCoursRepository;
 import app.OwLearning.Infrastructure.Mapper.CoursMapper;
@@ -159,10 +160,12 @@ public class CoursRepository implements ICoursRepository
 
         if (entity.getChapitres() != null)
         {
-            for(int i = 0; i < cours.getChapitres().size(); i++)
+            List<ChapitreEntity> chapitres = entity.getChapitres();
+
+            for (int i = 0; i < chapitres.size(); i++)
             {
-                Chapitre chapitre = cours.getChapitres().get(i);
-                chapitre.setCours(cours);
+                ChapitreEntity chapitre = chapitres.get(i);
+                chapitre.setCours(entity);
             }
         }
         this.jpaRepository.save(entity);

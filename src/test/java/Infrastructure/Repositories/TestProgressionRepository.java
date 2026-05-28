@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Progression;
 import app.OwLearning.Infrastructure.Repositories.ProgressionRepository;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestProgressionRepository extends AbstractRepositoryIntegrationTest
+public class TestProgressionRepository extends AbstractIntegrationTest
 {
     @Autowired
     private ProgressionRepository progressionRepository;

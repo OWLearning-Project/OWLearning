@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Infrastructure.Repositories.UtilisateurRepository;
 import org.junit.jupiter.api.Test;
@@ -7,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestUtilisateurRepository extends AbstractRepositoryIntegrationTest
+public class TestUtilisateurRepository extends AbstractIntegrationTest
 {
     @Autowired
     private UtilisateurRepository utilisateurRepository;

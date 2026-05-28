@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Domaine.Enumérations.TypeRessource;
 import app.OwLearning.Infrastructure.Repositories.RessourceRepository;
@@ -8,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestRessourceRepository extends AbstractRepositoryIntegrationTest
+public class TestRessourceRepository extends AbstractIntegrationTest
 {
     @Autowired
     private RessourceRepository ressourceRepository;

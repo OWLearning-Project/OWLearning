@@ -1,5 +1,6 @@
-package Infrastructure.Repositories;
+package Integration;
 
+import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
 import app.OwLearning.Domaine.Enumérations.Difficulte;
 import app.OwLearning.Domaine.Enumérations.TypeRessource;
 import app.OwLearning.Main;
@@ -9,17 +10,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.List;
 
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest(classes = Main.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public abstract class AbstractRepositoryIntegrationTest
+public abstract class AbstractIntegrationTest
 {
     @Autowired
     protected JdbcTemplate jdbcTemplate;
@@ -31,6 +35,21 @@ public abstract class AbstractRepositoryIntegrationTest
     {
         entityManager.flush();
         entityManager.clear();
+    }
+
+    protected UsernamePasswordAuthenticationToken authentification(int idUtilisateur, String email, String role)
+    {
+        UtilisateurAuthentifieRequest principal = new UtilisateurAuthentifieRequest(idUtilisateur, email, role);
+        return new UsernamePasswordAuthenticationToken(
+                principal,
+                null,
+                List.of(new SimpleGrantedAuthority(role.toUpperCase()))
+        );
+    }
+
+    protected UsernamePasswordAuthenticationToken authentification(int idUtilisateur, String role)
+    {
+        return authentification(idUtilisateur, role.toLowerCase() + "-" + idUtilisateur + "@test.local", role);
     }
 
     protected int insererUtilisateur(String prefixeEmail)
@@ -157,5 +176,39 @@ public abstract class AbstractRepositoryIntegrationTest
             return ps;
         }, keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    protected void inscrireEleveAuCours(int eleveId, int coursId)
+    {
+        jdbcTemplate.update("INSERT INTO inscription (id_eleve, id_cours) VALUES (?, ?)", eleveId, coursId);
+    }
+
+    protected void lierRessourceAChapitre(int chapitreId, int ressourceId)
+    {
+        jdbcTemplate.update("INSERT INTO ressource_chapitre (id_chapitre, id_ressource) VALUES (?, ?)", chapitreId, ressourceId);
+    }
+
+    protected void ajouterParticipantDiscussion(int utilisateurId, int discussionId)
+    {
+        jdbcTemplate.update(
+                "INSERT INTO participation_discussion (id_utilisateur, id_discussion) VALUES (?, ?)",
+                utilisateurId,
+                discussionId
+        );
+    }
+
+    protected void lierRessourceAMessage(int messageId, int ressourceId)
+    {
+        jdbcTemplate.update("INSERT INTO piece_jointe (id_message, id_ressource) VALUES (?, ?)", messageId, ressourceId);
+    }
+
+    protected void insererProgression(int coursId, int eleveId, float tauxProgression)
+    {
+        jdbcTemplate.update(
+                "INSERT INTO progression (id_cours, id_eleve, taux_progression) VALUES (?, ?, ?)",
+                coursId,
+                eleveId,
+                tauxProgression
+        );
     }
 }

@@ -1,5 +1,7 @@
 package Infrastructure.Repositories;
 
+import Integration.AbstractIntegrationTest;
+
 import app.OwLearning.Domaine.Entités.Createur;
 import app.OwLearning.Domaine.Entités.Cours;
 import app.OwLearning.Domaine.Enumérations.Difficulte;
@@ -14,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TestCoursRepository extends AbstractRepositoryIntegrationTest
+public class TestCoursRepository extends AbstractIntegrationTest
 {
     @Autowired
     private CoursRepository coursRepository;

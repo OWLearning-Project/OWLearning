@@ -41,12 +41,14 @@ public class ChapitreController {
         return ResponseEntity.ok(this.chapitreMapper.toResponse(chapitre));
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idChapitre}")
     public ResponseEntity<Void> modifierChapitre(@PathVariable("idChapitre") int idChapitre, @RequestBody ChapitreRequest chapitreDTO){
         this.serviceChapitre.modifier(idChapitre, chapitreDTO.getTitre(), chapitreDTO.getDescription());
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idChapitre}/ressources")
     public ResponseEntity<?> ajouterRessource(
             @PathVariable("idChapitre") int idChapitre,
@@ -56,6 +58,7 @@ public class ChapitreController {
         return ResponseEntity.status(HttpStatus.CREATED).body("La ressource a été ajoutée");
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idChapitre}/ressources/{idRessource}")
     public ResponseEntity<RessourceResponse> retirerRessource(
             @PathVariable("idChapitre") int idChapitre,
