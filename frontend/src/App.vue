@@ -19,7 +19,10 @@
 </script>
 
 <style>
-  body {
+  html, body {
+
+    overscroll-behavior: none;
+    
     margin: 0;
     font-family: 'Roboto', Arial, sans-serif;
     background-color: #f5f5f5; 
