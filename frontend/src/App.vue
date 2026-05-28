@@ -1,33 +1,27 @@
 <template>
-  <div id="app">
+  <div class="min-vh-100 d-flex flex-column bg-light">
+
     <MenuPrincipal v-if="!$route.meta.cacheMenu" />
-    <main class="contenu-principal">
+
+    <main class="flex-grow-1 d-flex flex-column">
       <router-view />
     </main>
+
+
+    <AppFooter />
+
   </div>
 </template>
 
 <script setup>
-import MenuPrincipal from './components/MenuPrincipal.vue';
-
+  import MenuPrincipal from './components/MenuPrincipal.vue';
+  import AppFooter from './components/Footer.vue';
 </script>
 
 <style>
-body {
-  margin: 0;
-  font-family: 'Roboto', Arial, sans-serif;
-  background-color: #f5f5f5; 
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.contenu-principal {
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-}
+  body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f5f5f5; 
+  }
 </style>

@@ -1,39 +1,46 @@
 <template>
-    <div class="layout-connexion">
-        <header class="bandeau-marron">
-        <div class="logo-container">
-            <div id="logo-icon">Logo</div>
-            <h1 id="logo-text">OWLearning</h1>
-        </div>
+    <BContainer fluid class="vh-100 d-flex flex-column p-0 bg-light">
+        <header class="p-2 text-white d-flex align-items-center shadow-sm" style="background-color: #a17c5b;">
+            <img src="../assets/OwleEcharpe.svg" alt="Logo" width="70" height="70" class="fs-4 me-2" />
+            <h1 class="m-0 fs-4 fw-bold">OWLearning</h1>
         </header>
 
-        <div class="page-centree">
-            <div class="connexion-card">
-                <h1 class="logo">OWLearning</h1>
-                <form @submit.prevent="seConnecter" class="formulaire">
-                    <div class="champs-texte">
-                        <label for="identifiant">
-                            Identifiant étudiant :
-                        </label>
-                        <input type="text" id="identifiant" v-model="identifiant" />
+        <BContainer class="flex-grow-1 flex-column d-flex align-items-center mt-5">
+
+            <h1 class="m-3 p-5 text-center fw-bold" style="color:#4a2c59">Bienvenue sur OWLearning !</h1>
+
+            <BCard class="shadow w-100 border-0" style="max-width: 500px; border-radius: 16px;">
+
+                <BForm @submit.prevent="seConnecter" class="p-3">
+
+                    <BFormGroup label="Identifiant étudiant :" label-for="identifiant" class="mb-4 fw-bold">
+                        <BFormInput id="identifiant" v-model="identifiant" size="lg"></BFormInput>
+                    </BFormGroup>
+
+                    <BFormGroup label="Mot de passe :" label-for="motdepasse" class="mb-4 fw-bold">
+                        <BFormInput id="motdepasse" v-model="motDePasse" size="lg"></BFormInput>
+                    </BFormGroup>
+
+                    <div class="d-grid gap-3 mt-4">
+
+                        <BButton type="submit" size="lg" style="background-color: #f6c05d; color: black; border: none;" class="fw-bold">
+                            Connexion
+                        </BButton>
+
+                        <BButton @click="inscription" variant="outline-dark" size="lg" class="fw-bold">
+                            Créer un compte
+                        </BButton>
+
                     </div>
 
-                    <div class="champs-texte">
-                        <label for="motdepasse">
-                            Mot de passe :
-                        </label>
-                        <input type="password" id="motdepasse" v-model="motDePasse" />
-                    </div>
+                </BForm>
 
-                    <button type="submit" class="btn-primary">
-                        Connexion
-                    </button>
-                </form>
+            </BCard>
 
-                <button @click="inscription" class="btn-secondary">Créer un compte</button>
-            </div>
-        </div>
-    </div>
+        </BContainer>
+
+    </BContainer>
+
 </template>
 
 <script setup>
@@ -57,122 +64,4 @@
 </script>
 
 <style lang="css" scoped>
-
-    .layout-connexion {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        width: 100%;
-    }
-
-    .bandeau-marron {
-        background-color: #a17c5b; 
-        color: white;
-        padding: 1rem 4rem; 
-        display: flex;
-        align-items: center;
-    }
-
-    .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-
-    #logo-icon {
-        font-size: 1.5rem;
-    }
-
-    #logo-text {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0;
-    }
-
-    .page-centree {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex: 1;
-        padding: 2rem;
-    }
-
-    .connexion-card {
-        background-color: white;
-        padding: 3rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        width: 100%;
-        max-width: 500px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .logo {
-      text-align: center;
-      color: #000;
-      font-size: 24px;
-      margin-top: 0;
-      margin-bottom: 2rem;
-    }
-
-    .formulaire {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .champs-texte {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 1rem;
-    }
-
-    .champs-texte label {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #333;
-    }
-
-    .champs-texte input {
-      padding: 0.8rem;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .champs-texte input:focus {
-      border-color: #f6c05d;
-    }
-
-    .btn-primary {
-      background-color: #f6c05d;
-      color: #000;
-      border: none;
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 3rem;
-    }
-
-    .btn-primary:hover {
-      background-color: #e5b04b;
-    }
-
-    .btn-secondary {
-      background-color: white;
-      color: #000;
-      border: 1px solid #000;
-      padding: 1rem;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .btn-secondary:hover {
-      background-color: #f9f9f9;
-    }
 </style>
