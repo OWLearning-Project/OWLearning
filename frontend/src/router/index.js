@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import PageConnexion from '@/views/PageConnexion.vue'
 import PageAccueil from '@/views/PageAccueil.vue'
 import PageInscription from '@/views/PageInscription.vue'
+import PageCatalogue from '@/views/PageCatalogue.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,12 @@ const router = createRouter({
       name: 'inscription',
       component: PageInscription,
       meta: { cacheMenu: true }
+    },
+    {
+      path: '/catalogue',
+      name: 'catalogue',
+      component: PageCatalogue,
+      meta: { requiresAuth: true }
     }
   ],
 })

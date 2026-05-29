@@ -70,7 +70,7 @@
 <script setup>
     import {ref} from 'vue';
     import { useRouter } from 'vue-router';
-    import axio from 'axios';
+    import axios from 'axios';
 
     const router = useRouter();
 
@@ -86,7 +86,7 @@
         messageErreur.value = '';
         console.log("Tentative de connexion avec : ", email.value);
         try {
-            const reponse = await axio.post('http://localhost:8080/api/authentification/connexion', {
+            const reponse = await axios.post('http://localhost:8080/api/authentification/connexion', {
                 email: email.value,
                 motDePasse: motDePasse.value
             });

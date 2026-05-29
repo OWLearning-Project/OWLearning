@@ -16,7 +16,7 @@
                 <BNavItem to="/messages" exact-active-class="lien-actif">Messages</BNavItem>
 
                 <BNavItemDropdown text="Mes cours" no-caret>
-                    <BDropdownItem href="#">Liste des cours</BDropdownItem>
+                    <BDropdownItem href="/catalogue">Liste des cours</BDropdownItem>
                     <BDropdownItem href="#">Mes cours inscrits</BDropdownItem>
                 </BNavItemDropdown>
 
