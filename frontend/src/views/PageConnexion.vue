@@ -11,6 +11,9 @@
 
             <BCard class="shadow w-100 border-0" style="max-width: 500px; border-radius: 16px;">
 
+                <BAlert v-if="messageErreur !== ''" variant="danger" show class="m-3 text-center shadow border-0" style="border-radius: 16px;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ messageErreur }}
+                </BAlert>
                 <BForm @submit.prevent="seConnecter" class="p-3">
 
                     <BFormGroup class="mb-4 fw-bold">
@@ -33,7 +36,14 @@
                     <div class="d-grid gap-3 mt-4">
 
                         <BButton type="submit" size="lg" style="background-color: #f6c05d; color: black; border: none;" class="fw-bold">
-                            Connexion
+                            <template v-if="chargement">
+                                <BSpinner small class="me-2"></BSpinner>
+                                Connexion en cours...
+                            </template>
+
+                            <template v-else >
+                                Connexion
+                            </template>
                         </BButton>
 
                         <hr>
@@ -60,19 +70,44 @@
 <script setup>
     import {ref} from 'vue';
     import { useRouter } from 'vue-router';
+    import axio from 'axios';
 
     const router = useRouter();
 
     const email = ref('');
     const motDePasse = ref('');
     const voirMotDePasse = ref(false);
+    const chargement = ref(false);
 
-    const seConnecter = () => {
-        console.log("Connexion avec : ", email.value);
-        //appel api
+    const messageErreur = ref('');
+
+    async function seConnecter () {
+        chargement.value = true;
+        messageErreur.value = '';
+        console.log("Tentative de connexion avec : ", email.value);
+        try {
+            const reponse = await axio.post('http://localhost:8080/api/authentification/connexion', {
+                email: email.value,
+                motDePasse: motDePasse.value
+            });
+
+            const tokenJwt = reponse.data;
+            localStorage.setItem('token', tokenJwt);
+
+            console.log("Connexion réussie");
+            router.push('/');
+        }
+        catch (erreur) {
+            if (erreur.response && erreur.response.status === 401) { messageErreur.value = "Email ou mot de passe incorrect"; }
+            else { messageErreur.value = "Une erreur est survenue durant la connexion"; }
+            console.error("Erreur de connexion :", erreur);
+        }
+        finally {
+            chargement.value = false;
+        }
     }
 
-    const inscription = () => {
+    function inscription () {
         console.log("Redirection vers la page d'inscription")
         router.push('/inscription');
     }

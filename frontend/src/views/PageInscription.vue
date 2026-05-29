@@ -97,12 +97,12 @@
     const voirMotDePasse = ref(false);
     const voirConfirmation = ref(false);
 
-    const connexion = () => {
+    function connexion () {
         console.log("Redirection vers la page d'inscription");
         router.push('/connexion');
     }
 
-    const inscription = () => {
+    function inscription () {
         console.log("Inscription en cours...");
     }
 </script>{}

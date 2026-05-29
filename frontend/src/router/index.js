@@ -15,7 +15,8 @@ const router = createRouter({
     {
       path: '/',
       name: 'accueil',
-      component: PageAccueil
+      component: PageAccueil,
+      meta: { requiresAuth: true }
     },
     {
       path: '/inscription',
@@ -24,6 +25,20 @@ const router = createRouter({
       meta: { cacheMenu: true }
     }
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if(to.meta.requiresAuth && !token) {
+    next('/connexion');
+  }
+  else if ((to.name === 'connexion' || to.name === 'inscription') && token) {
+    next('/');
+  }
+  else {
+    next();
+  }
 })
 
 export default router

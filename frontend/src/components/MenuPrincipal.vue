@@ -59,7 +59,8 @@
 
     const seDeconnecter = () => {
         console.log("Déconnexion...")
-        // router.push('/connexion')
+        localStorage.removeItem('token');
+        router.push('/connexion');
     }
 </script>
 
