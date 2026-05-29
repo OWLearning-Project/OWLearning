@@ -27,15 +27,6 @@ public class ConfigSecurite
     {
         this.jwtFilter = jwtFilter;
     }
-    /**
-     * Définit Bcrypt comme algorithme de hachage.
-     * @return PasswordEncoder
-     */
-    @Bean
-    public PasswordEncoder mdpEncoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
 
     /**
      *
