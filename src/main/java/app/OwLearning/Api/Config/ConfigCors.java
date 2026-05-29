@@ -1,4 +1,4 @@
-package app.OwLearning.Infrastructure.Config;
+package app.OwLearning.Api.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

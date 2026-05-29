@@ -1,7 +1,6 @@
-package app.OwLearning.Infrastructure.Config;
+package app.OwLearning.Api.Config;
 
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
-import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Infrastructure.ServicesExternes.ServiceTokenJWT;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
