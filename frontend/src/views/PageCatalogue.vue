@@ -7,7 +7,7 @@
                 <hr class="w-25 mx-auto mb-2" style="border-color: #a17c5b; border-width: 3px; opacity: 1;">
             </BNavbarBrand>
         </BNavbar>
-        
+
 
         <BRow>
         <BCol lg="3" md="4" class="mb-4">
@@ -15,7 +15,7 @@
                     <h5 class="fw-bold mb-4" style="color: #4a2c59;">
                         <i class="bi bi-funnel-fill me-2"></i>Filtres
                     </h5>
-                    
+
                     <div class="mb-3">
                         <label class="form-label fw-bold small text-muted">Rechercher un cours</label>
                         <BFormInput v-model="recherche" placeholder="Ex: Java..." class="rounded-pill px-3"></BFormInput>
@@ -31,17 +31,17 @@
                     <div class="mb-2" v-if="categoriesPossibles.length > 0">
                         <label class="form-label fw-bold small text-muted mb-3">Catégories</label>
                         <BFormCheckboxGroup v-model="categories" :options="categoriesPossibles" stacked class="checkboxes-custom"></BFormCheckboxGroup>
-                    </div> 
+                    </div>
 
                 </BCard>
         </BCol>
-        
+
         <BCol lg="9" md="8">
-                
+
                 <div v-if="chargement" class="text-center my-5">
                     <BSpinner style="width: 3rem; height: 3rem; color: #a17c5b;" label="Chargement..."></BSpinner>
                 </div>
-                
+
                 <BAlert v-else-if="erreur !== ''" variant="danger" show>
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ erreur }}
                 </BAlert>
@@ -53,7 +53,7 @@
                 <div v-else>
                     <BRow class="g-4">
                         <BCol cols="12" md="6" lg="4" v-for="cours in coursAffiches" :key="cours.id">
-                            
+
                             <BCard class="h-100 shadow-sm carte-cours border-0" no-body>
                                 <div class="bandeau-deco"></div>
                                     <BCardBody class="d-flex flex-column">
@@ -110,8 +110,6 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-    const router = useRouter();
-
     const lesCours = ref([]);
     const chargement = ref(true);
     const erreur = ref('');
@@ -141,20 +139,20 @@ import { useRouter } from 'vue-router';
     })
 
     const coursAffiches = computed(() => {
-        const debut = (pageCourante.value - 1) * coursParPage.value; 
-        const fin = debut + coursParPage.value; 
-        return coursFiltres.value.slice(debut, fin); 
+        const debut = (pageCourante.value - 1) * coursParPage.value;
+        const fin = debut + coursParPage.value;
+        return coursFiltres.value.slice(debut, fin);
     });
 
     const coursFiltres = computed(() => {
         pageCourante.value = 1;
 
-        return lesCours.value.filter(cours => { 
+        return lesCours.value.filter(cours => {
 
             const texte = recherche.value.toLowerCase();
             const texteValide = !recherche.value ||
-                                cours.titre.toLowerCase().includes(texte) || 
-                                cours.createur.nom.toLowerCase().includes(texte) || 
+                                cours.titre.toLowerCase().includes(texte) ||
+                                cours.createur.nom.toLowerCase().includes(texte) ||
                                 cours.createur.prenom.toLowerCase().includes(texte);
 
             const difficulte = cours.difficulte.toUpperCase();
@@ -190,7 +188,7 @@ import { useRouter } from 'vue-router';
             chargement.value = false;
         }
     }
-    
+
     function formaterDate (dateBrute) {
         if (!dateBrute) return '';
         const date = new Date(dateBrute);
@@ -216,8 +214,8 @@ import { useRouter } from 'vue-router';
     }
 
     .carte-cours:hover {
-        transform: translateY(-5px); 
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; 
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     }
 
     .bandeau-deco {
@@ -226,17 +224,17 @@ import { useRouter } from 'vue-router';
     }
 
     .badge-debutant {
-        background-color: #e2f0e5 !important; 
-        color: #2d6a4f !important; 
+        background-color: #e2f0e5 !important;
+        color: #2d6a4f !important;
     }
 
     .badge-intermediaire {
-        background-color: #fff3cd !important; 
-        color: #856404 !important; 
+        background-color: #fff3cd !important;
+        color: #856404 !important;
     }
 
     .badge-avance {
-        background-color: #fad2e1 !important; 
+        background-color: #fad2e1 !important;
         color: #842047 !important;
     }
 
@@ -246,23 +244,23 @@ import { useRouter } from 'vue-router';
     }
 
     .badge-categorie {
-        background-color: rgba(74, 44, 89, 0.1) !important; 
-        color: #4A2C59 !important; 
+        background-color: rgba(74, 44, 89, 0.1) !important;
+        color: #4A2C59 !important;
         font-weight: 600;
     }
 
     .bouton-cours {
         background-color: #4A2C59 !important;
         border: 2px solid #4A2C59 !important;
-        color: white !important; 
-        transition: all 0.3s ease; 
+        color: white !important;
+        transition: all 0.3s ease;
     }
 
     .bouton-cours:hover {
-        background-color: #B8A854 !important; 
-        border-color: #B8A854 !important; 
-        color: #4A2C59 !important; 
-        transform: scale(1.02); 
+        background-color: #B8A854 !important;
+        border-color: #B8A854 !important;
+        color: #4A2C59 !important;
+        transform: scale(1.02);
     }
 
     .pagination {

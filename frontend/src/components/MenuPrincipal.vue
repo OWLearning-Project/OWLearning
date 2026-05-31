@@ -1,6 +1,6 @@
 <template>
     <BNavbar sticky="top" toggleable="lg" type="dark" style="background-color: #a17c5b;" class="px-4 shadow-sm">
-        
+
         <BNavbarToggle target="nav-collapse" style="color: white;"></BNavbarToggle>
 
         <BNavbarBrand href="/" class="brand-logo d-flex align-items-center gap-2 fw-bold m-0 text-white" style="z-index: 10;">
@@ -17,13 +17,14 @@
 
                 <BNavItemDropdown text="Mes cours" no-caret>
                     <BDropdownItem href="/catalogue">Liste des cours</BDropdownItem>
-                    <BDropdownItem href="#">Mes cours inscrits</BDropdownItem>
+                    <BDropdownItem v-if="roleUtilisateur === 'eleve'" href="/mes-cours-inscrits">Mes cours inscrits</BDropdownItem>
+                    <BDropdownItem v-if="roleUtilisateur === 'createur'" href="#">Gérer mes cours</BDropdownItem>
                 </BNavItemDropdown>
 
             </BNavbarNav>
 
             <BNavbarNav class="align-items-center gap-3 ms-auto mt-3 mt-lg-0">
-                
+
                 <BNavItem href="#">
                     <i class="bi bi-gear custom-icon"></i>
                 </BNavItem>
@@ -47,20 +48,39 @@
             </BNavbarNav>
 
         </BCollapse>
-        
+
     </BNavbar>
 </template>
 
 <script setup>
-    import { BCollapse, BDropdown, BDropdownItem, BNavbar, BNavbarBrand, BNavbarToggle, BNavItemDropdown } from 'bootstrap-vue-next';
+    import { BCollapse, BDropdownItem, BNavbar, BNavbarBrand, BNavbarToggle, BNavItemDropdown } from 'bootstrap-vue-next';
     import { useRouter } from 'vue-router'
+    import {ref, onMounted } from 'vue';
 
     const router = useRouter()
+    const roleUtilisateur = ref('');
 
-    const seDeconnecter = () => {
+    onMounted(() => {
+      roleUtilisateur.value = getRoleUtilisateur();
+    })
+
+    function seDeconnecter () {
         console.log("Déconnexion...")
         localStorage.removeItem('token');
         router.push('/connexion');
+    }
+
+    function getRoleUtilisateur() {
+      const token = localStorage.getItem('token');
+      if(!token) { return null; }
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        return payload.role;
+      }
+      catch(e){
+        console.error("Token invalide", e);
+        return null;
+      }
     }
 </script>
 
@@ -93,7 +113,7 @@
     }
 
     :deep(.custom-links .nav-link:hover) {
-        opacity: 0.8; 
+        opacity: 0.8;
     }
 
     .custom-icon {

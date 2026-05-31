@@ -3,6 +3,7 @@ import PageConnexion from '@/views/PageConnexion.vue'
 import PageAccueil from '@/views/PageAccueil.vue'
 import PageInscription from '@/views/PageInscription.vue'
 import PageCatalogue from '@/views/PageCatalogue.vue'
+import PageCoursInscrits from '@/views/PageCoursInscrits.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,13 @@ const router = createRouter({
       name: 'catalogue',
       component: PageCatalogue,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/mes-cours-inscrits',
+      name: 'mesCoursInscrits',
+      component: PageCoursInscrits,
+      meta: {requiresAuth: true, roleRequis: 'eleve'}
+
     }
   ],
 })
@@ -37,11 +45,21 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token');
 
+  let role = null;
+  if (token) {
+    try {
+      role = JSON.parse(atob(token.split('.')[1])).role;
+    }
+    catch(e) { /* empty */ }
+  }
   if(to.meta.requiresAuth && !token) {
     next('/connexion');
   }
   else if ((to.name === 'connexion' || to.name === 'inscription') && token) {
     next('/');
+  }
+  else if (to.meta.roleRequis && to.meta.roleRequis !== role) {
+    next('/non-autorise');
   }
   else {
     next();
