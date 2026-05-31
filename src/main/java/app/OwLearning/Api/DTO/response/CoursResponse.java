@@ -2,7 +2,6 @@ package app.OwLearning.Api.DTO.response;
 
 import app.OwLearning.Domaine.Enumérations.Categorie;
 import app.OwLearning.Domaine.Enumérations.Difficulte;
-import app.OwLearning.Domaine.Entités.Eleve;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,9 +19,9 @@ public class CoursResponse {
     private boolean estPublie;
     private Difficulte difficulte;
     private List<Categorie> categories;
-    private UtilisateurAuthentifieResponse createur;
+    private UtilisateurResponse createur;
     private List<ChapitreResponse> chapitres;
-    private List<Eleve> eleves;
+    private List<UtilisateurResponse> eleves;
 
 
     public CoursResponse() {}

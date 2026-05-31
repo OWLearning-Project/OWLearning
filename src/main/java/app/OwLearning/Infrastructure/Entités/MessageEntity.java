@@ -47,12 +47,12 @@ public class MessageEntity
 
     @ManyToOne
     @JoinColumn(name = "id_discussion")
-    @JsonIgnore
+    @Getter(onMethod_ = @JsonIgnore)
     private DiscussionEntity discussion;
 
     @ManyToOne
     @JoinColumn(name = "id_utilisateur")
-    @JsonIgnore
+    @Getter(onMethod_ = @JsonIgnore)
     private UtilisateurEntity utilisateur;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})

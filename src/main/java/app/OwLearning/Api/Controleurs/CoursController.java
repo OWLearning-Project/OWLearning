@@ -5,8 +5,8 @@ import app.OwLearning.Api.DTO.request.CoursCreationRequest;
 import app.OwLearning.Api.DTO.request.CoursModificationRequest;
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
 import app.OwLearning.Api.DTO.response.CoursResponse;
-import app.OwLearning.Services.Mapper.ChapitreDTOMapper;
-import app.OwLearning.Services.Mapper.CoursDTOMapper;
+import app.OwLearning.Api.Mapper.ChapitreDTOMapper;
+import app.OwLearning.Api.Mapper.CoursDTOMapper;
 import app.OwLearning.Domaine.Enumérations.Categorie;
 import app.OwLearning.Domaine.Entités.Chapitre;
 import app.OwLearning.Services.Interfaces.IServiceCours;
@@ -50,7 +50,7 @@ public class CoursController {
     @GetMapping
     public ResponseEntity<List<CoursResponse>> getCoursPublies()
     {
-        return ResponseEntity.ok(this.mapper.toResponseList(serviceCours.getCoursPublies()));
+        return ResponseEntity.ok(this.mapper.toResponseListSansChapitres(serviceCours.getCoursPublies()));
     }
 
     /**
@@ -87,9 +87,9 @@ public class CoursController {
     public ResponseEntity<?> getCoursParId(@PathVariable("idCours") int idCours) {
         try {
             Cours cours = serviceCours.getCoursParId(idCours);
-            return ResponseEntity.ok(cours);
+            return ResponseEntity.ok(this.mapper.toResponse(cours));
         } catch (ExceptionCoursInexistant e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.toString());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

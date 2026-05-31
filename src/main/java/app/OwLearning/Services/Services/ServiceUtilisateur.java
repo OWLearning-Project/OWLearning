@@ -69,12 +69,9 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
             throw new IllegalStateException("Utilisateur introuvable");
         }
 
-        if (pseudo == null || pseudo.isBlank()) {
-            log.warn("La modification du profil {} a échoué. Le pseudo n'est pas valide.", pseudo);
-            throw new IllegalArgumentException("le pseudo n'est pas valide");
+        if (pseudo != null && !pseudo.isBlank()) {
+            utilisateur.setPseudo(pseudo);
         }
-
-        utilisateur.setPseudo(pseudo);
 
         if (email == null || email.isBlank()) {
             log.warn("La modification du profil {} a échoué. Le email n'est pas valide.", email);

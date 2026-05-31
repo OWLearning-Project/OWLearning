@@ -1,13 +1,12 @@
 package app.OwLearning.Api.Controleurs;
 
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
-import app.OwLearning.Api.DTO.request.UtilisateurConnexionRequest;
 import app.OwLearning.Api.DTO.response.DiscussionResponse;
 import app.OwLearning.Api.DTO.response.MessageResponse;
 import app.OwLearning.Api.DTO.response.RessourceResponse;
-import app.OwLearning.Services.Mapper.DiscussionDTOMapper;
-import app.OwLearning.Services.Mapper.MessageDTOMapper;
-import app.OwLearning.Services.Mapper.RessourceDTOMapper;
+import app.OwLearning.Api.Mapper.DiscussionDTOMapper;
+import app.OwLearning.Api.Mapper.MessageDTOMapper;
+import app.OwLearning.Api.Mapper.RessourceDTOMapper;
 import app.OwLearning.Services.Services.ServiceDiscussion;
 import app.OwLearning.Services.Services.ServiceMessage;
 import app.OwLearning.Domaine.Entités.Discussion;

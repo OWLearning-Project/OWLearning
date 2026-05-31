@@ -1,9 +1,15 @@
 package app.OwLearning.Infrastructure.Repositories;
 
+import app.OwLearning.Domaine.Entités.Createur;
+import app.OwLearning.Domaine.Entités.Eleve;
 import app.OwLearning.Domaine.Entités.Utilisateur;
 import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
+import app.OwLearning.Infrastructure.Entités.CreateurEntity;
+import app.OwLearning.Infrastructure.Entités.EleveEntity;
 import app.OwLearning.Infrastructure.Entités.UtilisateurEntity;
 import app.OwLearning.Infrastructure.Bdd.JpaUtilisateurRepository;
+import app.OwLearning.Infrastructure.Mapper.CreateurMapper;
+import app.OwLearning.Infrastructure.Mapper.EleveMapper;
 import app.OwLearning.Infrastructure.Mapper.UtilisateurMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,15 +21,19 @@ public class UtilisateurRepository implements IUtilisateurRepository
 {
     private final JpaUtilisateurRepository jpaRepository;
     private final UtilisateurMapper utilisateurMapper;
+    private final EleveMapper eleveMapper;
+    private final CreateurMapper createurMapper;
 
     /**
      * Constructeur de UtilisateurRepository
      * @param jpaRepository
      */
-    public UtilisateurRepository (JpaUtilisateurRepository jpaRepository, UtilisateurMapper utilisateurMapper)
+    public UtilisateurRepository (JpaUtilisateurRepository jpaRepository, UtilisateurMapper utilisateurMapper, EleveMapper eleveMapper, CreateurMapper createurMapper)
     {
         this.jpaRepository = jpaRepository;
         this.utilisateurMapper = utilisateurMapper;
+        this.eleveMapper = eleveMapper;
+        this.createurMapper = createurMapper;
     }
 
     /**
@@ -39,16 +49,40 @@ public class UtilisateurRepository implements IUtilisateurRepository
     }
 
     /**
-     * Méthode qui permet d'insérer un utilisateur en base
+     * Méthode qui permet d'insérer ou de mettre à jour un utilisateur en base
      * @param utilisateur
-     * @return l'utilisateur inséré
+     * @return l'utilisateur sauvegardé
      */
     @Override
     public Utilisateur sauvegarder(Utilisateur utilisateur)
     {
-        UtilisateurEntity entity = utilisateurMapper.toEntity(utilisateur);
-        UtilisateurEntity saved = jpaRepository.save(entity);
-        return utilisateurMapper.toDomain(saved);
+        if (utilisateur.getIdUtilisateur() != 0)
+        {
+            UtilisateurEntity entiteEnBase = jpaRepository.findById(utilisateur.getIdUtilisateur())
+                    .orElseThrow(() -> new RuntimeException("Erreur: Utilisateur introuvable pour la mise à jour"));
+
+            if (utilisateur instanceof Eleve && entiteEnBase instanceof EleveEntity)
+            {
+                eleveMapper.updateEntityFromDomain((Eleve) utilisateur, (EleveEntity) entiteEnBase);
+            }
+            else if (utilisateur instanceof Createur && entiteEnBase instanceof CreateurEntity)
+            {
+                createurMapper.updateEntityFromDomain((Createur) utilisateur, (CreateurEntity) entiteEnBase);
+            }
+            else
+            {
+                utilisateurMapper.updateEntityFromDomain(utilisateur, entiteEnBase);
+            }
+
+            UtilisateurEntity sauvegarde = jpaRepository.save(entiteEnBase);
+            return utilisateurMapper.toDomain(sauvegarde);
+        }
+        else
+        {
+            UtilisateurEntity entity = utilisateurMapper.toEntity(utilisateur);
+            UtilisateurEntity saved = jpaRepository.save(entity);
+            return utilisateurMapper.toDomain(saved);
+        }
     }
 
     /**

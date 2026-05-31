@@ -1,10 +1,23 @@
 package app.OwLearning.Api;
 
-import app.OwLearning.Services.Exceptions.*;
-import app.OwLearning.Domaine.Exceptions.*;
+import app.OwLearning.Domaine.Exceptions.ExceptionCategorieDejaPresente;
+import app.OwLearning.Domaine.Exceptions.ExceptionCategorieInexistante;
+import app.OwLearning.Domaine.Exceptions.ExceptionCoursInexistant;
+import app.OwLearning.Domaine.Exceptions.ExceptionDiscussionInexistante;
+import app.OwLearning.Domaine.Exceptions.ExceptionEleveDejaPresent;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdChapitre;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdEleve;
+import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisLabelCategorie;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurInexistant;
+import app.OwLearning.Services.Exceptions.ExceptionChapitreIntrouvable;
+import app.OwLearning.Services.Exceptions.ExceptionCompteExistant;
+import app.OwLearning.Services.Exceptions.ExceptionMauvaisIdentifiants;
+import app.OwLearning.Services.Exceptions.ExceptionMessageIntrouvable;
+import app.OwLearning.Services.Exceptions.ExceptionTokenInvalide;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -22,6 +35,11 @@ public class ErrorController
     }
     @ExceptionHandler(ExceptionUtilisateurNonAutorise.class)
     public ResponseEntity<String> forbidden(ExceptionUtilisateurNonAutorise ex)
+    {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.toString());
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> accessDenied(AccessDeniedException ex)
     {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.toString());
     }

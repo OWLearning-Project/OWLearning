@@ -6,8 +6,8 @@ import app.OwLearning.Api.DTO.request.RessourceRequest;
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
 import app.OwLearning.Api.DTO.response.ChapitreResponse;
 import app.OwLearning.Api.DTO.response.RessourceResponse;
-import app.OwLearning.Services.Mapper.ChapitreDTOMapper;
-import app.OwLearning.Services.Mapper.RessourceDTOMapper;
+import app.OwLearning.Api.Mapper.ChapitreDTOMapper;
+import app.OwLearning.Api.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domaine.Entités.Chapitre;
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Services.Interfaces.IServiceChapitre;
@@ -41,12 +41,14 @@ public class ChapitreController {
         return ResponseEntity.ok(this.chapitreMapper.toResponse(chapitre));
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idChapitre}")
     public ResponseEntity<Void> modifierChapitre(@PathVariable("idChapitre") int idChapitre, @RequestBody ChapitreRequest chapitreDTO){
         this.serviceChapitre.modifier(idChapitre, chapitreDTO.getTitre(), chapitreDTO.getDescription());
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idChapitre}/ressources")
     public ResponseEntity<?> ajouterRessource(
             @PathVariable("idChapitre") int idChapitre,
@@ -56,6 +58,7 @@ public class ChapitreController {
         return ResponseEntity.status(HttpStatus.CREATED).body("La ressource a été ajoutée");
     }
 
+    @PreAuthorize("hasAuthority('CREATEUR')")
     @DeleteMapping("/{idChapitre}/ressources/{idRessource}")
     public ResponseEntity<RessourceResponse> retirerRessource(
             @PathVariable("idChapitre") int idChapitre,
@@ -66,12 +69,12 @@ public class ChapitreController {
 
     @PostMapping("/{idChapitre}/terminer")
     @PreAuthorize("hasAuthority('ELEVE')")
-    public ResponseEntity<Void> terminerChapitre(
+    public ResponseEntity<String> terminerChapitre(
             @PathVariable("idChapitre") int idChapitre,
             @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
     {
         int idEleve = utilisateurAuthentifieDTO.getId();
         this.serviceChapitre.terminerChapitre(idChapitre, idEleve);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body("Le chapitre a été noté comme terminé");
     }
 }
