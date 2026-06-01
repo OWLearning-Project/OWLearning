@@ -8,9 +8,8 @@
             </BNavbarBrand>
         </BNavbar>
 
-
         <BRow>
-        <BCol lg="3" md="4" class="mb-4">
+            <BCol lg="3" md="4" class="mb-4">
                 <BCard class="carte-filtres border-0 shadow-sm">
                     <h5 class="titre-filtres fw-bold mb-4">
                         <i class="bi bi-funnel-fill me-2"></i>Filtres
@@ -20,56 +19,29 @@
                         <label class="form-label fw-bold small text-muted">Rechercher un cours</label>
                         <BFormInput v-model="recherche" placeholder="Ex: Java..." class="rounded-pill px-3"></BFormInput>
                     </div>
-    <BRow>
-      <BCol lg="3" md="4" class="mb-4">
-        <BCard class="border-0 shadow-sm" style="border-radius: 12px; position: sticky; top: 20px">
-          <h5 class="fw-bold mb-4" style="color: #4a2c59">
-            <i class="bi bi-funnel-fill me-2"></i>Filtres
-          </h5>
 
-          <div class="mb-3">
-            <label class="form-label fw-bold small text-muted">Rechercher un cours</label>
-            <BFormInput
-              v-model="recherche"
-              placeholder="Ex: Java..."
-              class="rounded-pill px-3"
-            ></BFormInput>
-          </div>
+                    <hr class="text-muted mb-4">
 
-          <hr class="text-muted mb-4" />
+                    <div class="mb-4 d-flex justify-content-between align-items-center">
+                        <label class="form-label fw-bold small text-muted mb-0">Cours privés</label>
+                        <BFormCheckbox v-model="afficherCoursPrives" switch size="lg" class="switch-custom"></BFormCheckbox>
+                    </div>
 
-          <div class="mb-4 d-flex justify-content-between align-items-center">
-            <label class="form-label fw-bold small text-muted mb-0">Cours privés</label>
-            <BFormCheckbox
-              v-model="afficherCoursPrives"
-              switch
-              size="lg"
-              class="switch-custom"
-            ></BFormCheckbox>
-          </div>
+                    <hr class="text-muted mb-4">
 
-          <hr class="text-muted mb-4" />
-
-          <div class="mb-4">
-            <label class="form-label fw-bold small text-muted mb-3">Difficulté</label>
-            <BFormCheckboxGroup
-              v-model="difficultes"
-              :options="difficultesPossibles"
-              stacked
-              class="checkboxes-custom"
-            ></BFormCheckboxGroup>
-          </div>
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-muted mb-3">Difficulté</label>
+                        <BFormCheckboxGroup v-model="difficultes" :options="difficultesPossibles" stacked class="checkboxes-custom"></BFormCheckboxGroup>
+                    </div>
 
                     <div class="mb-2" v-if="categoriesPossibles.length > 0">
                         <label class="form-label fw-bold small text-muted mb-3">Catégories</label>
                         <BFormCheckboxGroup v-model="categories" :options="categoriesPossibles" stacked class="checkboxes-custom"></BFormCheckboxGroup>
                     </div>
-
                 </BCard>
-        </BCol>
+            </BCol>
 
-        <BCol lg="9" md="8">
-
+            <BCol lg="9" md="8">
                 <div v-if="chargement" class="text-center my-5">
                     <BSpinner class="spinner-catalogue" label="Chargement..."></BSpinner>
                 </div>
@@ -77,100 +49,47 @@
                 <BAlert v-else-if="erreur !== ''" variant="danger" show>
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ erreur }}
                 </BAlert>
-          <div class="mb-2" v-if="categoriesPossibles.length > 0">
-            <label class="form-label fw-bold small text-muted mb-3">Catégories</label>
-            <BFormCheckboxGroup
-              v-model="categories"
-              :options="categoriesPossibles"
-              stacked
-              class="checkboxes-custom"
-            ></BFormCheckboxGroup>
-          </div>
-        </BCard>
-      </BCol>
-
-      <BCol lg="9" md="8">
-        <div v-if="chargement" class="text-center my-5">
-          <BSpinner
-            style="width: 3rem; height: 3rem; color: #a17c5b"
-            label="Chargement..."
-          ></BSpinner>
-        </div>
-
-        <BAlert v-else-if="erreur !== ''" variant="danger" show>
-          <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ erreur }}
-        </BAlert>
 
                 <BAlert v-else-if="coursFiltres.length === 0" variant="info" show class="alerte-catalogue-vide border-0 shadow-sm">
                     <i class="bi bi-search me-2"></i> Aucun cours ne correspond à votre recherche
                 </BAlert>
-        <BAlert
-          v-else-if="coursFiltres.length === 0"
-          variant="info"
-          show
-          class="border-0 shadow-sm"
-          style="border-radius: 12px"
-        >
-          <i class="bi bi-search me-2"></i> Aucun cours ne correspond à votre recherche
-        </BAlert>
 
                 <div v-else>
                     <BRow class="g-4">
                         <BCol cols="12" md="6" lg="4" v-for="cours in coursAffiches" :key="cours.id">
+                            <BCard class="h-100 shadow-sm carte-cours position-relative border-0" no-body>
+                                <div
+                                    v-if="cours.estPrive"
+                                    class="badge-cours-prive position-absolute top-0 end-0 m-2 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
+                                    title="Cours privé"
+                                >
+                                    <i class="icone-cours-prive bi bi-lock-fill"></i>
+                                </div>
 
-                            <BCard class="h-100 shadow-sm carte-cours border-0" no-body>
                                 <div class="bandeau-deco"></div>
-                                    <BCardBody class="d-flex flex-column">
 
-                                        <BCardTitle class="titre-carte-cours fw-bold fs-5 mt-2">
-                                            {{ cours.titre }}
-                                        </BCardTitle>
-        <div v-else>
-          <BRow class="g-4">
-            <BCol cols="12" md="6" lg="4" v-for="cours in coursAffiches" :key="cours.id">
-              <BCard class="h-100 shadow-sm carte-cours position-relative border-0" no-body>
-                <div
-                  v-if="cours.estPrive"
-                  class="position-absolute top-0 end-0 m-2 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm"
-                  style="width: 35px; height: 35px; z-index: 2"
-                  title="Cours Privé"
-                >
-                  <i class="bi bi-lock-fill" style="color: #4a2c59"></i>
-                </div>
+                                <BCardBody class="d-flex flex-column">
+                                    <BCardTitle class="titre-carte-cours fw-bold fs-5 mt-2">
+                                        {{ cours.titre }}
+                                    </BCardTitle>
 
-                <div class="bandeau-deco"></div>
-                <BCardBody class="d-flex flex-column">
-                  <BCardTitle class="fw-bold fs-5 mt-2" style="color: #4a2c59">
-                    {{ cours.titre }}
-                  </BCardTitle>
+                                    <BCardText class="text-muted small mb-4">
+                                        <i class="bi bi-person-circle me-1"></i> {{ cours.createur.prenom }} {{ cours.createur.nom }}
+                                    </BCardText>
 
-                  <BCardText class="text-muted small mb-4">
-                    <i class="bi bi-person-circle me-1"></i> {{ cours.createur.prenom }}
-                    {{ cours.createur.nom }}
-                  </BCardText>
+                                    <div class="mb-3">
+                                        <BBadge pill :class="couleurDifficulte(cours.difficulte)" class="me-2 mb-1 shadow-sm border-0 fw-bold px-3 py-2">
+                                            <i class="bi bi-bar-chart-fill me-1"></i> {{ cours.difficulte }}
+                                        </BBadge>
+                                        <BBadge pill class="badge-categorie border-0 me-1 mb-1 px-3 py-2" v-for="categorie in cours.categories" :key="categorie">
+                                            {{ categorie }}
+                                        </BBadge>
+                                    </div>
 
-                  <div class="mb-3">
-                    <BBadge
-                      pill
-                      :class="couleurDifficulte(cours.difficulte)"
-                      class="me-2 mb-1 shadow-sm border-0 fw-bold px-3 py-2"
-                    >
-                      <i class="bi bi-bar-chart-fill me-1"></i> {{ cours.difficulte }}
-                    </BBadge>
-                    <BBadge
-                      pill
-                      class="badge-categorie border-0 me-1 mb-1 px-3 py-2"
-                      v-for="categorie in cours.categories"
-                      :key="categorie"
-                    >
-                      {{ categorie }}
-                    </BBadge>
-                  </div>
-
-                  <BButton class="mt-auto fw-bold bouton-cours w-100 rounded-pill py-2">
-                    Consulter
-                  </BButton>
-                </BCardBody>
+                                    <BButton class="mt-auto fw-bold bouton-cours w-100 rounded-pill py-2">
+                                        Consulter
+                                    </BButton>
+                                </BCardBody>
 
                                 <BCardFooter class="bg-white border-top-0 text-end pb-3">
                                     <small class="date-cours text-muted">
@@ -180,29 +99,20 @@
                             </BCard>
                         </BCol>
                     </BRow>
-                <BCardFooter class="bg-white border-top-0 text-end pb-3">
-                  <small class="text-muted" style="font-size: 0.75rem">
-                    <i class="bi bi-calendar3 me-1"></i> {{ formaterDate(cours.dateCreation) }}
-                  </small>
-                </BCardFooter>
-              </BCard>
-            </BCol>
-          </BRow>
 
-          <div class="d-flex justify-content-center mt-5" v-if="coursFiltres.length > coursParPage">
-            <BPagination
-              v-model="pageCourante"
-              :total-rows="coursFiltres.length"
-              :per-page="coursParPage"
-              pills
-              class="pagination-personnalisee"
-            >
-            </BPagination>
-          </div>
-        </div>
-      </BCol>
-    </BRow>
-  </BContainer>
+                    <div class="d-flex justify-content-center mt-5" v-if="coursFiltres.length > coursParPage">
+                        <BPagination
+                            v-model="pageCourante"
+                            :total-rows="coursFiltres.length"
+                            :per-page="coursParPage"
+                            pills
+                            class="pagination-personnalisee"
+                        ></BPagination>
+                    </div>
+                </div>
+            </BCol>
+        </BRow>
+    </BContainer>
 </template>
 
 <script setup>

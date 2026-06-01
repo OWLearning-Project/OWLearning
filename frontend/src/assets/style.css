@@ -145,6 +145,16 @@ body {
     font-size: 0.75rem;
 }
 
+.badge-cours-prive {
+    width: 35px;
+    height: 35px;
+    z-index: 2;
+}
+
+.icone-cours-prive {
+    color: #4a2c59;
+}
+
 .carte-cours {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 12px;
