@@ -1,15 +1,15 @@
 <template>
     <BContainer fluid class="flax-grow-1 d-flex flex-column p-0 bg-light">
-        <header class="sticky-top p-2 text-white d-flex align-items-center shadow-sm" style="background-color: #a17c5b;">
+        <header class="entete-auth sticky-top p-2 text-white d-flex align-items-center shadow-sm">
             <img src="../assets/OwleEcharpe.svg" alt="Logo" width="70" height="70" class="fs-4 me-2" />
             <h1 class="m-0 fs-4 fw-bold">OWLearning</h1>
         </header>
 
         <BContainer class="flex-grow-1 flex-column d-flex align-items-center mt-5">
 
-            <h1 class="m-3 p-5 text-center fw-bold" style="color:#4a2c59">Bienvenue sur OWLearning !</h1>
+            <h1 class="titre-auth m-3 p-5 text-center fw-bold">Bienvenue sur OWLearning !</h1>
 
-            <BCard class="shadow w-100 border-0 mb-5" style="max-width: 500px; border-radius: 16px;">
+            <BCard class="carte-auth shadow w-100 border-0 mb-5">
 
                 <BForm @submit.prevent="sInscrire" class="p-3">
 
@@ -33,8 +33,8 @@
                         <BInputGroup size="lg">
                             <BFormInput id="motdepasse" :type="voirMotDePasse ? 'text' : 'password'" v-model="motDePasse" class="border-end-0" required></BFormInput>
                             
-                            <BInputGroupText @click="voirMotDePasse = !voirMotDePasse" class="bg-white border-start-0" style="cursor: pointer;">
-                                <i :class="voirMotDePasse ? 'bi bi-eye-slash' : 'bi bi-eye'" style="color: #4a2c59; font-size: 1.2rem;"></i>
+                            <BInputGroupText @click="voirMotDePasse = !voirMotDePasse" class="icone-mdp-toggle bg-white border-start-0">
+                                <i :class="voirMotDePasse ? 'icone-mdp bi bi-eye-slash' : 'icone-mdp bi bi-eye'"></i>
                             </BInputGroupText>
                         </BInputGroup>
                     </BFormGroup>
@@ -44,8 +44,8 @@
                         <BInputGroup size="lg">
                             <BFormInput id="confirmation" :type="voirConfirmation ? 'text' : 'password'" v-model="confirmationMdp" class="border-end-0" required></BFormInput>
                             
-                            <BInputGroupText @click="voirConfirmation = !voirConfirmation" class="bg-white border-start-0" style="cursor: pointer;">
-                                <i :class="voirConfirmation ? 'bi bi-eye-slash' : 'bi bi-eye'" style="color: #4a2c59; font-size: 1.2rem;"></i>
+                            <BInputGroupText @click="voirConfirmation = !voirConfirmation" class="icone-mdp-toggle bg-white border-start-0">
+                                <i :class="voirConfirmation ? 'icone-mdp bi bi-eye-slash' : 'icone-mdp bi bi-eye'"></i>
                             </BInputGroupText>
                         </BInputGroup>
                     </BFormGroup>
@@ -58,7 +58,7 @@
                     </BFormGroup>
 
                     <div class="d-grid gap-3 mt-4">
-                        <BButton type="submit" size="lg" style="background-color: #f6c05d; color: black; border: none;" class="fw-bold">
+                        <BButton type="submit" size="lg" class="bouton-auth-principal fw-bold">
                             S'inscrire
                         </BButton>
 
@@ -106,16 +106,3 @@
         console.log("Inscription en cours...");
     }
 </script>{}
-
-<style>
-
-    .form-check-input:checked {
-        background-color: #4a2c59 !important;
-        border-color: #4a2c59 !important;
-    }
-
-    .form-check-input:focus {
-        border-color: #4a2c59 !important;
-        box-shadow: 0 0 0 0.25rem rgba(74, 44, 89, 0.25) !important;
-    }
-</style>

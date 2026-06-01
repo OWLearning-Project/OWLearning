@@ -1,0 +1,331 @@
+:root {
+    --bs-body-font-family: 'Roboto', Arial, sans-serif;
+}
+
+html,
+body {
+    overscroll-behavior: none;
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+#app {
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.app-footer,
+.entete-auth,
+.menu-principal {
+    background-color: #a17c5b !important;
+}
+
+.bouton-menu-principal {
+    color: white !important;
+}
+
+.brand-logo {
+    z-index: 10;
+}
+
+.avatar-menu {
+    width: 45px;
+    height: 45px;
+}
+
+.profil-icon {
+    font-size: 1.5rem;
+}
+
+.custom-links .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    transition: color 0.2s ease-in-out;
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.custom-links .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: width 0.3s ease-out;
+}
+
+.custom-links .lien-actif {
+    font-weight: 800;
+}
+
+.custom-links .lien-actif::after {
+    width: 100%;
+}
+
+.custom-links .nav-link:hover {
+    opacity: 0.8;
+}
+
+.custom-icon {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease;
+}
+
+.custom-icon:hover {
+    transform: rotate(90deg);
+}
+
+.titre-auth,
+.titre-catalogue,
+.titre-filtres,
+.titre-carte-cours {
+    color: #4a2c59;
+}
+
+.carte-auth {
+    max-width: 500px;
+    border-radius: 16px;
+}
+
+.alerte-auth {
+    border-radius: 16px;
+}
+
+.icone-mdp-toggle {
+    cursor: pointer;
+}
+
+.icone-mdp {
+    color: #4a2c59;
+    font-size: 1.2rem;
+}
+
+.bouton-auth-principal {
+    background-color: #f6c05d !important;
+    color: black !important;
+    border: none !important;
+}
+
+.form-check-input:checked {
+    background-color: #4a2c59 !important;
+    border-color: #4a2c59 !important;
+}
+
+.form-check-input:focus {
+    border-color: #4a2c59 !important;
+    box-shadow: 0 0 0 0.25rem rgba(74, 44, 89, 0.25) !important;
+}
+
+.separateur-catalogue {
+    border-color: #a17c5b;
+    border-width: 3px;
+    opacity: 1;
+}
+
+.carte-filtres {
+    border-radius: 12px;
+    position: sticky;
+    top: 20px;
+}
+
+.spinner-catalogue {
+    width: 3rem;
+    height: 3rem;
+    color: #a17c5b;
+}
+
+.alerte-catalogue-vide {
+    border-radius: 12px;
+}
+
+.date-cours {
+    font-size: 0.75rem;
+}
+
+.carte-cours {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.carte-cours:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.bandeau-deco {
+    height: 80px;
+    background: linear-gradient(135deg, #a17c5b 0%, #4a2c59 100%);
+}
+
+.badge-debutant {
+    background-color: #e2f0e5 !important;
+    color: #2d6a4f !important;
+}
+
+.badge-intermediaire {
+    background-color: #fff3cd !important;
+    color: #856404 !important;
+}
+
+.badge-avance {
+    background-color: #fad2e1 !important;
+    color: #842047 !important;
+}
+
+.badge-defaut {
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+}
+
+.badge-categorie {
+    background-color: rgba(74, 44, 89, 0.1) !important;
+    color: #4a2c59 !important;
+    font-weight: 600;
+}
+
+.bouton-cours {
+    background-color: #4a2c59 !important;
+    border: 2px solid #4a2c59 !important;
+    color: white !important;
+    transition: all 0.3s ease;
+}
+
+.bouton-cours:hover {
+    background-color: #b8a854 !important;
+    border-color: #b8a854 !important;
+    color: #4a2c59 !important;
+    transform: scale(1.02);
+}
+
+.pagination-personnalisee {
+    --bs-pagination-active-bg: #4a2c59;
+    --bs-pagination-active-border-color: #4a2c59;
+    --bs-pagination-color: #4a2c59;
+    --bs-pagination-hover-color: #b8a854;
+}
+
+.checkboxes-custom .form-check-input:checked {
+    background-color: #4a2c59 !important;
+    border-color: #4a2c59 !important;
+}
+
+.checkboxes-custom .form-check-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(74, 44, 89, 0.25) !important;
+    border-color: #4a2c59 !important;
+}
+
+.page-erreur {
+    min-height: calc(100vh - 166px);
+    background-color: #f5f0ea;
+}
+
+.contenu-erreur {
+    width: min(100%, 680px);
+}
+
+.code-erreur {
+    color: #050505;
+    font-size: clamp(5rem, 13vw, 9rem);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: 0;
+}
+
+.titre-erreur {
+    color: #1f1f1f;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    letter-spacing: 0;
+}
+
+.illustration-wrapper {
+    position: relative;
+    width: min(260px, 70vw);
+}
+
+.illustration-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 7%;
+    right: -2%;
+    z-index: 1;
+    width: 34%;
+    height: 23%;
+    border-radius: 50%;
+    background-color: #f5f0ea;
+}
+
+.illustration-chouette {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.point-interrogation {
+    position: absolute;
+    top: 2%;
+    right: 6%;
+    z-index: 2;
+    color: #867219;
+    font-size: clamp(3rem, 9vw, 4.5rem);
+    line-height: 1;
+    transform: rotate(8deg);
+}
+
+.bouton-accueil {
+    width: min(100%, 520px);
+    min-height: 82px;
+    border-radius: 8px;
+    background-color: #867c25 !important;
+    color: #fff !important;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.bouton-accueil:hover,
+.bouton-accueil:focus,
+.bouton-retour:hover,
+.bouton-retour:focus {
+    background-color: #4a2c59 !important;
+    transform: translateY(-2px);
+}
+
+.bouton-retour {
+    width: min(100%, 380px);
+    min-height: 52px;
+    border-radius: 8px;
+    background-color: #867c25 !important;
+    color: #fff !important;
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+@media (min-width: 992px) {
+    .brand-logo {
+        position: absolute !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .page-erreur {
+        min-height: calc(100vh - 148px);
+    }
+
+    .titre-erreur,
+    .illustration-wrapper {
+        margin-bottom: 2rem !important;
+    }
+
+    .bouton-accueil {
+        min-height: 64px;
+    }
+
+    .bouton-retour {
+        min-height: 48px;
+    }
+}

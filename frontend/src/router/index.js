@@ -3,6 +3,7 @@ import PageConnexion from '@/views/PageConnexion.vue'
 import PageAccueil from '@/views/PageAccueil.vue'
 import PageInscription from '@/views/PageInscription.vue'
 import PageCatalogue from '@/views/PageCatalogue.vue'
+import PageErreur404 from '@/views/PageErreur404.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       name: 'catalogue',
       component: PageCatalogue,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'erreur-404',
+      component: PageErreur404
     }
   ],
 })

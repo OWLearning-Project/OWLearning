@@ -1,9 +1,9 @@
 <template>
-    <BNavbar sticky="top" toggleable="lg" type="dark" style="background-color: #a17c5b;" class="px-4 shadow-sm">
+    <BNavbar sticky="top" toggleable="lg" type="dark" class="menu-principal px-4 shadow-sm">
         
-        <BNavbarToggle target="nav-collapse" style="color: white;"></BNavbarToggle>
+        <BNavbarToggle target="nav-collapse" class="bouton-menu-principal"></BNavbarToggle>
 
-        <BNavbarBrand href="/" class="brand-logo d-flex align-items-center gap-2 fw-bold m-0 text-white" style="z-index: 10;">
+        <BNavbarBrand href="/" class="brand-logo d-flex align-items-center gap-2 fw-bold m-0 text-white">
             <img src="../assets/OwleEcharpe.svg" alt="Logo" width="70" height="70" class="d-inline-block align-top" />
             <span class="fs-4">OWLearning</span>
         </BNavbarBrand>
@@ -31,8 +31,8 @@
                 <BNavItemDropdown right no-caret>
 
                     <template #button-content>
-                        <div class="bg-white text-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 45px; height: 45px;">
-                            <i class="bi bi-person text-secondary" style="font-size: 1.5rem;"></i>
+                        <div class="avatar-menu bg-white text-dark rounded-circle d-flex justify-content-center align-items-center">
+                            <i class="profil-icon bi bi-person text-secondary"></i>
                         </div>
                     </template>
 
@@ -63,54 +63,3 @@
         router.push('/connexion');
     }
 </script>
-
-<style scoped>
-    :deep(.custom-links .nav-link) {
-        color: rgba(255, 255, 255, 0.8) !important;
-        transition: color 0.2s ease-in-out;
-        position: relative;
-        padding-bottom: 5px;
-    }
-
-    :deep(.custom-links .nav-link::after) {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 2px;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: rgba(255, 255, 255, 0.8);
-        transition: width 0.3s ease-out;
-    }
-
-    :deep(.custom-links .lien-actif) {
-        font-weight: 800;
-    }
-
-    :deep(.custom-links .lien-actif::after) {
-        width: 100%;
-    }
-
-    :deep(.custom-links .nav-link:hover) {
-        opacity: 0.8; 
-    }
-
-    .custom-icon {
-        font-size: 1.5rem;
-        color: rgba(255, 255, 255, 0.8);
-        transition: transform 0.3s ease;
-    }
-
-    .custom-icon:hover {
-        transform: rotate(90deg);
-    }
-
-    @media(min-width: 992px) {
-        .brand-logo {
-            position: absolute !important;
-            left: 50% !important;
-            transform: translateX(-50%) !important;
-        }
-    }
-</style>

@@ -1,17 +1,17 @@
 <template>
     <BContainer fluid class="vh-100 d-flex flex-column p-0 bg-light">
-        <header class="sticky-top p-2 text-white d-flex align-items-center shadow-sm" style="background-color: #a17c5b;">
+        <header class="entete-auth sticky-top p-2 text-white d-flex align-items-center shadow-sm">
             <img src="../assets/OwleEcharpe.svg" alt="Logo" width="70" height="70" class="fs-4 me-2" />
             <h1 class="m-0 fs-4 fw-bold">OWLearning</h1>
         </header>
 
         <BContainer class="flex-grow-1 flex-column d-flex align-items-center mt-5">
 
-            <h1 class="m-3 p-5 text-center fw-bold" style="color:#4a2c59">Bienvenue sur OWLearning !</h1>
+            <h1 class="titre-auth m-3 p-5 text-center fw-bold">Bienvenue sur OWLearning !</h1>
 
-            <BCard class="shadow w-100 border-0" style="max-width: 500px; border-radius: 16px;">
+            <BCard class="carte-auth shadow w-100 border-0">
 
-                <BAlert v-if="messageErreur !== ''" variant="danger" show class="m-3 text-center shadow border-0" style="border-radius: 16px;">
+                <BAlert v-if="messageErreur !== ''" variant="danger" show class="alerte-auth m-3 text-center shadow border-0">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ messageErreur }}
                 </BAlert>
                 <BForm @submit.prevent="seConnecter" class="p-3">
@@ -26,8 +26,8 @@
                         <BInputGroup size="lg">
                             <BFormInput id="motdepasse" :type="voirMotDePasse ? 'text' : 'password'" v-model="motDePasse" class="border-end-0" required></BFormInput>
                             
-                            <BInputGroupText @click="voirMotDePasse = !voirMotDePasse" class="bg-white border-start-0" style="cursor: pointer;">
-                                <i :class="voirMotDePasse ? 'bi bi-eye-slash' : 'bi bi-eye'" style="color: #4a2c59; font-size: 1.2rem;"></i>
+                            <BInputGroupText @click="voirMotDePasse = !voirMotDePasse" class="icone-mdp-toggle bg-white border-start-0">
+                                <i :class="voirMotDePasse ? 'icone-mdp bi bi-eye-slash' : 'icone-mdp bi bi-eye'"></i>
                             </BInputGroupText>
                         </BInputGroup>
                     </BFormGroup>
@@ -35,7 +35,7 @@
 
                     <div class="d-grid gap-3 mt-4">
 
-                        <BButton type="submit" size="lg" style="background-color: #f6c05d; color: black; border: none;" class="fw-bold">
+                        <BButton type="submit" size="lg" class="bouton-auth-principal fw-bold">
                             <template v-if="chargement">
                                 <BSpinner small class="me-2"></BSpinner>
                                 Connexion en cours...
@@ -112,6 +112,3 @@
         router.push('/inscription');
     }
 </script>
-
-<style lang="css" scoped>
-</style>

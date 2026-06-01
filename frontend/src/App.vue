@@ -17,14 +17,3 @@
   import MenuPrincipal from './components/MenuPrincipal.vue';
   import AppFooter from './components/Footer.vue';
 </script>
-
-<style>
-  html, body {
-
-    overscroll-behavior: none;
-    
-    margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
-    background-color: #f5f5f5; 
-  }
-</style>
