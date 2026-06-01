@@ -27,10 +27,10 @@ INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscript
 VALUES ('Diallo', 'Anthia', 'test5@owlearning.com', 'test5', '$2a$10$HJ3kBcVmTuvzMzEFwQ09N.doK3IsbmBUt08uLzZd7Zu9idgXOtDDC', '2026-03-10 17:20:38.272+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Azzag', 'Hanane', 'test6@owlearning.com', 'hanane.createur', '$2a$10$uJweB1MBHrQNXgZEskjIHOEL9j9l2DZEAmvw07ZfjTDq2mdNAcipG', '2026-03-10 17:22:44.283+01', NULL);
+VALUES ('Dupont', 'Jean', 'test6@owlearning.com', 'Jean.createur', '$2a$10$uJweB1MBHrQNXgZEskjIHOEL9j9l2DZEAmvw07ZfjTDq2mdNAcipG', '2026-03-10 17:22:44.283+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Lemaire', 'Bouchaib', 'test7@owlearning.com', 'bouchaib.createur', '$2a$10$iQgBVhLB.dMvmgEDeszkvuLHiHdVrORtkdGQ/vIP28UY8XFVfd1T2', '2026-03-10 17:23:20.545+01', NULL);
+VALUES ('Lavanne', 'Marie', 'test7@owlearning.com', 'Marie.createur', '$2a$10$iQgBVhLB.dMvmgEDeszkvuLHiHdVrORtkdGQ/vIP28UY8XFVfd1T2', '2026-03-10 17:23:20.545+01', NULL);
 
 INSERT INTO Createur (id_utilisateur)
 SELECT id_utilisateur
