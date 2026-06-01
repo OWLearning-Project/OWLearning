@@ -1,13 +1,13 @@
 <template>
-    <BContainer fluid class="vh-100 d-flex flex-column p-0 bg-light">
+    <BContainer fluid class="min-vh-100 d-flex flex-column p-0 bg-light">
         <header class="sticky-top p-2 text-white d-flex align-items-center shadow-sm" style="background-color: #a17c5b;">
             <img src="../assets/OwleEcharpe.svg" alt="Logo" width="70" height="70" class="fs-4 me-2" />
             <h1 class="m-0 fs-4 fw-bold">OWLearning</h1>
         </header>
 
-        <BContainer class="flex-grow-1 flex-column d-flex align-items-center mt-5">
+        <BContainer class="flex-grow-1 flex-column d-flex align-items-center mt-4 mb-5">
 
-            <h1 class="m-3 p-5 text-center fw-bold" style="color:#4a2c59">Bienvenue sur OWLearning !</h1>
+            <h1 class="my-4 text-center fw-bold" style="color:#4a2c59">Bienvenue sur OWLearning !</h1>
 
             <BCard class="shadow w-100 border-0" style="max-width: 500px; border-radius: 16px;">
 
@@ -25,7 +25,7 @@
                         <template #label>Mot de passe <span class="text-danger">*</span> :</template>
                         <BInputGroup size="lg">
                             <BFormInput id="motdepasse" :type="voirMotDePasse ? 'text' : 'password'" v-model="motDePasse" class="border-end-0" required></BFormInput>
-                            
+
                             <BInputGroupText @click="voirMotDePasse = !voirMotDePasse" class="bg-white border-start-0" style="cursor: pointer;">
                                 <i :class="voirMotDePasse ? 'bi bi-eye-slash' : 'bi bi-eye'" style="color: #4a2c59; font-size: 1.2rem;"></i>
                             </BInputGroupText>
