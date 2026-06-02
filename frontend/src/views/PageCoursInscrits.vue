@@ -106,7 +106,7 @@
                     </BBadge>
                   </div>
 
-                  <BButton class="mt-auto fw-bold bouton-cours w-100 rounded-pill py-2">
+                  <BButton class="mt-auto fw-bold bouton-cours w-100 rounded-pill py-2" @click="consulterCours(cours.id)">
                     Consulter
                   </BButton>
                 </BCardBody>
@@ -139,6 +139,8 @@
   import axios from 'axios'
   import { computed, onMounted, ref } from 'vue'
   import { useRouter } from 'vue-router'
+
+  const router = useRouter()
 
   const lesCours = ref([])
   const chargement = ref(true)
@@ -240,6 +242,10 @@
       default:
         return 'badge-defaut'
     }
+  }
+
+  function consulterCours(idCours) {
+    router.push({ name: 'apercuCours', params: { idCours } })
   }
 </script>
 
