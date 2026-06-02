@@ -5,6 +5,7 @@ import PageInscription from '@/views/PageInscription.vue'
 import PageCatalogue from '@/views/PageCatalogue.vue'
 import PageErreur404 from '@/views/PageErreur404.vue'
 import PageCoursInscrits from '@/views/PageCoursInscrits.vue'
+import PageNonAutorise from '@/views/PageNonAutorise.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,7 +39,11 @@ const router = createRouter({
       name: 'mesCoursInscrits',
       component: PageCoursInscrits,
       meta: {requiresAuth: true, roleRequis: 'eleve'}
-
+    },
+    {
+      path: '/non-autorise',
+      name: 'non-autorise',
+      component: PageNonAutorise
     },
     {
       path: '/:pathMatch(.*)*',
