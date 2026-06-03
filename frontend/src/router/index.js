@@ -7,6 +7,7 @@ import PageErreur404 from '@/views/PageErreur404.vue'
 import PageCoursInscrits from '@/views/PageCoursInscrits.vue'
 import PageApercuCours from '@/views/PageApercuCours.vue'
 import PageNonAutorise from '@/views/PageNonAutorise.vue'
+import PageCoursPublies from '@/views/PageCoursPublies.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,6 +47,12 @@ const router = createRouter({
       name: 'mesCoursInscrits',
       component: PageCoursInscrits,
       meta: {requiresAuth: true, roleRequis: 'eleve'}
+    },
+    {
+      path: '/mes-cours-publies',
+      name: 'mesCoursPublies',
+      component: PageCoursPublies,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
     },
     {
       path: '/non-autorise',

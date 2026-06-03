@@ -145,6 +145,10 @@ body {
     font-size: 0.75rem;
 }
 
+.stat-cours {
+    color: #6c757d;
+}
+
 .badge-cours-prive {
     width: 35px;
     height: 35px;

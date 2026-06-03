@@ -18,9 +18,7 @@
             </BNavbar>
 
           <div class="d-flex justify-content-start mb-4">
-            <BButton variant="link" class="bouton-retour-navigation p-2 text-decoration-none d-flex align-items-center gap-2"
-                     @click="retourArriere"
-                     title="Retour à la page précédente">
+            <BButton variant="link" class="bouton-retour-navigation p-2 text-decoration-none d-flex align-items-center gap-2" @click="retourArriere" title="Retour à la page précédente">
               <i class="bi bi-arrow-left fs-4"></i>
               <span class="fw-medium fs-5">Retour</span>
             </BButton>

@@ -18,7 +18,7 @@
                 <BNavItemDropdown text="Mes cours" no-caret>
                     <BDropdownItem href="/catalogue">Liste des cours</BDropdownItem>
                     <BDropdownItem v-if="roleUtilisateur === 'eleve'" href="/mes-cours-inscrits">Mes cours inscrits</BDropdownItem>
-                    <BDropdownItem v-if="roleUtilisateur === 'createur'" href="#">Gérer mes cours</BDropdownItem>
+                    <BDropdownItem v-if="roleUtilisateur === 'createur'" href="/mes-cours-publies">Gérer mes cours</BDropdownItem>
                 </BNavItemDropdown>
 
             </BNavbarNav>
