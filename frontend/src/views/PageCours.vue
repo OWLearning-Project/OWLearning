@@ -9,7 +9,16 @@
         >
           <i class="bi bi-arrow-left me-2"></i> Retour aux cours
         </BButton>
-        <h1 class="fw-bold fs-2 m-0 titre-catalogue">{{ cours.titre }}</h1>
+        <div class="d-flex align-items-center gap-3">
+          <h1 class="fw-bold fs-2 m-0 titre-catalogue">{{ cours.titre }}</h1>
+          <BBadge
+            v-if="estLeCreateur"
+            variant="warning"
+            class="text-dark fw-bold rounded-pill shadow-sm"
+          >
+            <i class="bi bi-eye-fill me-1"></i> Aperçu Créateur
+          </BBadge>
+        </div>
         <p class="text-muted fs-6 mt-2 mb-0">{{ cours.description }}</p>
       </div>
 
@@ -110,7 +119,7 @@
         <BCol lg="8">
           <BCard class="border-0 shadow-sm" style="border-radius: 12px" v-if="chapitreActif">
             <BCardBody class="p-4 p-md-5">
-              <div class="d-flex align-content mb-5 gap-3">
+              <div v-if="!estLeCreateur" class="d-flex align-content mb-5 gap-3">
                 <span class="small fw-bold text-muted text-nowrap">Progression</span>
                 <BProgress
                   :value="progression"
@@ -217,10 +226,12 @@
                   @click="chapitreSuivant"
                 >
                   <span v-if="indexChapitreActif < cours.chapitres.length - 1">
-                    Terminer le chapitre <i class="bi bi-arrow-right ms-2"></i>
+                    {{ estLeCreateur ? 'Chapitre suivant' : 'Terminer le chapitre' }}
+                    <i class="bi bi-arrow-right ms-2"></i>
                   </span>
                   <span v-else>
-                    Terminer le cours <i class="bi bi-check-circle-fill ms-2"></i>
+                    {{ estLeCreateur ? "Quitter l'aperçu" : 'Terminer le cours' }}
+                    <i class="bi bi-check-circle-fill ms-2"></i>
                   </span>
                 </BButton>
               </div>
@@ -256,6 +267,8 @@ const elevesDejaCharges = ref(false)
 const modalOuverte = ref(false)
 const eleveSelectionne = ref(null)
 
+const estLeCreateur = ref(false)
+
 const chapitreActif = computed(() => {
   if (!cours.value || !cours.value.chapitres) {
     return null
@@ -264,6 +277,10 @@ const chapitreActif = computed(() => {
 })
 
 const nbChapitresFinis = computed(() => {
+  if (estLeCreateur.value)
+  {
+    return 999;
+  }
   if (!cours.value || !cours.value.chapitres) {
     return 0
   }
@@ -274,25 +291,38 @@ onMounted(async () => {
   try {
     const token = localStorage.getItem('token')
 
-    const reponseProgression = await axios.get(`/api/progression/${idCours}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    progression.value = reponseProgression.data.tauxProgression
-
     const reponseCours = await axios.get(`/api/cours/${idCours}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
-
     cours.value = reponseCours.data
-    indexChapitreActif.value = nbChapitresFinis.value - 1
+
+    const idUtilisateurConnecte = recuperationId(token)
+
+    if (cours.value.createur && cours.value.createur.id == idUtilisateurConnecte) {
+      estLeCreateur.value = true
+      progression.value = 0
+      indexChapitreActif.value = 0
+    } else {
+      const reponseProgression = await axios.get(`/api/progression/${idCours}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      progression.value = reponseProgression.data.tauxProgression
+
+      indexChapitreActif.value = nbChapitresFinis.value - 1
+    }
   } catch (erreur) {
     console.error('Erreur lors du chargement de la progression', erreur)
-    progression.value = 0
-    cours.value = null
+
+    if (erreur.response && (erreur.response.status === 403 || erreur.response.status === 404)) {
+      router.push('/non-autorise')
+    } else {
+      progression.value = 0
+      cours.value = null
+    }
   }
 })
 
@@ -300,14 +330,26 @@ function ouvrirProfil(eleve) {
   eleveSelectionne.value = eleve
   modalOuverte.value = true
 }
+
 async function deroulerListeEleves() {
   elevesOuverts.value = !elevesOuverts.value
   elevesInscrits.value = cours.value.eleves || []
   elevesDejaCharges.value = true
 }
 
+function recuperationId(token) {
+  try {
+    const payloadBase64 = token.split('.')[1]
+    const decodage = JSON.parse(atob(payloadBase64))
+    return decodage.id
+  } catch (e) {
+    console.error('Erreur token :', e)
+    return null
+  }
+}
+
 function changerChapitre(index) {
-  if (index > nbChapitresFinis.value) {
+  if (!estLeCreateur.value && index > nbChapitresFinis.value) {
     return
   }
   indexChapitreActif.value = index
@@ -321,6 +363,15 @@ function chapitrePrecedent() {
 }
 
 async function chapitreSuivant() {
+  if (estLeCreateur.value) {
+    if (indexChapitreActif.value < cours.value.chapitres.length - 1) {
+      changerChapitre(indexChapitreActif.value + 1)
+    } else {
+      retourCatalogue()
+    }
+    return
+  }
+
   if (indexChapitreActif.value >= nbChapitresFinis.value) {
     const idChapitre = chapitreActif.value.id
 
@@ -356,7 +407,10 @@ async function chapitreSuivant() {
 }
 
 function retourCatalogue() {
-  router.push('/mes-cours-inscrits')
+  if (estLeCreateur.value) {
+    router.push('/mes-cours-publies');
+  }
+  router.push('/mes-cours-inscrits');
 }
 </script>
 
