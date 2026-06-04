@@ -145,6 +145,10 @@ body {
     font-size: 0.75rem;
 }
 
+.stat-cours {
+    color: #6c757d;
+}
+
 .badge-cours-prive {
     width: 35px;
     height: 35px;
@@ -153,6 +157,62 @@ body {
 
 .icone-cours-prive {
     color: #4a2c59;
+}
+
+.badge-inscrit {
+    background-color: #e2f0e5 !important;
+    color: #2d6a4f !important;
+}
+
+.carte-apercu-cours,
+.carte-action-cours {
+    border-radius: 12px;
+}
+
+.description-apercu-cours {
+    color: #2f2f2f;
+    line-height: 1.7;
+}
+
+.titre-section-apercu {
+    color: #4a2c59;
+}
+
+.liste-chapitres-apercu {
+    display: grid;
+    gap: 1rem;
+}
+
+.chapitre-apercu {
+    padding: 1rem;
+    border: 1px solid rgba(74, 44, 89, 0.1);
+    border-radius: 12px;
+    background-color: #fff;
+}
+
+.numero-chapitre {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(74, 44, 89, 0.1);
+    color: #4a2c59;
+}
+
+.progression-cours {
+    --bs-progress-bar-bg: #4a2c59;
+    background-color: rgba(74, 44, 89, 0.12);
+}
+
+.bouton-retour-navigation {
+  color: #4a2c59 !important;
+  transition: transform 0.2s ease, color 0.2s ease;
+  border: none;
+}
+
+.bouton-retour-navigation:hover {
+  color: #a17c5b !important;
+  transform: translateX(-4px);
 }
 
 .carte-cours {

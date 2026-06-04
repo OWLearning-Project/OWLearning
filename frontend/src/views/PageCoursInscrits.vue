@@ -139,36 +139,38 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+  import axios from 'axios'
+  import { computed, onMounted, ref } from 'vue'
+  import { useRouter } from 'vue-router'
 
-const lesCours = ref([])
-const tauxProgression = ref({})
-const chargement = ref(true)
-const erreur = ref('')
+  const router = useRouter()
 
-const pageCourante = ref(1)
-const coursParPage = ref(6)
+  const lesCours = ref([])
+  const tauxProgression = ref({})
+  const chargement = ref(true)
+  const erreur = ref('')
 
-const recherche = ref('')
+  const pageCourante = ref(1)
+  const coursParPage = ref(6)
 
-const difficultes = ref([])
-const categories = ref([])
+  const recherche = ref('')
 
-const difficultesPossibles = [
-  { text: 'Débutant', value: 'DEBUTANT' },
-  { text: 'Intermédiaire', value: 'INTERMEDIAIRE' },
-  { text: 'Avancé', value: 'AVANCE' },
-]
+  const difficultes = ref([])
+  const categories = ref([])
 
-const categoriesPossibles = computed(() => {
-  const lesCategories = new Set()
-  lesCours.value.forEach((cours) => {
-    if (cours.categories) {
-      cours.categories.forEach((categorie) => lesCategories.add(categorie))
-    }
-  })
+  const difficultesPossibles = [
+    { text: 'Débutant', value: 'DEBUTANT' },
+    { text: 'Intermédiaire', value: 'INTERMEDIAIRE' },
+    { text: 'Avancé', value: 'AVANCE' },
+  ]
+
+  const categoriesPossibles = computed(() => {
+    const lesCategories = new Set()
+    lesCours.value.forEach((cours) => {
+      if (cours.categories) {
+        cours.categories.forEach((categorie) => lesCategories.add(categorie))
+      }
+    })
   return Array.from(lesCategories).map((categorie) => ({ text: categorie, value: categorie }))
 })
 
@@ -269,7 +271,10 @@ function couleurDifficulte(difficulte) {
     default:
       return 'badge-defaut'
   }
-}
+
+  function consulterCours(idCours) {
+    router.push({ name: 'apercuCours', params: { idCours } })
+  }
 </script>
 
 <style scoped>
