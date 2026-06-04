@@ -75,14 +75,17 @@
                   <BListGroupItem
                     v-for="eleve in elevesInscrits"
                     :key="eleve.id"
-                    class="d-flex align-items-center p-2 rounded-3 border-0"
+                    class="d-flex align-items-center p-2 rounded-3 border-0 eleve-cliquable"
                     style="background-color: #f8f9fa"
+                    @click="ouvrirProfil(eleve)"
                   >
                     <BAvatar
                       class="me-3 shadow-sm"
                       size="2.5rem"
                       style="background-color: #b8a854 !important; color: white; font-weight: bold"
-                      :text="eleve.prenom.charAt(0).toUpperCase() + eleve.nom.charAt(0).toUpperCase()"
+                      :text="
+                        eleve.prenom.charAt(0).toUpperCase() + eleve.nom.charAt(0).toUpperCase()
+                      "
                     />
 
                     <div class="text-truncate flex-grow-1">
@@ -227,12 +230,15 @@
       </BRow>
     </div>
   </BContainer>
+
+  <ModalProfilEleve v-model="modalOuverte" :eleve="eleveSelectionne" />
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
+import ModalProfilEleve from '@/components/ModalProfilEleve.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -246,6 +252,9 @@ const idCours = route.params.id
 const elevesInscrits = ref([])
 const elevesOuverts = ref(false)
 const elevesDejaCharges = ref(false)
+
+const modalOuverte = ref(false)
+const eleveSelectionne = ref(null)
 
 const chapitreActif = computed(() => {
   if (!cours.value || !cours.value.chapitres) {
@@ -287,6 +296,10 @@ onMounted(async () => {
   }
 })
 
+function ouvrirProfil(eleve) {
+  eleveSelectionne.value = eleve
+  modalOuverte.value = true
+}
 async function deroulerListeEleves() {
   elevesOuverts.value = !elevesOuverts.value
   elevesInscrits.value = cours.value.eleves || []
@@ -398,5 +411,10 @@ function retourCatalogue() {
 
 .barre-violette :deep(.progress-bar) {
   background-color: #4a2c59 !important;
+}
+
+.eleve-cliquable:hover {
+  background-color: #e9ecef !important;
+  transform: translateX(4px);
 }
 </style>
