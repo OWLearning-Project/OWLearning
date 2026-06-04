@@ -52,6 +52,55 @@
                 </BListGroupItem>
               </BListGroup>
             </BCard>
+
+            <BCard class="border-0 shadow-sm mt-4 carte-filtres">
+              <BButton
+                variant="link"
+                class="text-decoration-none text-dark w-100 d-flex justify-content-between align-items-center p-0"
+                @click="deroulerListeEleves"
+              >
+                <h5 class="fw-bold m-0" style="color: #4a2c59">
+                  <i class="bi bi-people-fill me-2"></i>Étudiants inscrits
+                </h5>
+                <i
+                  class="bi fw-bold fs-5"
+                  :class="elevesOuverts ? 'bi-chevron-up' : 'bi-chevron-down'"
+                  style="color: #4a2c59"
+                ></i>
+              </BButton>
+              <BCollapse id="collapse-eleves" v-model="elevesOuverts" class="mt-3">
+                <hr class="text-muted opacity-25 mt-0 mb-3" />
+
+                <BListGroup v-if="elevesInscrits.length > 0" flush class="gap-2">
+                  <BListGroupItem
+                    v-for="eleve in elevesInscrits"
+                    :key="eleve.id"
+                    class="d-flex align-items-center p-2 rounded-3 border-0"
+                    style="background-color: #f8f9fa"
+                  >
+                    <BAvatar
+                      class="me-3 shadow-sm"
+                      size="2.5rem"
+                      style="background-color: #b8a854 !important; color: white; font-weight: bold"
+                      :text="eleve.prenom.charAt(0).toUpperCase() + eleve.nom.charAt(0).toUpperCase()"
+                    />
+
+                    <div class="text-truncate flex-grow-1">
+                      <h6 class="mb-0 fw-bold text-truncate" style="color: #4a2c59">
+                        {{ eleve.prenom }} {{ eleve.nom }}
+                      </h6>
+                      <small class="text-muted d-block text-truncate">
+                        {{ eleve.email }}
+                      </small>
+                    </div>
+                  </BListGroupItem>
+                </BListGroup>
+
+                <div v-else class="text-center py-3 text-muted small">
+                  Aucun étudiant n'est encore inscrit à ce cours
+                </div>
+              </BCollapse>
+            </BCard>
           </div>
         </BCol>
 
@@ -73,23 +122,10 @@
                 {{ chapitreActif.description }}
               </p>
 
-              <div
-                v-if="chapitreActif.contenu"
-                class="contenu-cours mb-5"
-                v-html="chapitreActif.contenu"
-              ></div>
-
-              <div
-                v-if="chapitreActif.ressources && chapitreActif.ressources.length > 0"
-                class="ressources-section bg-light p-4 p-md-5 rounded-4 mt-5"
-              >
-                <h4 class="fw-bold mb-4" style="color: #4a2c59">
-                  <i class="bi bi-paperclip me-2"></i>Ressources annexes
-                </h4>
-
+              <div v-if="chapitreActif.ressources && chapitreActif.ressources.length > 0">
                 <div v-for="ressource in chapitreActif.ressources" :key="ressource.id" class="mb-4">
                   <div v-if="ressource.type === 'VIDEO'">
-                    <h6 class="fw-bold mb-2">
+                    <h6 class="fw-bold mb-3">
                       <i class="bi bi-play-btn-fill me-2" style="color: #4a2c59"></i
                       >{{ ressource.nom }}
                     </h6>
@@ -99,11 +135,11 @@
                   </div>
 
                   <div v-else-if="ressource.type === 'IMAGE'">
-                    <h6 class="fw-bold mb-2" style="color: #4a2c59">
+                    <h6 class="fw-bold mb-3" style="color: #4a2c59">
                       <i class="bi bi-image-fill me-2"></i>{{ ressource.nom }}
                     </h6>
                     <div
-                      class="text-center bg-white p-3 rounded-4 shadow-sm border border-light-subtle"
+                      class="text-center bg-white p-2 rounded-4 shadow-sm border border-light-subtle"
                     >
                       <img
                         :src="ressource.url"
@@ -156,6 +192,7 @@
                   </div>
                 </div>
               </div>
+
               <hr class="my-5 separateur-catalogue opacity-25" />
 
               <div class="d-flex justify-content-between align-items-center">
@@ -206,6 +243,10 @@ const progression = ref(0)
 const cours = ref()
 const idCours = route.params.id
 
+const elevesInscrits = ref([])
+const elevesOuverts = ref(false)
+const elevesDejaCharges = ref(false)
+
 const chapitreActif = computed(() => {
   if (!cours.value || !cours.value.chapitres) {
     return null
@@ -238,13 +279,19 @@ onMounted(async () => {
     })
 
     cours.value = reponseCours.data
-    indexChapitreActif.value = nbChapitresFinis.value - 1;
+    indexChapitreActif.value = nbChapitresFinis.value - 1
   } catch (erreur) {
     console.error('Erreur lors du chargement de la progression', erreur)
     progression.value = 0
     cours.value = null
   }
 })
+
+async function deroulerListeEleves() {
+  elevesOuverts.value = !elevesOuverts.value
+  elevesInscrits.value = cours.value.eleves || []
+  elevesDejaCharges.value = true
+}
 
 function changerChapitre(index) {
   if (index > nbChapitresFinis.value) {

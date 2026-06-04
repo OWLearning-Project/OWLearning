@@ -271,10 +271,11 @@ function couleurDifficulte(difficulte) {
     default:
       return 'badge-defaut'
   }
+}
 
-  function consulterCours(idCours) {
-    router.push({ name: 'apercuCours', params: { idCours } })
-  }
+function consulterCours(idCours) {
+  router.push({ name: 'apercuCours', params: { idCours } })
+}
 </script>
 
 <style scoped>
