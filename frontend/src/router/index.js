@@ -7,6 +7,7 @@ import PageErreur404 from '@/views/PageErreur404.vue'
 import PageCoursInscrits from '@/views/PageCoursInscrits.vue'
 import PageApercuCours from '@/views/PageApercuCours.vue'
 import PageNonAutorise from '@/views/PageNonAutorise.vue'
+import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
 
 const router = createRouter({
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'erreur-404',
       component: PageErreur404
+    },
+    {
+      path: '/cours/:id',
+      name: 'cours',
+      component: PageCours
     }
   ],
 })
