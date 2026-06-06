@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { coursService } from "@/api/coursService.js";
+import { coursClient } from "@/api/coursClient.js";
 import { useFiltresCours } from "@/composables/useFiltresCours.js";
 
 export function useCoursPublies(){
@@ -12,7 +12,7 @@ export function useCoursPublies(){
   async function initialiserPage(){
     chargement.value = true;
     try{
-      lesCours.value = await coursService.getCoursPublies();
+      lesCours.value = await coursClient.getCoursPublies();
     } catch (e) {
       console.error("Erreur de chargement des cours publiés :", e);
       erreur.value = 'Chargement des cours publiés impossible';

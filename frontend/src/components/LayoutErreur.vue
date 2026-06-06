@@ -1,19 +1,19 @@
 <template>
-  <BContainer fluid
-              class="page-erreur flex-grow-1 d-flex align-items-center justify-content-center px-4 py-5">
+  <BContainer fluid class="page-erreur flex-grow-1 d-flex align-items-center justify-content-center px-4 py-5">
     <section class="contenu-erreur text-center">
-      <p class="code-erreur mb-3">403</p>
-      <h1 class="titre-erreur fw-normal mb-4">Accès refusé</h1>
+      <p class="code-erreur mb-3">{{ code }}</p>
+
+      <h1 class="titre-erreur fw-normal mb-4">{{ titre }}</h1>
 
       <div class="illustration-wrapper mx-auto mb-4" aria-hidden="true">
         <span class="point-interrogation fw-bold">
-          <i class="bi bi-lock-fill"></i>
+          <slot name="icone"></slot>
         </span>
         <img src="../assets/OwleEcharpe.svg" alt="" class="illustration-chouette" />
       </div>
 
-      <p class="text-muted fs-5 mb-5">
-        Désolé, on dirait que vous n'avez pas les permissions nécessaire...
+      <p v-if="message" class="text-muted fs-5 mb-5">
+        {{ message }}
       </p>
 
       <div class="actions-erreur d-flex flex-column align-items-center gap-4">
@@ -30,19 +30,25 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
+import {useRouter} from 'vue-router'
 
-const router = useRouter()
+defineProps({
+  code: {type: String, required: true},
+  titre: {type: String, required: true},
+  message: {type: String, default: ''}
+});
+
+const router = useRouter();
 
 function retourAccueil() {
-  router.push('/')
-}
-
-function retourPrecedent() {
   if (window.history.length > 1) {
-    router.back()
-    return
+    router.back();
+    return;
   }
-  router.push('/')
+  router.push('/');
 }
 </script>
+
+<style scoped>
+
+</style>

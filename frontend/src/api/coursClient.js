@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
-export const coursService = {
+export const coursClient = {
 
   async getTousLesCours() {
     const token = localStorage.getItem('token');

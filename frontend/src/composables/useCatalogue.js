@@ -1,5 +1,5 @@
 import {ref, computed} from 'vue';
-import {coursService} from "@/api/coursService.js";
+import {coursClient} from "@/api/coursClient.js";
 import {useFiltresCours} from "@/composables/useFiltresCours.js";
 
 export function useCatalogue() {
@@ -13,7 +13,7 @@ export function useCatalogue() {
     chargement.value = true;
     erreur.value = '';
     try {
-      lesCours.value = await coursService.getTousLesCours()
+      lesCours.value = await coursClient.getTousLesCours()
     } catch (e) {
       console.error('Erreur de chargement :', e);
       erreur.value = 'Chargement du catalogue impossible';

@@ -1,5 +1,5 @@
 import {ref} from 'vue';
-import {coursService} from "@/api/coursService.js";
+import {coursClient} from "@/api/coursClient.js";
 import {useFiltresCours} from "@/composables/useFiltresCours.js";
 
 export function useCoursInscrits() {
@@ -13,11 +13,11 @@ export function useCoursInscrits() {
   async function initialiserPage() {
     chargement.value = true;
     try {
-      lesCours.value = await coursService.getCoursInscrits();
+      lesCours.value = await coursClient.getCoursInscrits();
 
       for (const cours of lesCours.value) {
         try {
-          tauxProgression.value[cours.id] = await coursService.getProgressionCours(cours.id);
+          tauxProgression.value[cours.id] = await coursClient.getProgressionCours(cours.id);
         } catch (e) {
           tauxProgression.value[cours.id] = 0;
         }
