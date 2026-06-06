@@ -3,6 +3,16 @@ import axios from 'axios'
 const API_BASE_URL = 'http://localhost:8080/api';
 
 export const coursClient = {
+  async getCours(idCours) {
+    const token = localStorage.getItem('token')
+    const reponse = await axios.get(`${API_BASE_URL}/cours/${idCours}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    return reponse.data
+  },
 
   async getTousLesCours() {
     const token = localStorage.getItem('token');
@@ -33,6 +43,21 @@ export const coursClient = {
     });
 
     return reponse.data.tauxProgression;
+  },
+
+  async inscrireCours(idCours) {
+    const token = localStorage.getItem('token')
+    const reponse = await axios.post(
+      `${API_BASE_URL}/inscription/etudiants/cours/${idCours}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+
+    return reponse.data
   },
 
   async getCoursPublies(){
