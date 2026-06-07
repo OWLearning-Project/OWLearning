@@ -37,11 +37,11 @@
                         </div>
                     </template>
 
-                    <div class="text-center"> Nom Prénom </div>
+                    <div class="text-center px-3 fw-bold"> {{ pseudoUtilisateur || 'Mon compte' }} </div>
 
                     <BDropdownDivider />
 
-                    <BDropdownItem href="#">Mon Profil</BDropdownItem>
+                    <BDropdownItem href="/profil" @click.prevent="allerProfil">Mon Profil</BDropdownItem>
                     <BDropdownItem href="#" @click.prevent="seDeconnecter" class="text-danger">Déconnexion</BDropdownItem>
                 </BNavItemDropdown>
 
@@ -59,10 +59,17 @@
 
     const router = useRouter()
     const roleUtilisateur = ref('');
+    const pseudoUtilisateur = ref('');
 
     onMounted(() => {
-      roleUtilisateur.value = getRoleUtilisateur();
+      const utilisateur = getUtilisateurConnecte();
+      roleUtilisateur.value = utilisateur.role;
+      pseudoUtilisateur.value = utilisateur.pseudo;
     })
+
+    function allerProfil() {
+        router.push('/profil');
+    }
 
     function seDeconnecter () {
         console.log("Déconnexion...")
@@ -70,16 +77,19 @@
         router.push('/connexion');
     }
 
-    function getRoleUtilisateur() {
+    function getUtilisateurConnecte() {
       const token = localStorage.getItem('token');
-      if(!token) { return null; }
+      if(!token) { return { role: null, pseudo: '' }; }
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.role;
+        return {
+          role: payload.role,
+          pseudo: payload.pseudo || '',
+        };
       }
       catch(e){
         console.error("Token invalide", e);
-        return null;
+        return { role: null, pseudo: '' };
       }
     }
 </script>
