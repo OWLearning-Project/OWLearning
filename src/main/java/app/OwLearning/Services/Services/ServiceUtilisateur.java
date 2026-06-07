@@ -6,6 +6,8 @@ import app.OwLearning.Services.Interfaces.IServiceUtilisateur;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Le Service Utilisateur permet de gérer le traitement des utilisateurs
  */
@@ -105,5 +107,12 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
         Utilisateur utilisateurModifie = utilisateurRepository.sauvegarder(utilisateur);
         log.info("Profil utilisateur {} modifié avec succès", id);
         return utilisateurModifie;
+    }
+
+    @Override
+    public List<Utilisateur> getCreateurs()
+    {
+        log.debug("Demande de recuperation de l'annuaire des créateurs");
+        return utilisateurRepository.trouverCreateurs();
     }
 }

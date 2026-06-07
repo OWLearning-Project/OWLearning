@@ -10,6 +10,7 @@ import PageErreur403 from '@/views/PageErreur403.vue'
 import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
 import PageProfil from '@/views/PageProfil.vue'
+import PageMessages from '@/views/PageMessages.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +67,12 @@ const router = createRouter({
       path: '/profil',
       name: 'profil',
       component: PageProfil,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: PageMessages,
       meta: { requiresAuth: true }
     },
     {

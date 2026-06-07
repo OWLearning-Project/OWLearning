@@ -2,6 +2,7 @@ package app.OwLearning.Services.Interfaces;
 
 import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import app.OwLearning.Domaine.Entités.Discussion;
+import app.OwLearning.Domaine.Entités.Message;
 
 import java.util.List;
 
@@ -17,6 +18,23 @@ public interface IServiceDiscussion
      * @return la liste des discussions
      */
     public abstract List<Discussion> getDiscussionsParIdUtilisateur(int idUtilisateur);
+
+    /**
+     * Methode qui permet de créer ou récupérer une discussion entre un utilisateur et un créateur.
+     * @param idUtilisateur id de l'utilisateur connecte
+     * @param idCreateur id du créateur à contacter
+     * @return la discussion existante ou créée
+     */
+    public abstract Discussion demarrerDiscussionAvecCreateur(int idUtilisateur, int idCreateur);
+
+    /**
+     * Methode qui permet de récupérer les messages d'une discussion si l'utilisateur y participe.
+     * @param discussionId id de la discussion
+     * @param idUtilisateur id de l'utilisateur connecte
+     * @return la liste des messages
+     * @throws ExceptionUtilisateurNonAutorise
+     */
+    public abstract List<Message> getMessagesDiscussion(int discussionId, int idUtilisateur) throws ExceptionUtilisateurNonAutorise;
 
     /**
      * Méthode qui permet d'envoyer un message d'un utilisateur

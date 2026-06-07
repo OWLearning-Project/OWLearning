@@ -10,6 +10,16 @@ export const utilisateurClient = {
         Authorization: `Bearer ${token}`,
       },
     })
+    return reponse.data
+  },
+
+  async getCreateurs() {
+    const token = localStorage.getItem('token')
+    const reponse = await axios.get(`${API_BASE_URL}/utilisateurs/createurs`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
     return reponse.data
   },

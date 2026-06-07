@@ -42,6 +42,29 @@ public class TestMessagerieRestController extends AbstractIntegrationTest
     }
 
     @Test
+    public void demarrerDiscussionAvecCreateurCreeUneDiscussion() throws Exception
+    {
+        int eleveId = insererEleve("messagerie-contact-eleve");
+        int createurId = insererCreateur("messagerie-contact-createur");
+
+        mockMvc.perform(post("/api/messagerie/discussions/createurs/" + createurId)
+                        .with(authentication(authentification(eleveId, "ELEVE")))
+                        .with(csrf())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.participants.length()").value(2));
+
+        synchroniserPersistenceContext();
+        Integer participations = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM participation_discussion WHERE id_utilisateur IN (?, ?)",
+                Integer.class,
+                eleveId,
+                createurId
+        );
+        assertThat(participations).isEqualTo(2);
+    }
+
+    @Test
     public void getMessagesDiscussionRetourneLesMessages() throws Exception
     {
         int eleveId = insererEleve("messagerie-messages-eleve");

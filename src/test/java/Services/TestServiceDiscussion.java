@@ -83,6 +83,8 @@ public class TestServiceDiscussion
 
         Utilisateur utilisateur1 = new Createur("createur", "1", "1@createur.com", "1234");
         Utilisateur utilisateur2 = new Eleve("eleve", "bob", "bob@eleve.com", "5678");
+        utilisateur1.setIdUtilisateur(1);
+        utilisateur2.setIdUtilisateur(2);
         Discussion discussion = new Discussion(utilisateur1, utilisateur2);
 
         when(repositoryDiscussion.trouverDiscussionParId(discussionId)).thenReturn(discussion);

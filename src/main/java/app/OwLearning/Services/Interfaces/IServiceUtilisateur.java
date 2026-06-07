@@ -1,6 +1,8 @@
 package app.OwLearning.Services.Interfaces;
 import app.OwLearning.Domaine.Entités.Utilisateur;
 
+import java.util.List;
+
 /**
  * Interface IServiceUtilisateur définissant le contrat pour le traitement des utilisateurs
  */
@@ -22,6 +24,12 @@ public interface IServiceUtilisateur {
      * @return l'utilisateur modifié
      */
     public abstract Utilisateur modifierProfil(int id, String pseudo, String email, Integer age, String niveauEtude);
+
+    /**
+     * Cette methode permet de récupérer tous les créateurs.
+     * @return la liste des créateurs
+     */
+    public abstract List<Utilisateur> getCreateurs();
 
 }
 
