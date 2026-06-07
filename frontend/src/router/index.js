@@ -6,7 +6,7 @@ import PageCatalogue from '@/views/PageCatalogue.vue'
 import PageErreur404 from '@/views/PageErreur404.vue'
 import PageCoursInscrits from '@/views/PageCoursInscrits.vue'
 import PageApercuCours from '@/views/PageApercuCours.vue'
-import PageNonAutorise from '@/views/PageNonAutorise.vue'
+import PageErreur403 from '@/views/PageErreur403.vue'
 import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
 import PageModificationCours from '@/views/PageModificationCours.vue'
@@ -59,7 +59,7 @@ const router = createRouter({
     {
       path: '/non-autorise',
       name: 'non-autorise',
-      component: PageNonAutorise
+      component: PageErreur403
     },
     {
       path: '/cours/:id',
