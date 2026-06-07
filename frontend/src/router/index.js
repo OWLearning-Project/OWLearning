@@ -9,6 +9,7 @@ import PageApercuCours from '@/views/PageApercuCours.vue'
 import PageNonAutorise from '@/views/PageNonAutorise.vue'
 import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
+import PageModificationCours from '@/views/PageModificationCours.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,14 +62,20 @@ const router = createRouter({
       component: PageNonAutorise
     },
     {
-      path: '/:pathMatch(.*)*',
-      name: 'erreur-404',
-      component: PageErreur404
-    },
-    {
       path: '/cours/:id',
       name: 'cours',
       component: PageCours
+    },
+    {
+      path: '/cours/:id/modifier',
+      name: 'modifierCours',
+      component: PageModificationCours,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'erreur-404',
+      component: PageErreur404
     }
   ],
 })

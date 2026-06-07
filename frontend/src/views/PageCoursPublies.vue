@@ -119,6 +119,18 @@
                   <small class="date-cours text-muted">
                     <i class="bi bi-calendar3 me-1"></i> {{ formaterDate(cours.dateCreation) }}
                   </small>
+
+                  <BButton
+                    v-if="estCreateur"
+                    class="bouton-cours d-flex align-items-center gap-2 px-3 py-2 shadow-sm fw-medium"
+                    size="sm"
+                    @click="allerVersModification(cours.id)"
+                    title="Modifier les informations de ce cours"
+                  >
+                    <i class="bi bi-pencil-square fs-5"></i>
+                    <span>Modifier</span>
+                  </BButton>
+
                 </BCardFooter>
               </BCard>
             </BCol>
@@ -158,6 +170,23 @@
     { text: 'Intermédiaire', value: 'INTERMEDIAIRE' },
     { text: 'Avancé', value: 'AVANCE' },
   ]
+
+  const estCreateur = computed(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const role = JSON.parse(atob(token.split('.')[1])).role;
+        return role === 'CREATEUR' || role === 'createur';
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  });
+
+  function allerVersModification(id) {
+    routeur.push(`/cours/${id}/modifier`);
+  }
 
   const categoriesPossibles = computed(() =>
   {
