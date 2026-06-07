@@ -24,15 +24,6 @@
       <p class="text-muted mb-4">
         <i class="bi bi-person-circle me-1"></i>
         {{ nomCreateur }}
-
-        <BButton
-          variant="outline-primary"
-          size="sm"
-          class="ms-3 rounded-pill"
-          @click="$emit('contact')"
-        >
-          <i class="bi bi-chat-dots me-1"></i> Contacter
-        </BButton>
       </p>
 
       <p class="description-apercu-cours mb-4">
