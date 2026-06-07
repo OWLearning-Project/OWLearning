@@ -40,6 +40,10 @@ public class Chapitre
      */
     public void ajouterRessource(Ressource ressource)
     {
+        if (ressource == null)
+            throw new IllegalArgumentException("Une ressource null ne peut pas être ajoutée");
+        if (this.ressources == null)
+            this.ressources = new ArrayList<Ressource>();
         this.ressources.add(ressource);
     }
 

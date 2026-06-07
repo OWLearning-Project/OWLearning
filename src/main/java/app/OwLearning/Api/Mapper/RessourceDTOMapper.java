@@ -11,9 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RessourceDTOMapper {
 
-    @Mapping(target = "id_ressource", ignore = true)
+    @Mapping(target = "id_ressource", source = "id")
     Ressource toDomain(RessourceRequest resquest);
 
+    @Mapping(target = "id", source = "id_ressource")
     @Mapping(target = "nom", source = "nom")
     RessourceRequest toRequest(Ressource ressource);
 

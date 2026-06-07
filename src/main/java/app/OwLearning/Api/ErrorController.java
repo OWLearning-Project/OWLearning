@@ -67,6 +67,10 @@ public class ErrorController
     public ResponseEntity<String> bad_request(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> internal_server_error(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+    }
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> exception(NullPointerException ex)
     {

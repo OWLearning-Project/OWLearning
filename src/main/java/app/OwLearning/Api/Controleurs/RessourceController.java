@@ -6,9 +6,12 @@ import app.OwLearning.Api.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Services.Interfaces.IServiceRessource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("api/ressources")
@@ -28,6 +31,14 @@ public class RessourceController {
         Ressource ressource = this.serviceRessource.creeRessource(ressourceDTO.getNom(), ressourceDTO.getUrl(), ressourceDTO.getType());
         RessourceResponse request = this.mapper.toResponse(ressource);
         return ResponseEntity.status(HttpStatus.CREATED).body(request);
+    }
+
+    @PreAuthorize("hasAuthority('CREATEUR')")
+    @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<RessourceResponse> uploaderRessource(@RequestParam("fichier") MultipartFile fichier){
+        String urlBase = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+        Ressource ressource = this.serviceRessource.uploaderRessource(fichier, urlBase);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.mapper.toResponse(ressource));
     }
 
     @GetMapping("/{idRessource}")

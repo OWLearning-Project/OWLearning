@@ -11,6 +11,7 @@ import app.OwLearning.Api.Mapper.RessourceDTOMapper;
 import app.OwLearning.Domaine.Entités.Chapitre;
 import app.OwLearning.Domaine.Entités.Ressource;
 import app.OwLearning.Services.Interfaces.IServiceChapitre;
+import app.OwLearning.Services.Interfaces.IServiceRessource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,13 +26,15 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("isAuthenticated()")
 public class ChapitreController {
     private final IServiceChapitre serviceChapitre;
+    private final IServiceRessource serviceRessource;
     private final ChapitreDTOMapper chapitreMapper;
-    private final RessourceDTOMapper resssourceMapper;
+    private final RessourceDTOMapper ressourceMapper;
 
-    public ChapitreController(IServiceChapitre serviceChapitre, ChapitreDTOMapper chapitreMapper, RessourceDTOMapper resssourceMapper){
+    public ChapitreController(IServiceChapitre serviceChapitre, IServiceRessource serviceRessource, ChapitreDTOMapper chapitreMapper, RessourceDTOMapper ressourceMapper){
         this.serviceChapitre = serviceChapitre;
+        this.serviceRessource = serviceRessource;
         this.chapitreMapper = chapitreMapper;
-        this.resssourceMapper = resssourceMapper;
+        this.ressourceMapper = ressourceMapper;
     }
 
     @GetMapping("/{idChapitre}")
@@ -50,12 +53,15 @@ public class ChapitreController {
 
     @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idChapitre}/ressources")
-    public ResponseEntity<?> ajouterRessource(
+    public ResponseEntity<RessourceResponse> ajouterRessource(
             @PathVariable("idChapitre") int idChapitre,
             @RequestBody RessourceRequest dto) {
-        Ressource nouvelleRessource = this.resssourceMapper.toDomain(dto);
-        this.serviceChapitre.ajouterRessource(idChapitre, nouvelleRessource);
-        return ResponseEntity.status(HttpStatus.CREATED).body("La ressource a été ajoutée");
+        Ressource ressource = dto.getId() != null && dto.getId() > 0
+                ? this.serviceRessource.getContenuRessource(dto.getId())
+                : this.ressourceMapper.toDomain(dto);
+
+        this.serviceChapitre.ajouterRessource(idChapitre, ressource);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.ressourceMapper.toResponse(ressource));
     }
 
     @PreAuthorize("hasAuthority('CREATEUR')")
@@ -64,7 +70,7 @@ public class ChapitreController {
             @PathVariable("idChapitre") int idChapitre,
             @PathVariable("idRessource") int idRessource) {
         Ressource ressource = this.serviceChapitre.retirerRessource(idChapitre, idRessource);
-        return ResponseEntity.ok(this.resssourceMapper.toResponse(ressource));
+        return ResponseEntity.ok(this.ressourceMapper.toResponse(ressource));
     }
 
     @PostMapping("/{idChapitre}/terminer")

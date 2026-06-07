@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Classe ServiceCours, permet de gérer le traitement des cours
@@ -102,9 +105,8 @@ public class ServiceCours implements IServiceCours
             log.warn("Echec. Le titre est invalde");
             throw new IllegalArgumentException("Le titre n'est pas valide");
         }
-        if (description == null || description.isBlank()){
-            log.warn("Echec. Le description est invalde");
-            throw new IllegalArgumentException("La description n'est pas valide");
+        if (description == null){
+            description = "";
         }
         if (difficulte == null){
             log.warn("Echec. Le difficulte est invalde");
@@ -221,7 +223,7 @@ public class ServiceCours implements IServiceCours
      * @param chapitre chapitre à ajouter
      */
     @Override
-    public void ajouterChapitre(int coursId, Chapitre chapitre) {
+    public Chapitre ajouterChapitre(int coursId, Chapitre chapitre) {
         log.debug("Ajout d'un chapitre {}", coursId);
         if(chapitre == null){
             log.warn("L'ajout du chapitre a échoué");
@@ -232,10 +234,37 @@ public class ServiceCours implements IServiceCours
             throw new ExceptionCoursInexistant("Le cours n'existe pas", coursId);
         }
         Cours leCours = coursRepository.trouverParId(coursId);
+
+        Set<Integer> idsChapitresExistants = new HashSet<>();
+        if (leCours.getChapitres() != null) {
+            List<Chapitre> chapitresDuCours = leCours.getChapitres();
+            for (int i = 0; i < chapitresDuCours.size(); i++) {
+                Chapitre chapitreExistant = chapitresDuCours.get(i);
+                idsChapitresExistants.add(chapitreExistant.getId());
+            }
+        }
+
         leCours.ajouterChapitre(chapitre);
-        coursRepository.sauvegarder(leCours);
+        Cours coursSauvegarde = coursRepository.sauvegarder(leCours);
 
         log.info("Chapitre ajouté avec succès au cours {}",  coursId);
+        return trouverChapitreAjoute(coursSauvegarde, idsChapitresExistants, chapitre);
+    }
+
+    private Chapitre trouverChapitreAjoute(Cours coursSauvegarde, Set<Integer> idsChapitresExistants, Chapitre chapitreInitial)
+    {
+        if (coursSauvegarde != null && coursSauvegarde.getChapitres() != null)
+        {
+            for (Chapitre chapitre : coursSauvegarde.getChapitres())
+            {
+                if (!idsChapitresExistants.contains(chapitre.getId()))
+                {
+                    return chapitre;
+                }
+            }
+        }
+
+        return chapitreInitial;
     }
 
     /**

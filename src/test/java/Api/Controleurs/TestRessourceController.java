@@ -9,12 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.mock.web.MockMultipartFile;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.authentication;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -94,5 +99,35 @@ public class TestRessourceController extends AbstractIntegrationTest
         synchroniserPersistenceContext();
         Integer ressourcesRestantes = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM ressource WHERE id_ressource = ?", Integer.class, ressourceId);
         assertThat(ressourcesRestantes).isZero();
+    }
+
+    @Test
+    public void createurPeutUploaderUneRessourceMultipart() throws Exception
+    {
+        int createurId = insererCreateur("ressource-upload-createur");
+        MockMultipartFile fichier = new MockMultipartFile(
+                "fichier",
+                "support.pdf",
+                "application/pdf",
+                "Contenu PDF".getBytes(StandardCharsets.UTF_8)
+        );
+
+        mockMvc.perform(multipart("/api/ressources/upload")
+                        .file(fichier)
+                        .with(authentication(authentification(createurId, "CREATEUR")))
+                        .with(csrf()))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.nom").value("support.pdf"))
+                .andExpect(jsonPath("$.type").value("FICHIER_PDF"))
+                .andExpect(jsonPath("$.url").value(containsString("/uploads/ressources/")));
+
+        synchroniserPersistenceContext();
+        Integer ressources = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM ressource WHERE nom = ? AND type_ressource = ?",
+                Integer.class,
+                "support.pdf",
+                "FICHIER_PDF"
+        );
+        assertThat(ressources).isEqualTo(1);
     }
 }

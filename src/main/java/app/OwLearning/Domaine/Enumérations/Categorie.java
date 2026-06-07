@@ -1,6 +1,7 @@
 package app.OwLearning.Domaine.Enumérations;
 
 import app.OwLearning.Domaine.Exceptions.ExceptionCategorieInexistante;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Getter;
 
 /**
@@ -51,10 +52,16 @@ public enum Categorie
     {
         for (Categorie uneCategorie : Categorie.values())
         {
-            if (uneCategorie.getLabel().equalsIgnoreCase(label))
+            if (uneCategorie.getLabel().equalsIgnoreCase(label) || uneCategorie.name().equalsIgnoreCase(label))
                 return uneCategorie;
         }
         throw new ExceptionCategorieInexistante("La catégorie n'existe pas", label);
+    }
+
+    @JsonCreator
+    public static Categorie depuisJson(String valeur)
+    {
+        return stringEnCategorie(valeur);
     }
 
     public String toString()

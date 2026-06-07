@@ -77,8 +77,9 @@ public interface IServiceCours
      * Methode permettant d'ajouter un chapitre à un cours
      * @param coursId id du cours
      * @param chapitre chapitre à ajouter
+     * @return chapitre ajouté
      */
-    public abstract void ajouterChapitre(int coursId, Chapitre chapitre);
+    public abstract Chapitre ajouterChapitre(int coursId, Chapitre chapitre);
 
     /**
      * Methode permettant de retirer un chapitre à un cours

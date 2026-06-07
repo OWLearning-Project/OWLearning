@@ -154,7 +154,7 @@ public class CoursRepository implements ICoursRepository
      * @param cours
      */
     @Override
-    public void sauvegarder(Cours cours)
+    public Cours sauvegarder(Cours cours)
     {
         CoursEntity entity = coursMapper.toEntity(cours);
 
@@ -168,7 +168,10 @@ public class CoursRepository implements ICoursRepository
                 chapitre.setCours(entity);
             }
         }
-        this.jpaRepository.save(entity);
+        CoursEntity saved = this.jpaRepository.save(entity);
+        Cours savedCours = coursMapper.toDomain(saved);
+        relationReconstructor.reconstructCoursChapitres(savedCours);
+        return savedCours;
     }
 
     private ArrayList<Cours> toDomainCoursAvecRelations(List<CoursEntity> entities)

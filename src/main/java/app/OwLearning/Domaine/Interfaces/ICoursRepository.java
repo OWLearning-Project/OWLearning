@@ -64,6 +64,7 @@ public interface ICoursRepository
     /**
      * Sauvegarde le nouvel objet Cours
      * @param cours
+     * @return cours sauvegardé
      */
-    public abstract void sauvegarder(Cours cours);
+    public abstract Cours sauvegarder(Cours cours);
 }

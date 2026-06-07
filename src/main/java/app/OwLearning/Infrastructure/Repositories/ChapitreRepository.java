@@ -35,6 +35,17 @@ public class ChapitreRepository implements IChapitreRepository {
     public int sauvegarder(Chapitre chapitre)
     {
         ChapitreEntity chapitreEntity = chapitreMapper.toEntity(chapitre);
+
+        if (chapitre.getId() > 0)
+        {
+            ChapitreEntity chapitreExistant = jpaRepository.findById(chapitre.getId()).orElse(null);
+            if (chapitreExistant != null)
+            {
+                chapitreMapper.updateEntityFromDomain(chapitre, chapitreExistant);
+                chapitreEntity = chapitreExistant;
+            }
+        }
+
         ChapitreEntity savedChapitreEntity = jpaRepository.save(chapitreEntity);
         return savedChapitreEntity.getId();
     }

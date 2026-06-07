@@ -11,6 +11,7 @@ import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
 import PageProfil from '@/views/PageProfil.vue'
 import PageMessages from '@/views/PageMessages.vue'
+import PageCreationCours from '@/views/PageCreationCours.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -55,6 +56,12 @@ const router = createRouter({
       path: '/mes-cours-publies',
       name: 'mesCoursPublies',
       component: PageCoursPublies,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
+    },
+    {
+      path: '/cours/creation',
+      name: 'creationCours',
+      component: PageCreationCours,
       meta: { requiresAuth: true, roleRequis: 'createur' }
     },
     {
