@@ -5,6 +5,10 @@
       <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ messageErreur }}
     </BAlert>
 
+    <BAlert v-if="messageSucces !== ''" variant="success" show class="alerte-auth m-3 text-center shadow border-0">
+      <i class="bi bi-check-circle-fill me-2"></i> {{ messageSucces }}
+    </BAlert>
+
     <BForm @submit.prevent="seConnecter" class="p-3">
       <BFormGroup class="mb-4 fw-bold">
         <template #label>Email <span class="text-danger">*</span> :</template>
@@ -48,6 +52,7 @@
       motDePasse,
       chargement,
       messageErreur,
+      messageSucces,
       seConnecter,
       allerAInscription: inscription
     } = useConnexion();
