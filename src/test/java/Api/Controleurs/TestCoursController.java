@@ -105,7 +105,7 @@ public class TestCoursController extends AbstractIntegrationTest
     }
 
     @Test
-    public void createurNePeutPasRecupererLeCoursDUnAutreCreateur() throws Exception
+    public void createurPeutRecupererLeCoursDUnAutreCreateurPourApercu() throws Exception
     {
         int createurId = insererCreateur("cours-detail-createur-refuse");
         int autreCreateurId = insererCreateur("cours-detail-autre-createur");
@@ -114,7 +114,9 @@ public class TestCoursController extends AbstractIntegrationTest
         mockMvc.perform(get("/api/cours/" + coursId)
                         .with(authentication(authentification(createurId, "CREATEUR")))
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(coursId))
+                .andExpect(jsonPath("$.titre").value("Cours autre createur"));
     }
 
     @Test

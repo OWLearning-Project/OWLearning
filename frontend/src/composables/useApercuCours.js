@@ -1,20 +1,14 @@
 import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { coursClient } from '@/api/coursClient.js'
 
 export function useApercuCours(idCours)
 {
-  const router = useRouter()
-
   const cours = ref(null)
   const estInscrit = ref(false)
   const estCreateurDuCours = ref(false)
   const progression = ref(0)
   const chargement = ref(true)
-  const actionEnCours = ref(false)
   const erreur = ref('')
-  const messageAction = ref('')
-  const typeMessageAction = ref('info')
 
   const progressionPourcent = computed(() =>
   {
@@ -24,28 +18,19 @@ export function useApercuCours(idCours)
     return Math.min(100, Math.max(0, Math.round(pourcentage)))
   })
 
-  const libelleAction = computed(() =>
-  {
-    if (estCreateurDuCours.value)
-    {
-      return 'Voir le cours'
-    }
-
-    if (estInscrit.value)
-    {
-      return 'Reprendre'
-    }
-
-    return cours.value?.estPrive ? "Demander l'inscription" : "S'inscrire"
-  })
+  const peutVoirCours = computed(() => estInscrit.value || estCreateurDuCours.value)
+  const libelleAction = computed(() => peutVoirCours.value ? 'Voir le cours' : '')
 
   async function chargerApercuCours()
   {
     chargement.value = true
     erreur.value = ''
+    estInscrit.value = false
     estCreateurDuCours.value = false
+    progression.value = 0
 
-    try {
+    try
+    {
       const utilisateurConnecte = recupererUtilisateurConnecte()
       const coursCharge = await coursClient.getCours(idCours)
 
@@ -53,16 +38,8 @@ export function useApercuCours(idCours)
       estCreateurDuCours.value = utilisateurConnecte.role === 'createur'
         && Number(coursCharge.createur?.id) === utilisateurConnecte.id
 
-      if (utilisateurConnecte.role === 'createur')
+      if (utilisateurConnecte.role !== 'eleve')
       {
-        if (!estCreateurDuCours.value)
-        {
-          router.push('/non-autorise')
-          return
-        }
-
-        estInscrit.value = false
-        progression.value = 0
         return
       }
 
@@ -76,13 +53,6 @@ export function useApercuCours(idCours)
     } catch (e)
     {
       console.error("Erreur de chargement de l'aperçu :", e)
-
-      if (e.response && e.response.status === 403)
-      {
-        router.push('/non-autorise')
-        return
-      }
-
       erreur.value = "Chargement de l'aperçu du cours impossible"
     } finally
     {
@@ -99,43 +69,6 @@ export function useApercuCours(idCours)
     {
       console.warn('Progression indisponible :', e)
       progression.value = 0
-    }
-  }
-
-  async function actionPrincipale() {
-    messageAction.value = ''
-
-    if (estCreateurDuCours.value)
-    {
-      return
-    }
-
-    if (estInscrit.value)
-    {
-      typeMessageAction.value = 'info'
-      messageAction.value = "La page de cours n'est pas encore disponible."
-      return
-    }
-
-    actionEnCours.value = true
-
-    try
-    {
-      await coursClient.inscrireCours(idCours)
-      estInscrit.value = true
-      typeMessageAction.value = 'success'
-      messageAction.value = cours.value?.estPrive
-        ? "Demande d'inscription envoyée."
-        : 'Inscription réussie.'
-      await chargerProgression()
-    } catch (e)
-    {
-      console.error("Erreur d'inscription :", e)
-      typeMessageAction.value = 'danger'
-      messageAction.value = "L'inscription au cours est impossible pour le moment."
-    } finally
-    {
-      actionEnCours.value = false
     }
   }
 
@@ -169,13 +102,10 @@ export function useApercuCours(idCours)
     estInscrit,
     estCreateurDuCours,
     chargement,
-    actionEnCours,
     erreur,
-    messageAction,
-    typeMessageAction,
     progressionPourcent,
+    peutVoirCours,
     libelleAction,
     chargerApercuCours,
-    actionPrincipale
   }
 }

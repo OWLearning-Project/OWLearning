@@ -36,9 +36,7 @@
             :est-inscrit="estInscrit"
             :est-createur-du-cours="estCreateurDuCours"
             :progression="progressionPourcent"
-            :message="messageAction"
-            :type-message="typeMessageAction"
-            :action-en-cours="actionEnCours"
+            :peut-voir-cours="peutVoirCours"
             :libelle-action="libelleAction"
             @action="gererActionPrincipale"
           />
@@ -66,14 +64,11 @@ const {
   estInscrit,
   estCreateurDuCours,
   chargement,
-  actionEnCours,
   erreur,
-  messageAction,
-  typeMessageAction,
   progressionPourcent,
+  peutVoirCours,
   libelleAction,
   chargerApercuCours,
-  actionPrincipale,
 } = useApercuCours(idCours)
 
 onMounted(() => {
@@ -85,11 +80,8 @@ function retourArriere() {
 }
 
 function gererActionPrincipale() {
-  if (estInscrit.value || estCreateurDuCours.value) {
+  if (peutVoirCours.value) {
     router.push({ name: 'cours', params: { id: idCours } })
-    return
   }
-
-  actionPrincipale()
 }
 </script>

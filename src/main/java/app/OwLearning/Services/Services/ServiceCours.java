@@ -8,7 +8,6 @@ import app.OwLearning.Domaine.Entités.*;
 import app.OwLearning.Domaine.Exceptions.ExceptionCoursInexistant;
 import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisIdChapitre;
 import app.OwLearning.Domaine.Exceptions.ExceptionMauvaisLabelCategorie;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,29 +45,6 @@ public class ServiceCours implements IServiceCours
         }
         return cours;
     }
-
-    @Override
-    public Cours getCoursParIdPourUtilisateur(int idCours, int idUtilisateur, String roleUtilisateur)
-    {
-        Cours cours = getCoursParId(idCours);
-        verifierAccesDetailCours(cours, idUtilisateur, roleUtilisateur);
-
-        return cours;
-    }
-
-    private void verifierAccesDetailCours(Cours cours, int idUtilisateur, String roleUtilisateur)
-    {
-        if (cours == null || !"CREATEUR".equalsIgnoreCase(roleUtilisateur))
-        {
-            return;
-        }
-
-        if (cours.getCreateur() == null || cours.getCreateur().getIdUtilisateur() != idUtilisateur)
-        {
-            throw new AccessDeniedException("Le createur ne peut acceder qu'a ses propres cours");
-        }
-    }
-
 
     /**
      * Méthode qui permet de récupérer les cours créés par un créateur avec son id

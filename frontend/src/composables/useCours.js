@@ -49,13 +49,18 @@ export function useCours(idCours) {
       })
       cours.value = reponseCours.data
 
-      const idUtilisateurConnecte = recuperationId(token)
+      const utilisateurConnecte = recuperationUtilisateur(token)
+      const estCreateurConnecte = utilisateurConnecte.role === 'createur'
 
-      if (cours.value.createur && cours.value.createur.id == idUtilisateurConnecte)
+      if (cours.value.createur && cours.value.createur.id === utilisateurConnecte.id)
       {
         estLeCreateur.value = true
         progression.value = 0
         indexChapitreActif.value = 0
+      } else if (estCreateurConnecte)
+      {
+        router.push('/non-autorise')
+        return
       } else
       {
         const reponseProgression = await axios.get(`/api/progression/${idCours}`,
@@ -95,17 +100,20 @@ export function useCours(idCours) {
     elevesDejaCharges.value = true
   }
 
-  function recuperationId(token)
+  function recuperationUtilisateur(token)
   {
     try
     {
       const payloadBase64 = token.split('.')[1]
       const decodage = JSON.parse(atob(payloadBase64))
-      return decodage.id
+      return {
+        id: Number(decodage.id),
+        role: decodage.role,
+      }
     } catch (e)
     {
       console.error('Erreur token :', e)
-      return null
+      return { id: null, role: null }
     }
   }
 

@@ -19,29 +19,14 @@
       ></BProgress>
     </div>
 
-    <p v-else class="text-muted mb-4">Inscrivez-vous pour suivre votre progression sur ce cours.</p>
-
-    <BAlert
-      v-if="message !== ''"
-      :variant="typeMessage"
-      show
-      class="alerte-catalogue-vide border-0"
-    >
-      {{ message }}
-    </BAlert>
+    <p v-else class="text-muted mb-4">Vous pouvez consulter l'aperçu de ce cours.</p>
 
     <BButton
+      v-if="peutVoirCours"
       class="bouton-cours w-100 rounded-pill fw-bold py-2"
-      :disabled="actionEnCours"
       @click="$emit('action')"
     >
-      <template v-if="actionEnCours">
-        <BSpinner small class="me-2"></BSpinner>
-        Traitement...
-      </template>
-      <template v-else>
-        {{ libelleAction }}
-      </template>
+      {{ libelleAction }}
     </BButton>
   </BCard>
 </template>
@@ -63,17 +48,7 @@ defineProps({
     type: Number,
     default: 0,
   },
-  message:
-    {
-    type: String,
-    default: '',
-  },
-  typeMessage:
-    {
-    type: String,
-    default: 'info',
-  },
-  actionEnCours:
+  peutVoirCours:
     {
     type: Boolean,
     default: false,

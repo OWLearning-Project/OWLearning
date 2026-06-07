@@ -84,14 +84,9 @@ public class CoursController {
      * @return le cours, une erreur http Not_found si le cours n'existe pas, une erreur http Bad_request sinon
      */
     @GetMapping("/{idCours}")
-    public ResponseEntity<?> getCoursParId(@PathVariable("idCours") int idCours,
-                                           @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO) {
+    public ResponseEntity<?> getCoursParId(@PathVariable("idCours") int idCours) {
         try {
-            Cours cours = serviceCours.getCoursParIdPourUtilisateur(
-                    idCours,
-                    utilisateurAuthentifieDTO.getId(),
-                    utilisateurAuthentifieDTO.getRole()
-            );
+            Cours cours = serviceCours.getCoursParId(idCours);
 
             return ResponseEntity.ok(this.mapper.toResponse(cours));
         } catch (ExceptionCoursInexistant e) {
