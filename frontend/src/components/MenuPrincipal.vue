@@ -25,15 +25,11 @@
 
             <BNavbarNav class="align-items-center gap-3 ms-auto mt-3 mt-lg-0">
 
-                <BNavItem href="#">
-                    <i class="bi bi-gear custom-icon"></i>
-                </BNavItem>
-
                 <BNavItemDropdown right no-caret>
 
                     <template #button-content>
-                        <div class="avatar-menu bg-white text-dark rounded-circle d-flex justify-content-center align-items-center">
-                            <i class="profil-icon bi bi-person text-secondary"></i>
+                        <div class="avatar-menu bg-white text-dark rounded-circle d-flex justify-content-center align-items-center fw-bold">
+                            {{ initialesUtilisateur }}
                         </div>
                     </template>
 
@@ -55,11 +51,23 @@
 <script setup>
     import { BCollapse, BDropdownItem, BNavbar, BNavbarBrand, BNavbarToggle, BNavItemDropdown } from 'bootstrap-vue-next';
     import { useRouter } from 'vue-router'
-    import {ref, onMounted } from 'vue';
+    import {ref, onMounted, computed } from 'vue';
 
     const router = useRouter()
     const roleUtilisateur = ref('');
     const pseudoUtilisateur = ref('');
+
+    const initialesUtilisateur = computed(() => {
+      if (!pseudoUtilisateur.value) {
+        return '?';
+      }
+
+      return pseudoUtilisateur.value
+        .split(' ')
+        .map(mot => mot.charAt(0).toUpperCase())
+        .slice(0, 2)
+        .join('');
+    });
 
     onMounted(() => {
       const utilisateur = getUtilisateurConnecte();
