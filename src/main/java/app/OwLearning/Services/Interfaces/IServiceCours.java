@@ -28,6 +28,15 @@ public interface IServiceCours
     public abstract Cours getCoursParId(int id);
 
     /**
+     * Methode permettant de recuperer un cours accessible pour un utilisateur connecte
+     * @param idCours id du cours
+     * @param idUtilisateur id de l'utilisateur connecte
+     * @param roleUtilisateur role de l'utilisateur connecte
+     * @return l'objet Cours associe
+     */
+    public abstract Cours getCoursParIdPourUtilisateur(int idCours, int idUtilisateur, String roleUtilisateur);
+
+    /**
      * Méthode qui permet de récupérer les cours créés par un créateur avec son id
      * @param idCreateur id du créateur
      * @return l'ArrayList des Cours créés

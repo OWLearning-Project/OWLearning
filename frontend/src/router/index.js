@@ -41,7 +41,7 @@ const router = createRouter({
       path: '/catalogue/:idCours/apercu',
       name: 'apercuCours',
       component: PageApercuCours,
-      meta: { requiresAuth: true, roleRequis: 'eleve' }
+      meta: { requiresAuth: true }
     },
     {
       path: '/mes-cours-inscrits',

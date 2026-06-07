@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.access.AccessDeniedException;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,40 @@ public class TestServiceCours
         // Act & Assert
         assertThrows(ExceptionCoursInexistant.class, () -> serviceCours.getCoursParId(34));
         verify(coursRepository, times(1)).trouverParId(34);
+    }
+
+    @Test
+    public void createurPeutRecupererSonCoursParId()
+    {
+        // Arrange
+        Createur createur = new Createur();
+        createur.setIdUtilisateur(7);
+        Cours cours = new Cours("Java", "Cours Java", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, createur);
+
+        when(coursRepository.trouverParId(12)).thenReturn(cours);
+
+        // Act
+        Cours coursRetourne = serviceCours.getCoursParIdPourUtilisateur(12, 7, "CREATEUR");
+
+        // Assert
+        assertThat(coursRetourne).isSameAs(cours);
+        verify(coursRepository).trouverParId(12);
+    }
+
+    @Test
+    public void createurNePeutPasRecupererLeCoursDUnAutreCreateur()
+    {
+        // Arrange
+        Createur createur = new Createur();
+        createur.setIdUtilisateur(8);
+        Cours cours = new Cours("Java", "Cours Java", false, new ArrayList<Categorie>(), Difficulte.DEBUTANT, createur);
+
+        when(coursRepository.trouverParId(12)).thenReturn(cours);
+
+        // Act + Assert
+        assertThatThrownBy(() -> serviceCours.getCoursParIdPourUtilisateur(12, 7, "CREATEUR"))
+                .isInstanceOf(AccessDeniedException.class);
+        verify(coursRepository).trouverParId(12);
     }
 
     @Test

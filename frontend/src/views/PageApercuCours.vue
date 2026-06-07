@@ -34,6 +34,7 @@
         <BCol lg="4">
           <CarteAccesCours
             :est-inscrit="estInscrit"
+            :est-createur-du-cours="estCreateurDuCours"
             :progression="progressionPourcent"
             :message="messageAction"
             :type-message="typeMessageAction"
@@ -63,6 +64,7 @@ const idCours = Number(route.params.idCours)
 const {
   cours,
   estInscrit,
+  estCreateurDuCours,
   chargement,
   actionEnCours,
   erreur,
@@ -83,7 +85,7 @@ function retourArriere() {
 }
 
 function gererActionPrincipale() {
-  if (estInscrit.value) {
+  if (estInscrit.value || estCreateurDuCours.value) {
     router.push({ name: 'cours', params: { id: idCours } })
     return
   }

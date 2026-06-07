@@ -187,6 +187,7 @@ export function useCours(idCours) {
     if (estLeCreateur.value)
     {
       router.push('/mes-cours-publies')
+      return
     }
     router.push('/mes-cours-inscrits')
   }

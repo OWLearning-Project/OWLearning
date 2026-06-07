@@ -91,6 +91,33 @@ public class TestCoursController extends AbstractIntegrationTest
     }
 
     @Test
+    public void createurPeutRecupererSonCoursParId() throws Exception
+    {
+        int createurId = insererCreateur("cours-detail-proprietaire");
+        int coursId = insererCours(createurId, "Cours proprietaire", true);
+
+        mockMvc.perform(get("/api/cours/" + coursId)
+                        .with(authentication(authentification(createurId, "CREATEUR")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(coursId))
+                .andExpect(jsonPath("$.titre").value("Cours proprietaire"));
+    }
+
+    @Test
+    public void createurNePeutPasRecupererLeCoursDUnAutreCreateur() throws Exception
+    {
+        int createurId = insererCreateur("cours-detail-createur-refuse");
+        int autreCreateurId = insererCreateur("cours-detail-autre-createur");
+        int coursId = insererCours(autreCreateurId, "Cours autre createur", true);
+
+        mockMvc.perform(get("/api/cours/" + coursId)
+                        .with(authentication(authentification(createurId, "CREATEUR")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     public void createurPeutCreerPublierModifierEtSupprimerUnCours() throws Exception
     {
         int createurId = insererCreateur("cours-crud-createur");
