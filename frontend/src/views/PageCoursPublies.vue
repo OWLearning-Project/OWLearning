@@ -78,4 +78,14 @@
   {
     routeur.back();
   }
+
+  function gererCours(donneesRecues) {
+    let coursId;
+    if(typeof donneesRecues === 'object'){
+      coursId = donneesRecues.id;
+    } else {
+      coursId = donneesRecues;
+    }
+    routeur.push(`/cours/${coursId}/modifier`);
+  }
 </script>
