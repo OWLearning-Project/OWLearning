@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
 
 export function useCours(idCours) {
   const router = useRouter()
@@ -57,6 +58,7 @@ export function useCours(idCours) {
         estLeCreateur.value = true
         progression.value = 0
         indexChapitreActif.value = 0
+        enregistrerCoursConsulte(cours.value, 'cours')
       } else if (estCreateurConnecte)
       {
         router.push('/non-autorise')
@@ -72,6 +74,7 @@ export function useCours(idCours) {
         progression.value = reponseProgression.data.tauxProgression
 
         indexChapitreActif.value = nbChapitresFinis.value - 1
+        enregistrerCoursConsulte(cours.value, 'cours')
       }
     } catch (erreur)
     {

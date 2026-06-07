@@ -2,6 +2,10 @@ import { computed, ref } from 'vue'
 import { messagerieClient } from '@/api/messagerieClient.js'
 import { messagerieWebSocketClient } from '@/api/messagerieWebSocketClient.js'
 import { utilisateurClient } from '@/api/utilisateurClient.js'
+import {
+  enregistrerDerniereDiscussionUtilisee,
+  recupererDerniereDiscussionUtilisee,
+} from '@/utils/historiqueAccueil.js'
 
 export function useMessagerie()
 {
@@ -63,7 +67,9 @@ export function useMessagerie()
 
       if (discussionsTriees.value.length > 0)
       {
-        await selectionnerDiscussion(discussionsTriees.value[0])
+        const derniereDiscussionId = recupererDerniereDiscussionUtilisee()
+        const discussionASelectionner = trouverDiscussion(derniereDiscussionId) || discussionsTriees.value[0]
+        await selectionnerDiscussion(discussionASelectionner)
       }
     } catch (e)
     {
@@ -111,6 +117,7 @@ export function useMessagerie()
     }
 
     discussionSelectionnee.value = trouverDiscussion(discussion.id) || normaliserDiscussion(discussion)
+    enregistrerDerniereDiscussionUtilisee(discussion.id)
     await chargerMessages(discussion.id)
     await abonnerDiscussion(discussion.id)
   }

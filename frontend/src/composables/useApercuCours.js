@@ -1,5 +1,6 @@
 import { computed, ref } from 'vue'
 import { coursClient } from '@/api/coursClient.js'
+import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
 
 export function useApercuCours(idCours)
 {
@@ -35,6 +36,7 @@ export function useApercuCours(idCours)
       const coursCharge = await coursClient.getCours(idCours)
 
       cours.value = coursCharge
+      enregistrerCoursConsulte(coursCharge, 'apercuCours')
       estCreateurDuCours.value = utilisateurConnecte.role === 'createur'
         && Number(coursCharge.createur?.id) === utilisateurConnecte.id
 
