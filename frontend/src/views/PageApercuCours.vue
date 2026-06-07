@@ -28,7 +28,7 @@
 
       <BRow class="g-4">
         <BCol lg="8">
-          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" />
+          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" @contact="contacterCreateur()" />
         </BCol>
 
         <BCol lg="4">
@@ -82,6 +82,22 @@ function retourArriere() {
 function gererActionPrincipale() {
   if (peutVoirCours.value) {
     router.push({ name: 'cours', params: { id: idCours } })
+  }
+}
+
+function contacterCreateur() {
+  const donneesCours = cours.value ? cours.value : cours;
+  if (donneesCours && donneesCours.createur) {
+    router.push({
+      name: 'messages',
+      query: { destinataireId: donneesCours.createur.id }
+    }).then(() => {
+    }).catch((erreur) => {
+      console.error("Erreur lors de la redirection :", erreur);
+    });
+
+  } else {
+    console.warn("Le créateur n'a pas été trouvé dans les données.");
   }
 }
 </script>
