@@ -39,7 +39,7 @@
             :type-message="typeMessageAction"
             :action-en-cours="actionEnCours"
             :libelle-action="libelleAction"
-            @action="actionPrincipale"
+            @action="gererActionPrincipale"
           />
         </BCol>
       </BRow>
@@ -80,5 +80,14 @@ onMounted(() => {
 
 function retourArriere() {
   router.back()
+}
+
+function gererActionPrincipale() {
+  if (estInscrit.value) {
+    router.push({ name: 'cours', params: { id: idCours } })
+    return
+  }
+
+  actionPrincipale()
 }
 </script>

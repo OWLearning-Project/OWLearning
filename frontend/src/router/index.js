@@ -56,6 +56,12 @@ const router = createRouter({
       meta: { requiresAuth: true, roleRequis: 'createur' }
     },
     {
+      path: '/cours/:id',
+      name: 'cours',
+      component: PageCours,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/non-autorise',
       name: 'non-autorise',
       component: PageErreur403
@@ -64,11 +70,6 @@ const router = createRouter({
       path: '/:pathMatch(.*)*',
       name: 'erreur-404',
       component: PageErreur404
-    },
-    {
-      path: '/cours/:id',
-      name: 'cours',
-      component: PageCours
     }
   ],
 })

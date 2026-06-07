@@ -78,4 +78,9 @@
   {
     routeur.back();
   }
+
+  function gererCours(idCours)
+  {
+    routeur.push({ name: 'cours', params: { id: idCours } });
+  }
 </script>
