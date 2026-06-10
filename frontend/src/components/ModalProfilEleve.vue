@@ -56,12 +56,23 @@
           <span>{{ formaterDate(eleve.dateInscription) }}</span>
         </div>
       </div>
+
+      <div class="mt-4 pt-3 border-top border-light-subtle d-flex justify-content-end">
+        <BButton
+          style="background-color: #4a2c59; border-color: #4a2c59; color: white;"
+          class="rounded-pill px-4 shadow-sm btn-contact"
+          @click="contacterEleve(eleve.id)"
+        >
+          <i class="bi bi-chat-dots-fill me-2"></i> Contacter l'étudiant
+        </BButton>
+      </div>
     </div>
   </BModal>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   eleve: {
@@ -71,6 +82,7 @@ const props = defineProps({
 })
 
 const estOuvert = defineModel()
+const router = useRouter()
 
 const initiales = computed(() => {
   if (!props.eleve) {
@@ -88,6 +100,15 @@ function formaterDate(date) {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
+  })
+}
+
+function contacterEleve(idEleve) {
+  estOuvert.value = false
+
+  router.push({
+    name: 'messages',
+    query: { destinataireId: idEleve }
   })
 }
 </script>
