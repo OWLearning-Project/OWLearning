@@ -33,12 +33,18 @@ public class RessourceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(request);
     }
 
-    @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping(path = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<RessourceResponse> uploaderRessource(@RequestParam("fichier") MultipartFile fichier){
-        String urlBase = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
-        Ressource ressource = this.serviceRessource.uploaderRessource(fichier, urlBase);
-        return ResponseEntity.status(HttpStatus.CREATED).body(this.mapper.toResponse(ressource));
+    public ResponseEntity<?> uploaderRessource(@RequestParam("fichier") MultipartFile fichier) {
+        try {
+            String urlBase = ServletUriComponentsBuilder.fromCurrentContextPath().toUriString();
+            Ressource ressource = this.serviceRessource.uploaderRessource(fichier, urlBase);
+            return ResponseEntity.status(HttpStatus.CREATED).body(this.mapper.toResponse(ressource));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getClass().getSimpleName() + " : " + e.getMessage());
+        }
     }
 
     @GetMapping("/{idRessource}")
