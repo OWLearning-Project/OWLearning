@@ -57,7 +57,7 @@
         </div>
       </div>
 
-      <div class="mt-4 pt-3 border-top border-light-subtle d-flex justify-content-end">
+      <div v-if="eleve.id !== utilisateurConnecteId" class="mt-4 pt-3 border-top border-light-subtle d-flex justify-content-end">
         <BButton
           style="background-color: #4a2c59; border-color: #4a2c59; color: white;"
           class="rounded-pill px-4 shadow-sm btn-contact"
@@ -91,6 +91,11 @@ const initiales = computed(() => {
   return props.eleve.prenom.charAt(0).toUpperCase() + props.eleve.nom.charAt(0).toUpperCase()
 })
 
+const utilisateurConnecteId = computed(() => {
+  const utilisateur = recupererUtilisateurConnecte()
+  return utilisateur.id
+})
+
 function formaterDate(date) {
   if (!date) {
     return 'Date inconnue'
@@ -110,6 +115,30 @@ function contacterEleve(idEleve) {
     name: 'messages',
     query: { destinataireId: idEleve }
   })
+}
+
+function recupererUtilisateurConnecte()
+{
+  const token = localStorage.getItem('token')
+
+  if (!token)
+  {
+    return { id: null, role: null }
+  }
+
+  try
+  {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+
+    return {
+      id: Number(payload.id),
+      role: payload.role,
+    }
+  } catch (e)
+  {
+    console.error('Token invalide', e)
+    return { id: null, role: null }
+  }
 }
 </script>
 
