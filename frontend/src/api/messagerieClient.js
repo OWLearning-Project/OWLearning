@@ -1,20 +1,12 @@
 import axios from 'axios'
+import { getAuthHeaders } from './authHeader.js'
 
 const API_BASE_URL = 'http://localhost:8080/api'
-
-function headersAuthentifies()
-{
-  const token = localStorage.getItem('token')
-
-  return {
-    Authorization: `Bearer ${token}`,
-  }
-}
 
 export const messagerieClient = {
   async getDiscussions() {
     const reponse = await axios.get(`${API_BASE_URL}/messagerie/mes-discussions`, {
-      headers: headersAuthentifies(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data
@@ -28,7 +20,7 @@ export const messagerieClient = {
       `${API_BASE_URL}/ressources/upload`,
       formData,
       {
-        headers: headersAuthentifies(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -40,7 +32,7 @@ export const messagerieClient = {
       `${API_BASE_URL}/messagerie/discussions/createurs/${idCreateur}`,
       null,
       {
-        headers: headersAuthentifies(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -49,7 +41,7 @@ export const messagerieClient = {
 
   async getMessages(idDiscussion) {
     const reponse = await axios.get(`${API_BASE_URL}/messagerie/${idDiscussion}/messages`, {
-      headers: headersAuthentifies(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data
