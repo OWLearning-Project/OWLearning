@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getAuthHeaders } from './authHeader.js'
 
 const API_BASE_URL = 'http://localhost:8080/api'
 
@@ -6,9 +7,7 @@ export const utilisateurClient = {
   async getProfil(idUtilisateur) {
     const token = localStorage.getItem('token')
     const reponse = await axios.get(`${API_BASE_URL}/utilisateurs/${idUtilisateur}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     })
     return reponse.data
   },
@@ -16,9 +15,7 @@ export const utilisateurClient = {
   async getCreateurs() {
     const token = localStorage.getItem('token')
     const reponse = await axios.get(`${API_BASE_URL}/utilisateurs/createurs`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     })
 
     return reponse.data
@@ -27,9 +24,7 @@ export const utilisateurClient = {
   async modifierProfil(profil) {
     const token = localStorage.getItem('token')
     const reponse = await axios.put(`${API_BASE_URL}/utilisateurs/edit_profil`, null, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
       params: {
         pseudo: profil.pseudo,
         email: profil.email,
