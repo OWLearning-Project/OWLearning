@@ -24,12 +24,6 @@
       <BFormInput v-model="difficulte" required></BFormInput>
     </BFormGroup>
 
-    <BFormGroup class="mb-4">
-      <BFormCheckbox v-model="estPrive" size="lg" class="fw-bold">
-        Ce cours est privé (invisible pour les autres)
-      </BFormCheckbox>
-    </BFormGroup>
-
     <div class="d-flex justify-content-between mt-5">
       <BButton @click="retour" variant="outline-secondary">Annuler</BButton>
       <BButton type="submit" variant="primary" class="fw-bold px-5">Enregistrer</BButton>
@@ -43,7 +37,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 import { coursClient } from '@/api/coursClient.js';
 
 const route = useRoute();
@@ -52,7 +45,6 @@ const router = useRouter();
 const titre = ref('');
 const description = ref('');
 const difficulte = ref('');
-const estPrive = ref(false);
 
 const chargementEnCours = ref(true);
 const messageErreur = ref('');
@@ -67,7 +59,6 @@ onMounted(async () => {
     titre.value = cours.titre;
     description.value = cours.description;
     difficulte.value = cours.difficulte;
-    estPrive.value = cours.estPrive || false;
 
   } catch (erreur) {
     console.error("Erreur lors du chargement :", erreur);
@@ -86,7 +77,6 @@ async function sauvegarderModifications() {
       titre: titre.value,
       description: description.value,
       difficulte: difficulte.value,
-      estPrive: estPrive.value
     };
 
     await coursClient.modifierCours(idCours, donneesModifiees);
