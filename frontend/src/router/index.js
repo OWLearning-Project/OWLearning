@@ -12,6 +12,7 @@ import PageCoursPublies from '@/views/PageCoursPublies.vue'
 import PageProfil from '@/views/PageProfil.vue'
 import PageMessages from '@/views/PageMessages.vue'
 import PageCreationCours from '@/views/PageCreationCours.vue'
+import PageModificationCours from '@/views/PageModificationCours.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -86,6 +87,12 @@ const router = createRouter({
       path: '/non-autorise',
       name: 'non-autorise',
       component: PageErreur403
+    },
+    {
+      path: '/cours/:id/modifier',
+      name: 'modifierCours',
+      component: PageModificationCours,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
     },
     {
       path: '/:pathMatch(.*)*',

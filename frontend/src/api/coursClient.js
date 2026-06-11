@@ -148,4 +148,15 @@ export const coursClient = {
 
     return reponse.data;
   },
+
+  async modifierCours(idCours, donneesModifiees) {
+    const reponse = await axios.put(
+      `${API_BASE_URL}/cours/${idCours}`,
+      donneesModifiees,
+      {
+        headers: entetesAuth(),
+      }
+    )
+    return reponse.data;
+  }
 }

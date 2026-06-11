@@ -83,9 +83,14 @@
     routeur.back();
   }
 
-  function gererCours(idCours)
-  {
-    routeur.push({ name: 'cours', params: { id: idCours } });
+  function gererCours(donneesRecues) {
+    let coursId;
+    if(typeof donneesRecues === 'object'){
+      coursId = donneesRecues.id;
+    } else {
+      coursId = donneesRecues;
+    }
+    routeur.push(`/cours/${coursId}/modifier`);
   }
 
   function creerCours()
