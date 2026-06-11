@@ -1,19 +1,12 @@
 import axios from 'axios'
+import { getAuthHeaders } from './authHeader.js'
 
 const API_BASE_URL = 'http://localhost:8080/api';
-
-function entetesAuth() {
-  const token = localStorage.getItem('token')
-
-  return {
-    Authorization: `Bearer ${token}`,
-  }
-}
 
 export const coursClient = {
   async getCours(idCours) {
     const reponse = await axios.get(`${API_BASE_URL}/cours/${idCours}`, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data
@@ -21,7 +14,7 @@ export const coursClient = {
 
   async getTousLesCours() {
     const reponse = await axios.get(`${API_BASE_URL}/cours`, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data;
@@ -29,7 +22,7 @@ export const coursClient = {
 
   async getCoursInscrits() {
     const reponse = await axios.get(`${API_BASE_URL}/cours/utilisateurs/inscriptions`, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data;
@@ -37,7 +30,7 @@ export const coursClient = {
 
   async getProgressionCours(idCours) {
     const reponse = await axios.get(`${API_BASE_URL}/progression/${idCours}`, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data.tauxProgression;
@@ -48,7 +41,7 @@ export const coursClient = {
       `${API_BASE_URL}/inscription/etudiants/cours/${idCours}`,
       null,
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -57,7 +50,7 @@ export const coursClient = {
 
   async getCoursPublies() {
     const reponse = await axios.get(`${API_BASE_URL}/cours/utilisateurs/publications`, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data.filter((cours) => cours.estPublie);
@@ -72,7 +65,7 @@ export const coursClient = {
         difficulte: cours.difficulte,
       },
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -85,7 +78,7 @@ export const coursClient = {
       JSON.stringify(categorie),
       {
         headers: {
-          ...entetesAuth(),
+          ...getAuthHeaders(),
           'Content-Type': 'application/json',
         },
       },
@@ -102,7 +95,7 @@ export const coursClient = {
         description: chapitre.description,
       },
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -114,7 +107,7 @@ export const coursClient = {
     donnees.append('fichier', fichier)
 
     const reponse = await axios.post(`${API_BASE_URL}/ressources/upload`, donnees, {
-      headers: entetesAuth(),
+      headers: getAuthHeaders(),
     })
 
     return reponse.data;
@@ -130,7 +123,7 @@ export const coursClient = {
         type: ressource.type,
       },
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -142,7 +135,7 @@ export const coursClient = {
       `${API_BASE_URL}/cours/${idCours}/publier`,
       null,
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       },
     )
 
@@ -154,7 +147,7 @@ export const coursClient = {
       `${API_BASE_URL}/cours/${idCours}`,
       donneesModifiees,
       {
-        headers: entetesAuth(),
+        headers: getAuthHeaders(),
       }
     )
     return reponse.data;
