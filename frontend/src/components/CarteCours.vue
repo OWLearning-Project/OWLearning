@@ -5,10 +5,6 @@
       <span>{{ progression }}%</span>
     </div>
 
-    <div v-if="cours.estPrive" class="badge-cours-prive position-absolute top-0 end-0 m-2 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" title="Cours privé">
-      <i class="icone-cours-prive bi bi-lock-fill"></i>
-    </div>
-
     <div class="bandeau-deco"></div>
 
     <BCardBody class="d-flex flex-column">
@@ -126,10 +122,5 @@ defineEmits(['clic-bouton']);
   padding: 4px 12px;
   border-radius: 50rem;
   z-index: 2;
-}
-.badge-cours-prive {
-  width: 32px;
-  height: 32px;
-  color: #6c757d;
 }
 </style>
