@@ -93,7 +93,24 @@
               </div>
             </div>
 
-            <BForm class="zone-envoi" @submit.prevent="envoyerMessage">
+            <BForm class="zone-envoi" @submit.prevent="envoyerMessageAvecPieceJointe">
+              <input
+                ref="inputFichier"
+                type="file"
+                class="d-none"
+                accept="image/*,.pdf,.doc,.docx,.txt"
+                @change="selectionnerFichier"
+              />
+
+              <BButton
+                type="button"
+                class="bouton-piece-jointe"
+                :disabled="envoiEnCours"
+                @click="ouvrirSelecteurFichier"
+              >
+                <i class="bi bi-plus-lg"></i>
+              </BButton>
+
               <BFormTextarea
                 v-model="nouveauMessage"
                 rows="2"
@@ -101,18 +118,26 @@
                 class="champ-message"
                 placeholder="Votre message"
                 :disabled="envoiEnCours"
-                @keydown.enter.exact.prevent="envoyerMessage"
+                @keydown.enter.exact.prevent="envoyerMessageAvecPieceJointe"
               ></BFormTextarea>
 
               <BButton
                 type="submit"
                 class="bouton-cours bouton-envoyer"
-                :disabled="envoiEnCours || nouveauMessage.trim() === ''"
+                :disabled="envoiEnCours || (nouveauMessage.trim() === '' && !fichierSelectionne)"
               >
                 <BSpinner v-if="envoiEnCours" small class="me-2"></BSpinner>
                 <i v-else class="bi bi-send-fill me-2"></i>
                 Envoyer
               </BButton>
+
+              <div v-if="fichierSelectionne" class="fichier-selectionne">
+                <i class="bi bi-paperclip me-2"></i>
+                <span>{{ fichierSelectionne.name }}</span>
+                <button type="button" class="bouton-retirer-fichier" @click="retirerFichier">
+                  <i class="bi bi-x-lg"></i>
+                </button>
+              </div>
             </BForm>
           </template>
 
@@ -181,7 +206,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import BandeauTitre from '@/components/BandeauTitre.vue'
 import Chargement from '@/components/Chargement.vue'
 import { useMessagerie } from '@/composables/useMessagerie.js'
@@ -209,6 +234,40 @@ const {
   dernierMessage,
   estMessageAuteurConnecte,
 } = useMessagerie()
+
+const inputFichier = ref(null)
+const fichierSelectionne = ref(null)
+
+function ouvrirSelecteurFichier()
+{
+  inputFichier.value?.click()
+}
+
+function selectionnerFichier(event)
+{
+  fichierSelectionne.value = event.target.files[0] || null
+}
+
+function retirerFichier()
+{
+  fichierSelectionne.value = null
+
+  if (inputFichier.value)
+  {
+    inputFichier.value.value = ''
+  }
+}
+
+async function envoyerMessageAvecPieceJointe()
+{
+  if (fichierSelectionne.value)
+  {
+    console.log('Pièce jointe sélectionnée :', fichierSelectionne.value)
+  }
+
+  await envoyerMessage()
+  retirerFichier()
+}
 
 onMounted(() => {
   chargerMessagerie()
@@ -401,11 +460,54 @@ function formaterDateMessage(dateBrute)
 
 .zone-envoi {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 0.75rem;
   align-items: end;
   border-top: 1px solid rgba(33, 37, 41, 0.08);
   padding-top: 1rem;
+}
+
+.bouton-piece-jointe {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f3f5;
+  color: #4a2c59;
+  font-weight: 800;
+}
+
+.bouton-piece-jointe:hover {
+  background: rgba(74, 44, 89, 0.12);
+  color: #4a2c59;
+}
+
+.fichier-selectionne {
+  grid-column: 2 / 4;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  border-radius: 10px;
+  background: rgba(74, 44, 89, 0.08);
+  color: #4a2c59;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.fichier-selectionne span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bouton-retirer-fichier {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #4a2c59;
+  font-weight: 800;
 }
 
 .champ-message {
@@ -469,11 +571,15 @@ function formaterDateMessage(dateBrute)
   }
 
   .zone-envoi {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
   }
 
   .bouton-envoyer {
-    width: 100%;
+    grid-column: 1/3;
+  }
+
+  .fichier-selectionne {
+    grid-column: 1/3;
   }
 
   .bulle-message {
