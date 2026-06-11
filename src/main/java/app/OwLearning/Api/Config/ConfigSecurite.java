@@ -47,6 +47,7 @@ public class ConfigSecurite
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
+                                "/api/ressources/upload",
                                 "/uploads/ressources/**").permitAll()
                         .requestMatchers("/api/authentification/connexion","/api/authentification/inscription").permitAll()
                         //Faille de sécurité connu à corriger avec le front
