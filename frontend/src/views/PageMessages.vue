@@ -210,7 +210,7 @@ import { onBeforeUnmount, onMounted, ref } from 'vue'
 import BandeauTitre from '@/components/BandeauTitre.vue'
 import Chargement from '@/components/Chargement.vue'
 import { useMessagerie } from '@/composables/useMessagerie.js'
-
+import { messagerieClient } from '@/api/messagerieClient.js'
 const {
   createursFiltres,
   discussionsTriees,
@@ -260,13 +260,24 @@ function retirerFichier()
 
 async function envoyerMessageAvecPieceJointe()
 {
-  if (fichierSelectionne.value)
+  try
   {
-    console.log('Pièce jointe sélectionnée :', fichierSelectionne.value)
-  }
+    let ressourceId = null
 
-  await envoyerMessage()
-  retirerFichier()
+    if (fichierSelectionne.value)
+    {
+      const ressource = await messagerieClient.uploaderRessource(fichierSelectionne.value)
+      ressourceId = ressource.id
+    }
+
+    await envoyerMessage(ressourceId)
+    retirerFichier()
+  }
+  catch (e)
+  {
+    console.error("Erreur lors de l'envoi de la pièce jointe :", e)
+    alert("La pièce jointe n'a pas pu être envoyée. Vérifie les droits ou la connexion.")
+  }
 }
 
 onMounted(() => {

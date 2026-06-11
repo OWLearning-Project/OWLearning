@@ -141,11 +141,11 @@ export function useMessagerie()
     }
   }
 
-  async function envoyerMessage()
+  async function envoyerMessage(ressourceId = null)
   {
     const contenu = nouveauMessage.value.trim()
 
-    if (!discussionSelectionnee.value || contenu === '')
+    if (!discussionSelectionnee.value || (contenu === '' & ressourceId === null))
     {
       return
     }
@@ -159,6 +159,7 @@ export function useMessagerie()
         discussionSelectionnee.value.id,
         utilisateurConnecte.value.id,
         contenu,
+        ressourceId,
       )
       nouveauMessage.value = ''
     } catch (e)

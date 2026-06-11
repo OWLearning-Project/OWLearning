@@ -16,7 +16,7 @@ export const messagerieWebSocketClient = {
     return () => abonnement.unsubscribe()
   },
 
-  async envoyerMessage(idDiscussion, auteurId, contenu) {
+  async envoyerMessage(idDiscussion, auteurId, contenu, ressourceId = null) {
     const clientStomp = await connecter()
 
     clientStomp.publish({
@@ -24,7 +24,7 @@ export const messagerieWebSocketClient = {
       body: JSON.stringify({
         auteurId,
         contenu,
-        ressourceId: null,
+        ressourceId,
       }),
     })
   },

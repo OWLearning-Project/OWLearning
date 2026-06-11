@@ -20,6 +20,21 @@ export const messagerieClient = {
     return reponse.data
   },
 
+  async uploaderRessource(fichier) {
+    const formData = new FormData()
+    formData.append('fichier', fichier)
+
+    const reponse = await axios.post(
+      `${API_BASE_URL}/ressources/upload`,
+      formData,
+      {
+        headers: headersAuthentifies(),
+      },
+    )
+
+    return reponse.data
+  },
+
   async demarrerDiscussionAvecCreateur(idCreateur) {
     const reponse = await axios.post(
       `${API_BASE_URL}/messagerie/discussions/createurs/${idCreateur}`,
