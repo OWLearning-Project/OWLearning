@@ -34,5 +34,12 @@ export const utilisateurClient = {
     })
 
     return reponse.data
+  },
+
+  async getTousLesUtilisateurs() {
+    const reponse = await axios.get(`${API_BASE_URL}/utilisateurs`, {
+      headers: getAuthHeaders()
+    });
+    return reponse.data;
   }
 }

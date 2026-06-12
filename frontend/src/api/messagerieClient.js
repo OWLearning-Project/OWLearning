@@ -46,4 +46,16 @@ export const messagerieClient = {
 
     return reponse.data
   },
+
+  async demarrerDiscussionAvecUtilisateur(idEleve) {
+    const reponse = await axios.post(
+      `${API_BASE_URL}/messagerie/discussions/eleves/${idEleve}`,
+      null,
+      {
+        headers: getAuthHeaders(),
+      },
+    )
+
+    return reponse.data
+  }
 }

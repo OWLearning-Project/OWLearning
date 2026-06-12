@@ -73,6 +73,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { messagerieClient } from '@/api/messagerieClient.js'
 
 const props = defineProps({
   eleve: {
@@ -108,13 +109,19 @@ function formaterDate(date) {
   })
 }
 
-function contacterEleve(idEleve) {
+async function contacterEleve(idEleve) {
+
+  try{
+    await messagerieClient.demarrerDiscussionAvecUtilisateur(idEleve);
+
   estOuvert.value = false
 
   router.push({
-    name: 'messages',
-    query: { destinataireId: idEleve }
-  })
+    name: 'messages',});
+    query: { destinataireId: idEleve}
+  } catch (error) {
+    console.error("Erreur lors de la création de la discussion :", error);
+  }
 }
 
 function recupererUtilisateurConnecte()

@@ -60,12 +60,12 @@ export function useMessagerie()
 
     try
     {
-      const [createursData, discussionsData] = await Promise.all([
-        utilisateurClient.getCreateurs(),
+      const [utilisateursData, discussionsData] = await Promise.all([
+        utilisateurClient.getTousLesUtilisateurs(),
         messagerieClient.getDiscussions(),
       ])
 
-      createurs.value = createursData || []
+      createurs.value = utilisateursData || []
       discussions.value = (discussionsData || [])
         .map(normaliserDiscussion)
         .filter(discussion => discussion.participants.length === 2)
@@ -113,6 +113,31 @@ export function useMessagerie()
     } catch (e)
     {
       console.error('Erreur de creation de discussion :', e)
+      erreur.value = 'Ouverture de la discussion impossible'
+    } finally
+    {
+      actionCreateurId.value = null
+    }
+  }
+
+  async function contacterUtilisateur(utilisateur)
+  {
+    if (!utilisateur?.id)
+    {
+      return
+    }
+    actionCreateurId.value = utilisateur.id
+    erreur.value = ''
+
+    try
+    {
+      const discussion = await messagerieClient.demarrerDiscussionAvecUtilisateur(utilisateur.id)
+
+      ajouterOuMettreAJourDiscussion(discussion)
+      await selectionnerDiscussion(discussion)
+    } catch (e)
+    {
+      console.error('Erreur de création de discussion :', e)
       erreur.value = 'Ouverture de la discussion impossible'
     } finally
     {
