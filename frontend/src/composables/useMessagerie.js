@@ -64,7 +64,9 @@ export function useMessagerie()
       ])
 
       createurs.value = createursData || []
-      discussions.value = (discussionsData || []).map(normaliserDiscussion)
+      discussions.value = (discussionsData || [])
+        .map(normaliserDiscussion)
+        .filter(discussion => discussion.participants.length === 2)
 
       if (discussionsTriees.value.length > 0)
       {
@@ -275,7 +277,27 @@ export function useMessagerie()
   function interlocuteurDiscussion(discussion)
   {
     const participants = discussion?.participants || []
-    return participants.find((participant) => Number(participant.id) !== utilisateurConnecte.value.id) || participants[0] || null
+
+    const autresParticipants = participants.filter(
+      (participant) => Number(participant.id) !== utilisateurConnecte.value.id
+    )
+
+    if (autresParticipants.length === 0)
+    {
+      return participants[0] || null
+    }
+
+    if (autresParticipants.length === 1)
+    {
+      return autresParticipants[0]
+    }
+
+    return {
+      prenom: autresParticipants.map(p => p.prenom || p.pseudo || p.email).join(', '),
+      nom: '',
+      pseudo: '',
+      email: '',
+    }
   }
 
   function nomUtilisateur(utilisateur)
