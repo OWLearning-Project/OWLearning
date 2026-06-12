@@ -77,6 +77,7 @@ async function sauvegarderModifications() {
       titre: titre.value,
       description: description.value,
       difficulte: difficulte.value,
+      estPrive: false
     };
 
     await coursClient.modifierCours(idCours, donneesModifiees);
