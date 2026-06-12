@@ -105,6 +105,15 @@ public class Discussion
         }
         return "Messages : \n[\n" + s + "]\n";
     }
+    public void ajouterParticipant(Utilisateur utilisateur)
+    {
+        if (this.participants.size() >= 2)
+        {
+            throw new IllegalStateException("Une discussion ne peut contenir que deux participants");
+        }
+
+        this.participants.add(utilisateur);
+    }
 
     public String toString()
     {
