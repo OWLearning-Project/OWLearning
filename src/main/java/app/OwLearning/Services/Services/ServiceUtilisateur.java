@@ -115,4 +115,9 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
         log.debug("Demande de recuperation de l'annuaire des créateurs");
         return utilisateurRepository.trouverCreateurs();
     }
+
+    @Override
+    public List<Utilisateur> getTousLesUtilisateurs() {
+        return this.utilisateurRepository.findAll();
+    }
 }

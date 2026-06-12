@@ -54,6 +54,13 @@ public class MessagerieRestController
         return ResponseEntity.ok(this.discussionMapper.toResponse(discussion));
     }
 
+    @PostMapping("/discussions/eleves/{idEleve}")
+    public ResponseEntity<DiscussionResponse> demarrerDiscussionAvecEleve(@PathVariable int idEleve, @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
+    {
+        Discussion discussion = serviceDiscussion.demarrerDiscussion(utilisateurAuthentifieDTO.getId(), idEleve);
+        return ResponseEntity.ok(this.discussionMapper.toResponse(discussion));
+    }
+
     @GetMapping("/{idDiscussion}/messages")
     public ResponseEntity<List<MessageResponse>> trouverMessagesDiscussion(@PathVariable int idDiscussion, @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO) throws ExceptionUtilisateurNonAutorise
     {

@@ -88,6 +88,36 @@ public class ServiceDiscussion implements IServiceDiscussion
     }
 
     @Override
+    @Transactional
+    public Discussion demarrerDiscussion(int idUtilisateur, int idDestinataire)
+    {
+        if (idUtilisateur == idDestinataire)
+        {
+            throw new IllegalArgumentException("Impossible de créer une discussion avec soi-même");
+        }
+
+        Utilisateur utilisateur = this.repositoryUtilisateur.trouverParId(idUtilisateur);
+        if (utilisateur == null)
+        {
+            throw new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", idUtilisateur);
+        }
+
+        Utilisateur destinataire = this.repositoryUtilisateur.trouverParId(idDestinataire);
+        if (destinataire == null)
+        {
+            throw new ExceptionUtilisateurInexistant("Le destinataire n'existe pas", idDestinataire);
+        }
+
+        return this.repositoryDiscussion.trouverDiscussionsParUtilisateurId(idUtilisateur)
+                .stream()
+                .filter(discussion -> discussion.getParticipants() != null)
+                .filter(discussion -> discussion.getParticipants().size() == 2)
+                .filter(discussion -> discussion.utilisateurFaitParti(idDestinataire))
+                .findFirst()
+                .orElseGet(() -> this.repositoryDiscussion.sauvegarder(new Discussion(utilisateur, destinataire)));
+    }
+
+    @Override
     public List<Message> getMessagesDiscussion(int discussionId, int idUtilisateur) throws ExceptionUtilisateurNonAutorise
     {
         verifierAccesDiscussion(discussionId, idUtilisateur);

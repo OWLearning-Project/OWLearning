@@ -106,4 +106,12 @@ public class UtilisateurRepository implements IUtilisateurRepository
                 .map(utilisateurMapper::toDomain)
                 .toList();
     }
+
+    public List<Utilisateur> findAll()
+    {
+        return jpaRepository.findAll()
+                .stream()
+                .map(utilisateurMapper::toDomain)
+                .toList();
+    }
 }

@@ -28,6 +28,13 @@ public interface IServiceDiscussion
     public abstract Discussion demarrerDiscussionAvecCreateur(int idUtilisateur, int idCreateur);
 
     /**
+     * Methode qui permet de créer une discussion avec un eleve
+     * @param IdUtilisateur id de l'utilisateur connecter
+     * @param idDestinataire id de la personne que l'on veut contacter
+     * @return la discission existante ou créée
+     */
+    public abstract Discussion demarrerDiscussion(int IdUtilisateur, int idDestinataire);
+    /**
      * Methode qui permet de récupérer les messages d'une discussion si l'utilisateur y participe.
      * @param discussionId id de la discussion
      * @param idUtilisateur id de l'utilisateur connecte

@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 public class  TestServiceUtilisateur {
 
@@ -224,6 +226,25 @@ public class  TestServiceUtilisateur {
 
         verify(utilisateurRepository).trouverParId(id);
         verify(utilisateurRepository).trouverParEmail("new@email.com");
+        verifyNoMoreInteractions(utilisateurRepository);
+    }
+
+    @Test
+    public void getTousLesUtilisateurs() {
+        // Arrange
+        Utilisateur u1 = new Utilisateur("Nom1", "Prenom1", "email1@test.com", "hash");
+        Utilisateur u2 = new Utilisateur("Nom2", "Prenom2", "email2@test.com", "hash");
+        List<Utilisateur> listeAttendue = List.of(u1, u2);
+
+        when(utilisateurRepository.findAll()).thenReturn(listeAttendue);
+
+        // Act
+        List<Utilisateur> resultat = serviceUtilisateur.getTousLesUtilisateurs();
+
+        // Assert
+        assertThat(resultat).hasSize(2);
+        assertThat(resultat).containsExactlyInAnyOrder(u1, u2);
+        verify(utilisateurRepository).findAll();
         verifyNoMoreInteractions(utilisateurRepository);
     }
 }

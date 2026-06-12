@@ -31,5 +31,10 @@ public interface IServiceUtilisateur {
      */
     public abstract List<Utilisateur> getCreateurs();
 
+    /**
+     * Cette methode retourne une liste de tous les utilisateur
+     * @return
+     */
+    public abstract List<Utilisateur> getTousLesUtilisateurs();
 }
 

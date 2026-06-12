@@ -139,4 +139,30 @@ public class TestServiceDiscussion
         verify(repositoryDiscussion, times(1)).trouverDiscussionParId(discussionId);
         verify(repositoryUtilisateur, times(1)).trouverParId(auteurId);
     }
+
+    @Test
+    public void demarrerDiscussionAvecSucces()
+    {
+        // Arrange
+        int idUtilisateur = 1;
+        int idDestinataire = 2;
+        Utilisateur user1 = new Createur("Nom1", "Prenom1", "1@test.com", "pass");
+        user1.setIdUtilisateur(idUtilisateur);
+        Utilisateur user2 = new Eleve("Nom2", "Prenom2", "2@test.com", "pass");
+        user2.setIdUtilisateur(idDestinataire);
+
+        when(repositoryUtilisateur.trouverParId(idUtilisateur)).thenReturn(user1);
+        when(repositoryUtilisateur.trouverParId(idDestinataire)).thenReturn(user2);
+
+        when(repositoryDiscussion.trouverDiscussionsParUtilisateurId(idUtilisateur)).thenReturn(new ArrayList<>());
+
+        when(repositoryDiscussion.sauvegarder(any(Discussion.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        Discussion disc = serviceDiscussion.demarrerDiscussion(idUtilisateur, idDestinataire);
+
+        // Assert
+        assertNotNull(disc);
+        verify(repositoryDiscussion).sauvegarder(any(Discussion.class));
+    }
 }

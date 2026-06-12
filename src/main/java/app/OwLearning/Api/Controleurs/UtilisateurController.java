@@ -47,4 +47,9 @@ public class UtilisateurController {
         Utilisateur utilisateur = serviceUtilisateur.modifierProfil(utilisateurAuthentifieDTO.getId(), pseudo, email, age, niveauEtude);
         return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
     }
+
+    @GetMapping
+    public ResponseEntity<List<UtilisateurResponse>> getTousLesUtilisateurs() {
+        return ResponseEntity.ok(this.mapper.toResponseList(serviceUtilisateur.getTousLesUtilisateurs()));
+    }
 }

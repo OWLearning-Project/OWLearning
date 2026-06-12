@@ -36,4 +36,9 @@ public interface IUtilisateurRepository
      */
     public abstract List<Utilisateur> trouverCreateurs();
 
+    /**
+     * Cette methode retourne une liste de tous les utilisateur
+     * @return
+     */
+    public abstract List<Utilisateur> findAll();
 }
