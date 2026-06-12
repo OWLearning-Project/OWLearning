@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { coursClient } from '@/api/coursClient.js'
 import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
+import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
 
 export function useApercuCours(idCours)
 {
@@ -71,31 +72,6 @@ export function useApercuCours(idCours)
     {
       console.warn('Progression indisponible :', e)
       progression.value = 0
-    }
-  }
-
-  function recupererUtilisateurConnecte()
-  {
-    const token = localStorage.getItem('token')
-
-    if (!token)
-    {
-      return { id: null, role: null }
-    }
-
-    try
-    {
-      const payloadBase64 = token.split('.')[1]
-      const decodage = JSON.parse(atob(payloadBase64))
-
-      return {
-        id: Number(decodage.id),
-        role: decodage.role,
-      }
-    } catch (e)
-    {
-      console.error('Erreur token :', e)
-      return { id: null, role: null }
     }
   }
 
