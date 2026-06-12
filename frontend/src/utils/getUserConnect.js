@@ -1,4 +1,4 @@
-function recupererUtilisateurConnecte()
+export function recupererUtilisateurConnecte()
 {
   const token = localStorage.getItem('token')
 
