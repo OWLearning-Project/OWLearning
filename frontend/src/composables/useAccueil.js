@@ -5,6 +5,7 @@ import {
   recupererCoursConsultesRecents,
   recupererDerniereDiscussionUtilisee,
 } from '@/utils/historiqueAccueil.js'
+import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
 
 export function useAccueil()
 {
@@ -134,26 +135,6 @@ export function useAccueil()
     }
 
     return new Date(message.dateCreation).getTime()
-  }
-
-  function recupererUtilisateurConnecte()
-  {
-    const token = localStorage.getItem('token')
-
-    if (!token)
-    {
-      return { id: null }
-    }
-
-    try
-    {
-      const payload = JSON.parse(atob(token.split('.')[1]))
-      return { id: Number(payload.id) }
-    } catch (e)
-    {
-      console.error('Token invalide', e)
-      return { id: null }
-    }
   }
 
   return {
