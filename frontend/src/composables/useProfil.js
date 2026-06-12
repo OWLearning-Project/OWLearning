@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { utilisateurClient } from '@/api/utilisateurClient.js'
+import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
 
 export function useProfil()
 {
@@ -80,30 +81,6 @@ export function useProfil()
     email.value = profil.email || ''
     age.value = profil.age ?? null
     niveauEtude.value = profil.niveauEtude || ''
-  }
-
-  function recupererUtilisateurConnecte()
-  {
-    const token = localStorage.getItem('token')
-
-    if (!token)
-    {
-      return { id: null, role: null }
-    }
-
-    try
-    {
-      const payload = JSON.parse(atob(token.split('.')[1]))
-
-      return {
-        id: Number(payload.id),
-        role: payload.role,
-      }
-    } catch (e)
-    {
-      console.error('Token invalide', e)
-      return { id: null, role: null }
-    }
   }
 
   return {
