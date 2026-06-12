@@ -85,17 +85,14 @@ function gererActionPrincipale() {
   }
 }
 
-function contacterCreateur() {
-  const donneesCours = cours.value ? cours.value : cours;
-  if (donneesCours && donneesCours.createur) {
+function contacterCreateur(idDuCreateur) {
+  if (idDuCreateur) {
     router.push({
       name: 'messages',
       query: { createurId: idDuCreateur }
-    }).then(() => {
     }).catch((erreur) => {
       console.error("Erreur lors de la redirection :", erreur);
     });
-
   } else {
     console.warn("Le créateur n'a pas été trouvé dans les données.");
   }

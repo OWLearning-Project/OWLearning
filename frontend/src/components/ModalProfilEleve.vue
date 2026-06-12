@@ -110,15 +110,15 @@ function formaterDate(date) {
 }
 
 async function contacterEleve(idEleve) {
-
-  try{
+  try {
     await messagerieClient.demarrerDiscussionAvecUtilisateur(idEleve);
 
-  estOuvert.value = false
+    estOuvert.value = false;
 
-  router.push({
-    name: 'messages',});
-    query: { destinataireId: idEleve}
+    router.push({
+      name: 'messages',
+      query: { utilisateurId: idEleve }
+    });
   } catch (error) {
     console.error("Erreur lors de la création de la discussion :", error);
   }

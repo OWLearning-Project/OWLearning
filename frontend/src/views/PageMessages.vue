@@ -166,18 +166,33 @@
             ></BFormInput>
           </BInputGroup>
 
-          <div v-if="utilisateursFiltres.length === 0" class="etat-vide text-center py-5">
+          <div v-if="createursFiltres.length === 0" class="etat-vide text-center py-5">
             <i class="bi bi-person-lines-fill fs-1"></i>
-            <p class="fw-bold mb-1 mt-3">Aucun utilisateur</p> <p class="text-muted small mb-0">Essayez une autre recherche.</p>
+            <p class="fw-bold mb-1 mt-3">Aucun utilisateur</p>
+            <p class="text-muted small mb-0">Essayez une autre recherche.</p>
           </div>
 
           <div v-else class="liste-createurs">
             <article
-              v-for="utilisateur in utilisateursFiltres" :key="utilisateur.id"
+              v-for="utilisateur in createursFiltres" :key="utilisateur.id"
               class="element-createur"
             >
+              <div class="infos-createur">
+                <span class="avatar-message">
+                  {{ initialesUtilisateur(utilisateur) }}
+                </span>
+                <div class="min-w-0">
+                  <span class="nom-createur">{{ nomUtilisateur(utilisateur) }}</span>
+                  <span class="email-createur">{{ utilisateur.email }}</span>
+                </div>
+              </div>
+
               <BButton
-                @click="contacterUtilisateur(utilisateur)" >
+                variant="outline-primary"
+                class="bouton-contacter rounded-pill px-3 py-1"
+                size="sm"
+                @click="contacterUtilisateur(utilisateur)"
+              >
                 Contacter
               </BButton>
             </article>

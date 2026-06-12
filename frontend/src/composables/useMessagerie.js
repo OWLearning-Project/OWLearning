@@ -70,15 +70,18 @@ export function useMessagerie()
         .map(normaliserDiscussion)
         .filter(discussion => discussion.participants.length === 2)
 
-      const idACibler = route.query.createurId
-
-      if (idACibler) {
-        const createur = createurs.value.find((c) => Number(c.id) === Number(idACibler))
+      if (route.query.createurId) {
+        const createur = createurs.value.find((c) => Number(c.id) === Number(route.query.createurId))
         if (createur) {
           await contacterCreateur(createur)
         }
       }
-
+      else if (route.query.utilisateurId) {
+        const utilisateur = createurs.value.find((c) => Number(c.id) === Number(route.query.utilisateurId))
+        if (utilisateur) {
+          await contacterUtilisateur(utilisateur)
+        }
+      }
       else if (discussionsTriees.value.length > 0)
       {
         const derniereDiscussionId = recupererDerniereDiscussionUtilisee()
@@ -154,6 +157,8 @@ export function useMessagerie()
       desabonnerDiscussion()
       return
     }
+
+    const discussionTrouvee = trouverDiscussion(discussion.id);
 
     discussionSelectionnee.value = trouverDiscussion(discussion.id) || normaliserDiscussion(discussion)
     enregistrerDerniereDiscussionUtilisee(discussion.id)
@@ -281,8 +286,8 @@ export function useMessagerie()
 
   function trouverDiscussion(idDiscussion)
   {
-    return discussions.value.find((discussion) => discussion.id === Number(idDiscussion))
-  }
+    const idRecherche = Number(idDiscussion);
+    return discussions.value.find((discussion) => Number(discussion.id) === idRecherche)  }
 
   function normaliserDiscussion(discussion)
   {
