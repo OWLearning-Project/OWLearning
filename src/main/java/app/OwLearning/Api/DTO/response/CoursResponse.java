@@ -15,7 +15,6 @@ public class CoursResponse {
     private String titre;
     private String description;
     private Timestamp dateCreation;
-    private boolean estPrive;
     private boolean estPublie;
     private Difficulte difficulte;
     private List<Categorie> categories;

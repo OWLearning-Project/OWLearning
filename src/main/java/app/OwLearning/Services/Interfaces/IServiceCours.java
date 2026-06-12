@@ -63,7 +63,7 @@ public interface IServiceCours
      * @param titre nouveau titre du cours
      * @param description nouvelle description du cours
      */
-    public abstract void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive);
+    public abstract void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte);
 
 
     /**

@@ -29,7 +29,7 @@
           variant="outline-primary"
           size="sm"
           class="ms-3 rounded-pill"
-          @click="$emit('contact')"
+          @click="$emit('contact', cours.createur?.id)"
         >
           <i class="bi bi-chat-dots me-1"></i> Contacter
         </BButton>

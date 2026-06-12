@@ -155,10 +155,9 @@ public class ServiceCours implements IServiceCours
      * @param coursId identifiant du cours
      * @param titre nouveau titre
      * @param description nouvelle description
-     * @param estPrive visibilité du cours
      */
     @Override
-    public void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive)
+    public void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte)
     {
         log.debug("Modification des informations du cours {}", coursId);
         if (coursId <= 0){
@@ -187,7 +186,7 @@ public class ServiceCours implements IServiceCours
         leCours.setTitre(titre);
         leCours.setDescription(description);
         leCours.setDifficulte(difficulte);
-        leCours.visibilite(estPrive);
+        //leCours.visibilite(estPrive);
 
         coursRepository.sauvegarder(leCours);
         log.info("Cours {} modifié avec succès", coursId);

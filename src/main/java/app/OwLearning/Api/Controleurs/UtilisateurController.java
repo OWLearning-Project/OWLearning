@@ -28,17 +28,16 @@ public class UtilisateurController {
         this.serviceUtilisateur = serviceUtilisateur;
         this.mapper = mapper;
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UtilisateurResponse> getProfil(@PathVariable int id) {
-        Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
-        return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
-    }
-
     @GetMapping("/createurs")
     public ResponseEntity<List<UtilisateurResponse>> getCreateurs()
     {
         return ResponseEntity.ok(this.mapper.toResponseList(serviceUtilisateur.getCreateurs()));
+    }
+
+    @GetMapping("/{id:\\d+}")
+    public ResponseEntity<UtilisateurResponse> getProfil(@PathVariable int id) {
+        Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
+        return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
     }
 
     @PutMapping("/edit_profil")

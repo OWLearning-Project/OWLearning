@@ -28,7 +28,7 @@
 
       <BRow class="g-4">
         <BCol lg="8">
-          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" @contact="contacterCreateur()" />
+          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" @contact="contacterCreateur" />
         </BCol>
 
         <BCol lg="4">
@@ -90,7 +90,7 @@ function contacterCreateur() {
   if (donneesCours && donneesCours.createur) {
     router.push({
       name: 'messages',
-      query: { destinataireId: donneesCours.createur.id }
+      query: { createurId: idDuCreateur }
     }).then(() => {
     }).catch((erreur) => {
       console.error("Erreur lors de la redirection :", erreur);

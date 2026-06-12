@@ -249,13 +249,12 @@ public class TestServiceCours
         when(coursRepository.trouverParId(coursId)).thenReturn(cours);
 
         // Act
-        serviceCours.modifierInformationsCours(coursId, titre, description, difficulte, estPrive);
+        serviceCours.modifierInformationsCours(coursId, titre, description, difficulte);
 
         // Assert
         assertEquals(titre, cours.getTitre());
         assertEquals(description, cours.getDescription());
         assertEquals(difficulte, cours.getDifficulte());
-        assertEquals(estPrive, cours.isEstPrive());
 
         verify(coursRepository).trouverParId(coursId);
         verify(coursRepository).sauvegarder(cours);
@@ -269,7 +268,7 @@ public class TestServiceCours
         int coursId = 5;
 
         // Act + Assert
-        assertThatThrownBy(() -> serviceCours.modifierInformationsCours(coursId, "titre", "", Difficulte.DEBUTANT, true))
+        assertThatThrownBy(() -> serviceCours.modifierInformationsCours(coursId, "titre", "", Difficulte.DEBUTANT))
                 .isInstanceOf(IllegalArgumentException.class);
 
         verifyNoInteractions(coursRepository);

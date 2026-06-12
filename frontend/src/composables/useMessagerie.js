@@ -7,9 +7,11 @@ import {
   recupererDerniereDiscussionUtilisee,
 } from '@/utils/historiqueAccueil.js'
 import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
+import { useRoute } from 'vue-router'
 
 export function useMessagerie()
 {
+  const route = useRoute()
   const createurs = ref([])
   const discussions = ref([])
   const discussionSelectionnee = ref(null)
@@ -68,7 +70,16 @@ export function useMessagerie()
         .map(normaliserDiscussion)
         .filter(discussion => discussion.participants.length === 2)
 
-      if (discussionsTriees.value.length > 0)
+      const idACibler = route.query.createurId
+
+      if (idACibler) {
+        const createur = createurs.value.find((c) => Number(c.id) === Number(idACibler))
+        if (createur) {
+          await contacterCreateur(createur)
+        }
+      }
+
+      else if (discussionsTriees.value.length > 0)
       {
         const derniereDiscussionId = recupererDerniereDiscussionUtilisee()
         const discussionASelectionner = trouverDiscussion(derniereDiscussionId) || discussionsTriees.value[0]

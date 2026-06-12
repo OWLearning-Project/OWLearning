@@ -112,7 +112,7 @@ public class CoursController {
     @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idCours}")
     public ResponseEntity<Void> modifierInformationsCours(@PathVariable("idCours") int idCours, @RequestBody CoursModificationRequest dto){
-        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte(), dto.isEstPrive());
+        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte());
         return ResponseEntity.ok().build();
     }
 
