@@ -404,6 +404,7 @@ export function useMessagerie()
     erreur,
     chargerMessagerie,
     contacterCreateur,
+    contacterUtilisateur,
     selectionnerDiscussion,
     envoyerMessage,
     fermerMessagerie,

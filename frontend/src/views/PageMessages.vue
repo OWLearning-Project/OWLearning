@@ -223,6 +223,7 @@ const {
   erreur,
   chargerMessagerie,
   contacterCreateur,
+  contacterUtilisateur,
   selectionnerDiscussion,
   envoyerMessage,
   fermerMessagerie,
