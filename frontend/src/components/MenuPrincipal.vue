@@ -53,28 +53,44 @@
     import { BCollapse, BDropdownItem, BNavbar, BNavbarBrand, BNavbarToggle, BNavItemDropdown } from 'bootstrap-vue-next';
     import { useRouter } from 'vue-router'
     import {ref, onMounted, computed } from 'vue';
+    import { utilisateurClient } from '@/api/utilisateurClient.js';
 
     const router = useRouter()
     const roleUtilisateur = ref('');
     const pseudoUtilisateur = ref('');
+    const prenomUtilisateur = ref('');
+    const nomUtilisateur = ref('');
 
     const initialesUtilisateur = computed(() => {
-      if (!pseudoUtilisateur.value) {
+      const nomComplet = `${prenomUtilisateur.value} ${nomUtilisateur.value}`.trim();
+      if (!nomComplet) {
         return '?';
       }
 
-      return pseudoUtilisateur.value
+      return nomComplet
         .split(' ')
         .map(mot => mot.charAt(0).toUpperCase())
         .slice(0, 2)
         .join('');
     });
 
-    onMounted(() => {
+    onMounted(async () => {
       const utilisateur = getUtilisateurConnecte();
       roleUtilisateur.value = utilisateur.role;
       pseudoUtilisateur.value = utilisateur.pseudo;
-    })
+
+      if (utilisateur.id) {
+        try {
+          const infoBd = await utilisateurClient.getProfil(utilisateur.id);
+
+          if (infoBd.prenom) prenomUtilisateur.value = infoBd.prenom;
+          if (infoBd.nom) nomUtilisateur.value = infoBd.nom;
+          if (infoBd.pseudo) pseudoUtilisateur.value = infoBd.pseudo;
+        } catch (error) {
+          console.error("Erreur API :", error);
+        }
+      }
+    });
 
     function allerProfil() {
         router.push('/profil');
@@ -92,6 +108,7 @@
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         return {
+          id: payload.id,
           role: payload.role,
           pseudo: payload.pseudo || '',
         };
