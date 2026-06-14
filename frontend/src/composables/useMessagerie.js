@@ -68,6 +68,7 @@ export function useMessagerie()
       createurs.value = createursData || []
       discussions.value = (discussionsData || [])
         .map(normaliserDiscussion)
+        .filter(discussion => discussion.participants.length === 2)
 
       if (route.query.createurId) {
         const createur = createurs.value.find((c) => Number(c.id) === Number(route.query.createurId))
