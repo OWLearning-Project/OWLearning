@@ -103,6 +103,7 @@ export function useCours(idCours) {
     elevesDejaCharges.value = true
   }
 
+  // A refactor
   function recuperationUtilisateur(token)
   {
     try
