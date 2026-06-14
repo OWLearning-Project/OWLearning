@@ -69,7 +69,7 @@
               </div>
             </div>
 
-            <div class="fil-messages">
+            <div ref="filMessages" class="fil-messages">
               <Chargement v-if="chargementMessages" texte="Chargement des messages..." />
 
               <div v-else-if="messages.length === 0" class="etat-vide text-center py-5">
@@ -204,7 +204,7 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import BandeauTitre from '@/components/BandeauTitre.vue'
 import Chargement from '@/components/Chargement.vue'
 import { useMessagerie } from '@/composables/useMessagerie.js'
@@ -236,6 +236,25 @@ const {
 
 const inputFichier = ref(null)
 const fichierSelectionne = ref(null)
+const filMessages = ref(null)
+
+async function scrollerEnBas()
+{
+  await nextTick()
+
+  if (filMessages.value)
+  {
+    filMessages.value.scrollTop = filMessages.value.scrollHeight
+  }
+}
+
+watch(messages, () => {
+  scrollerEnBas()
+}, { deep: true })
+
+watch(discussionSelectionnee, () => {
+  scrollerEnBas()
+})
 
 function ouvrirSelecteurFichier()
 {
@@ -270,6 +289,7 @@ async function envoyerMessageAvecPieceJointe()
     }
 
     await envoyerMessage(ressourceId)
+    await scrollerEnBas()
     retirerFichier()
   }
   catch (e)
@@ -279,8 +299,9 @@ async function envoyerMessageAvecPieceJointe()
   }
 }
 
-onMounted(() => {
-  chargerMessagerie()
+onMounted(async () => {
+  await chargerMessagerie()
+  scrollerEnBas()
 })
 
 onBeforeUnmount(() => {
