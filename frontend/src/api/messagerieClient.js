@@ -16,11 +16,15 @@ export const messagerieClient = {
     const formData = new FormData()
     formData.append('fichier', fichier)
 
+    const token = localStorage.getItem('token')
+
     const reponse = await axios.post(
       `${API_BASE_URL}/ressources/upload`,
       formData,
       {
-        headers: getAuthHeaders(),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
     )
 
@@ -47,9 +51,9 @@ export const messagerieClient = {
     return reponse.data
   },
 
-  async demarrerDiscussionAvecUtilisateur(idEleve) {
+  async demarrerDiscussionAvecUtilisateur(idUtilisateur) {
     const reponse = await axios.post(
-      `${API_BASE_URL}/messagerie/discussions/eleves/${idEleve}`,
+      `${API_BASE_URL}/messagerie/discussions/utilisateurs/${idUtilisateur}`,
       null,
       {
         headers: getAuthHeaders(),

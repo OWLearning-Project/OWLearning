@@ -110,7 +110,7 @@ export function useMessagerie()
 
     try
     {
-      const discussion = await messagerieClient.demarrerDiscussionAvecCreateur(createur.id)
+      const discussion = await messagerieClient.demarrerDiscussionAvecUtilisateur(createur.id)
       ajouterOuMettreAJourDiscussion(discussion)
       await selectionnerDiscussion(discussion)
     } catch (e)
