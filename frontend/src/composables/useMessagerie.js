@@ -157,9 +157,7 @@ export function useMessagerie()
       desabonnerDiscussion()
       return
     }
-
-    const discussionTrouvee = trouverDiscussion(discussion.id);
-
+    trouverDiscussion(discussion.id);
     discussionSelectionnee.value = trouverDiscussion(discussion.id) || normaliserDiscussion(discussion)
     enregistrerDerniereDiscussionUtilisee(discussion.id)
     await chargerMessages(discussion.id)
