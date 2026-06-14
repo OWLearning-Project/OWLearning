@@ -73,7 +73,7 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
 
         if (pseudo != null) {
             if (pseudo.isBlank()) {
-                utilisateur.setPseudo(null);
+                utilisateur.setPseudo("");
             } else {
                 utilisateur.setPseudo(pseudo);
             }
