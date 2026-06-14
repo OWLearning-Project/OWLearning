@@ -71,8 +71,12 @@ public class ServiceUtilisateur implements IServiceUtilisateur {
             throw new IllegalStateException("Utilisateur introuvable");
         }
 
-        if (pseudo != null && !pseudo.isBlank()) {
-            utilisateur.setPseudo(pseudo);
+        if (pseudo != null) {
+            if (pseudo.isBlank()) {
+                utilisateur.setPseudo(null);
+            } else {
+                utilisateur.setPseudo(pseudo);
+            }
         }
 
         if (email == null || email.isBlank()) {
