@@ -34,7 +34,7 @@
         <div v-else>
           <BRow class="g-4">
             <BCol cols="12" md="6" lg="4" v-for="cours in coursAffiches" :key="cours.id">
-              <CarteCours :cours="cours" texte-bouton="Gérer le cours" mode-professeur @clic-bouton="gererCours" :nb-eleves="nombreEleves(cours)"/>
+              <CarteCours :cours="cours" texte-bouton="Modifier le cours" mode-professeur @clic-bouton="modifierCours" :nb-eleves="nombreEleves(cours)"/>
             </BCol>
           </BRow>
 
@@ -83,7 +83,7 @@
     routeur.back();
   }
 
-  function gererCours(donneesRecues) {
+  function modifierCours(donneesRecues) {
     let coursId;
     if(typeof donneesRecues === 'object'){
       coursId = donneesRecues.id;
