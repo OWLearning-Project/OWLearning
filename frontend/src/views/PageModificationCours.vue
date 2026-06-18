@@ -4,8 +4,6 @@
   <h2 class="fw-bold mb-4 text-center">Modifier le cours</h2>
 
   <BAlert v-if="messageErreur" variant="danger" show>{{ messageErreur }}</BAlert>
-  <BAlert v-if="messageSucces" variant="success" show>{{ messageSucces }}</BAlert>
-
   <div v-if="chargementEnCours" class="text-center my-5">
     <BSpinner label="Chargement..."></BSpinner>
   </div>
@@ -21,12 +19,12 @@
     </BFormGroup>
 
     <BFormGroup class="mb-4 fw-bold" label="Difficulté :">
-      <BFormInput v-model="difficulte" required></BFormInput>
+      <BFormSelect v-model="difficulte" :options="optionsDifficultes" required></BFormSelect>
     </BFormGroup>
 
     <div class="d-flex justify-content-between mt-5">
-      <BButton @click="retour" variant="outline-secondary">Annuler</BButton>
-      <BButton type="submit" variant="primary" class="fw-bold px-5">Enregistrer</BButton>
+      <BButton type="button" @click="retour" variant="outline-secondary" class="rounded-pill fw-bold px-4">Annuler</BButton>
+      <BButton type="submit" class="bouton-cours rounded-pill fw-bold px-4">Enregistrer</BButton>
     </div>
 
   </BForm>
@@ -48,9 +46,14 @@ const difficulte = ref('');
 
 const chargementEnCours = ref(true);
 const messageErreur = ref('');
-const messageSucces = ref('');
 
 const idCours = route.params.id;
+
+const optionsDifficultes = [
+  { text: 'Débutant', value: 'DEBUTANT' },
+  { text: 'Intermédiaire', value: 'INTERMEDIAIRE' },
+  { text: 'Avancé', value: 'AVANCE' },
+];
 
 onMounted(async () => {
   try {
@@ -70,7 +73,6 @@ onMounted(async () => {
 
 async function sauvegarderModifications() {
   messageErreur.value = '';
-  messageSucces.value = '';
 
   try {
     const donneesModifiees = {
@@ -82,11 +84,7 @@ async function sauvegarderModifications() {
 
     await coursClient.modifierCours(idCours, donneesModifiees);
 
-    messageSucces.value = "Le cours a été modifié avec succès !";
-
-    setTimeout(() => {
-      retour();
-    }, 2000);
+    retour();
 
   } catch (erreur) {
     console.error("Erreur lors de la sauvegarde :", erreur);
