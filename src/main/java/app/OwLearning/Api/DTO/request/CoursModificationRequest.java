@@ -14,7 +14,6 @@ public class CoursModificationRequest
     private String titre;
     private String description;
     private Difficulte difficulte;
-    private boolean estPrive;
 
     public CoursModificationRequest() {}
 
@@ -26,7 +25,6 @@ public class CoursModificationRequest
         this.titre = titre;
         this.description = description;
         this.difficulte = difficulte;
-        this.estPrive = estPrive;
     }
 
 }

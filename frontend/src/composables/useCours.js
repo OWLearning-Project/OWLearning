@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
 
 export function useCours(idCours) {
   const router = useRouter()
@@ -49,13 +50,19 @@ export function useCours(idCours) {
       })
       cours.value = reponseCours.data
 
-      const idUtilisateurConnecte = recuperationId(token)
+      const utilisateurConnecte = recuperationUtilisateur(token)
+      const estCreateurConnecte = utilisateurConnecte.role === 'createur'
 
-      if (cours.value.createur && cours.value.createur.id == idUtilisateurConnecte)
+      if (cours.value.createur && cours.value.createur.id === utilisateurConnecte.id)
       {
         estLeCreateur.value = true
         progression.value = 0
         indexChapitreActif.value = 0
+        enregistrerCoursConsulte(cours.value, 'cours')
+      } else if (estCreateurConnecte)
+      {
+        router.push('/non-autorise')
+        return
       } else
       {
         const reponseProgression = await axios.get(`/api/progression/${idCours}`,
@@ -67,6 +74,7 @@ export function useCours(idCours) {
         progression.value = reponseProgression.data.tauxProgression
 
         indexChapitreActif.value = nbChapitresFinis.value - 1
+        enregistrerCoursConsulte(cours.value, 'cours')
       }
     } catch (erreur)
     {
@@ -95,17 +103,21 @@ export function useCours(idCours) {
     elevesDejaCharges.value = true
   }
 
-  function recuperationId(token)
+  // A refactor
+  function recuperationUtilisateur(token)
   {
     try
     {
       const payloadBase64 = token.split('.')[1]
       const decodage = JSON.parse(atob(payloadBase64))
-      return decodage.id
+      return {
+        id: Number(decodage.id),
+        role: decodage.role,
+      }
     } catch (e)
     {
       console.error('Erreur token :', e)
-      return null
+      return { id: null, role: null }
     }
   }
 
@@ -187,6 +199,7 @@ export function useCours(idCours) {
     if (estLeCreateur.value)
     {
       router.push('/mes-cours-publies')
+      return
     }
     router.push('/mes-cours-inscrits')
   }

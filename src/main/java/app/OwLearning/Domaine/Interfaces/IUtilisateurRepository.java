@@ -2,6 +2,8 @@ package app.OwLearning.Domaine.Interfaces;
 
 import app.OwLearning.Domaine.Entités.Utilisateur;
 
+import java.util.List;
+
 /**
  * Interface IUtilisateurRepository définissant le contrat pour la récupération des utilisateurs
  */
@@ -28,4 +30,15 @@ public interface IUtilisateurRepository
      */
     public abstract Utilisateur trouverParId(int id);
 
+    /**
+     * Methode qui permet de récupérer les créateurs.
+     * @return la liste des créateurs
+     */
+    public abstract List<Utilisateur> trouverCreateurs();
+
+    /**
+     * Cette methode retourne une liste de tous les utilisateur
+     * @return
+     */
+    public abstract List<Utilisateur> findAll();
 }

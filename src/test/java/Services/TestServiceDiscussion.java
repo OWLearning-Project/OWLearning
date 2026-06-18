@@ -83,6 +83,8 @@ public class TestServiceDiscussion
 
         Utilisateur utilisateur1 = new Createur("createur", "1", "1@createur.com", "1234");
         Utilisateur utilisateur2 = new Eleve("eleve", "bob", "bob@eleve.com", "5678");
+        utilisateur1.setIdUtilisateur(1);
+        utilisateur2.setIdUtilisateur(2);
         Discussion discussion = new Discussion(utilisateur1, utilisateur2);
 
         when(repositoryDiscussion.trouverDiscussionParId(discussionId)).thenReturn(discussion);
@@ -136,5 +138,31 @@ public class TestServiceDiscussion
         assertThrows(ExceptionUtilisateurInexistant.class, () -> serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu));
         verify(repositoryDiscussion, times(1)).trouverDiscussionParId(discussionId);
         verify(repositoryUtilisateur, times(1)).trouverParId(auteurId);
+    }
+
+    @Test
+    public void demarrerDiscussionAvecSucces()
+    {
+        // Arrange
+        int idUtilisateur = 1;
+        int idDestinataire = 2;
+        Utilisateur user1 = new Createur("Nom1", "Prenom1", "1@test.com", "pass");
+        user1.setIdUtilisateur(idUtilisateur);
+        Utilisateur user2 = new Eleve("Nom2", "Prenom2", "2@test.com", "pass");
+        user2.setIdUtilisateur(idDestinataire);
+
+        when(repositoryUtilisateur.trouverParId(idUtilisateur)).thenReturn(user1);
+        when(repositoryUtilisateur.trouverParId(idDestinataire)).thenReturn(user2);
+
+        when(repositoryDiscussion.trouverDiscussionsParUtilisateurId(idUtilisateur)).thenReturn(new ArrayList<>());
+
+        when(repositoryDiscussion.sauvegarder(any(Discussion.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        Discussion disc = serviceDiscussion.demarrerDiscussion(idUtilisateur, idDestinataire);
+
+        // Assert
+        assertNotNull(disc);
+        verify(repositoryDiscussion).sauvegarder(any(Discussion.class));
     }
 }

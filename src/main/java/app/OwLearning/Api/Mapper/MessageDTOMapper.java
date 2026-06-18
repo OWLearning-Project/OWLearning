@@ -2,6 +2,8 @@ package app.OwLearning.Api.Mapper;
 
 import app.OwLearning.Api.DTO.response.MessageResponse;
 import app.OwLearning.Domaine.Entités.Message;
+import app.OwLearning.Api.DTO.response.RessourceResponse;
+import app.OwLearning.Domaine.Entités.Ressource;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -15,4 +17,7 @@ public interface MessageDTOMapper {
     MessageResponse toResponse(Message message);
 
     List<MessageResponse> toResponseList(List<Message> messages);
+
+    @Mapping(target = "id", source = "id_ressource")
+    RessourceResponse toRessourceResponse(Ressource ressource);
 }

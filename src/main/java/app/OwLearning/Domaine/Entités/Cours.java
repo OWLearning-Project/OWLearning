@@ -71,6 +71,8 @@ public class Cours
     {
         if(chapitre == null)
             throw new IllegalArgumentException("Ajout de chapitre impossible");
+        if (this.chapitres == null)
+            this.chapitres = new ArrayList<Chapitre>();
         this.chapitres.add(chapitre);
         chapitre.setCours(this);
     }

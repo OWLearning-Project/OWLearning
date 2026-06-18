@@ -56,12 +56,24 @@
           <span>{{ formaterDate(eleve.dateInscription) }}</span>
         </div>
       </div>
+
+      <div v-if="eleve.id !== utilisateurConnecteId" class="mt-4 pt-3 border-top border-light-subtle d-flex justify-content-end">
+        <BButton
+          style="background-color: #4a2c59; border-color: #4a2c59; color: white;"
+          class="rounded-pill px-4 shadow-sm btn-contact"
+          @click="contacterEleve(eleve.id)"
+        >
+          <i class="bi bi-chat-dots-fill me-2"></i> Contacter l'étudiant
+        </BButton>
+      </div>
     </div>
   </BModal>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { messagerieClient } from '@/api/messagerieClient.js'
 
 const props = defineProps({
   eleve: {
@@ -71,12 +83,18 @@ const props = defineProps({
 })
 
 const estOuvert = defineModel()
+const router = useRouter()
 
 const initiales = computed(() => {
   if (!props.eleve) {
     return '??'
   }
   return props.eleve.prenom.charAt(0).toUpperCase() + props.eleve.nom.charAt(0).toUpperCase()
+})
+
+const utilisateurConnecteId = computed(() => {
+  const utilisateur = recupererUtilisateurConnecte()
+  return utilisateur.id
 })
 
 function formaterDate(date) {
@@ -89,6 +107,45 @@ function formaterDate(date) {
     month: 'long',
     year: 'numeric',
   })
+}
+
+async function contacterEleve(idEleve) {
+  try {
+    await messagerieClient.demarrerDiscussionAvecUtilisateur(idEleve);
+
+    estOuvert.value = false;
+
+    router.push({
+      name: 'messages',
+      query: { utilisateurId: idEleve }
+    });
+  } catch (error) {
+    console.error("Erreur lors de la création de la discussion :", error);
+  }
+}
+
+function recupererUtilisateurConnecte()
+{
+  const token = localStorage.getItem('token')
+
+  if (!token)
+  {
+    return { id: null, role: null }
+  }
+
+  try
+  {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+
+    return {
+      id: Number(payload.id),
+      role: payload.role,
+    }
+  } catch (e)
+  {
+    console.error('Token invalide', e)
+    return { id: null, role: null }
+  }
 }
 </script>
 

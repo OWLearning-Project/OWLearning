@@ -12,6 +12,7 @@ import app.OwLearning.Services.Services.ServiceMessage;
 import app.OwLearning.Domaine.Entités.Discussion;
 import app.OwLearning.Domaine.Entités.Message;
 import app.OwLearning.Domaine.Entités.Ressource;
+import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,10 +47,33 @@ public class MessagerieRestController
         return ResponseEntity.ok(this.discussionMapper.toResponseList(discussions));
     }
 
-    @GetMapping("/{idDiscussion}/messages")
-    public ResponseEntity<List<MessageResponse>> trouverMessagesDiscussion(@PathVariable int idDiscussion)
+    @PostMapping("/discussions/createurs/{idCreateur}")
+    public ResponseEntity<DiscussionResponse> demarrerDiscussionAvecCreateur(@PathVariable int idCreateur, @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
     {
-        List<Message> messages = serviceMessage.trouverMessageParDiscussion(idDiscussion);
+        Discussion discussion = serviceDiscussion.demarrerDiscussionAvecCreateur(utilisateurAuthentifieDTO.getId(), idCreateur);
+        return ResponseEntity.ok(this.discussionMapper.toResponse(discussion));
+    }
+
+    @PostMapping("/discussions/eleves/{idEleve}")
+    public ResponseEntity<DiscussionResponse> demarrerDiscussionAvecEleve(@PathVariable int idEleve, @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
+    {
+        Discussion discussion = serviceDiscussion.demarrerDiscussion(utilisateurAuthentifieDTO.getId(), idEleve);
+        return ResponseEntity.ok(this.discussionMapper.toResponse(discussion));
+    }
+
+    @PostMapping("/discussions/utilisateurs/{idUtilisateur}")
+    public ResponseEntity<DiscussionResponse> demarrerDiscussionAvecUtilisateur(
+            @PathVariable int idUtilisateur,
+            @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO)
+    {
+        Discussion discussion = serviceDiscussion.demarrerDiscussion(utilisateurAuthentifieDTO.getId(), idUtilisateur);
+        return ResponseEntity.ok(this.discussionMapper.toResponse(discussion));
+    }
+
+    @GetMapping("/{idDiscussion}/messages")
+    public ResponseEntity<List<MessageResponse>> trouverMessagesDiscussion(@PathVariable int idDiscussion, @AuthenticationPrincipal UtilisateurAuthentifieRequest utilisateurAuthentifieDTO) throws ExceptionUtilisateurNonAutorise
+    {
+        List<Message> messages = serviceDiscussion.getMessagesDiscussion(idDiscussion, utilisateurAuthentifieDTO.getId());
         return ResponseEntity.ok(this.messageMapper.toResponseList(messages));
     }
 

@@ -18,6 +18,7 @@
                 <BNavItemDropdown text="Mes cours" no-caret>
                     <BDropdownItem href="/catalogue">Liste des cours</BDropdownItem>
                     <BDropdownItem v-if="roleUtilisateur === 'eleve'" href="/mes-cours-inscrits">Mes cours inscrits</BDropdownItem>
+                    <BDropdownItem v-if="roleUtilisateur === 'createur'" href="/cours/creation">Créer un cours</BDropdownItem>
                     <BDropdownItem v-if="roleUtilisateur === 'createur'" href="/mes-cours-publies">Gérer mes cours</BDropdownItem>
                 </BNavItemDropdown>
 
@@ -25,23 +26,19 @@
 
             <BNavbarNav class="align-items-center gap-3 ms-auto mt-3 mt-lg-0">
 
-                <BNavItem href="#">
-                    <i class="bi bi-gear custom-icon"></i>
-                </BNavItem>
-
                 <BNavItemDropdown right no-caret>
 
                     <template #button-content>
-                        <div class="avatar-menu bg-white text-dark rounded-circle d-flex justify-content-center align-items-center">
-                            <i class="profil-icon bi bi-person text-secondary"></i>
+                        <div class="avatar-menu bg-white text-dark rounded-circle d-flex justify-content-center align-items-center fw-bold">
+                            {{ initialesUtilisateur }}
                         </div>
                     </template>
 
-                    <div class="text-center"> Nom Prénom </div>
+                    <div class="text-center px-3 fw-bold"> {{ pseudoUtilisateur || 'Mon compte' }} </div>
 
                     <BDropdownDivider />
 
-                    <BDropdownItem href="#">Mon Profil</BDropdownItem>
+                    <BDropdownItem href="/profil" @click.prevent="allerProfil">Mon Profil</BDropdownItem>
                     <BDropdownItem href="#" @click.prevent="seDeconnecter" class="text-danger">Déconnexion</BDropdownItem>
                 </BNavItemDropdown>
 
@@ -55,14 +52,49 @@
 <script setup>
     import { BCollapse, BDropdownItem, BNavbar, BNavbarBrand, BNavbarToggle, BNavItemDropdown } from 'bootstrap-vue-next';
     import { useRouter } from 'vue-router'
-    import {ref, onMounted } from 'vue';
+    import {ref, onMounted, computed } from 'vue';
+    import { utilisateurClient } from '@/api/utilisateurClient.js';
 
     const router = useRouter()
     const roleUtilisateur = ref('');
+    const pseudoUtilisateur = ref('');
+    const prenomUtilisateur = ref('');
+    const nomUtilisateur = ref('');
 
-    onMounted(() => {
-      roleUtilisateur.value = getRoleUtilisateur();
-    })
+    const initialesUtilisateur = computed(() => {
+      const nomComplet = `${prenomUtilisateur.value} ${nomUtilisateur.value}`.trim();
+      if (!nomComplet) {
+        return '?';
+      }
+
+      return nomComplet
+        .split(' ')
+        .map(mot => mot.charAt(0).toUpperCase())
+        .slice(0, 2)
+        .join('');
+    });
+
+    onMounted(async () => {
+      const utilisateur = getUtilisateurConnecte();
+      roleUtilisateur.value = utilisateur.role;
+      pseudoUtilisateur.value = utilisateur.pseudo;
+
+      if (utilisateur.id) {
+        try {
+          const infoBd = await utilisateurClient.getProfil(utilisateur.id);
+
+          if (infoBd.prenom) prenomUtilisateur.value = infoBd.prenom;
+          if (infoBd.nom) nomUtilisateur.value = infoBd.nom;
+          if (infoBd.pseudo) pseudoUtilisateur.value = infoBd.pseudo;
+        } catch (error) {
+          console.error("Erreur API :", error);
+        }
+      }
+    });
+
+    function allerProfil() {
+        router.push('/profil');
+    }
 
     function seDeconnecter () {
         console.log("Déconnexion...")
@@ -70,16 +102,20 @@
         router.push('/connexion');
     }
 
-    function getRoleUtilisateur() {
+    function getUtilisateurConnecte() {
       const token = localStorage.getItem('token');
-      if(!token) { return null; }
+      if(!token) { return { role: null, pseudo: '' }; }
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.role;
+        return {
+          id: payload.id,
+          role: payload.role,
+          pseudo: payload.pseudo || '',
+        };
       }
       catch(e){
         console.error("Token invalide", e);
-        return null;
+        return { role: null, pseudo: '' };
       }
     }
 </script>

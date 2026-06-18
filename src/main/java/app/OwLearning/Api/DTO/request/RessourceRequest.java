@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 public class RessourceRequest
 {
+    private Integer id;
     private String nom;
     private String url;
     private TypeRessource type;

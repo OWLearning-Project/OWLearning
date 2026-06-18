@@ -28,16 +28,18 @@
 
       <BRow class="g-4">
         <BCol lg="8">
-          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" />
+          <CarteApercuCours :cours="cours" :est-inscrit="estInscrit" @contact="contacterCreateur" />
         </BCol>
 
         <BCol lg="4">
           <CarteAccesCours
             :est-inscrit="estInscrit"
+            :est-createur-du-cours="estCreateurDuCours"
             :progression="progressionPourcent"
+            :peut-voir-cours="peutVoirCours"
+            :action-en-cours="actionEnCours"
             :message="messageAction"
             :type-message="typeMessageAction"
-            :action-en-cours="actionEnCours"
             :libelle-action="libelleAction"
             @action="actionPrincipale"
           />
@@ -63,12 +65,14 @@ const idCours = Number(route.params.idCours)
 const {
   cours,
   estInscrit,
+  estCreateurDuCours,
   chargement,
   actionEnCours,
   erreur,
   messageAction,
   typeMessageAction,
   progressionPourcent,
+  peutVoirCours,
   libelleAction,
   chargerApercuCours,
   actionPrincipale,
@@ -80,5 +84,18 @@ onMounted(() => {
 
 function retourArriere() {
   router.back()
+}
+
+function contacterCreateur(idDuCreateur) {
+  if (idDuCreateur) {
+    router.push({
+      name: 'messages',
+      query: { createurId: idDuCreateur }
+    }).catch((erreur) => {
+      console.error("Erreur lors de la redirection :", erreur);
+    });
+  } else {
+    console.warn("Le créateur n'a pas été trouvé dans les données.");
+  }
 }
 </script>

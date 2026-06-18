@@ -10,6 +10,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * Controller permettant de gérer les utilisateurs
@@ -26,8 +28,13 @@ public class UtilisateurController {
         this.serviceUtilisateur = serviceUtilisateur;
         this.mapper = mapper;
     }
+    @GetMapping("/createurs")
+    public ResponseEntity<List<UtilisateurResponse>> getCreateurs()
+    {
+        return ResponseEntity.ok(this.mapper.toResponseList(serviceUtilisateur.getCreateurs()));
+    }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<UtilisateurResponse> getProfil(@PathVariable int id) {
         Utilisateur utilisateur = serviceUtilisateur.getProfil(id);
         return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
@@ -39,5 +46,10 @@ public class UtilisateurController {
     {
         Utilisateur utilisateur = serviceUtilisateur.modifierProfil(utilisateurAuthentifieDTO.getId(), pseudo, email, age, niveauEtude);
         return ResponseEntity.ok(this.mapper.toResponse(utilisateur));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UtilisateurResponse>> getTousLesUtilisateurs() {
+        return ResponseEntity.ok(this.mapper.toResponseList(serviceUtilisateur.getTousLesUtilisateurs()));
     }
 }

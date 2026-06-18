@@ -15,14 +15,6 @@
 
     <hr class="text-muted mb-4" />
 
-    <template v-if="afficherOptionPrive">
-      <div class="mb-4 d-flex justify-content-between align-items-center">
-        <label class="form-label fw-bold small text-muted mb-0">Cours privés</label>
-        <BFormCheckbox v-model="coursPrives" switch size="lg"></BFormCheckbox>
-      </div>
-      <hr class="text-muted mb-4" />
-    </template>
-
     <div class="mb-4">
       <label class="form-label fw-bold small text-muted mb-3">Difficulté</label>
       <BFormCheckboxGroup

@@ -83,6 +83,28 @@ public class TestChapitreRepository extends AbstractIntegrationTest
     }
 
     @Test
+    public void metAJourChapitreSansPerdreSonCours()
+    {
+        int createurId = insererCreateur("chapitre-update-createur");
+        int coursId = insererCours(createurId, "Cours avec chapitre", true);
+        int chapitreId = insererChapitre(coursId, "Chapitre lie");
+
+        Chapitre chapitre = chapitreRepository.trouverParId(chapitreId);
+        chapitre.setTitre("Chapitre lie modifie");
+
+        chapitreRepository.sauvegarder(chapitre);
+        synchroniserPersistenceContext();
+
+        Integer coursAssocie = jdbcTemplate.queryForObject(
+                "SELECT id_cours FROM chapitre WHERE id_chapitre = ?",
+                Integer.class,
+                chapitreId
+        );
+
+        assertThat(coursAssocie).isEqualTo(coursId);
+    }
+
+    @Test
     public void supprimeChapitre()
     {
         Chapitre chapitreCree = new Chapitre("Chapitre a supprimer", "Description a supprimer", new ArrayList<>());

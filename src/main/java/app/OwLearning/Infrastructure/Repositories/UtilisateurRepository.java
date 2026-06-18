@@ -13,6 +13,8 @@ import app.OwLearning.Infrastructure.Mapper.EleveMapper;
 import app.OwLearning.Infrastructure.Mapper.UtilisateurMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * Classe UtilisateurRepository qui permet de récupérer les utilisateurs
  */
@@ -94,5 +96,22 @@ public class UtilisateurRepository implements IUtilisateurRepository
     public Utilisateur trouverParId(int id)
     {
         return jpaRepository.findById(id).map(utilisateurMapper::toDomain).orElse(null);
+    }
+
+    @Override
+    public List<Utilisateur> trouverCreateurs()
+    {
+        return jpaRepository.findAllCreateurs()
+                .stream()
+                .map(utilisateurMapper::toDomain)
+                .toList();
+    }
+
+    public List<Utilisateur> findAll()
+    {
+        return jpaRepository.findAll()
+                .stream()
+                .map(utilisateurMapper::toDomain)
+                .toList();
     }
 }

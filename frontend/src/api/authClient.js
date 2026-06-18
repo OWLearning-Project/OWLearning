@@ -9,5 +9,18 @@ export const authClient = {
     });
 
     return reponse.data;
+  },
+
+  async inscription(nom, prenom, email, motDePasse, role)
+  {
+    const reponse = await axios.post(`${API_BASE_URL}/authentification/inscription`, {
+      nom,
+      prenom,
+      email,
+      motDePasse,
+      role,
+    });
+
+    return reponse.data;
   }
 }

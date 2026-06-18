@@ -2,7 +2,11 @@
   <BCard class="carte-action-cours border-0 shadow-sm">
     <h2 class="titre-carte-cours fs-4 fw-bold mb-3">Votre accès</h2>
 
-    <div v-if="estInscrit" class="mb-4">
+    <div v-if="estCreateurDuCours" class="mb-4">
+      <p class="text-muted mb-0">Vous êtes le créateur de ce cours.</p>
+    </div>
+
+    <div v-else-if="estInscrit" class="mb-4">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <span class="fw-bold text-muted small">Progression</span>
         <span class="fw-bold">{{ progression }}%</span>
@@ -15,13 +19,13 @@
       ></BProgress>
     </div>
 
-    <p v-else class="text-muted mb-4">Inscrivez-vous pour suivre votre progression sur ce cours.</p>
+    <p v-else class="text-muted mb-4">Vous pouvez consulter l'aperçu de ce cours.</p>
 
     <BAlert
       v-if="message !== ''"
       :variant="typeMessage"
       show
-      class="alerte-catalogue-vide border-0"
+      class="border-0 mb-3"
     >
       {{ message }}
     </BAlert>
@@ -32,12 +36,9 @@
       @click="$emit('action')"
     >
       <template v-if="actionEnCours">
-        <BSpinner small class="me-2"></BSpinner>
         Traitement...
       </template>
-      <template v-else>
-        {{ libelleAction }}
-      </template>
+      {{ libelleAction }}
     </BButton>
   </BCard>
 </template>
@@ -49,22 +50,29 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  estCreateurDuCours:
+    {
+    type: Boolean,
+    default: false,
+  },
   progression:
     {
     type: Number,
     default: 0,
   },
-  message:
-    {
-    type: String,
-    default: '',
+  actionEnCours: {
+      type: Boolean,
+      default: false,
   },
-  typeMessage:
-    {
-    type: String,
-    default: 'info',
+  message: {
+      type: String,
+      default: '',
   },
-  actionEnCours:
+  typeMessage: {
+      type: String,
+      default: 'info',
+  },
+  peutVoirCours:
     {
     type: Boolean,
     default: false,

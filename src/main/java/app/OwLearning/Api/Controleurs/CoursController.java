@@ -4,6 +4,7 @@ import app.OwLearning.Api.DTO.request.ChapitreRequest;
 import app.OwLearning.Api.DTO.request.CoursCreationRequest;
 import app.OwLearning.Api.DTO.request.CoursModificationRequest;
 import app.OwLearning.Api.DTO.request.UtilisateurAuthentifieRequest;
+import app.OwLearning.Api.DTO.response.ChapitreResponse;
 import app.OwLearning.Api.DTO.response.CoursResponse;
 import app.OwLearning.Api.Mapper.ChapitreDTOMapper;
 import app.OwLearning.Api.Mapper.CoursDTOMapper;
@@ -21,8 +22,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
 
 /**
  * Controller CoursController permettant d'accéder aux données liées aux cours
@@ -87,6 +86,7 @@ public class CoursController {
     public ResponseEntity<?> getCoursParId(@PathVariable("idCours") int idCours) {
         try {
             Cours cours = serviceCours.getCoursParId(idCours);
+
             return ResponseEntity.ok(this.mapper.toResponse(cours));
         } catch (ExceptionCoursInexistant e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -112,7 +112,7 @@ public class CoursController {
     @PreAuthorize("hasAuthority('CREATEUR')")
     @PutMapping("/{idCours}")
     public ResponseEntity<Void> modifierInformationsCours(@PathVariable("idCours") int idCours, @RequestBody CoursModificationRequest dto){
-        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte(), dto.isEstPrive());
+        serviceCours.modifierInformationsCours(idCours, dto.getTitre(), dto.getDescription(), dto.getDifficulte());
         return ResponseEntity.ok().build();
     }
 
@@ -128,15 +128,15 @@ public class CoursController {
      * Ajout d'un chapitre dans un cours
      * @param coursId id du cours
      * @param chapitreDto chapitre (titre et description)
-     * @return
+     * @return le chapitre créé
      */
     @PreAuthorize("hasAuthority('CREATEUR')")
     @PostMapping("/{idCours}/chapitres")
-    public ResponseEntity<?> ajouterChapitre(@PathVariable("idCours") int coursId, @RequestBody ChapitreRequest chapitreDto) {
+    public ResponseEntity<ChapitreResponse> ajouterChapitre(@PathVariable("idCours") int coursId, @RequestBody ChapitreRequest chapitreDto) {
 
         Chapitre nouveauChapitre = this.chapitreMapper.toDomain(chapitreDto);
-        serviceCours.ajouterChapitre(coursId, nouveauChapitre);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Le chapitre a été crée");
+        Chapitre chapitreCree = serviceCours.ajouterChapitre(coursId, nouveauChapitre);
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.chapitreMapper.toResponse(chapitreCree));
     }
 
     /**

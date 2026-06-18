@@ -2,14 +2,18 @@
   <BContainer class="py-5">
     <BandeauTitre titre="Mes cours publiés" sous-titre="Retrouvez les cours que vous avez publiés" />
 
-    <div class="d-flex justify-content-start mb-4">
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
       <BButton variant="link" class="bouton-retour-navigation p-2 text-decoration-none d-flex align-items-center gap-2"
                @click="retourArriere"
                title="Retour à la page précédente">
         <i class="bi bi-arrow-left fs-4"></i>
         <span class="fw-medium fs-5">Retour</span>
       </BButton>
-      </div>
+      <BButton class="bouton-cours rounded-pill fw-bold px-4" @click="creerCours">
+        <i class="bi bi-plus-circle me-2"></i>
+        Créer un cours
+      </BButton>
+    </div>
 
     <BRow>
       <BCol lg="3" md="4" class="mb-4">
@@ -77,5 +81,20 @@
   function retourArriere()
   {
     routeur.back();
+  }
+
+  function gererCours(donneesRecues) {
+    let coursId;
+    if(typeof donneesRecues === 'object'){
+      coursId = donneesRecues.id;
+    } else {
+      coursId = donneesRecues;
+    }
+    routeur.push(`/cours/${coursId}/modifier`);
+  }
+
+  function creerCours()
+  {
+    routeur.push({ name: 'creationCours' });
   }
 </script>

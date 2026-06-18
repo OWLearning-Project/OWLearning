@@ -9,6 +9,10 @@ import PageApercuCours from '@/views/PageApercuCours.vue'
 import PageErreur403 from '@/views/PageErreur403.vue'
 import PageCours from '@/views/PageCours.vue'
 import PageCoursPublies from '@/views/PageCoursPublies.vue'
+import PageProfil from '@/views/PageProfil.vue'
+import PageMessages from '@/views/PageMessages.vue'
+import PageCreationCours from '@/views/PageCreationCours.vue'
+import PageModificationCours from '@/views/PageModificationCours.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,7 +45,7 @@ const router = createRouter({
       path: '/catalogue/:idCours/apercu',
       name: 'apercuCours',
       component: PageApercuCours,
-      meta: { requiresAuth: true, roleRequis: 'eleve' }
+      meta: { requiresAuth: true }
     },
     {
       path: '/mes-cours-inscrits',
@@ -56,19 +60,44 @@ const router = createRouter({
       meta: { requiresAuth: true, roleRequis: 'createur' }
     },
     {
+      path: '/cours/creation',
+      name: 'creationCours',
+      component: PageCreationCours,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
+    },
+    {
+      path: '/cours/:id',
+      name: 'cours',
+      component: PageCours,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/profil',
+      name: 'profil',
+      component: PageProfil,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/messages',
+      name: 'messages',
+      component: PageMessages,
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/non-autorise',
       name: 'non-autorise',
       component: PageErreur403
     },
     {
+      path: '/cours/:id/modifier',
+      name: 'modifierCours',
+      component: PageModificationCours,
+      meta: { requiresAuth: true, roleRequis: 'createur' }
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: 'erreur-404',
       component: PageErreur404
-    },
-    {
-      path: '/cours/:id',
-      name: 'cours',
-      component: PageCours
     }
   ],
 })

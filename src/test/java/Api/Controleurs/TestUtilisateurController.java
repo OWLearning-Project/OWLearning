@@ -61,6 +61,21 @@ public class TestUtilisateurController extends AbstractIntegrationTest
     }
 
     @Test
+    public void getCreateursRetourneAnnuaireCreateurs() throws Exception
+    {
+        int eleveId = insererEleve("annuaire-eleve");
+        int createurId = insererCreateur("annuaire-createur");
+
+        mockMvc.perform(get("/api/utilisateurs/createurs")
+                        .with(authentication(authentification(eleveId, "ELEVE")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].id").value(createurId))
+                .andExpect(jsonPath("$[0].role").value("CREATEUR"));
+    }
+
+    @Test
     public void modifierProfil() throws Exception
     {
         int utilisateurId = insererEleve("edit-test");

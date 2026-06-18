@@ -71,7 +71,7 @@ onMounted(async () => {
 });
 
 function consulterCours(idCours) {
-  router.push({ name: 'apercuCours', params: { idCours } });
+  router.push({ name: 'cours', params: { id: idCours } });
 }
 </script>
 

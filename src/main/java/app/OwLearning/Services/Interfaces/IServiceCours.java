@@ -63,7 +63,7 @@ public interface IServiceCours
      * @param titre nouveau titre du cours
      * @param description nouvelle description du cours
      */
-    public abstract void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte, boolean estPrive);
+    public abstract void modifierInformationsCours(int coursId, String titre, String description, Difficulte difficulte);
 
 
     /**
@@ -77,8 +77,9 @@ public interface IServiceCours
      * Methode permettant d'ajouter un chapitre à un cours
      * @param coursId id du cours
      * @param chapitre chapitre à ajouter
+     * @return chapitre ajouté
      */
-    public abstract void ajouterChapitre(int coursId, Chapitre chapitre);
+    public abstract Chapitre ajouterChapitre(int coursId, Chapitre chapitre);
 
     /**
      * Methode permettant de retirer un chapitre à un cours
