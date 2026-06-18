@@ -86,12 +86,6 @@ function retourArriere() {
   router.back()
 }
 
-function gererActionPrincipale() {
-  if (peutVoirCours.value) {
-    router.push({ name: 'cours', params: { id: idCours } })
-  }
-}
-
 function contacterCreateur(idDuCreateur) {
   if (idDuCreateur) {
     router.push({
