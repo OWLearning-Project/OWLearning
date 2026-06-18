@@ -37,8 +37,11 @@
             :est-createur-du-cours="estCreateurDuCours"
             :progression="progressionPourcent"
             :peut-voir-cours="peutVoirCours"
+            :action-en-cours="actionEnCours"
+            :message="messageAction"
+            :type-message="typeMessageAction"
             :libelle-action="libelleAction"
-            @action="gererActionPrincipale"
+            @action="actionPrincipale"
           />
         </BCol>
       </BRow>
@@ -64,11 +67,15 @@ const {
   estInscrit,
   estCreateurDuCours,
   chargement,
+  actionEnCours,
   erreur,
+  messageAction,
+  typeMessageAction,
   progressionPourcent,
   peutVoirCours,
   libelleAction,
   chargerApercuCours,
+  actionPrincipale,
 } = useApercuCours(idCours)
 
 onMounted(() => {
