@@ -24,7 +24,7 @@
           <div v-if="discussionsTriees.length === 0" class="etat-vide text-center py-5">
             <i class="bi bi-chat-square-text fs-1"></i>
             <p class="fw-bold mb-1 mt-3">Aucune discussion</p>
-            <p class="text-muted small mb-0">Contactez un createur depuis l'annuaire.</p>
+            <p class="text-muted small mb-0">Contactez un créateur depuis l'annuaire.</p>
           </div>
 
           <div v-else class="liste-discussions">
@@ -86,7 +86,7 @@
                   :class="{ 'message-connecte': estMessageAuteurConnecte(message) }"
                 >
                   <div class="bulle-message">
-                    <p v-if="message.contenu" class="mb-2 text-break" v-html="rendreLiensCliquables(message.contenu)"></p>
+                    <p v-if="message.contenu" class="mb-2 text-break">{{ message.contenu }}</p>
                     <div v-if="message.ressources && message.ressources.length > 0" class="pieces-jointes mt-2 mb-2">
                       <div v-for="ressource in message.ressources" :key="ressource.id || ressource.id_ressource">
 
@@ -345,13 +345,6 @@ function formaterDateMessage(dateBrute)
     hour: '2-digit',
     minute: '2-digit',
   })
-}
-
-function rendreLiensCliquables(texte) {
-  if (!texte) return '';
-  const texteSecurise = texte.replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const regexUrl = /(https?:\/\/[^\s]+)/g;
-  return texteSecurise.replace(regexUrl, '<a href="$1" target="_blank" class="text-decoration-underline fw-bold" style="color: inherit;">$1</a>');
 }
 
 </script>
