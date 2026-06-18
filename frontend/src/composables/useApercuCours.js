@@ -1,16 +1,21 @@
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { coursClient } from '@/api/coursClient.js'
 import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
 import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
 
 export function useApercuCours(idCours)
 {
+  const router = useRouter()
   const cours = ref(null)
   const estInscrit = ref(false)
   const estCreateurDuCours = ref(false)
   const progression = ref(0)
   const chargement = ref(true)
+  const actionEnCours = ref(false)
   const erreur = ref('')
+  const messageAction = ref('')
+  const typeMessageAction = ref('info')
 
   const progressionPourcent = computed(() =>
   {
@@ -21,7 +26,7 @@ export function useApercuCours(idCours)
   })
 
   const peutVoirCours = computed(() => estInscrit.value || estCreateurDuCours.value)
-  const libelleAction = computed(() => peutVoirCours.value ? 'Voir le cours' : '')
+  const libelleAction = computed(() => peutVoirCours.value ? 'Voir le cours' : 'S\'inscrire')
 
   async function chargerApercuCours()
   {
@@ -75,15 +80,47 @@ export function useApercuCours(idCours)
     }
   }
 
+  async function actionPrincipale()
+    {
+      messageAction.value = ''
+      if (peutVoirCours.value){
+        router.push({ name: 'cours', params: { id: idCours } })
+        return
+      }
+      actionEnCours.value = true
+      try{
+        await coursClient.inscrireCours(idCours)
+        estInscrit.value = true
+        typeMessageAction.value = 'success'
+        messageAction.value = 'Inscription réussie.'
+        setTimeout(() => {
+          messageAction.value = ''
+        }, 3000)
+        await chargerProgression()
+      } catch (e)
+      {
+        console.error("Erreur d'inscription :", e)
+        typeMessageAction.value = 'danger'
+        messageAction.value = "L'inscription au cours est impossible pour le moment."
+      } finally
+      {
+        actionEnCours.value = false
+      }
+    }
+
   return {
     cours,
     estInscrit,
     estCreateurDuCours,
     chargement,
+    actionEnCours,
     erreur,
+    messageAction,
+    typeMessageAction,
     progressionPourcent,
     peutVoirCours,
     libelleAction,
     chargerApercuCours,
+    actionPrincipale,
   }
 }
