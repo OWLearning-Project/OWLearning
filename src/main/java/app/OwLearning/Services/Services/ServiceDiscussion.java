@@ -1,12 +1,10 @@
 package app.OwLearning.Services.Services;
 
-import app.OwLearning.Domaine.Entités.Createur;
-import app.OwLearning.Domaine.Entités.Discussion;
-import app.OwLearning.Domaine.Entités.Message;
-import app.OwLearning.Domaine.Entités.Utilisateur;
+import app.OwLearning.Domaine.Entités.*;
 import app.OwLearning.Domaine.Enumérations.StatutMessage;
 import app.OwLearning.Domaine.Interfaces.IDiscussionRepository;
 import app.OwLearning.Domaine.Interfaces.IMessageRepository;
+import app.OwLearning.Domaine.Interfaces.IRessourceRepository;
 import app.OwLearning.Domaine.Interfaces.IUtilisateurRepository;
 import app.OwLearning.Services.Interfaces.IServiceDiscussion;
 import app.OwLearning.Domaine.Exceptions.ExceptionUtilisateurNonAutorise;
@@ -28,17 +26,19 @@ public class ServiceDiscussion implements IServiceDiscussion
     private final IDiscussionRepository repositoryDiscussion;
     private final IUtilisateurRepository repositoryUtilisateur;
     private final IMessageRepository repositoryMessage;
+    private final IRessourceRepository repositoryRessource;
 
     /**
      * Constructeur de ServiceDiscussion
      * @param repositoryDiscussion
      * @param repositoryUtilisateur
      */
-    public ServiceDiscussion(IDiscussionRepository repositoryDiscussion, IUtilisateurRepository repositoryUtilisateur, IMessageRepository repositoryMessage)
+    public ServiceDiscussion(IDiscussionRepository repositoryDiscussion, IUtilisateurRepository repositoryUtilisateur, IMessageRepository repositoryMessage, IRessourceRepository repositoryRessource)
     {
         this.repositoryDiscussion = repositoryDiscussion;
         this.repositoryUtilisateur = repositoryUtilisateur;
         this.repositoryMessage = repositoryMessage;
+        this.repositoryRessource = repositoryRessource;
     }
 
     /**
@@ -134,7 +134,7 @@ public class ServiceDiscussion implements IServiceDiscussion
      */
     @Override
     @Transactional
-    public Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise, ExceptionUtilisateurInexistant
+    public Discussion envoyerMessage(int discussionId, int auteurId, String contenu, Integer ressourceId) throws ExceptionUtilisateurNonAutorise, ExceptionUtilisateurInexistant
     {
         Discussion discussion = this.repositoryDiscussion.trouverDiscussionParId(discussionId);
         Utilisateur auteur = this.repositoryUtilisateur.trouverParId(auteurId);
@@ -142,15 +142,27 @@ public class ServiceDiscussion implements IServiceDiscussion
             log.warn("Échec de l'envoie du message : l'utilisateur {} n'existe pas", auteurId);
             throw new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", auteurId);
         }
-        if (contenu == null || contenu.isBlank())
-        {
-            throw new IllegalArgumentException("Le contenu du message est obligatoire");
-        }
 
+        boolean contenueTexte = contenu != null && !contenu.isBlank();
+        boolean contenueRessource = ressourceId != null;
+
+        if (!contenueTexte && !contenueRessource) {
+            throw new IllegalArgumentException("Le message doit contenir du texte ou une pièce jointe");
+        }
         verifierParticipation(discussion, auteurId);
-        Message message = new Message(contenu, auteur);
+        Message message = new Message(contenueTexte ? contenu.trim() : "", auteur);
         message.setDateCreation(new Timestamp(System.currentTimeMillis()));
         message.setStatutMessage(StatutMessage.ENVOYE);
+
+        if(contenueRessource) {
+            Ressource ressource = this.repositoryRessource.trouverParId(ressourceId);
+            if(ressource != null) {
+                message.ajouterRessource(ressource);
+            } else {
+                throw new IllegalArgumentException("La piece jointe est introuvable.");
+            }
+        }
+
         discussion.ajouterMessage(message);
         discussion.getMessages().size();
         log.info("Message envoyé avec succès par l'utilisateur {} dans la discussion {}", auteurId, discussionId);

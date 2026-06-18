@@ -170,7 +170,8 @@ public class WebSocketTest
                 () -> serviceDiscussion.envoyerMessage(
                         idDiscussion,
                         messagePirate.getAuteurId(),
-                        messagePirate.getContenu()
+                        messagePirate.getContenu(),
+                        null
                 ),
                 "Une ExceptionUtilisateurNonAutorise doit être levée"
         );

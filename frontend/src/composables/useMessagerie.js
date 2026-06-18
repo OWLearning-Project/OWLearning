@@ -30,10 +30,10 @@ export function useMessagerie()
   const createursFiltres = computed(() =>
   {
     const texte = rechercheCreateur.value.trim().toLowerCase()
-    const idUtilisateur = utilisateurConnecte.value.id
+    const idUtilisateur = utilisateurConnecte.value?.id
 
     return createurs.value
-      .filter((createur) => Number(createur.id) !== idUtilisateur)
+      .filter((createur) => Number(createur.id) !== Number(idUtilisateur))
       .filter((createur) =>
       {
         if (texte === '')

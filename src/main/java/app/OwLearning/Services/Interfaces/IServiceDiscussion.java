@@ -51,5 +51,5 @@ public interface IServiceDiscussion
      * @return la discussion avec le nouveau message envoyé
      * @throws ExceptionUtilisateurNonAutorise
      */
-    public abstract Discussion envoyerMessage(int discussionId, int auteurId, String contenu) throws ExceptionUtilisateurNonAutorise;
+    public abstract Discussion envoyerMessage(int discussionId, int auteurId, String contenu, Integer ressourceId) throws ExceptionUtilisateurNonAutorise;
 }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getAuthHeaders } from './authHeader.js'
+import { getAuthHeaders, getAuthMultipartHeaders } from './authHeader.js'
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -107,7 +107,7 @@ export const coursClient = {
     donnees.append('fichier', fichier)
 
     const reponse = await axios.post(`${API_BASE_URL}/ressources/upload`, donnees, {
-      headers: getAuthHeaders(),
+      headers: getAuthMultipartHeaders(),
     })
 
     return reponse.data;

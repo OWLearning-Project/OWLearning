@@ -92,7 +92,7 @@ public class TestServiceDiscussion
         when(repositoryDiscussion.sauvegarder(any(Discussion.class))).thenAnswer(i -> i.getArguments()[0]);
 
         // Act
-        Discussion discussionSauvegardee = serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu);
+        Discussion discussionSauvegardee = serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu, null);
 
         // Assert
         assertNotNull(discussionSauvegardee);
@@ -115,7 +115,7 @@ public class TestServiceDiscussion
         when(repositoryDiscussion.trouverDiscussionParId(discussionId)).thenThrow(new ExceptionDiscussionInexistante("La discussion n'existe pas", discussionId));
 
         // Act & Assert
-        assertThrows(ExceptionDiscussionInexistante.class, () -> serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu));
+        assertThrows(ExceptionDiscussionInexistante.class, () -> serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu, null));
         verify(repositoryDiscussion, times(1)).trouverDiscussionParId(discussionId);
     }
 
@@ -135,7 +135,7 @@ public class TestServiceDiscussion
         when(repositoryUtilisateur.trouverParId(auteurId)).thenThrow(new ExceptionUtilisateurInexistant("L'utilisateur n'existe pas", auteurId));
 
         // Act & Assert
-        assertThrows(ExceptionUtilisateurInexistant.class, () -> serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu));
+        assertThrows(ExceptionUtilisateurInexistant.class, () -> serviceDiscussion.envoyerMessage(discussionId, auteurId, contenu, null));
         verify(repositoryDiscussion, times(1)).trouverDiscussionParId(discussionId);
         verify(repositoryUtilisateur, times(1)).trouverParId(auteurId);
     }

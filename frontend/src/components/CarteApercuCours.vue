@@ -26,6 +26,7 @@
         {{ nomCreateur }}
 
         <BButton
+          v-if="utilisateurConnecte && Number(cours.createur?.id) !== Number(utilisateurConnecte.id)"
           variant="outline-primary"
           size="sm"
           class="ms-3 rounded-pill"
@@ -81,6 +82,7 @@
 <script setup>
 import { computed } from 'vue'
 import { couleurDifficulte } from '@/utils/formatage.js'
+import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
 
 const props = defineProps(
   {
@@ -95,6 +97,8 @@ const props = defineProps(
     default: false,
   },
 })
+
+const utilisateurConnecte = computed(() => recupererUtilisateurConnecte())
 
 const categories = computed(() => props.cours.categories || [])
 const chapitres = computed(() => props.cours.chapitres || [])
