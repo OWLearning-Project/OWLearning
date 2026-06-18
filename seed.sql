@@ -12,19 +12,19 @@ INSERT INTO Categorie (categorie) VALUES ('MATHEMATIQUES');
 INSERT INTO Categorie (categorie) VALUES ('ARCHITECTURE');
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Akretche', 'Iraihane', 'test1@owlearning.com', 'test1', '$2a$10$tFuEYeZbsfKH8nLE4.fmwecFZ.0OexJ6dOWzdVwqq83npZkpf41NK', '2026-03-10 17:18:41.01+01', NULL);
+VALUES ('Akretche', 'Iraihane', 'test1@owlearning.com', 'iraihane', '$2a$10$tFuEYeZbsfKH8nLE4.fmwecFZ.0OexJ6dOWzdVwqq83npZkpf41NK', '2026-03-10 17:18:41.01+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Chhun', 'Noemie', 'test2@owlearning.com', 'test2', '$2a$10$ullSqyAlnbs/TYTLCxvTf.OW1lQdcsyTiR2zXeLmld92ZMBgSvWTu', '2026-03-10 17:19:02.186+01', NULL);
+VALUES ('Chhun', 'Noémie', 'test2@owlearning.com', 'noémie', '$2a$10$ullSqyAlnbs/TYTLCxvTf.OW1lQdcsyTiR2zXeLmld92ZMBgSvWTu', '2026-03-10 17:19:02.186+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Vignon', 'Gabriel', 'test3@owlearning.com', 'test3', '$2a$10$3xBrgM3YYBNsklAsUTziHuNAG2UDYvQpOoRqyZuEgHMBy45LtSf4O', '2026-03-10 17:19:16.709+01', NULL);
+VALUES ('Vignon', 'Gabriel', 'test3@owlearning.com', 'gabriel', '$2a$10$3xBrgM3YYBNsklAsUTziHuNAG2UDYvQpOoRqyZuEgHMBy45LtSf4O', '2026-03-10 17:19:16.709+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Bigleone', 'Bryan', 'test4@owlearning.com', 'test4', '$2a$10$3TbQ1Iloylnos6RyJJpF/OYPg1z2D8hgRnYp/2qMZj8.jRQL63rZq', '2026-03-10 17:19:32.666+01', NULL);
+VALUES ('Biglione', 'Bryan', 'test4@owlearning.com', 'bryan', '$2a$10$3TbQ1Iloylnos6RyJJpF/OYPg1z2D8hgRnYp/2qMZj8.jRQL63rZq', '2026-03-10 17:19:32.666+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
-VALUES ('Diallo', 'Anthia', 'test5@owlearning.com', 'test5', '$2a$10$HJ3kBcVmTuvzMzEFwQ09N.doK3IsbmBUt08uLzZd7Zu9idgXOtDDC', '2026-03-10 17:20:38.272+01', NULL);
+VALUES ('Diallo', 'Anthia', 'test5@owlearning.com', 'anthia', '$2a$10$HJ3kBcVmTuvzMzEFwQ09N.doK3IsbmBUt08uLzZd7Zu9idgXOtDDC', '2026-03-10 17:20:38.272+01', NULL);
 
 INSERT INTO Utilisateur (nom, prenom, email, pseudo, mot_de_passe, date_inscription, derniere_activite)
 VALUES ('Dupont', 'Jean', 'test6@owlearning.com', 'Jean.createur', '$2a$10$uJweB1MBHrQNXgZEskjIHOEL9j9l2DZEAmvw07ZfjTDq2mdNAcipG', '2026-03-10 17:22:44.283+01', NULL);
@@ -69,7 +69,7 @@ WHERE email = 'test5@owlearning.com';
 
 INSERT INTO Cours (description, titre, date_creation, est_prive, est_publie, difficulte, id_createur)
 SELECT
-    'Apprendre les bases de SQL, de la modélisation relationnelle et des requêtes courantes.',
+    'Une introduction progressive aux bases de données relationnelles. Vous apprendrez à modéliser des données, à écrire des requêtes SELECT et à combiner des tables avec des jointures.',
     'SQL pour débutants',
     '2026-03-01 09:00:00+01',
     false,
@@ -81,7 +81,7 @@ WHERE email = 'test6@owlearning.com';
 
 INSERT INTO Cours (description, titre, date_creation, est_prive, est_publie, difficulte, id_createur)
 SELECT
-    'Construire une API REST avec Spring Boot, les contrôleurs et la persistance.',
+    'Apprenez à construire une API REST complète avec Spring Boot. Ce cours couvre la création de contrôleurs, la persistance avec Spring Data JPA et les bonnes pratiques de structuration d''un projet backend.',
     'Créer une API avec Spring Boot',
     '2026-03-02 10:00:00+01',
     false,
@@ -93,7 +93,7 @@ WHERE email = 'test6@owlearning.com';
 
 INSERT INTO Cours (description, titre, date_creation, est_prive, est_publie, difficulte, id_createur)
 SELECT
-    'Maîtriser HTML, CSS, JavaScript et organiser un mini-projet front.',
+    'Maîtrisez les trois piliers du web : HTML, CSS et JavaScript. À la fin du cours, vous serez capable de créer une page web responsive de A à Z.',
     'Fondamentaux du développement web',
     '2026-03-03 11:00:00+01',
     false,
@@ -105,7 +105,7 @@ WHERE email = 'test7@owlearning.com';
 
 INSERT INTO Cours (description, titre, date_creation, est_prive, est_publie, difficulte, id_createur)
 SELECT
-    'Comprendre la logique algorithmique, les variables, les conditions, les boucles et les fonctions.',
+    'Développez votre logique de programmation en partant de zéro. Ce cours vous enseigne les structures fondamentales : variables, conditions, boucles et fonctions.',
     'Algorithmique essentielle',
     '2026-03-04 14:00:00+01',
     true,
@@ -146,404 +146,408 @@ FROM Cours
 WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Découvrir le modèle relationnel',
-    'Tables, relations, clés primaires et clés étrangères.',
-    id_cours
+SELECT 'Le modèle relationnel',
+       'Comprenez comment organiser avec une base de données : tables, colonnes, clés primaires et clés étrangères. Vous apprendrez à lire et à interpréter un schéma entité-relation.',
+       id_cours
 FROM Cours
 WHERE titre = 'SQL pour débutants';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Écrire ses premières requêtes SQL',
-    'SELECT, WHERE, ORDER BY et filtres simples.',
-    id_cours
+SELECT 'Requêtes SELECT et filtres',
+       'Écrivez vos premières requêtes SQL : sélectionner des colonnes, filtrer avec WHERE, trier avec ORDER BY et limiter les résultats avec LIMIT.',
+       id_cours
 FROM Cours
 WHERE titre = 'SQL pour débutants';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Joindre et agréger des données',
-    'JOIN, GROUP BY et fonctions d''agrégation.',
-    id_cours
+SELECT 'Jointures et agrégations',
+       'Combinez plusieurs tables avec INNER JOIN et LEFT JOIN. Calculez des statistiques avec GROUP BY et les fonctions COUNT, SUM, AVG.',
+       id_cours
 FROM Cours
 WHERE titre = 'SQL pour débutants';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Créer une première API REST',
-    'Projet Spring Boot, contrôleurs et endpoints REST.',
-    id_cours
+SELECT 'Premiers pas avec Spring Boot',
+       'Initialisez un projet Spring Boot avec Spring Initializr, créez votre premier contrôleur REST et testez vos endpoints.',
+       id_cours
 FROM Cours
 WHERE titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Structurer une page en HTML',
-    'Balises HTML principales et structure sémantique.',
-    id_cours
+SELECT 'Persistance avec Spring Data JPA',
+       'Reliez votre API à une base de données. Créez des entités JPA, configurez un repository et effectuez des opérations CRUD sans écrire une seule requête SQL.',
+       id_cours
+FROM Cours
+WHERE titre = 'Créer une API avec Spring Boot';
+
+INSERT INTO Chapitre (titre, description, id_cours)
+SELECT 'HTML : structurer le contenu',
+       'Découvrez les balises HTML5 essentielles et la sémantique web. Vous construirez la structure d''une page complète avec en-tête, navigation, contenu principal et pied de page.',
+       id_cours
 FROM Cours
 WHERE titre = 'Fondamentaux du développement web';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Mettre en forme avec CSS',
-    'Sélecteurs, boîte, flexbox et responsive simple.',
-    id_cours
+SELECT 'CSS : mise en forme et mise en page',
+       'Appliquez des styles avec les sélecteurs CSS, maîtrisez le modèle de boîte et créez des mises en page modernes avec Flexbox. Introduction aux media queries pour le responsive design.',
+       id_cours
 FROM Cours
 WHERE titre = 'Fondamentaux du développement web';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Ajouter de l''interaction avec JavaScript',
-    'Variables, événements et manipulation du DOM.',
-    id_cours
+SELECT 'JavaScript : rendre la page interactive',
+       'Ajoutez du comportement à vos pages : manipulation du DOM, gestion des événements (clic, saisie) et modification dynamique du contenu sans rechargement.',
+       id_cours
 FROM Cours
 WHERE titre = 'Fondamentaux du développement web';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Assembler un mini-projet vitrine',
-    'Organisation d''un petit site cohérent.',
-    id_cours
-FROM Cours
-WHERE titre = 'Fondamentaux du développement web';
+SELECT 'Variables, conditions et boucles',
+       'Posez les bases de tout algorithme : déclarer des variables, utiliser les if/else et répéter des actions avec while et for.',
+       id_cours FROM Cours WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Variables, conditions et entrées',
-    'Notions de base pour démarrer un algorithme.',
-    id_cours
-FROM Cours
-WHERE titre = 'Algorithmique essentielle';
-
-INSERT INTO Chapitre (titre, description, id_cours)
-SELECT
-    'Boucles et fonctions',
-    'Répétitions, découpage logique et réutilisation.',
-    id_cours
-FROM Cours
-WHERE titre = 'Algorithmique essentielle';
+SELECT 'Fonctions et décomposition',
+       'Apprenez à découper un problème complexe en petites fonctions réutilisables.',
+       id_cours FROM Cours WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('MCD et schéma relationnel - PDF', 'https://owlearning.local/ressources/mcd-schema-relationnel.pdf', 'FICHIER_PDF');
+VALUES ('Diagramme entité-relation','https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/ER_Diagram_MMORPG.png/800px-ER_Diagram_MMORPG.png','IMAGE');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Exercices SQL corrigés', 'https://owlearning.local/ressources/exercices-sql-corriges.pdf', 'FICHIER_PDF');
+VALUES ('Cours complet SQL – freeCodeCamp','https://www.youtube.com/watch?v=HXV3zeQKqGY','VIDEO');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Starter API Spring Boot', 'https://owlearning.local/ressources/starter-api-springboot.zip', 'FICHIER_ZIP');
+VALUES ('Documentation officielle PostgreSQL','https://www.postgresql.org/files/documentation/pdf/17/postgresql-17-A4.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Cheatsheet HTML CSS', 'https://owlearning.local/ressources/cheatsheet-html-css.pdf', 'FICHIER_PDF');
+VALUES ('Illustration des types de JOIN','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/SQL_Joins.svg/800px-SQL_Joins.svg.png','IMAGE');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Schéma boucles et fonctions', 'https://owlearning.local/ressources/schema-boucles-fonctions.png', 'IMAGE');
+VALUES ('Spring Boot Tutorial – Amigoscode','https://www.youtube.com/watch?v=9SGDpanrc8U','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Projet starter API Spring Boot','https://github.com/spring-guides/gs-rest-service/archive/refs/heads/main.zip','FICHIER_ZIP');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Spring Data JPA – Vidéo complète','https://www.youtube.com/watch?v=8SGI_XS5OPw','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Projet starter Spring Data JPA','https://github.com/spring-guides/gs-accessing-data-jpa/archive/refs/heads/main.zip','FICHIER_ZIP');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('HTML en 1 heure – freeCodeCamp','https://www.youtube.com/watch?v=pQN-pnXPaVg','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Schéma balises sémantiques HTML5','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/HTML5_elements_flowchart.svg/800px-HTML5_elements_flowchart.svg.png','IMAGE');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('CSS Flexbox en 20 minutes – Traversy Media','https://www.youtube.com/watch?v=fYq5PXgSsbE','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('JavaScript DOM Crash Course – Traversy Media','https://www.youtube.com/watch?v=0ik6X4DJKCc','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Exemple de flowchart algorithmique','https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/LampFlowchart.svg/500px-LampFlowchart.svg.png','IMAGE');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Introduction à l''algorithmique – CS50 Harvard','https://www.youtube.com/watch?v=IDDmrzzB14M','VIDEO');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Illustration du tri rapide (quicksort)','https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Sorting_quicksort_anim.gif/280px-Sorting_quicksort_anim.gif','IMAGE');
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Découvrir le modèle relationnel'
-WHERE r.nom = 'MCD et schéma relationnel - PDF';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Le modèle relationnel'
+WHERE r.nom = 'Diagramme entité-relation';
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Joindre et agréger des données'
-WHERE r.nom = 'Exercices SQL corrigés';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Le modèle relationnel'
+WHERE r.nom = 'Cours complet SQL – freeCodeCamp';
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Créer une première API REST'
-WHERE r.nom = 'Starter API Spring Boot';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Requêtes SELECT et filtres'
+WHERE r.nom = 'Documentation officielle PostgreSQL';
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Structurer une page en HTML'
-WHERE r.nom = 'Cheatsheet HTML CSS';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Jointures et agrégations'
+WHERE r.nom = 'Illustration des types de JOIN';
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Mettre en forme avec CSS'
-WHERE r.nom = 'Cheatsheet HTML CSS';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Premiers pas avec Spring Boot'
+WHERE r.nom = 'Spring Boot Tutorial – Amigoscode';
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
-FROM Ressource r
-JOIN Chapitre ch ON ch.titre = 'Boucles et fonctions'
-WHERE r.nom = 'Schéma boucles et fonctions';
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Premiers pas avec Spring Boot'
+WHERE r.nom = 'Projet starter API Spring Boot';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Persistance avec Spring Data JPA'
+WHERE r.nom = 'Spring Data JPA – Vidéo complète';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Persistance avec Spring Data JPA'
+WHERE r.nom = 'Projet starter Spring Data JPA';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'HTML : structurer le contenu'
+WHERE r.nom = 'HTML en 1 heure – freeCodeCamp';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'HTML : structurer le contenu'
+WHERE r.nom = 'Schéma balises sémantiques HTML5';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'CSS : mise en forme et mise en page'
+WHERE r.nom = 'CSS Flexbox en 20 minutes – Traversy Media';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'JavaScript : rendre la page interactive'
+WHERE r.nom = 'JavaScript DOM Crash Course – Traversy Media';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Variables, conditions et boucles'
+WHERE r.nom = 'Exemple de flowchart algorithmique';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Variables, conditions et boucles'
+WHERE r.nom = 'Introduction à l''algorithmique – CS50 Harvard';
+
+INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
+SELECT r.id_ressource, ch.id_chapitre
+FROM Ressource r JOIN Chapitre ch ON ch.titre = 'Fonctions et décomposition'
+WHERE r.nom = 'Illustration du tri rapide (quicksort)';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'SQL pour débutants';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'SQL pour débutants';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'SQL pour débutants';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test4@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test4@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'SQL pour débutants';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test4@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test4@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Créer une API avec Spring Boot';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Fondamentaux du développement web';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Fondamentaux du développement web';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Fondamentaux du développement web';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Algorithmique essentielle';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Algorithmique essentielle';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Algorithmique essentielle';
 
 INSERT INTO inscription (id_cours, id_eleve)
 SELECT c.id_cours, e.id_utilisateur
-FROM Cours c
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+FROM Cours c JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+             JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Algorithmique essentielle';
 
+-- test1 : SQL terminé (3/3), dev web 2/3, algo 2/2 (100%)
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Découvrir le modèle relationnel';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Le modèle relationnel';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Écrire ses premières requêtes SQL';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Requêtes SELECT et filtres';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Joindre et agréger des données';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Jointures et agrégations';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Découvrir le modèle relationnel';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'HTML : structurer le contenu';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Écrire ses premières requêtes SQL';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'CSS : mise en forme et mise en page';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'SQL pour débutants'
-  AND ch.titre = 'Découvrir le modèle relationnel';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Variables, conditions et boucles';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Créer une API avec Spring Boot'
-  AND ch.titre = 'Créer une première API REST';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Fonctions et décomposition';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Créer une API avec Spring Boot'
-  AND ch.titre = 'Créer une première API REST';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Le modèle relationnel';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Structurer une page en HTML';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Requêtes SELECT et filtres';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Mettre en forme avec CSS';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+                                                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Créer une API avec Spring Boot' AND ch.titre = 'Premiers pas avec Spring Boot';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Structurer une page en HTML';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Variables, conditions et boucles';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Structurer une page en HTML';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'SQL pour débutants' AND ch.titre = 'Le modèle relationnel';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Mettre en forme avec CSS';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test3@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'HTML : structurer le contenu';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Fondamentaux du développement web'
-  AND ch.titre = 'Ajouter de l''interaction avec JavaScript';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Créer une API avec Spring Boot' AND ch.titre = 'Premiers pas avec Spring Boot';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Algorithmique essentielle'
-  AND ch.titre = 'Variables, conditions et entrées';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'HTML : structurer le contenu';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test1@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Algorithmique essentielle'
-  AND ch.titre = 'Boucles et fonctions';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'CSS : mise en forme et mise en page';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test2@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Algorithmique essentielle'
-  AND ch.titre = 'Variables, conditions et entrées';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Fondamentaux du développement web' AND ch.titre = 'JavaScript : rendre la page interactive';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Algorithmique essentielle'
-  AND ch.titre = 'Variables, conditions et entrées';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Variables, conditions et boucles';
 
 INSERT INTO chapitres_termines (id_chapitre, id_eleve)
 SELECT ch.id_chapitre, e.id_utilisateur
-FROM Chapitre ch
-JOIN Cours c ON ch.id_cours = c.id_cours
-JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
-JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
-WHERE c.titre = 'Algorithmique essentielle'
-  AND ch.titre = 'Boucles et fonctions';
+FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
+                 JOIN Utilisateur u ON u.email = 'test5@owlearning.com'
+                 JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
+WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Fonctions et décomposition';
 
 WITH new_discussion AS (
     INSERT INTO Discussion DEFAULT VALUES
