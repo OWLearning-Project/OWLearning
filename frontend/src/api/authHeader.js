@@ -5,3 +5,10 @@ export function getAuthHeaders() {
     'Content-Type': 'application/json'
   };
 }
+
+export function getAuthMultipartHeaders() {
+  const token = localStorage.getItem('token');
+  return {
+    'Authorization': `Bearer ${token}`
+  };
+}
