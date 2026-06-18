@@ -21,11 +21,23 @@
 
     <p v-else class="text-muted mb-4">Vous pouvez consulter l'aperçu de ce cours.</p>
 
+    <BAlert
+      v-if="message !== ''"
+      :variant="typeMessage"
+      show
+      class="border-0 mb-3"
+    >
+      {{ message }}
+    </BAlert>
+
     <BButton
-      v-if="peutVoirCours"
       class="bouton-cours w-100 rounded-pill fw-bold py-2"
+      :disabled="actionEnCours"
       @click="$emit('action')"
     >
+      <template v-if="actionEnCours">
+        Traitement...
+      </template>
       {{ libelleAction }}
     </BButton>
   </BCard>
@@ -47,6 +59,18 @@ defineProps({
     {
     type: Number,
     default: 0,
+  },
+  actionEnCours: {
+      type: Boolean,
+      default: false,
+  },
+  message: {
+      type: String,
+      default: '',
+  },
+  typeMessage: {
+      type: String,
+      default: 'info',
   },
   peutVoirCours:
     {
