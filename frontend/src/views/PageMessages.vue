@@ -86,7 +86,30 @@
                   :class="{ 'message-connecte': estMessageAuteurConnecte(message) }"
                 >
                   <div class="bulle-message">
-                    <p class="mb-2">{{ message.contenu }}</p>
+                    <p v-if="message.contenu" class="mb-2 text-break" v-html="rendreLiensCliquables(message.contenu)"></p>
+                    <div v-if="message.ressources && message.ressources.length > 0" class="pieces-jointes mt-2 mb-2">
+                      <div v-for="ressource in message.ressources" :key="ressource.id || ressource.id_ressource">
+
+                        <img
+                          v-if="ressource.type === 'IMAGE'"
+                          :src="ressource.url"
+                          :alt="ressource.nom"
+                          class="img-fluid rounded border border-secondary-subtle"
+                          style="max-height: 250px; object-fit: contain;"
+                        />
+
+                        <a
+                          v-else
+                          :href="ressource.url"
+                          target="_blank"
+                          class="d-flex align-items-center bg-white text-dark text-decoration-none p-2 rounded border"
+                        >
+                          <i class="bi bi-file-earmark-text fs-4 me-2 text-primary"></i>
+                          <span class="text-truncate" style="max-width: 200px;">{{ ressource.nom }}</span>
+                        </a>
+
+                      </div>
+                    </div>
                     <span class="date-message">{{ formaterDateMessage(message.dateCreation) }}</span>
                   </div>
                 </div>
@@ -322,6 +345,14 @@ function formaterDateMessage(dateBrute)
     minute: '2-digit',
   })
 }
+
+function rendreLiensCliquables(texte) {
+  if (!texte) return '';
+  const texteSecurise = texte.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const regexUrl = /(https?:\/\/[^\s]+)/g;
+  return texteSecurise.replace(regexUrl, '<a href="$1" target="_blank" class="text-decoration-underline fw-bold" style="color: inherit;">$1</a>');
+}
+
 </script>
 
 <style scoped>

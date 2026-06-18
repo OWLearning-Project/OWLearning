@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getAuthHeaders } from './authHeader.js'
+import { getAuthHeaders, getAuthMultipartHeaders } from './authHeader.js'
 
 const API_BASE_URL = 'http://localhost:8080/api'
 
@@ -22,9 +22,7 @@ export const messagerieClient = {
       `${API_BASE_URL}/ressources/upload`,
       formData,
       {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: getAuthMultipartHeaders(),
       },
     )
 

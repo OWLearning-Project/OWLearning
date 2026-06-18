@@ -33,7 +33,7 @@ public class MessagerieWebSocketController
     @SendTo("/topic/discussion/{idDiscussion}")
     public DiscussionResponse envoyerMessageEnTempsReel(@DestinationVariable int idDiscussion, MessageEnvoiRequest messageEnvoiDTO) throws ExceptionUtilisateurNonAutorise
     {
-        Discussion discussionMiseAJour = serviceDiscussion.envoyerMessage(idDiscussion, messageEnvoiDTO.getAuteurId(), messageEnvoiDTO.getContenu());
+        Discussion discussionMiseAJour = serviceDiscussion.envoyerMessage(idDiscussion, messageEnvoiDTO.getAuteurId(), messageEnvoiDTO.getContenu(), messageEnvoiDTO.getRessourceId());
         if (messageEnvoiDTO.getRessourceId() != null)
         {
             List<Message> messages = discussionMiseAJour.getMessages();
