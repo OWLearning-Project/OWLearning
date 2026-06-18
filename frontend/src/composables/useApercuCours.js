@@ -1,4 +1,5 @@
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { coursClient } from '@/api/coursClient.js'
 import { enregistrerCoursConsulte } from '@/utils/historiqueAccueil.js'
 import { recupererUtilisateurConnecte } from '@/utils/getUserConnect.js'
