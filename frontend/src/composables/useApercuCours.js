@@ -93,6 +93,9 @@ export function useApercuCours(idCours)
         estInscrit.value = true
         typeMessageAction.value = 'success'
         messageAction.value = 'Inscription réussie.'
+        setTimeout(() => {
+          messageAction.value = ''
+        }, 3000)
         await chargerProgression()
       } catch (e)
       {
