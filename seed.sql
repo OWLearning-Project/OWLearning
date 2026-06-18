@@ -212,49 +212,49 @@ SELECT 'Fonctions et décomposition',
        id_cours FROM Cours WHERE titre = 'Algorithmique essentielle';
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Diagramme entité-relation','https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/ER_Diagram_MMORPG.png/800px-ER_Diagram_MMORPG.png','IMAGE');
+VALUES ('Diagramme entité-relation','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Cours complet SQL – freeCodeCamp','https://www.youtube.com/watch?v=HXV3zeQKqGY','VIDEO');
+VALUES ('Cours complet SQL – freeCodeCamp','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Documentation officielle PostgreSQL','https://www.postgresql.org/files/documentation/pdf/17/postgresql-17-A4.pdf','FICHIER_PDF');
+VALUES ('Documentation officielle PostgreSQL','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Illustration des types de JOIN','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/SQL_Joins.svg/800px-SQL_Joins.svg.png','IMAGE');
+VALUES ('Illustration des types de JOIN','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Spring Boot Tutorial – Amigoscode','https://www.youtube.com/watch?v=9SGDpanrc8U','VIDEO');
+VALUES ('Spring Boot Tutorial – Amigoscode','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Projet starter API Spring Boot','https://github.com/spring-guides/gs-rest-service/archive/refs/heads/main.zip','FICHIER_ZIP');
+VALUES ('Projet starter API Spring Boot','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Spring Data JPA – Vidéo complète','https://www.youtube.com/watch?v=8SGI_XS5OPw','VIDEO');
+VALUES ('Spring Data JPA – Vidéo complète','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Projet starter Spring Data JPA','https://github.com/spring-guides/gs-accessing-data-jpa/archive/refs/heads/main.zip','FICHIER_ZIP');
+VALUES ('Projet starter Spring Data JPA','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('HTML en 1 heure – freeCodeCamp','https://www.youtube.com/watch?v=pQN-pnXPaVg','VIDEO');
+VALUES ('HTML en 1 heure – freeCodeCamp','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Schéma balises sémantiques HTML5','https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/HTML5_elements_flowchart.svg/800px-HTML5_elements_flowchart.svg.png','IMAGE');
+VALUES ('Schéma balises sémantiques HTML5','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('CSS Flexbox en 20 minutes – Traversy Media','https://www.youtube.com/watch?v=fYq5PXgSsbE','VIDEO');
+VALUES ('CSS Flexbox en 20 minutes – Traversy Media','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('JavaScript DOM Crash Course – Traversy Media','https://www.youtube.com/watch?v=0ik6X4DJKCc','VIDEO');
+VALUES ('JavaScript DOM Crash Course – Traversy Media','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Exemple de flowchart algorithmique','https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/LampFlowchart.svg/500px-LampFlowchart.svg.png','IMAGE');
+VALUES ('Exemple de flowchart algorithmique','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Introduction à l''algorithmique – CS50 Harvard','https://www.youtube.com/watch?v=IDDmrzzB14M','VIDEO');
+VALUES ('Introduction à l''algorithmique – CS50 Harvard','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO Ressource (nom, url, type_ressource)
-VALUES ('Illustration du tri rapide (quicksort)','https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Sorting_quicksort_anim.gif/280px-Sorting_quicksort_anim.gif','IMAGE');
+VALUES ('Illustration du tri rapide (quicksort)','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
 
 INSERT INTO ressource_chapitre (id_ressource, id_chapitre)
 SELECT r.id_ressource, ch.id_chapitre
@@ -549,6 +549,15 @@ FROM Chapitre ch JOIN Cours c ON ch.id_cours = c.id_cours
                  JOIN Eleve e ON e.id_utilisateur = u.id_utilisateur
 WHERE c.titre = 'Algorithmique essentielle' AND ch.titre = 'Fonctions et décomposition';
 
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('MCD et schéma relationnel - PDF','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Starter API Spring Boot','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
+
+INSERT INTO Ressource (nom, url, type_ressource)
+VALUES ('Cheatsheet HTML CSS','http://localhost:8080/uploads/ressources/Test.pdf','FICHIER_PDF');
+
 WITH new_discussion AS (
     INSERT INTO Discussion DEFAULT VALUES
     RETURNING id_discussion
@@ -558,7 +567,7 @@ participants AS (
     SELECT u.id_utilisateur, d.id_discussion
     FROM Utilisateur u
     CROSS JOIN new_discussion d
-    WHERE u.email IN ('test1@owlearning.com', 'test2@owlearning.com', 'test3@owlearning.com')
+    WHERE u.email IN ('test1@owlearning.com', 'test2@owlearning.com')
 ),
 msg1 AS (
     INSERT INTO Message (date_creation, contenu, statut, id_discussion, id_utilisateur)
@@ -596,7 +605,7 @@ msg3 AS (
         u.id_utilisateur
     FROM new_discussion d
     CROSS JOIN Utilisateur u
-    WHERE u.email = 'test3@owlearning.com'
+    WHERE u.email = 'test2@owlearning.com'
     RETURNING id_message
 )
 INSERT INTO piece_jointe (id_message, id_ressource)
