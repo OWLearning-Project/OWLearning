@@ -195,9 +195,9 @@
             <p class="text-muted small mb-0">Essayez une autre recherche.</p>
           </div>
 
-          <div v-else class="liste-createurs">
+          <div class="liste-createurs">
             <article
-              v-for="utilisateur in createursFiltres" :key="utilisateur.id"
+              v-for="utilisateur in utilisateursFiltres" :key="utilisateur.id"
               class="element-createur"
             >
               <div class="infos-createur">
@@ -211,6 +211,7 @@
               </div>
 
               <BButton
+                v-if="Number(utilisateur.id) !== Number(utilisateurConnecte.id)"
                 variant="outline-primary"
                 class="bouton-contacter rounded-pill px-3 py-1"
                 size="sm"
