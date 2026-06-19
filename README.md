@@ -43,8 +43,8 @@ Suite à notre refactorisation, le backend suit une architecture stricte découp
 ## Fonctionnalités Principales
 
 * Gestion des cours : Aperçu (avec barre de progression, liste des personnes inscrites au cours), suivi et inscription aux cours créés par les professeurs.
-* Messagerie temps réel : Discussions privées de maximum 2 personnes avec la possibilité d'envoyer des pièces jointes (images, vidéo, PDF, ZPI).
-* Annuaire des utilisateurs : Liste des créateurs avec un système de filtrage sécurisé côté front et back.
+* Messagerie temps réel : Discussions privées de maximum 2 personnes avec la possibilité d'envoyer des pièces jointes (images, vidéo, PDF, ZIP).
+* Consultation de cours : Possibilité de parcourir un catalogue de cours complet, avec une possibilité de s'inscrire à un cours, et un suivi de progression.
 
 ## Application Mobile
 
@@ -54,33 +54,7 @@ En complément du client web, un prototype d'application mobile a été initié 
 
 L'objectif principal de l'application mobile est de permettre aux élèves de consulter les cours de la plateforme OWLearning depuis un appareil mobile.
 
-### État d'avancement
-
-Le développement du client mobile n'a pas été finalisé avant la fin du projet. Néanmoins, plusieurs éléments ont été réalisés :
-
-#### Fonctionnalités disponibles
-
-* Inscription utilisateur
-* Connexion utilisateur
-* Consultation et modification du profil
-* Structure générale de navigation de l'application
-
-#### Interfaces réalisées
-
-* Page de connexion
-* Page d'inscription
-* Page de profil
-* Layout principal de l'application
-
-#### Fonctionnalités incomplètes
-
-* Catalogue des cours (présence d'une erreur empêchant son utilisation)
-* Consultation des cours
-* Messagerie (pages créées mais non fonctionnelles)
-
-### Limites
-
-L'application mobile doit être considérée comme un prototype. Le client web reste la version principale et la plus complète du projet OWLearning.
+Le repository est accessible sur le lien suivant : https://github.com/OWLearning-Project/Owl-Learning-Mobile-App
 
 ## Comment lancer le projet localement
 
@@ -91,7 +65,7 @@ git checkout develop
 ```
 
 **2. Compiler le projet Java**
-> Prérequis: instalation de [maven](https://maven.apache.org/download.cgi)
+> Prérequis: installation de [maven](https://maven.apache.org/download.cgi)
 
 ```bash
 mvn clean package -DskipTests
