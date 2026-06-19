@@ -1,10 +1,11 @@
 # OWLearning
 
-OWLearning est une plateforme d'Elearning conçue pour s'inscrire à des cours, OWLearning facile l'apprentissage et les échanges entre les élèves et les créateurs de cours. Ce Git contient l'intégralité du code du projet, réparti entre le frontend et le backend.
+OWLearning est une plateforme d'E-Learning conçue pour s'inscrire à des cours, OWLearning facile l'apprentissage et les échanges entre les élèves et les créateurs de cours. Ce Git contient l'intégralité du code du projet, réparti entre le frontend et le backend.
 
 * [Notre boîte à outils](#notre-boîte-à-outils)
 * [Architecture du Backend](#architecture-du-backend)
 * [Fonctionnalités Principales](#fonctionnalités-principales)
+* [Application Mobile](#application-mobile)
 * [Comment lancer le projet localement](#comment-lancer-le-projet-localement)
 * [Liste Complète des Endpoints](#liste-complète-des-endpoints)
     * [Authentification](#authentification--apiauthentification)
@@ -45,6 +46,42 @@ Suite à notre refactorisation (Sprint 2), le backend suit une architecture stri
 * Messagerie temps réel : Discussions privées de maximum 2 personnes avec la possibilité d'envoyer des pièces jointes (images, vidéo, PDF, ZPI).
 * Annuaire des utilisateurs : Liste des créateurs avec un système de filtrage sécurisé côté front et back.
 
+## Application Mobile
+
+En complément du client web, un prototype d'application mobile a été initié durant le dernier sprint du projet afin de proposer une expérience adaptée aux smartphones.
+
+### Objectif
+
+L'objectif principal de l'application mobile est de permettre aux élèves de consulter les cours de la plateforme OWLearning depuis un appareil mobile.
+
+### État d'avancement
+
+Le développement du client mobile n'a pas été finalisé avant la fin du projet. Néanmoins, plusieurs éléments ont été réalisés :
+
+#### Fonctionnalités disponibles
+
+* Inscription utilisateur
+* Connexion utilisateur
+* Consultation et modification du profil
+* Structure générale de navigation de l'application
+
+#### Interfaces réalisées
+
+* Page de connexion
+* Page d'inscription
+* Page de profil
+* Layout principal de l'application
+
+#### Fonctionnalités incomplètes
+
+* Catalogue des cours (présence d'une erreur empêchant son utilisation)
+* Consultation des cours
+* Messagerie (pages créées mais non fonctionnelles)
+
+### Limites
+
+L'application mobile doit être considérée comme un prototype. Le client web reste la version principale et la plus complète du projet OWLearning.
+
 ## Comment lancer le projet localement
 
 ```bash
@@ -60,29 +97,34 @@ git checkout develop
 mvn clean package -DskipTests
 ```
 
-**3. Démarrer le frontend**
-
-Dans le terminal allez dans le dossier frontend, installez les dépendances et lancez le serveur 
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-**4. Lancer les images sur pour les avoir dans le Docker**
+**3. Lancer les images sur pour les avoir dans le Docker**
 
 Ouvrez un nouveau terminal à la racine du projet, ou remontez d'un dossier avec `cd ..`. Cette commande télécharge et installe les images dans Docker :
 ```bash
 docker-compose up --build -d
 ```
-**5. Lancer l'application sur un navigateur**
+**4. Lancer l'application sur un navigateur**
 
 allez dans un navigateur et ecrire :
 ```bash
-localhost
+localhost:80
 ```
+## Profils Tests
 
+Le mot de passe est le même pour tous les utilisateurs : Password1234
+
+Profils élèves: 
+
+test1@owlearning.com
+test2@owlearning.com
+test3@owlearning.com
+test4@owlearning.com
+test5@owlearning.com
+
+Profils créateurs:
+
+test6@owlearning.com
+test7@owlearning.com
 
 ## Liste Complète des Endpoints
 
