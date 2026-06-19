@@ -19,7 +19,7 @@ OWLearning est une plateforme d'E-Learning conçue pour s'inscrire à des cours,
 
 ## Notre boîte à outils
 
-L'applicztion repose sur une architecture moderne et séparée :
+L'application repose sur une architecture moderne et séparée :
 
 **Frontend**
 * Framework : Vue.js 3 (utilisé avec la Composition API et les balises script setup)
@@ -34,9 +34,9 @@ L'applicztion repose sur une architecture moderne et séparée :
 
 ## Architecture du Backend
 
-Suite à notre refactorisation (Sprint 2), le backend suit une architecture stricte découpée en 4 couches principales sous le package app.OwLearning :
+Suite à notre refactorisation, le backend suit une architecture stricte découpée en 4 couches principales sous le package app.OwLearning :
 * Api : Contient nos contrôleurs. C'est ici que l'on gère les requêtes HTTP et que l'on utilise les DTO (Data Transfer Objects) couplés à des mappers pour ne jamais exposer nos entités de base de données au frontend.
-* Domaine : Le cœur de notre application il est pur (nos modèles métiers comme Utilisateur, Discussion, etc.), totalement découplé de la persistance JPA.
+* Domaine : Le cœur de notre application est pur (nos modèles métiers comme Utilisateur, Discussion, etc.), totalement découplé de la persistance JPA.
 * Infrastructure : Gère tout ce qui est technique (configuration de la base de données, sécurité, websockets).
 * Services : Contient la logique métier (annotée avec @Service).
 
@@ -97,15 +97,15 @@ git checkout develop
 mvn clean package -DskipTests
 ```
 
-**3. Lancer les images sur pour les avoir dans le Docker**
+**3. Lancer les images pour les avoir dans le Docker**
 
-Ouvrez un nouveau terminal à la racine du projet, ou remontez d'un dossier avec `cd ..`. Cette commande télécharge et installe les images dans Docker :
+Ouvrer un nouveau terminal à la racine du projet, ou remontez d'un dossier avec `cd ..`. Cette commande télécharge et installe les images dans Docker :
 ```bash
 docker-compose up --build -d
 ```
 **4. Lancer l'application sur un navigateur**
 
-allez dans un navigateur et ecrire :
+Aller dans un navigateur et écrire :
 ```bash
 localhost:80
 ```
@@ -113,17 +113,17 @@ localhost:80
 
 Le mot de passe est le même pour tous les utilisateurs : Password1234
 
-Profils élèves: 
+#### Profils élèves: 
 
-test1@owlearning.com
-test2@owlearning.com
-test3@owlearning.com
-test4@owlearning.com
+test1@owlearning.com;
+test2@owlearning.com;
+test3@owlearning.com;
+test4@owlearning.com;
 test5@owlearning.com
 
-Profils créateurs:
+#### Profils créateurs:
 
-test6@owlearning.com
+test6@owlearning.com;
 test7@owlearning.com
 
 ## Liste Complète des Endpoints
