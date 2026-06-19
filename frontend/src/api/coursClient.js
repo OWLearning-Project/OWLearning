@@ -53,7 +53,8 @@ export const coursClient = {
       headers: getAuthHeaders(),
     })
 
-    return reponse.data.filter((cours) => cours.estPublie);
+    return reponse.data
+      /*.filter((cours) => cours.estPublie)*/;
   },
 
   async creerCours(cours) {
@@ -133,7 +134,7 @@ export const coursClient = {
   async publierCours(idCours) {
     const reponse = await axios.post(
       `${API_BASE_URL}/cours/${idCours}/publier`,
-      null,
+      {},
       {
         headers: getAuthHeaders(),
       },
