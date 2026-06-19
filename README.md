@@ -1,10 +1,11 @@
 # OWLearning
 
-OWLearning est une plateforme d'Elearning conçue pour s'inscrire à des cours, OWLearning facile l'apprentissage et les échanges entre les élèves et les créateurs de cours. Ce Git contient l'intégralité du code du projet, réparti entre le frontend et le backend.
+OWLearning est une plateforme d'E-Learning conçue pour s'inscrire à des cours, OWLearning facile l'apprentissage et les échanges entre les élèves et les créateurs de cours. Ce Git contient l'intégralité du code du projet, réparti entre le frontend et le backend.
 
 * [Notre boîte à outils](#notre-boîte-à-outils)
 * [Architecture du Backend](#architecture-du-backend)
 * [Fonctionnalités Principales](#fonctionnalités-principales)
+* [Application Mobile](#application-mobile)
 * [Comment lancer le projet localement](#comment-lancer-le-projet-localement)
 * [Liste Complète des Endpoints](#liste-complète-des-endpoints)
     * [Authentification](#authentification--apiauthentification)
@@ -18,7 +19,7 @@ OWLearning est une plateforme d'Elearning conçue pour s'inscrire à des cours, 
 
 ## Notre boîte à outils
 
-L'applicztion repose sur une architecture moderne et séparée :
+L'application repose sur une architecture moderne et séparée :
 
 **Frontend**
 * Framework : Vue.js 3 (utilisé avec la Composition API et les balises script setup)
@@ -33,9 +34,9 @@ L'applicztion repose sur une architecture moderne et séparée :
 
 ## Architecture du Backend
 
-Suite à notre refactorisation (Sprint 2), le backend suit une architecture stricte découpée en 4 couches principales sous le package app.OwLearning :
+Suite à notre refactorisation, le backend suit une architecture stricte découpée en 4 couches principales sous le package app.OwLearning :
 * Api : Contient nos contrôleurs. C'est ici que l'on gère les requêtes HTTP et que l'on utilise les DTO (Data Transfer Objects) couplés à des mappers pour ne jamais exposer nos entités de base de données au frontend.
-* Domaine : Le cœur de notre application il est pur (nos modèles métiers comme Utilisateur, Discussion, etc.), totalement découplé de la persistance JPA.
+* Domaine : Le cœur de notre application est pur (nos modèles métiers comme Utilisateur, Discussion, etc.), totalement découplé de la persistance JPA.
 * Infrastructure : Gère tout ce qui est technique (configuration de la base de données, sécurité, websockets).
 * Services : Contient la logique métier (annotée avec @Service).
 
@@ -44,6 +45,42 @@ Suite à notre refactorisation (Sprint 2), le backend suit une architecture stri
 * Gestion des cours : Aperçu (avec barre de progression, liste des personnes inscrites au cours), suivi et inscription aux cours créés par les professeurs.
 * Messagerie temps réel : Discussions privées de maximum 2 personnes avec la possibilité d'envoyer des pièces jointes (images, vidéo, PDF, ZPI).
 * Annuaire des utilisateurs : Liste des créateurs avec un système de filtrage sécurisé côté front et back.
+
+## Application Mobile
+
+En complément du client web, un prototype d'application mobile a été initié durant le dernier sprint du projet afin de proposer une expérience adaptée aux smartphones.
+
+### Objectif
+
+L'objectif principal de l'application mobile est de permettre aux élèves de consulter les cours de la plateforme OWLearning depuis un appareil mobile.
+
+### État d'avancement
+
+Le développement du client mobile n'a pas été finalisé avant la fin du projet. Néanmoins, plusieurs éléments ont été réalisés :
+
+#### Fonctionnalités disponibles
+
+* Inscription utilisateur
+* Connexion utilisateur
+* Consultation et modification du profil
+* Structure générale de navigation de l'application
+
+#### Interfaces réalisées
+
+* Page de connexion
+* Page d'inscription
+* Page de profil
+* Layout principal de l'application
+
+#### Fonctionnalités incomplètes
+
+* Catalogue des cours (présence d'une erreur empêchant son utilisation)
+* Consultation des cours
+* Messagerie (pages créées mais non fonctionnelles)
+
+### Limites
+
+L'application mobile doit être considérée comme un prototype. Le client web reste la version principale et la plus complète du projet OWLearning.
 
 ## Comment lancer le projet localement
 
@@ -60,29 +97,34 @@ git checkout develop
 mvn clean package -DskipTests
 ```
 
-**3. Démarrer le frontend**
+**3. Lancer les images pour les avoir dans le Docker**
 
-Dans le terminal allez dans le dossier frontend, installez les dépendances et lancez le serveur 
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-**4. Lancer les images sur pour les avoir dans le Docker**
-
-Ouvrez un nouveau terminal à la racine du projet, ou remontez d'un dossier avec `cd ..`. Cette commande télécharge et installe les images dans Docker :
+Ouvrer un nouveau terminal à la racine du projet, ou remontez d'un dossier avec `cd ..`. Cette commande télécharge et installe les images dans Docker :
 ```bash
 docker-compose up --build -d
 ```
-**5. Lancer l'application sur un navigateur**
+**4. Lancer l'application sur un navigateur**
 
-allez dans un navigateur et ecrire :
+Aller dans un navigateur et écrire :
 ```bash
-localhost
+localhost:80
 ```
+## Profils Tests
 
+Le mot de passe est le même pour tous les utilisateurs : Password1234
+
+#### Profils élèves: 
+
+test1@owlearning.com;
+test2@owlearning.com;
+test3@owlearning.com;
+test4@owlearning.com;
+test5@owlearning.com
+
+#### Profils créateurs:
+
+test6@owlearning.com;
+test7@owlearning.com
 
 ## Liste Complète des Endpoints
 
