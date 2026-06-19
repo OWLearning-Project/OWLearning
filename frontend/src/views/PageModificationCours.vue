@@ -24,7 +24,13 @@
 
     <div class="d-flex justify-content-between mt-5">
       <BButton type="button" @click="retour" variant="outline-secondary" class="rounded-pill fw-bold px-4">Annuler</BButton>
-      <BButton type="submit" class="bouton-cours rounded-pill fw-bold px-4">Enregistrer</BButton>
+
+      <div>
+        <BButton v-if="!estPublie" type="button" @click="publierCours" variant="success" class="rounded-pill fw-bold px-4 me-3">
+          <i class="bi me-2"></i> Publier
+        </BButton>
+        <BButton type="submit" class="bouton-cours rounded-pill fw-bold px-4">Enregistrer</BButton>
+      </div>
     </div>
 
   </BForm>
@@ -43,6 +49,7 @@ const router = useRouter();
 const titre = ref('');
 const description = ref('');
 const difficulte = ref('');
+const estPublie =ref(false);
 
 const chargementEnCours = ref(true);
 const messageErreur = ref('');
@@ -89,6 +96,18 @@ async function sauvegarderModifications() {
   } catch (erreur) {
     console.error("Erreur lors de la sauvegarde :", erreur);
     messageErreur.value = "Une erreur est survenue lors de la sauvegarde.";
+  }
+}
+
+async function publierCours() {
+  messageErreur.value='';
+  try {
+    await coursClient.publierCours(idCours);
+    estPublie.value = true;
+    router.push('/mes-cours-publies');
+  } catch (erreur) {
+    console.error("Erreur lors de la publication du cours :", erreur);
+    messageErreur.value = "Une erreur est survenue lors de la publication du cours."
   }
 }
 
